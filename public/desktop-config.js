@@ -1,0 +1,3 @@
+window.CRMATLANT_DESKTOP_CONFIG = window.CRMATLANT_DESKTOP_CONFIG || {
+  apiBaseUrl: ""
+};

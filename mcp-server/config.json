@@ -1,0 +1,16 @@
+{
+    "port": 27017,
+    "host": "0.0.0.0",
+    "mongodb": {
+      "uri": "mongodb://127.0.0.1:27017/esports-mood-tracker"
+    },
+    "auth": {
+      "enabled": true,
+      "users": [
+        {
+          "username": "admin",
+          "password": "your_password"
+        }
+      ]
+    }
+  }

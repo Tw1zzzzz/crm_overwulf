@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Body visualization — critical zone pulse animation */
+@keyframes pulse-zone {
+  0%, 100% { fill-opacity: 0.45; }
+  50% { fill-opacity: 0.85; }
+}
+.pulse-zone {
+  animation: pulse-zone 1.4s ease-in-out infinite;
+}
+
+/* Добавляем подключение шрифта для 1WIN */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --background: #1e1e2f;
+  --foreground: #ffffff;
+  --card-background: #27293d;
+  --border-color: #2b3553;
+  --primary: #1d8cf8;
+  --success: #00f2c3;
+  --warning: #ff8d72;
+  --danger: #fd5d93;
+  --text-color: #ffffff;
+  --text-color-secondary: #9a9a9a;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Стили для заголовков в соответствии с брендом 1WIN */
+.font-heading {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Устраняем белые пробелы между компонентами */
+.container {
+  padding: 0;
+}
+
+.space-y-6 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 0.5rem;
+}
+
+/* Стили для карточек */
+.card {
+  background-color: var(--card-background);
+  border-color: var(--border-color);
+  box-shadow: 0 1px 20px 0 rgba(0,0,0,.1);
+  margin-bottom: 0.5rem;
+}
+
+/* Стили для вкладок */
+.tabs {
+  color: var(--text-color);
+}
+
+.tabsList {
+  background-color: var(--card-background);
+  border-color: var(--border-color);
+}
+
+.tabsTrigger {
+  color: var(--text-color-secondary);
+}
+
+.tabsTrigger[data-state="active"] {
+  background-color: var(--primary);
+  color: white;
+  font-weight: 500;
+}
+
+.tabsTrigger:hover {
+  background-color: rgba(29, 140, 248, 0.1);
+}
+
+/* Стили для кнопок */
+.button {
+  border-color: var(--border-color);
+}
+
+.button-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.button-success {
+  background-color: var(--success);
+  color: white;
+}
+
+.button-warning {
+  background-color: var(--warning);
+  color: white;
+}
+
+.button-danger {
+  background-color: var(--danger);
+  color: white;
+}
+
+/* Стили для таблиц */
+table {
+  border-color: var(--border-color);
+}
+
+th, td {
+  color: var(--text-color);
+}
+
+/* Убираем белые пробелы между страницами */
+.layout-container {
+  background-color: var(--background);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Стили для полей ввода */
+input, textarea, select {
+  background-color: var(--card-background);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+/* Стили для модальных окон */
+.dialog {
+  background-color: var(--card-background);
+  color: var(--text-color);
+}
+
+/* Цвета для навигации */
+.nav-item {
+  color: var(--text-color-secondary);
+}
+
+.nav-item-active {
+  color: var(--primary);
+  background-color: rgba(29, 140, 248, 0.2);
+} 
