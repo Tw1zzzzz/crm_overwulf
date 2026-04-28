@@ -25,22 +25,22 @@ const typeMeta: Record<NotificationItem["type"], {
   className: string;
 }> = {
   release: {
-    label: "Релиз",
+    label: "Release",
     icon: Rocket,
     className: "border-emerald-200 bg-emerald-50 text-emerald-700"
   },
   improvement: {
-    label: "Улучшение",
+    label: "Improvement",
     icon: Sparkles,
     className: "border-sky-200 bg-sky-50 text-sky-700"
   },
   fix: {
-    label: "Исправление",
+    label: "Fix",
     icon: Wrench,
     className: "border-amber-200 bg-amber-50 text-amber-700"
   },
   analytics: {
-    label: "Аналитика",
+    label: "Analytics",
     icon: BarChart3,
     className: "border-violet-200 bg-violet-50 text-violet-700"
   }
@@ -108,10 +108,16 @@ const NotificationsPanel: React.FC = () => {
     localStorage.setItem(storageKey, JSON.stringify(allIds));
   };
 
+  useEffect(() => {
+    if (open && notifications.length > 0) {
+      markAllAsRead();
+    }
+  }, [open, notifications.length]);
+
   const unreadCount = notifications.filter((item) => !readIds.includes(item.id)).length;
 
   const formatDate = (value: string): string => {
-    return new Date(value).toLocaleDateString("ru-RU", {
+    return new Date(value).toLocaleDateString("en-US", {
       day: "numeric",
       month: "short",
       year: "numeric"
@@ -121,7 +127,7 @@ const NotificationsPanel: React.FC = () => {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative" aria-label="Уведомления">
+        <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
             <Badge
@@ -137,14 +143,14 @@ const NotificationsPanel: React.FC = () => {
       <PopoverContent className="w-[380px] p-0" align="end">
         <div className="flex items-center justify-between gap-3 p-4 bg-muted/20">
           <div>
-            <h3 className="font-medium">Обновления CRM</h3>
+            <h3 className="font-medium">CRM updates</h3>
             <p className="mt-1 text-xs text-muted-foreground">
-              Свежие релизы, улучшения и важные изменения по продукту в одном месте.
+              Product releases, fixes, and important changes in one place.
             </p>
           </div>
           {unreadCount > 0 && (
             <Button variant="ghost" size="sm" onClick={markAllAsRead} className="text-xs">
-              Прочитать всё
+              Mark all read
             </Button>
           )}
         </div>
@@ -206,7 +212,7 @@ const NotificationsPanel: React.FC = () => {
             })
           ) : (
             <div className="p-4 text-center text-muted-foreground">
-              Пока нет опубликованных обновлений CRM
+              No CRM updates yet
             </div>
           )}
         </ScrollArea>

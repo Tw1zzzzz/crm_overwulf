@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { MessageCircle, UserRound } from "lucide-react";
+import { Wrench } from "lucide-react";
 import { toast } from "sonner";
 import { submitSupportRequest, type SupportRequestPayload } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
@@ -34,11 +34,11 @@ interface SupportRequestDialogProps {
 }
 
 const supportCategoryLabels: Record<SupportCategory, string> = {
-  access: "Вход и доступ",
-  bug: "Ошибка в системе",
-  billing: "Оплата и подписка",
-  integration: "Интеграции и данные",
-  other: "Другое",
+  access: "Login and access",
+  bug: "System bug",
+  billing: "Billing and subscription",
+  integration: "Integrations and data",
+  other: "Other",
 };
 
 const emptySupportForm: SupportFormState = {
@@ -79,12 +79,12 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
     const trimmedMessage = supportForm.message.trim();
 
     if (!trimmedEmail || !trimmedSubject || !trimmedMessage) {
-      toast.error("Заполните email, тему и описание проблемы");
+      toast.error("Fill in your email, subject, and issue details");
       return;
     }
 
     if (trimmedMessage.length < 10) {
-      toast.error("Опишите проблему чуть подробнее");
+      toast.error("Add a little more detail");
       return;
     }
 
@@ -100,7 +100,7 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
         userAgent: window.navigator.userAgent,
       });
 
-      toast.success("Заявка отправлена. Ответ придёт на вашу почту.");
+      toast.success("Request sent. We will reply by email.");
       setSupportForm((prev) => ({
         ...emptySupportForm,
         name: prev.name,
@@ -108,7 +108,7 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
       }));
       setOpen(false);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Не удалось отправить обращение";
+      const message = error instanceof Error ? error.message : "Could not send the support request";
       toast.error(message);
     } finally {
       setSubmitting(false);
@@ -122,20 +122,20 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
           <Button
             type="button"
             size="icon"
-            aria-label="Связаться с поддержкой"
+            aria-label="Contact support"
             className="fixed bottom-6 right-6 z-40 h-14 w-14 rounded-full text-white shadow-[0_16px_40px_rgba(30,127,247,0.38)] transition hover:scale-[1.03]"
             style={{ backgroundColor: "#1e7ff7" }}
           >
-            <UserRound className="h-6 w-6" />
+            <Wrench className="h-6 w-6" />
           </Button>
         ) : (
           <button
             type="button"
             className="inline-flex items-center gap-2 text-sm text-slate-300 transition hover:text-white"
           >
-            <MessageCircle className="h-4 w-4 text-sky-300" />
+            <Wrench className="h-4 w-4 text-sky-300" />
             <span>
-              Нужна помощь? <span className="text-sky-300 underline underline-offset-4">Связаться с техподдержкой</span>
+              Need help? <span className="text-sky-300 underline underline-offset-4">Contact support</span>
             </span>
           </button>
         )}
@@ -143,19 +143,19 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
 
       <DialogContent className="border-white/10 bg-slate-950 text-white sm:max-w-xl">
         <DialogHeader className="space-y-3">
-          <DialogTitle className="text-xl text-white">Связаться с техподдержкой</DialogTitle>
+          <DialogTitle className="text-xl text-white">Contact support</DialogTitle>
           <DialogDescription className="text-slate-300">
-            Опишите проблему, и заявка сразу уйдёт на почту поддержки. Ответ придёт на указанный email.
+            Describe the issue and we will send a reply to the email you provide.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSupportSubmit} className="space-y-5">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="support-name" className="text-slate-200">Имя</Label>
+              <Label htmlFor="support-name" className="text-slate-200">Name</Label>
               <Input
                 id="support-name"
-                placeholder="Как к вам обращаться"
+                placeholder="How should we call you?"
                 value={supportForm.name}
                 onChange={(event) => updateSupportField("name", event.target.value)}
                 disabled={submitting}
@@ -163,7 +163,7 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="support-email" className="text-slate-200">Email для ответа</Label>
+              <Label htmlFor="support-email" className="text-slate-200">Reply email</Label>
               <Input
                 id="support-email"
                 type="email"
@@ -178,14 +178,14 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
           </div>
 
           <div className="space-y-2">
-            <Label className="text-slate-200">Категория</Label>
+            <Label className="text-slate-200">Category</Label>
             <Select
               value={supportForm.category}
               onValueChange={(value: SupportCategory) => updateSupportField("category", value)}
               disabled={submitting}
             >
               <SelectTrigger className="border-white/10 bg-black/20 text-white">
-                <SelectValue placeholder="Выберите категорию" />
+                <SelectValue placeholder="Choose category" />
               </SelectTrigger>
               <SelectContent className="border-white/10 bg-slate-900 text-white">
                 {Object.entries(supportCategoryLabels).map(([value, label]) => (
@@ -198,10 +198,10 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="support-subject" className="text-slate-200">Тема</Label>
+            <Label htmlFor="support-subject" className="text-slate-200">Subject</Label>
             <Input
               id="support-subject"
-              placeholder="Например: не приходит письмо подтверждения"
+              placeholder="Example: confirmation email does not arrive"
               value={supportForm.subject}
               onChange={(event) => updateSupportField("subject", event.target.value)}
               disabled={submitting}
@@ -210,17 +210,17 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="support-message" className="text-slate-200">Описание проблемы</Label>
+            <Label htmlFor="support-message" className="text-slate-200">Issue details</Label>
             <Textarea
               id="support-message"
-              placeholder="Опишите, что произошло, на каком шаге и какой результат ожидали."
+              placeholder="Describe what happened, where it happened, and what you expected."
               value={supportForm.message}
               onChange={(event) => updateSupportField("message", event.target.value)}
               disabled={submitting}
               className="min-h-32 border-white/10 bg-black/20 text-white placeholder:text-slate-500"
             />
             <p className="text-xs leading-5 text-slate-400">
-              К заявке автоматически добавятся текущая страница и техническая информация браузера.
+              The current page and browser details will be attached automatically.
             </p>
           </div>
 
@@ -232,7 +232,7 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
               disabled={submitting}
               className="text-slate-300 hover:bg-white/5 hover:text-white"
             >
-              Отмена
+              Cancel
             </Button>
             <Button
               type="submit"
@@ -240,7 +240,7 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
               className="text-white"
               style={{ backgroundColor: "#1e7ff7" }}
             >
-              {submitting ? "Отправляем..." : "Отправить запрос"}
+              {submitting ? "Sending..." : "Send request"}
             </Button>
           </DialogFooter>
         </form>

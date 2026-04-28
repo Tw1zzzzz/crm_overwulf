@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { COLORS } from "@/styles/theme";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Check, LogOut, ChevronDown, CalendarDays, Clock3, ArrowUpRight, Settings, Sparkles } from "lucide-react";
+import { Check, LogOut, ChevronDown, CalendarDays, Clock3, ArrowUpRight, Settings, Sparkles, BookOpen } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "@/lib/routes";
 // Импортируем UserAvatar
@@ -55,7 +55,7 @@ const Header = () => {
 
       setUpcomingEvent(nextEvent);
     } catch (error) {
-      console.error("Не удалось загрузить ближайшее событие для хедера:", error);
+      console.error("Failed to load the next header event:", error);
       setUpcomingEvent(null);
     } finally {
       setUpcomingEventLoading(false);
@@ -77,17 +77,17 @@ const Header = () => {
     }
 
     const start = new Date(event.startAt);
-    const weekdayLabel = new Intl.DateTimeFormat("ru-RU", { weekday: "short" }).format(start);
-    const dateLabel = new Intl.DateTimeFormat("ru-RU", {
+    const weekdayLabel = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(start);
+    const dateLabel = new Intl.DateTimeFormat("en-US", {
       day: "numeric",
       month: "long",
     }).format(start);
 
     if (event.allDay) {
-      return `${weekdayLabel}, ${dateLabel} • весь день`;
+      return `${weekdayLabel}, ${dateLabel} • all day`;
     }
 
-    const timeLabel = new Intl.DateTimeFormat("ru-RU", {
+    const timeLabel = new Intl.DateTimeFormat("en-US", {
       hour: "2-digit",
       minute: "2-digit",
     }).format(start);
@@ -103,7 +103,7 @@ const Header = () => {
   };
 
   return (
-    <header className="flex items-center justify-between gap-6 border-b px-5 py-3.5" style={headerStyles}>
+    <header className="flex min-h-[76px] flex-wrap items-center justify-between gap-3 border-b px-4 py-3 md:flex-nowrap md:px-5" style={headerStyles}>
       <div className="min-w-0 flex flex-1 items-center">
         {showTeamBanner && (
           <>
@@ -182,10 +182,10 @@ const Header = () => {
               </span>
               <div className="leading-tight">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: "#bfdbfe" }}>
-                  Solo аккаунт
+                  Solo account
                 </p>
                 <p className="text-[11px]" style={{ color: COLORS.textColorSecondary }}>
-                  Личный режим
+                  Personal mode
                 </p>
               </div>
             </div>
@@ -207,7 +207,7 @@ const Header = () => {
             className="hidden text-[11px] font-medium uppercase tracking-[0.22em] md:block"
             style={{ color: COLORS.textColorSecondary }}
           >
-            Рабочее пространство
+            Workspace
           </p>
         )}
       </div>
@@ -227,20 +227,20 @@ const Header = () => {
             <div className="min-w-0 flex-1">
               <div className="truncate text-sm font-semibold text-white">
                 {upcomingEventLoading
-                  ? "Загружаем событие..."
+                  ? "Loading event..."
                   : upcomingEvent
                     ? upcomingEvent.title
-                    : "Нет ближайших событий"}
+                    : "No upcoming events"}
               </div>
               <div className="mt-1 flex items-center gap-1.5 text-xs" style={{ color: COLORS.textColorSecondary }}>
                 <Clock3 className="h-[13px] w-[13px] flex-shrink-0" />
                 <span className="truncate">
-                  {upcomingEvent ? formatUpcomingEventDate(upcomingEvent) : "Календарь пока пуст"}
+                  {upcomingEvent ? formatUpcomingEventDate(upcomingEvent) : "Calendar is empty"}
                 </span>
               </div>
             </div>
             <Button asChild variant="ghost" size="icon" className="h-9 w-9 flex-shrink-0">
-              <Link to={ROUTES.CALENDAR} aria-label="Открыть календарь">
+              <Link to={ROUTES.CALENDAR} aria-label="Open calendar">
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
             </Button>
@@ -281,11 +281,15 @@ const Header = () => {
             )}
             <DropdownMenuItem onClick={() => navigate(ROUTES.PROFILE)}>
               <Settings className="mr-2 h-4 w-4" />
-              Настройки
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate(ROUTES.CRM_GUIDE)}>
+              <BookOpen className="mr-2 h-4 w-4" />
+              How to use CRM
             </DropdownMenuItem>
             <DropdownMenuItem onClick={logout}>
               <LogOut className="mr-2 h-4 w-4" />
-              Выйти
+              Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

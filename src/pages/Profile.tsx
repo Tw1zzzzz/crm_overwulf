@@ -595,16 +595,15 @@ const Profile: React.FC = () => {
               </div>
             )}
             <div className="space-y-2">
-              <Label>Тип профиля</Label>
+              <Label>Profile type</Label>
               <div className="p-2 bg-muted rounded">
-                {user.playerType === "team" ? "Командный" : "Solo"}
+                {user.playerType === "team" ? "Team" : "Solo"}
               </div>
             </div>
 
-            {/* Секция FACEIT профиля */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label>FACEIT профиль</Label>
+                <Label>FACEIT profile</Label>
                 {!isEditingFaceit && (
                   <Button
                     variant="ghost"
@@ -615,7 +614,7 @@ const Profile: React.FC = () => {
                     }}
                   >
                     <Pencil className="h-4 w-4 mr-1" />
-                    Изменить
+                    Edit
                   </Button>
                 )}
               </div>
@@ -623,7 +622,7 @@ const Profile: React.FC = () => {
               {isEditingFaceit ? (
                 <div className="space-y-2">
                   <Input
-                    placeholder="https://www.faceit.com/en/players/ваш-никнейм"
+                    placeholder="https://www.faceit.com/en/players/your-nickname"
                     value={faceitUrl}
                     onChange={(e) => setFaceitUrl(e.target.value)}
                     disabled={isSavingFaceit}
@@ -638,12 +637,12 @@ const Profile: React.FC = () => {
                       {isSavingFaceit ? (
                         <span className="flex items-center gap-1">
                           <span className="animate-spin rounded-full h-3 w-3 border-t-2 border-white" />
-                          Сохранение...
+                          Saving...
                         </span>
                       ) : (
                         <span className="flex items-center gap-1">
                           <Check className="h-4 w-4" />
-                          Сохранить
+                          Save
                         </span>
                       )}
                     </Button>
@@ -654,14 +653,14 @@ const Profile: React.FC = () => {
                       disabled={isSavingFaceit}
                     >
                       <X className="h-4 w-4 mr-1" />
-                      Отмена
+                      Cancel
                     </Button>
                   </div>
                 </div>
               ) : (
                 <div className="p-2 bg-muted rounded text-sm break-all">
                   {loadingFaceit ? (
-                    <span className="text-muted-foreground">Загрузка...</span>
+                    <span className="text-muted-foreground">Loading...</span>
                   ) : currentFaceitUrl ? (
                     <a
                       href={currentFaceitUrl}
@@ -672,7 +671,7 @@ const Profile: React.FC = () => {
                       {currentFaceitUrl}
                     </a>
                   ) : (
-                    <span className="text-muted-foreground">Не указан</span>
+                    <span className="text-muted-foreground">Not connected yet</span>
                   )}
                 </div>
               )}
@@ -680,9 +679,9 @@ const Profile: React.FC = () => {
 
             <div className="border-t pt-6">
               <div className="mb-4">
-                <h2 className="text-lg font-semibold">Безопасность</h2>
+                <h2 className="text-lg font-semibold">Security</h2>
                 <p className="text-sm text-muted-foreground">
-                  Подтверждение почты и смена пароля аккаунта.
+                  Email verification and account password settings.
                 </p>
               </div>
 

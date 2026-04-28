@@ -681,21 +681,21 @@ const TestTracker = () => {
                 }}
               >
                 <Sparkles className="h-3.5 w-3.5" />
-                Тесты и форма
+                Tests
               </div>
               <div className="space-y-2">
                 <h1 className="text-3xl font-semibold md:text-4xl" style={{ color: COLORS.textColor }}>
-                  Тесты, недельный ритм и ежедневная проверка восстановления
+                  Tests and recovery checks
                 </h1>
                 <p className="max-w-2xl text-sm leading-7 md:text-base" style={{ color: "rgba(226, 232, 240, 0.82)" }}>
-                  Раздел помогает связать тесты и фон дня с вашей формой: сначала вы сохраняете результат без лишних шагов, затем CRM показывает, что уже собрано и какой контекст влияет на качество игры.
+                  Keep the useful parts: run Brain Lab, add key weekly results, and attach recovery context without extra tab noise.
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
                 {[
-                  "1. Настройте выборку",
-                  "2. Откройте недельный ритм или проверку восстановления",
-                  "3. Сохраняйте результат без лишних шагов"
+                  "1. Run the test",
+                  "2. Add recovery context",
+                  "3. Keep the weekly rhythm"
                 ].map((item) => (
                   <Badge
                     key={item}
@@ -713,15 +713,15 @@ const TestTracker = () => {
               <LockedResultsGate
                 hasAccess={hasPerformanceCoachCrmAccess}
                 hasData={heroEntriesCount > 0}
-                title="Результаты тестов уже собраны"
-                description={`Проходите Brain Lab и заносите тесты бесплатно. Полные score, недельные итоги и индекс текущей формы откроются после покупки тарифа ${PRODUCT_NAME}.`}
-                ctaText="Открыть результаты тестов"
+                title="Test results are being collected"
+                description={`Run Brain Lab and save tests for free. Full scores, weekly summaries, and form index unlock with a ${PRODUCT_NAME} plan.`}
+                ctaText="Open test results"
                 minHeightClassName="min-h-[280px]"
                 compact
               >
                 <div className="grid grid-cols-2 gap-3">
                   <div className="rounded-[22px] border p-4" style={{ backgroundColor: "rgba(9, 14, 26, 0.34)", borderColor: "rgba(148, 163, 184, 0.18)" }}>
-                    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "rgba(191, 219, 254, 0.78)" }}>Записей</div>
+                    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "rgba(191, 219, 254, 0.78)" }}>Entries</div>
                     <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{heroEntriesCount}</div>
                     <div className="mt-1 text-sm" style={{ color: "rgba(226, 232, 240, 0.68)" }}>за выбранный период</div>
                   </div>
@@ -1175,16 +1175,16 @@ const TestTracker = () => {
             onValueChange={(value) => setActiveTab(value as "weekly")}
             className="space-y-5"
           >
-          <div className="space-y-2">
+          <div className="sr-only">
             <div className="text-[11px] uppercase tracking-[0.24em]" style={{ color: COLORS.textColorSecondary }}>
-              Рабочие режимы вкладки
+              Test mode
             </div>
             <p className="text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
-              Недельный блок помогает не потерять обязательные тесты, а ежедневная проверка восстановления быстро фиксирует фон дня без смены сценария.
+              Weekly tests and recovery checks are combined into one workflow.
             </p>
           </div>
           <TabsList
-            className="grid h-auto w-full grid-cols-1 rounded-[22px] border p-1.5 md:w-[320px]"
+            className="sr-only"
             style={{ backgroundColor: "rgba(255,255,255,0.03)", borderColor: "rgba(255,255,255,0.08)" }}
           >
             <TabsTrigger
@@ -1195,7 +1195,7 @@ const TestTracker = () => {
                 backgroundColor: activeTab === "weekly" ? "rgba(53, 144, 255, 0.18)" : "transparent"
               }}
             >
-              Weekly-тесты
+              Weekly tests
               <span className="ml-2 text-xs opacity-80">{weeklyTests.length}</span>
             </TabsTrigger>
           </TabsList>
@@ -1213,19 +1213,19 @@ const TestTracker = () => {
                   <div>
                     <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.24em]" style={{ backgroundColor: "rgba(255,255,255,0.05)", color: COLORS.textColorSecondary }}>
                       <ClipboardList className="h-3.5 w-3.5" />
-                      Рабочая неделя
+                      Weekly work
                     </div>
                     <h3 className="mt-3 text-2xl font-semibold" style={{ color: COLORS.textColor }}>
-                      Планируйте обязательные тесты без лишнего трения
+                      Keep required tests simple
                     </h3>
                     <p className="mt-2 max-w-xl text-sm leading-7" style={{ color: COLORS.textColorSecondary }}>
-                      В одном месте видны рекомендованные задания, текущая неделя и уже внесённые результаты. Это уменьшает шанс забыть weekly-check.
+                      Recommended tasks, the current week, and saved results live in one clean view.
                     </p>
                   </div>
                   <div className="flex items-center gap-2 rounded-full px-2 py-1.5" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
                     <Button variant="outline" size="sm" onClick={handlePrevWeek} className="rounded-full" style={{ borderColor: COLORS.borderColor, color: COLORS.primary, backgroundColor: "transparent" }}>
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      Назад
+                      Back
                     </Button>
                     <span className="px-2 text-sm font-medium" style={{ color: COLORS.textColor }}>{getWeekLabel(currentWeek)}</span>
                     <Button variant="outline" size="sm" onClick={handleNextWeek} className="rounded-full" style={{ borderColor: COLORS.borderColor, color: COLORS.primary, backgroundColor: "transparent" }}>

@@ -737,7 +737,7 @@ const Dashboard = () => {
                     navigate(ROUTES.DAILY_QUESTIONNAIRE);
                   }}
                 >
-                  Заполнить ежедневный опросник
+                  Fill daily check-in
                 </Button>
                 <Button
                   variant="outline"
@@ -745,14 +745,14 @@ const Dashboard = () => {
                   style={{ borderColor: COLORS.borderColor, color: COLORS.textColor }}
                   onClick={() => handleWelcomeOpenPlayerTab("overview")}
                 >
-                  Открыть обзор
+                  Open overview
                 </Button>
                 <Button
                   className="rounded-2xl"
                   style={{ backgroundColor: COLORS.primary, color: COLORS.textColor }}
                   onClick={handleWelcomeOpenBaseline}
                 >
-                  Пройти быстрый старт
+                  Start onboarding
                 </Button>
               </>
             )}
@@ -775,10 +775,10 @@ const Dashboard = () => {
           >
             <DialogHeader className="border-b px-6 pb-4 pt-6" style={{ borderColor: COLORS.borderColor }}>
               <DialogTitle style={{ color: COLORS.textColor }}>
-                Давайте соберём ваш стартовый профиль в {PRODUCT_NAME}.
+                Let’s build your starting profile in {PRODUCT_NAME}.
               </DialogTitle>
               <DialogDescription style={{ color: COLORS.textColorSecondary }}>
-                Это базовое анкетирование помогает CRM собрать стартовый контур игрока. Если сейчас не время, можно пропустить и вернуться позже через вкладку «Быстрый старт».
+                This baseline test helps CRM understand your player style. You can skip it now and return from Quick Start later.
               </DialogDescription>
             </DialogHeader>
             <div className="px-6 py-6">
@@ -795,7 +795,7 @@ const Dashboard = () => {
                 style={{ borderColor: COLORS.borderColor, color: COLORS.textColor }}
                 onClick={handleSkipBaselineRegistrationModal}
               >
-                Пройти позже
+                Later
               </Button>
             </div>
           </DialogContent>
@@ -810,10 +810,10 @@ const Dashboard = () => {
           >
             <DialogHeader className="border-b px-6 pb-4 pt-6" style={{ borderColor: COLORS.borderColor }}>
               <DialogTitle style={{ color: COLORS.textColor }}>
-                Начать базовое анкетирование
+                Start baseline onboarding
               </DialogTitle>
               <DialogDescription style={{ color: COLORS.textColorSecondary }}>
-                Здесь открывается стартовый тест из вкладки «Быстрый старт». После завершения вы сразу сохраните базовый профиль, а расширенная расшифровка откроется в тарифах {PRODUCT_NAME}.
+                This is the Quick Start onboarding test. When you finish, CRM saves your baseline profile; deeper interpretation unlocks with {PRODUCT_NAME} plans.
               </DialogDescription>
             </DialogHeader>
             <div className="px-6 py-6">
@@ -830,7 +830,7 @@ const Dashboard = () => {
                 style={{ borderColor: COLORS.borderColor, color: COLORS.textColor }}
                 onClick={() => setShowQuickStartBaselineModal(false)}
               >
-                Закрыть
+                Close
               </Button>
               <Button
                 className="rounded-2xl"
@@ -840,7 +840,7 @@ const Dashboard = () => {
                   setPlayerTab("quick-start");
                 }}
               >
-                Вернуться в быстрый старт
+                Back to Quick Start
               </Button>
             </div>
           </DialogContent>
@@ -1311,6 +1311,7 @@ const Dashboard = () => {
               onOpenBaselineAssessment={() => setShowQuickStartBaselineModal(true)}
               onOpenSleepTab={() => navigate(ROUTES.DAILY_QUESTIONNAIRE)}
               onOpenTests={() => setPlayerTab("tests")}
+              onOpenFaceitProfile={() => navigate(ROUTES.PROFILE)}
             />
           </TabsContent>
         )}

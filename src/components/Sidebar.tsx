@@ -194,7 +194,7 @@ const Sidebar: React.FC = () => {
               <div style={styles.brandLogoWrap}>
                 <img
                   src={atlantMiniLogoWhite}
-                  alt="Мини логотип Atlant"
+                  alt="Atlant logo"
                   className="h-5 w-5 object-contain"
                 />
               </div>
@@ -247,7 +247,7 @@ const Sidebar: React.FC = () => {
               style={styles.logoutButton}
             >
               <LogOut className="mr-2 h-5 w-5" />
-              <span>Выход</span>
+              <span>Log out</span>
             </Button>
           </div>
         </>
