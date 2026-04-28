@@ -82,7 +82,11 @@ const resolveAllowedOrigins = () => {
 };
 
 const isOverwolfOrigin = (origin: string) => {
-  return origin === 'https://www.overwolf.com' || origin.startsWith('overwolf-extension://');
+  return (
+    origin === 'https://www.overwolf.com' ||
+    origin.startsWith('overwolf-extension://') ||
+    origin.startsWith('overwolf://')
+  );
 };
 
 const resolveClientBuildPath = () => {
@@ -103,6 +107,11 @@ const allowedOrigins = resolveAllowedOrigins();
 
 app.use(cors({
   origin: (origin, callback) => {
+    if (process.env.NODE_ENV !== 'production') {
+      callback(null, true);
+      return;
+    }
+
     if (!origin || allowedOrigins.includes(origin) || isOverwolfOrigin(origin)) {
       callback(null, true);
       return;
