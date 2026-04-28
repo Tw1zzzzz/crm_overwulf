@@ -36,7 +36,6 @@
         "show_maximize": true,
         "use_os_windowing": true,
         "native_window": true,
-        "debug_url": "http://localhost:8080",
         "size": {
           "width": 1280,
           "height": 820
