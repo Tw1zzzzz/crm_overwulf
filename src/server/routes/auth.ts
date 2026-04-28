@@ -11,7 +11,8 @@ import {
   resetPassword,
   resendVerificationEmail,
   verifyEmail,
-  changePassword
+  changePassword,
+  loginWithOverwolf
 } from '../controllers/authController';
 import { protect } from '../middleware/authMiddleware';
 import {
@@ -35,6 +36,9 @@ router.post('/register', registerUser);
 
 // Аутентификация пользователя
 router.post('/login', authLoginLimit, loginUser);
+
+// Аутентификация пользователя через Overwolf desktop profile
+router.post('/overwolf', loginWithOverwolf);
 
 // Запрос на сброс пароля
 router.post('/forgot-password', authForgotPasswordLimit, forgotPassword);

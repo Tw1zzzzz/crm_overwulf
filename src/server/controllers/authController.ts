@@ -18,6 +18,7 @@ import {
 } from '../utils/userProfiles';
 import mongoose from 'mongoose';
 import { maskBaselineAssessmentSummary } from '../utils/baselineAssessment';
+import crypto from 'crypto';
 
 // Генерация JWT токена
 const generateToken = (id: string): string => {
@@ -61,6 +62,11 @@ const isFaceitOwnershipConflictError = (error: unknown): boolean => {
 };
 
 const normalizeText = (value: unknown): string => (typeof value === 'string' ? value.trim() : '');
+const normalizeOverwolfUsername = (value: string): string => value.trim().toLowerCase();
+const buildOverwolfEmail = (username: string): string => {
+  const hash = crypto.createHash('sha256').update(username).digest('hex').slice(0, 16);
+  return `ow_${hash}@overwolf.dev`;
+};
 const isFaceitLink = (value: string): boolean => /^https?:\/\/(www\.)?faceit\.com\//i.test(value);
 const EMAIL_VERIFICATION_TTL_MS = 24 * 60 * 60 * 1000;
 const EMAIL_VERIFICATION_SUCCESS_MESSAGE = 'Если аккаунт существует и email ещё не подтвержден, письмо уже отправлено';
@@ -630,6 +636,125 @@ export const registerUser = async (req: any, res: any) => {
     console.error('[AuthController] Ошибка регистрации:', error);
     return res.status(500).json({ 
       message: 'Ошибка при регистрации пользователя',
+      error: error instanceof Error ? error.message : 'Неизвестная ошибка'
+    });
+  }
+};
+
+export const loginWithOverwolf = async (req: any, res: any) => {
+  try {
+    const username = normalizeText(req.body?.username);
+    const userId = normalizeText(req.body?.userId);
+    const displayName = normalizeText(req.body?.displayName || req.body?.nickname || username);
+    const avatar = normalizeText(req.body?.avatar);
+
+    if (!username) {
+      return res.status(400).json({
+        message: 'Overwolf username не получен. Войдите в аккаунт Overwolf и повторите попытку.'
+      });
+    }
+
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({
+        message: 'База данных инициализируется, повторите вход через несколько секунд'
+      });
+    }
+
+    const usernameNormalized = normalizeOverwolfUsername(username);
+    const email = buildOverwolfEmail(usernameNormalized);
+
+    let user = await User.findOne({
+      $or: [
+        { 'overwolf.usernameNormalized': usernameNormalized },
+        { email }
+      ]
+    });
+
+    if (!user) {
+      user = new User({
+        name: displayName || username,
+        email,
+        password: crypto.randomBytes(24).toString('hex'),
+        emailVerified: true,
+        emailVerifiedAt: new Date(),
+        role: 'player',
+        playerType: 'solo',
+        overwolf: {
+          username,
+          usernameNormalized,
+          userId,
+          displayName: displayName || username,
+          avatar,
+          lastLoginAt: new Date(),
+        },
+        profiles: [
+          {
+            key: 'player_solo',
+            label: 'Игрок / Solo',
+            role: 'player',
+            playerType: 'solo',
+            teamId: null,
+            teamName: '',
+            teamLogo: '',
+            privilegeKey: '',
+          },
+        ],
+        activeProfileKey: 'player_solo',
+      });
+
+      await user.save();
+      await createPlayerCardForUser(user._id, user.name, '', username);
+    } else {
+      if (user.isActive === false) {
+        return res.status(403).json({
+          message: 'Аккаунт заблокирован. Обратитесь к администратору.',
+        });
+      }
+
+      user.name = user.name || displayName || username;
+      user.emailVerified = true;
+      user.emailVerifiedAt = user.emailVerifiedAt || new Date();
+      user.overwolf = {
+        ...(user.overwolf || {}),
+        username,
+        usernameNormalized,
+        userId,
+        displayName: displayName || username,
+        avatar,
+        lastLoginAt: new Date(),
+      };
+
+      if (!user.profiles?.length) {
+        user.profiles = [
+          {
+            key: 'player_solo',
+            label: 'Игрок / Solo',
+            role: 'player',
+            playerType: 'solo',
+            teamId: null,
+            teamName: '',
+            teamLogo: '',
+            privilegeKey: '',
+          },
+        ];
+        user.activeProfileKey = 'player_solo';
+      }
+
+      await user.save();
+    }
+
+    const token = generateToken(user._id.toString());
+    const { user: authUser, accessFlags } = await loadUserWithAccessData(user._id);
+
+    return res.json({
+      token,
+      user: buildUserResponse(authUser || user, accessFlags),
+      message: 'Вход через Overwolf выполнен'
+    });
+  } catch (error) {
+    console.error('[AuthController] Ошибка входа через Overwolf:', error);
+    return res.status(500).json({
+      message: 'Ошибка сервера при входе через Overwolf',
       error: error instanceof Error ? error.message : 'Неизвестная ошибка'
     });
   }

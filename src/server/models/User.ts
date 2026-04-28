@@ -59,6 +59,14 @@ interface UserDocument extends mongoose.Document {
   passwordResetTokenHash?: string | null;
   passwordResetExpiresAt?: Date | null;
   passwordChangedAt?: Date | null;
+  overwolf?: {
+    username?: string;
+    usernameNormalized?: string;
+    userId?: string;
+    displayName?: string;
+    avatar?: string;
+    lastLoginAt?: Date;
+  };
   matchPassword(enteredPassword: string): Promise<boolean>;
   completedTests?: boolean;
   completedBalanceWheel?: boolean;
@@ -236,6 +244,39 @@ const userSchema = new mongoose.Schema(
     passwordChangedAt: {
       type: Date,
       default: null,
+    },
+    overwolf: {
+      username: {
+        type: String,
+        default: '',
+        trim: true,
+      },
+      usernameNormalized: {
+        type: String,
+        default: '',
+        trim: true,
+        lowercase: true,
+        index: true,
+      },
+      userId: {
+        type: String,
+        default: '',
+        trim: true,
+      },
+      displayName: {
+        type: String,
+        default: '',
+        trim: true,
+      },
+      avatar: {
+        type: String,
+        default: '',
+        trim: true,
+      },
+      lastLoginAt: {
+        type: Date,
+        default: null,
+      },
     },
     completedTests: {
       type: Boolean,

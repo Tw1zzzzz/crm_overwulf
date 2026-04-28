@@ -17,6 +17,7 @@ import { User, LoginDto, CreatePlayerProfileDto, CreateUserDto, AsyncState, Link
 import { authService, AuthResult, TeamLinkResult } from "@/services/auth.service";
 import ROUTES from "@/lib/routes";
 import { BASELINE_REGISTER_MODAL_FLAG, POST_REGISTER_WELCOME_FLAG } from "@/lib/onboarding";
+import { isOverwolfProfileAvailable, resolveOverwolfProfile } from "@/lib/overwolfProfile";
 
 /**
  * Тип контекста аутентификации
@@ -86,6 +87,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const initializeAuth = useCallback(async () => {
     try {
       const user = await authService.getCurrentUser();
+      if (!user && isOverwolfProfileAvailable()) {
+        const overwolfProfile = await resolveOverwolfProfile();
+
+        if (overwolfProfile) {
+          const result = await authService.loginWithOverwolf(overwolfProfile);
+
+          if (result.success && result.user) {
+            sessionStorage.removeItem(BASELINE_REGISTER_MODAL_FLAG);
+            sessionStorage.removeItem(POST_REGISTER_WELCOME_FLAG);
+            setAuthState({
+              data: result.user,
+              loading: false,
+              error: null
+            });
+            navigate(ROUTES.DASHBOARD);
+            return;
+          }
+
+          console.warn('[Auth] Overwolf auto-login failed:', result.error);
+        }
+      }
+
       setAuthState({
         data: user,
         loading: false,
@@ -98,7 +121,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         error: error instanceof Error ? error.message : 'Ошибка инициализации'
       });
     }
-  }, []);
+  }, [navigate]);
 
   /**
    * Обновление данных пользователя

@@ -20,6 +20,7 @@ import {
   PasswordResetRequestDto,
   TeamLinkSummary,
 } from '@/types';
+import type { OverwolfProfile } from '@/lib/overwolfProfile';
 
 /**
  * Результат операции аутентификации
@@ -281,6 +282,35 @@ export class AuthService {
           message: response.message,
           requiresEmailVerification: response.requiresEmailVerification,
           emailDeliveryFailed: response.emailDeliveryFailed
+        };
+      }
+
+      return {
+        success: false,
+        error: 'Неверный ответ от сервера'
+      };
+    } catch (error) {
+      const apiError = error as ApiError;
+      return {
+        success: false,
+        error: apiError.message,
+        code: apiError.details?.code
+      };
+    }
+  }
+
+  public async loginWithOverwolf(profile: OverwolfProfile): Promise<AuthResult> {
+    try {
+      const response = await apiClient.post<AuthResponse>('/auth/overwolf', profile);
+      const normalizedUser = this.normalizeUser(response.user);
+
+      if (response.token && normalizedUser) {
+        apiClient.setAuthToken(response.token);
+
+        return {
+          success: true,
+          user: normalizedUser,
+          message: response.message
         };
       }
 

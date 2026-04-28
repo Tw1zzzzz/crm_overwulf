@@ -14,7 +14,8 @@
     "window_icon": "favicon.ico"
   },
   "permissions": [
-    "GameInfo"
+    "GameInfo",
+    "profile"
   ],
   "data": {
     "start_window": "desktop",
