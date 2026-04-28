@@ -3,7 +3,6 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import ruLocale from "@fullcalendar/core/locales/ru";
 import type { DatesSetArg, DateSelectArg, EventClickArg, EventInput } from "@fullcalendar/core";
 import { addDays, addHours, endOfDay, endOfMonth, format, startOfDay, startOfMonth } from "date-fns";
 import { CalendarDays, Loader2, Lock, MapPin, Pencil, Plus, Trash2, Users } from "lucide-react";
@@ -140,7 +139,7 @@ const buildErrorMessage = (error: unknown): string => {
     return error.message;
   }
 
-  return "Не удалось выполнить действие с календарем";
+  return "Failed to perform calendar action";
 };
 
 const CalendarPage: React.FC = () => {
@@ -264,7 +263,7 @@ const CalendarPage: React.FC = () => {
   const handleSubmit = async () => {
     const payload = toPayload(scope, form);
     if (!payload.title) {
-      toast.error("Укажите название события");
+      toast.error("Enter event title");
       return;
     }
 
@@ -272,10 +271,10 @@ const CalendarPage: React.FC = () => {
     try {
       if (selectedEvent) {
         await updateCalendarEvent(selectedEvent.id, payload);
-        toast.success("Событие обновлено");
+        toast.success("Event updated");
       } else {
         await createCalendarEvent(payload);
-        toast.success(scope === "team" ? "Командное событие создано" : "Личное событие создано");
+        toast.success(scope === "team" ? "Team event created" : "Personal event created");
       }
 
       notifyCalendarEventsUpdated();
@@ -297,7 +296,7 @@ const CalendarPage: React.FC = () => {
     setIsSaving(true);
     try {
       await deleteCalendarEvent(selectedEvent.id);
-      toast.success("Событие удалено");
+      toast.success("Event deleted");
       notifyCalendarEventsUpdated();
       setDialogOpen(false);
       setSelectedEvent(null);
@@ -309,7 +308,7 @@ const CalendarPage: React.FC = () => {
     }
   };
 
-  const scopeLabel = scope === "personal" ? "Личный календарь" : user?.teamName || "Командный календарь";
+  const scopeLabel = scope === "personal" ? "Personal calendar" : user?.teamName || "Team calendar";
   const readOnlyTeamScope = scope === "team" && !canManageTeamCalendar;
 
   return (
@@ -328,22 +327,21 @@ const CalendarPage: React.FC = () => {
               Planner v1
             </div>
             <div>
-              <CardTitle className="text-3xl text-white">Календарь планировщик</CardTitle>
+              <CardTitle className="text-3xl text-white">Calendar planner</CardTitle>
               <CardDescription className="mt-2 max-w-3xl text-slate-300">
-                Единое пространство для личных задач и командного ритма. Переключайтесь между личным и командным
-                календарём, планируйте тренировки, разборы, выходные окна и внутренние слоты без выхода из CRM.
+                One workspace for personal tasks and team rhythm. Switch between personal and team calendars, plan practices, reviews, days off, and internal slots without leaving CRM.
               </CardDescription>
             </div>
           </div>
 
           <div className="flex flex-col items-stretch gap-3 md:min-w-[260px]">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200">
-              <div className="mb-1 text-xs uppercase tracking-[0.22em] text-slate-400">Текущий режим</div>
+              <div className="mb-1 text-xs uppercase tracking-[0.22em] text-slate-400">Current mode</div>
               <div className="text-lg font-semibold text-white">{scopeLabel}</div>
               <div className="mt-2 text-slate-300">
                 {readOnlyTeamScope
-                  ? "Командные события доступны только для просмотра. Изменения вносит staff."
-                  : "Создавайте события, чтобы быстро держать ритм недели перед глазами."}
+                  ? "Team events are view-only. Staff make changes."
+                  : "Create events to keep the week rhythm visible."}
               </div>
             </div>
 
@@ -353,7 +351,7 @@ const CalendarPage: React.FC = () => {
               className="justify-center rounded-xl"
             >
               <Plus className="h-4 w-4" />
-              Создать событие
+              Create event
             </Button>
           </div>
         </CardHeader>
@@ -363,14 +361,13 @@ const CalendarPage: React.FC = () => {
         <Card className="border-amber-400/30 bg-amber-500/10">
           <CardContent className="flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <div className="text-sm font-semibold text-amber-100">Командный календарь пока не активирован</div>
+              <div className="text-sm font-semibold text-amber-100">Team calendar is not active yet</div>
               <p className="mt-1 text-sm text-amber-50/85">
-                Сначала создайте или привяжите команду в разделе управления командой. После этого появится общий календарь
-                для всего состава.
+                Create or link a team in team management first. After that, a shared calendar for the roster will appear.
               </p>
             </div>
             <Button asChild variant="outline" className="border-amber-200/30 bg-transparent text-amber-50">
-              <Link to={ROUTES.TEAM_MANAGEMENT}>Перейти к команде</Link>
+              <Link to={ROUTES.TEAM_MANAGEMENT}>Go to team</Link>
             </Button>
           </CardContent>
         </Card>
@@ -380,18 +377,18 @@ const CalendarPage: React.FC = () => {
         <CardHeader className="gap-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <CardTitle className="text-white">Режим календаря</CardTitle>
+              <CardTitle className="text-white">Calendar mode</CardTitle>
               <CardDescription className="text-slate-400">
                 {scope === "personal"
-                  ? "Ваши личные события видны только вам."
-                  : "Общий календарь команды синхронизирует расписание для игроков и staff."}
+                  ? "Your personal events are visible only to you."
+                  : "The shared team calendar syncs the schedule for players and staff."}
               </CardDescription>
             </div>
 
             <Tabs value={scope} onValueChange={(value) => setScope(value as CalendarEventScope)}>
               <TabsList className="bg-slate-900/80">
-                <TabsTrigger value="personal">Личный</TabsTrigger>
-                {hasTeamCalendar && <TabsTrigger value="team">Командный</TabsTrigger>}
+                <TabsTrigger value="personal">Personal</TabsTrigger>
+                {hasTeamCalendar && <TabsTrigger value="team">Team</TabsTrigger>}
               </TabsList>
             </Tabs>
           </div>
@@ -399,18 +396,18 @@ const CalendarPage: React.FC = () => {
           <div className="flex flex-wrap gap-3">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1 text-xs text-slate-300">
               <Pencil className="h-3.5 w-3.5" />
-              {canEditCurrentScope ? "Редактирование включено" : "Только просмотр"}
+              {canEditCurrentScope ? "Editing enabled" : "View only"}
             </div>
             {scope === "team" && (
               <div className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1 text-xs text-slate-300">
                 <Users className="h-3.5 w-3.5" />
-                {user?.teamName || "Команда"}
+                {user?.teamName || "Team"}
               </div>
             )}
             {readOnlyTeamScope && (
               <div className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1 text-xs text-slate-300">
                 <Lock className="h-3.5 w-3.5" />
-                Изменения доступны только staff
+                Changes are available only to staff
               </div>
             )}
           </div>
@@ -420,8 +417,8 @@ const CalendarPage: React.FC = () => {
           {!isLoading && events.length === 0 && (
             <div className="rounded-2xl border border-dashed border-slate-700 bg-slate-900/60 px-4 py-3 text-sm text-slate-300">
               {scope === "personal"
-                ? "Пока нет личных событий в выбранном периоде. Можно начать с тренировок, встреч или собственных ритуалов дня."
-                : "В выбранном периоде пока нет командных событий. Staff может быстро собрать недельный ритм команды прямо отсюда."}
+                ? "No personal events in the selected period yet. You can start with practices, meetings, or daily rituals."
+                : "No team events in the selected period yet. Staff can quickly build the team weekly rhythm here."}
             </div>
           )}
 
@@ -430,7 +427,7 @@ const CalendarPage: React.FC = () => {
               <div className="absolute inset-0 z-10 flex items-center justify-center rounded-3xl bg-slate-950/45 backdrop-blur-[1px]">
                 <div className="inline-flex items-center gap-3 rounded-full border border-slate-700 bg-slate-900/90 px-4 py-2 text-sm text-slate-300 shadow-lg">
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Загружаем события календаря...
+                  Loading calendar events...
                 </div>
               </div>
             )}
@@ -443,12 +440,11 @@ const CalendarPage: React.FC = () => {
                 center: "title",
                 right: "dayGridMonth,timeGridWeek,timeGridDay",
               }}
-              locale={ruLocale}
               buttonText={{
-                today: "Сегодня",
-                month: "Месяц",
-                week: "Неделя",
-                day: "День",
+                today: "Today",
+                month: "Month",
+                week: "Week",
+                day: "Day",
               }}
               firstDay={1}
               selectable={canEditCurrentScope}
@@ -475,29 +471,29 @@ const CalendarPage: React.FC = () => {
       <Dialog open={dialogOpen} onOpenChange={handleDialogOpenChange}>
         <DialogContent className="max-w-2xl border-slate-700 bg-slate-950 text-slate-100">
           <DialogHeader>
-            <DialogTitle>{selectedEvent ? "Детали события" : "Новое событие"}</DialogTitle>
+            <DialogTitle>{selectedEvent ? "Event details" : "New event"}</DialogTitle>
             <DialogDescription className="text-slate-400">
               {canEditCurrentScope || (selectedEvent && selectedEvent.scope === "personal")
-                ? "Заполните базовые поля события. В v1 поддерживаются личные и командные слоты без повторов."
-                : "Командное событие открыто в режиме просмотра. Редактирование доступно только staff вашей команды."}
+                ? "Fill in the basic event fields. V1 supports personal and team slots without repeats."
+                : "This team event is open in view mode. Editing is available only to your team staff."}
             </DialogDescription>
           </DialogHeader>
 
           <div className="grid gap-4 py-2">
             <div className="space-y-2">
-              <Label htmlFor="calendar-title">Название</Label>
+              <Label htmlFor="calendar-title">Title</Label>
               <Input
                 id="calendar-title"
                 value={form.title}
                 onChange={(event) => handleFieldChange("title", event.target.value)}
                 disabled={isSaving || !canEditCurrentScope}
-                placeholder="Например, разбор демо перед матчем"
+                placeholder="For example, demo review before match"
               />
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="calendar-start">Начало</Label>
+                <Label htmlFor="calendar-start">Start</Label>
                 <Input
                   id="calendar-start"
                   type={form.allDay ? "date" : "datetime-local"}
@@ -508,7 +504,7 @@ const CalendarPage: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="calendar-end">Окончание</Label>
+                <Label htmlFor="calendar-end">End</Label>
                 <Input
                   id="calendar-end"
                   type={form.allDay ? "date" : "datetime-local"}
@@ -521,7 +517,7 @@ const CalendarPage: React.FC = () => {
 
             <div className="grid gap-4 md:grid-cols-[1fr_auto]">
               <div className="space-y-2">
-                <Label htmlFor="calendar-location">Место или ссылка</Label>
+                <Label htmlFor="calendar-location">Place or link</Label>
                 <div className="relative">
                   <MapPin className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-slate-500" />
                   <Input
@@ -543,12 +539,12 @@ const CalendarPage: React.FC = () => {
                   disabled={isSaving || !canEditCurrentScope}
                   className="h-4 w-4 rounded border-slate-600 bg-slate-900 text-sky-400"
                 />
-                Весь день
+                All day
               </label>
             </div>
 
             <div className="space-y-2">
-              <Label>Цвет события</Label>
+              <Label>Event color</Label>
               <div className="flex flex-wrap gap-2">
                 {EVENT_COLORS.map((color) => (
                   <button
@@ -562,20 +558,20 @@ const CalendarPage: React.FC = () => {
                       borderColor: form.color === color ? "#F8FBFF" : "rgba(255,255,255,0.16)",
                       boxShadow: form.color === color ? `0 0 0 3px ${COLORS.backgroundColor}` : "none",
                     }}
-                    aria-label={`Выбрать цвет ${color}`}
+                    aria-label={`Select color ${color}`}
                   />
                 ))}
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="calendar-description">Описание</Label>
+              <Label htmlFor="calendar-description">Description</Label>
               <Textarea
                 id="calendar-description"
                 value={form.description}
                 onChange={(event) => handleFieldChange("description", event.target.value)}
                 disabled={isSaving || !canEditCurrentScope}
-                placeholder="Что важно не забыть, кто участвует, что нужно подготовить..."
+                placeholder="What matters, who participates, what needs preparation..."
               />
             </div>
           </div>
@@ -585,19 +581,19 @@ const CalendarPage: React.FC = () => {
               {selectedEvent && canEditCurrentScope && (
                 <Button type="button" variant="destructive" onClick={handleDelete} disabled={isSaving}>
                   <Trash2 className="h-4 w-4" />
-                  Удалить
+                  Delete
                 </Button>
               )}
             </div>
 
             <div className="flex flex-col-reverse gap-2 sm:flex-row">
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)} disabled={isSaving}>
-                Закрыть
+                Close
               </Button>
               {canEditCurrentScope && (
                 <Button type="button" onClick={handleSubmit} disabled={isSaving}>
                   {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Pencil className="h-4 w-4" />}
-                  {selectedEvent ? "Сохранить" : "Создать"}
+                  {selectedEvent ? "Save" : "Create"}
                 </Button>
               )}
             </div>

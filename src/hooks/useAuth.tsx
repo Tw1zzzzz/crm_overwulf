@@ -118,7 +118,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setAuthState({
         data: null,
         loading: false,
-        error: error instanceof Error ? error.message : 'Ошибка инициализации'
+        error: error instanceof Error ? error.message : 'Initialization error'
       });
     }
   }, [navigate]);
@@ -136,7 +136,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         data: user
       }));
     } catch (error) {
-      console.error('Ошибка обновления данных пользователя:', error);
+      console.error('Error обновления данных пользователя:', error);
     }
   }, [authState.data]);
 
@@ -158,23 +158,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           error: null
         });
         
-        toast.success(`Добро пожаловать, ${result.user.name}!`);
+        toast.success(`Welcome, ${result.user.name}!`);
         
-        // Навигация на главную страницу после успешного входа
+        // Navigation на главную страницу после успешного входа
         navigate(ROUTES.DASHBOARD);
       } else {
         setAuthState(prev => ({
           ...prev,
           loading: false,
-          error: result.error || 'Ошибка входа'
+          error: result.error || 'Sign-in error'
         }));
         
-        toast.error(result.error || 'Ошибка входа');
+        toast.error(result.error || 'Sign-in error');
       }
       
       return result;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       setAuthState(prev => ({
         ...prev,
         loading: false,
@@ -208,9 +208,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           error: null
         });
         
-        toast.success(`Аккаунт успешно создан! Добро пожаловать, ${result.user.name}!`);
+        toast.success(`Account created successfully! Welcome, ${result.user.name}!`);
         
-        // Навигация на главную страницу после успешной регистрации
+        // Navigation на главную страницу после успешной регистрации
         navigate(ROUTES.DASHBOARD);
       } else if (result.success) {
         sessionStorage.removeItem(BASELINE_REGISTER_MODAL_FLAG);
@@ -221,20 +221,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           error: null
         }));
 
-        toast.success(result.message || 'Аккаунт создан. Подтвердите email и затем войдите в систему.');
+        toast.success(result.message || 'Account created. Confirm your email, then sign in.');
       } else {
         setAuthState(prev => ({
           ...prev,
           loading: false,
-          error: result.error || 'Ошибка регистрации'
+          error: result.error || 'Registration error'
         }));
         
-        toast.error(result.error || 'Ошибка регистрации');
+        toast.error(result.error || 'Registration error');
       }
       
       return result;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       setAuthState(prev => ({
         ...prev,
         loading: false,
@@ -250,9 +250,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const result = await authService.requestPasswordReset({ email });
 
     if (result.success) {
-      toast.success('Если аккаунт существует, письмо для сброса уже отправлено');
+      toast.success('If the account exists, the reset email has already been sent');
     } else {
-      toast.error(result.error || 'Не удалось отправить письмо для сброса');
+      toast.error(result.error || 'Failed to send reset email');
     }
 
     return result;
@@ -262,9 +262,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const result = await authService.resetPassword({ token, password });
 
     if (result.success) {
-      toast.success('Пароль обновлен. Теперь можно войти.');
+      toast.success('Password updated. You can sign in now.');
     } else {
-      toast.error(result.error || 'Не удалось обновить пароль');
+      toast.error(result.error || 'Failed to update password');
     }
 
     return result;
@@ -274,9 +274,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const result = await authService.resendVerificationEmail({ email });
 
     if (result.success) {
-      toast.success(result.message || 'Письмо с подтверждением отправлено');
+      toast.success(result.message || 'Confirmation email sent');
     } else {
-      toast.error(result.error || 'Не удалось отправить письмо подтверждения');
+      toast.error(result.error || 'Failed to send confirmation email');
     }
 
     return {
@@ -306,10 +306,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         loading: false,
         error: null
       });
-      toast.success(result.message || 'Пароль обновлен. Войдите заново.');
+      toast.success(result.message || 'Password updated. Sign in again.');
       navigate(ROUTES.WELCOME);
     } else {
-      toast.error(result.error || 'Не удалось изменить пароль');
+      toast.error(result.error || 'Failed to change password');
     }
 
     return {
@@ -330,19 +330,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           loading: false,
           error: null
         });
-        toast.success(result.message || 'Профиль игрока добавлен');
+        toast.success(result.message || 'Player profile added');
       } else {
         setAuthState(prev => ({
           ...prev,
           loading: false,
-          error: result.error || 'Не удалось добавить профиль игрока'
+          error: result.error || 'Failed to add player profile'
         }));
-        toast.error(result.error || 'Не удалось добавить профиль игрока');
+        toast.error(result.error || 'Failed to add player profile');
       }
 
       return result;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       setAuthState(prev => ({
         ...prev,
         loading: false,
@@ -375,13 +375,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setAuthState(prev => ({
           ...prev,
           loading: false,
-          error: result.error || 'Не удалось привязать профиль к команде'
+          error: result.error || 'Failed to link profile to team'
         }));
       }
 
       return result;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       setAuthState(prev => ({
         ...prev,
         loading: false,
@@ -403,19 +403,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           loading: false,
           error: null
         });
-        toast.success(result.message || 'Профиль переключен');
+        toast.success(result.message || 'Profile switched');
       } else {
         setAuthState(prev => ({
           ...prev,
           loading: false,
-          error: result.error || 'Не удалось переключить профиль'
+          error: result.error || 'Failed to switch profile'
         }));
-        toast.error(result.error || 'Не удалось переключить профиль');
+        toast.error(result.error || 'Failed to switch profile');
       }
 
       return result;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       setAuthState(prev => ({
         ...prev,
         loading: false,
@@ -439,7 +439,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       error: null
     });
     
-    toast.success("Вы вышли из системы");
+    toast.success("You have signed out");
     navigate(ROUTES.WELCOME);
   }, [navigate]);
 
@@ -457,10 +457,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         error: null
       });
       
-      toast.success("Аккаунт успешно удален");
+      toast.success("Account deleted successfully");
       navigate(ROUTES.WELCOME);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Ошибка удаления аккаунта';
+      const errorMessage = error instanceof Error ? error.message : 'Account deletion error';
       setAuthState(prev => ({
         ...prev,
         loading: false,
@@ -477,7 +477,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    */
   const updateAvatar = useCallback(async (file: File): Promise<AuthResult> => {
     if (!authState.data) {
-      return { success: false, error: 'Пользователь не авторизован' };
+      return { success: false, error: 'User is not authorized' };
     }
     
     setAuthState(prev => ({ ...prev, loading: true }));
@@ -501,19 +501,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           await refreshUser();
         }
         
-        toast.success('Аватар успешно обновлен');
+        toast.success('Avatar updated successfully');
       } else {
         setAuthState(prev => ({
           ...prev,
           loading: false
         }));
         
-        toast.error(result.error || 'Ошибка обновления аватара');
+        toast.error(result.error || 'Error обновления аватара');
       }
       
       return result;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       setAuthState(prev => ({
         ...prev,
         loading: false
@@ -586,7 +586,7 @@ export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   
   if (context === defaultContextValue) {
-    throw new Error("useAuth должен использоваться внутри AuthProvider");
+    throw new Error("useAuth must be used inside AuthProvider");
   }
   
   return context;

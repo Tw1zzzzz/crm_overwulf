@@ -163,7 +163,7 @@ const TeamManagement: React.FC = () => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Команда</CardTitle>
+          <CardTitle>Team</CardTitle>
           <CardDescription>Создание команды доступно только staff-профилю с типом аккаунта team.</CardDescription>
         </CardHeader>
       </Card>
@@ -294,7 +294,7 @@ const TeamManagement: React.FC = () => {
               {currentTeamLogo ? (
                 <img src={currentTeamLogoUrl} alt={currentTeamName} className="h-8 w-8 rounded-full object-cover" />
               ) : null}
-              <span>Команда: {currentTeamName}</span>
+              <span>Team: {currentTeamName}</span>
             </div>
           )}
         </CardHeader>
@@ -303,7 +303,7 @@ const TeamManagement: React.FC = () => {
             {hasExistingTeam && (
               <Alert className="border-amber-500/30 bg-amber-500/10 text-amber-50">
                 <Shield className="h-4 w-4 text-amber-300" />
-                <AlertTitle className="text-amber-100">Команда уже привязана</AlertTitle>
+                <AlertTitle className="text-amber-100">Team уже привязана</AlertTitle>
                 <AlertDescription className="text-amber-100/85">
                   Для этого профиля уже создана или назначена команда. Ниже можно управлять только текущей командой, её кодами приглашения и брендингом.
                 </AlertDescription>
@@ -333,9 +333,9 @@ const TeamManagement: React.FC = () => {
                         Создаем команду...
                       </>
                     ) : hasExistingTeam ? (
-                      "Команда уже привязана"
+                      "Team уже привязана"
                     ) : (
-                      "Создать команду"
+                      "Create команду"
                     )}
                   </Button>
                   <p className="text-sm text-muted-foreground">
@@ -469,7 +469,7 @@ const TeamManagement: React.FC = () => {
                         {team.isCreator && <Badge variant="secondary">Создатель</Badge>}
                       </div>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        Игроки: {team.playerCount}/{team.playerLimit} • staff: {team.staffCount}
+                        Playerи: {team.playerCount}/{team.playerLimit} • staff: {team.staffCount}
                       </p>
                     </div>
                   </div>
@@ -575,7 +575,7 @@ const TeamManagement: React.FC = () => {
                     </div>
                   </div>
                   <Badge variant={selectedTeamMeta.isCreator ? "default" : "outline"} className="w-fit">
-                    {selectedTeamMeta.isCreator ? "Можно редактировать" : "Только просмотр"}
+                    {selectedTeamMeta.isCreator ? "Можно редактировать" : "View only"}
                   </Badge>
                 </div>
                 <div className="space-y-2">
@@ -630,7 +630,7 @@ const TeamManagement: React.FC = () => {
                           Сохраняем брендинг...
                         </>
                       ) : (
-                        "Сохранить брендинг"
+                        "Save брендинг"
                       )}
                     </Button>
                     {!isBrandingDirty && (

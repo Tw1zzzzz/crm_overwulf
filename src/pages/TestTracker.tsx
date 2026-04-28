@@ -184,8 +184,8 @@ const TestTracker = () => {
 
       if ((qSleepStart && !qSleepEnd) || (!qSleepStart && qSleepEnd)) {
         toast({
-          title: "Проверьте сон",
-          description: "Заполните оба поля времени сна: и 'с', и 'до'.",
+          title: "Check sleep",
+          description: "Fill in both sleep time fields: from and to.",
           variant: "destructive"
         });
         return;
@@ -201,7 +201,7 @@ const TestTracker = () => {
 
       if (totalScreenTime !== undefined && hasBreakdown && breakdownSum > totalScreenTime) {
         toast({
-          title: "Ошибка экранного времени",
+          title: "Screen time error",
           description: `Сумма подкатегорий (${breakdownSum.toFixed(1)} ч) превышает общее экранное время (${totalScreenTime.toFixed(1)} ч).`,
           variant: "destructive"
         });
@@ -227,7 +227,7 @@ const TestTracker = () => {
         },
         { headers: token ? { Authorization: `Bearer ${token}` } : undefined }
       );
-      toast({ title: "Сохранено", description: "Данные опросника сохранены" });
+      toast({ title: "Saved", description: "Questionnaire data saved" });
     } catch (e: unknown) {
       const messageFromResponse =
         typeof e === "object" &&
@@ -237,8 +237,8 @@ const TestTracker = () => {
           ? (e as { response?: { data?: { message?: string } } }).response?.data?.message
           : null;
       const messageFromError = e instanceof Error ? e.message : null;
-      const msg = messageFromResponse || messageFromError || "Ошибка сохранения";
-      toast({ title: "Ошибка", description: msg, variant: "destructive" });
+      const msg = messageFromResponse || messageFromError || "Save error";
+      toast({ title: "Error", description: msg, variant: "destructive" });
     } finally {
       setQSubmitting(false);
     }
@@ -283,7 +283,7 @@ const TestTracker = () => {
       } catch (error) {
         console.error("Error loading tests state impact:", error);
         setStateImpact(null);
-        setStateImpactError("Не удалось обновить аналитическую сводку по выбранным фильтрам.");
+        setStateImpactError("Failed to refresh the analytics summary for the selected filters.");
       } finally {
         setIsStateImpactLoading(false);
       }
@@ -324,7 +324,7 @@ const TestTracker = () => {
       } catch (error) {
         console.error("Error loading team test summary:", error);
         setTeamSummary(null);
-        setTeamSummaryError("Не удалось загрузить командную сводку для выбранного периода.");
+        setTeamSummaryError("Failed to load the team summary for the selected period.");
       } finally {
         setIsTeamSummaryLoading(false);
       }
@@ -367,11 +367,11 @@ const TestTracker = () => {
           // Р•СЃР»Рё РЅРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РіСЂСѓР·РёС‚СЊ СЃ СЃРµСЂРІРµСЂР°, РёСЃРїРѕР»СЊР·СѓРµРј Р»РѕРєР°Р»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ
           const localEntries = testRepository.getAll();
           setEntries(localEntries);
-          setEntriesLoadError("Сервер недоступен, поэтому сейчас показаны локально сохранённые записи.");
+          setEntriesLoadError("The server is unavailable, so locally saved records are shown now.");
           
           toast({
-            title: "Ошибка загрузки",
-            description: "Не удалось загрузить записи с сервера, используются локальные данные.",
+            title: "Error загрузки",
+            description: "Failed to load records from the server; local data is being used.",
             variant: "destructive"
           });
         }
@@ -382,11 +382,11 @@ const TestTracker = () => {
       }
     } catch (error) {
       console.error('Error loading test entries:', error);
-      setEntriesLoadError("Не удалось загрузить записи о тестах.");
+      setEntriesLoadError("Failed to load test records.");
       
       toast({
-        title: "Ошибка загрузки",
-        description: "Не удалось загрузить записи о тестах.",
+        title: "Error загрузки",
+        description: "Failed to load test records.",
         variant: "destructive"
       });
     } finally {
@@ -429,8 +429,8 @@ const TestTracker = () => {
   const handleSubmit = async () => {
     if (!name && !testType) {
       toast({
-        title: "Отсутствуют обязательные поля",
-        description: "Заполните название теста или тип теста",
+        title: "Required fields missing",
+        description: "Enter a test name or test type",
         variant: "destructive"
       });
       return;
@@ -485,15 +485,15 @@ const TestTracker = () => {
       resetForm();
       
       toast({
-        title: "Запись добавлена",
-        description: "Запись о тесте успешно сохранена.",
+        title: "Record added",
+        description: "Test record saved successfully.",
       });
     } catch (error) {
       console.error('Error saving test entry:', error);
       
       toast({
-        title: "Ошибка сохранения",
-        description: "Не удалось сохранить запись о тесте.",
+        title: "Save error",
+        description: "Failed to save test record.",
         variant: "destructive"
       });
     } finally {
@@ -537,22 +537,22 @@ const TestTracker = () => {
         }
       }
       
-      // РЈРґР°Р»СЏРµРј Р·Р°РїРёСЃСЊ С‡РµСЂРµР· СЂРµРїРѕР·РёС‚РѕСЂРёР№
+      // РЈРґР°Р»СЏРµРј Р·Р°РїРёСЃСЊ hРµСЂРµР· СЂРµРїРѕР·РёС‚РѕСЂРёР№
       testRepository.delete(id);
       
       // РћР±РЅРѕРІР»СЏРµРј СЃРїРёСЃРѕРє Р·Р°РїРёСЃРµР№
       await loadEntries();
       
       toast({
-        title: "Запись удалена",
-        description: "Запись о тесте успешно удалена."
+        title: "Record deleted",
+        description: "Test record deleted successfully."
       });
     } catch (error) {
       console.error('Error deleting test entry:', error);
     
     toast({
-        title: "Ошибка удаления",
-        description: "Не удалось удалить запись о тесте.",
+        title: "Error удаления",
+        description: "Failed to delete test record.",
         variant: "destructive"
     });
     } finally {
@@ -624,10 +624,10 @@ const TestTracker = () => {
   };
   const hasActiveFilters = periodFilter !== "30" || testTypeFilter !== "all" || contextRoleFilter !== "all" || sourceFilter !== "all";
   const activeFilterBadges = [
-    `Период: ${periodFilter} дней`,
+    `Period: ${periodFilter} дней`,
     testTypeFilter !== "all" ? `Тип: ${getReadableTestTypeLabel(testTypeFilter)}` : null,
-    contextRoleFilter !== "all" ? `Роль: ${contextRoleFilter.toUpperCase()}` : null,
-    sourceFilter !== "all" ? `Источник: ${sourceFilter === "manual" ? "Ручной ввод" : "Brain Lab"}` : null
+    contextRoleFilter !== "all" ? `Role: ${contextRoleFilter.toUpperCase()}` : null,
+    sourceFilter !== "all" ? `Source: ${sourceFilter === "manual" ? "Manual entry" : "Brain Lab"}` : null
   ].filter(Boolean) as string[];
   const filtersScopeSummary = isTeamStaff
     ? `${heroEntriesCount} записей по команде, ${heroWeeklyEntries} weekly и средний score ${heroAverageScore ?? "-"}`
@@ -723,22 +723,22 @@ const TestTracker = () => {
                   <div className="rounded-[22px] border p-4" style={{ backgroundColor: "rgba(9, 14, 26, 0.34)", borderColor: "rgba(148, 163, 184, 0.18)" }}>
                     <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "rgba(191, 219, 254, 0.78)" }}>Entries</div>
                     <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{heroEntriesCount}</div>
-                    <div className="mt-1 text-sm" style={{ color: "rgba(226, 232, 240, 0.68)" }}>за выбранный период</div>
+                    <div className="mt-1 text-sm" style={{ color: "rgba(226, 232, 240, 0.68)" }}>for the selected period</div>
                   </div>
                   <div className="rounded-[22px] border p-4" style={{ backgroundColor: "rgba(9, 14, 26, 0.34)", borderColor: "rgba(148, 163, 184, 0.18)" }}>
-                    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "rgba(191, 219, 254, 0.78)" }}>Средний score</div>
+                    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "rgba(191, 219, 254, 0.78)" }}>Average score</div>
                     <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{heroAverageScore ?? "-"}</div>
-                    <div className="mt-1 text-sm" style={{ color: "rgba(226, 232, 240, 0.68)" }}>по сохранённым результатам</div>
+                    <div className="mt-1 text-sm" style={{ color: "rgba(226, 232, 240, 0.68)" }}>from saved results</div>
                   </div>
                   <div className="rounded-[22px] border p-4" style={{ backgroundColor: "rgba(9, 14, 26, 0.34)", borderColor: "rgba(148, 163, 184, 0.18)" }}>
-                    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "rgba(191, 219, 254, 0.78)" }}>Эта неделя</div>
+                    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "rgba(191, 219, 254, 0.78)" }}>This week</div>
                     <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{heroWeeklyEntries}</div>
-                    <div className="mt-1 text-sm" style={{ color: "rgba(226, 232, 240, 0.68)" }}>тестов в текущем окне</div>
+                    <div className="mt-1 text-sm" style={{ color: "rgba(226, 232, 240, 0.68)" }}>tests in the current window</div>
                   </div>
                   <div className="rounded-[22px] border p-4" style={{ backgroundColor: "rgba(9, 14, 26, 0.34)", borderColor: "rgba(148, 163, 184, 0.18)" }}>
                     <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "rgba(191, 219, 254, 0.78)" }}>State index</div>
                     <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{heroStateIndex}</div>
-                    <div className="mt-1 text-sm" style={{ color: "rgba(226, 232, 240, 0.68)" }}>связь состояния и результата</div>
+                    <div className="mt-1 text-sm" style={{ color: "rgba(226, 232, 240, 0.68)" }}>condition and result link</div>
                   </div>
                 </div>
               </LockedResultsGate>
@@ -758,10 +758,10 @@ const TestTracker = () => {
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
               <div className="space-y-2">
                 <div className="text-[11px] uppercase tracking-[0.24em]" style={{ color: COLORS.textColorSecondary }}>
-                  Аналитический фильтр
+                  Analytics filter
                 </div>
                 <p className="max-w-2xl text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
-                  Отсекайте период, типы тестов и игровой контекст, чтобы быстрее находить полезные паттерны и не перегружать экран лишними данными.
+                  Filter by period, test types, and game context to find useful patterns faster without overloading the screen.
                 </p>
               </div>
 
@@ -779,7 +779,7 @@ const TestTracker = () => {
                   }}
                 >
                   <FilterX className="mr-2 h-4 w-4" />
-                  Сбросить фильтры
+                  Reset filters
                 </Button>
 
                 {!isStaff && (
@@ -793,7 +793,7 @@ const TestTracker = () => {
                     style={{ backgroundColor: COLORS.primary, color: "white" }}
                   >
                     <Plus className="mr-2 h-4 w-4" />
-                    Добавить тест
+                    Add test
                   </Button>
                 )}
               </div>
@@ -804,34 +804,34 @@ const TestTracker = () => {
               hasData={heroEntriesCount > 0}
               isLoading={isStateImpactLoading}
               error={stateImpactError}
-              title="Аналитика результатов заблокирована"
+              title="Result analytics locked"
               description={`Фильтры, индекс текущей формы и агрегаты по тестам откроются после покупки. Само прохождение и сохранение тестов уже доступны в ${PRODUCT_NAME}.`}
-              ctaText="Открыть аналитику тестов"
+              ctaText="Open test analytics"
               minHeightClassName="min-h-[420px]"
             >
             <div className="mt-5 grid gap-3 md:grid-cols-4">
               <div className="space-y-2">
-                <Label style={{ color: COLORS.textColor }}>Период</Label>
+                <Label style={{ color: COLORS.textColor }}>Period</Label>
                 <select
                   value={periodFilter}
                   onChange={(e) => setPeriodFilter(e.target.value)}
                   className="w-full rounded-2xl border px-4 py-3"
                   style={fieldStyle}
                 >
-                  <option value="7">7 дней</option>
-                  <option value="30">30 дней</option>
-                  <option value="90">90 дней</option>
+                  <option value="7">7 days</option>
+                  <option value="30">30 days</option>
+                  <option value="90">90 days</option>
                 </select>
               </div>
               <div className="space-y-2">
-                <Label style={{ color: COLORS.textColor }}>Тип теста</Label>
+                <Label style={{ color: COLORS.textColor }}>Test type</Label>
                 <select
                   value={testTypeFilter}
                   onChange={(e) => setTestTypeFilter(e.target.value)}
                   className="w-full rounded-2xl border px-4 py-3"
                   style={fieldStyle}
                 >
-                  <option value="all">Все типы</option>
+                  <option value="all">All types</option>
                   <option value="generic">{getTestTypeLabel("generic")}</option>
                   <option value="reaction">{getTestTypeLabel("reaction")}</option>
                   <option value="aim">{getTestTypeLabel("aim")}</option>
@@ -844,14 +844,14 @@ const TestTracker = () => {
                 </select>
               </div>
               <div className="space-y-2">
-                <Label style={{ color: COLORS.textColor }}>Контекст / роль</Label>
+                <Label style={{ color: COLORS.textColor }}>Context / role</Label>
                 <select
                   value={contextRoleFilter}
                   onChange={(e) => setContextRoleFilter(e.target.value)}
                   className="w-full rounded-2xl border px-4 py-3"
                   style={fieldStyle}
                 >
-                  <option value="all">Все роли</option>
+                  <option value="all">All roles</option>
                   <option value="entry">Entry</option>
                   <option value="support">Support</option>
                   <option value="awp">AWP</option>
@@ -859,15 +859,15 @@ const TestTracker = () => {
                 </select>
               </div>
               <div className="space-y-2">
-                <Label style={{ color: COLORS.textColor }}>Источник</Label>
+                <Label style={{ color: COLORS.textColor }}>Source</Label>
                 <select
                   value={sourceFilter}
                   onChange={(e) => setSourceFilter(e.target.value)}
                   className="w-full rounded-2xl border px-4 py-3"
                   style={fieldStyle}
                 >
-                  <option value="all">Все источники</option>
-                  <option value="manual">Ручной ввод</option>
+                  <option value="all">All sources</option>
+                  <option value="manual">Manual entry</option>
                   <option value="brain_lab">Brain Lab</option>
                 </select>
               </div>
@@ -881,7 +881,7 @@ const TestTracker = () => {
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2 text-sm font-medium" style={{ color: COLORS.textColor }}>
                     <ListFilter className="h-4 w-4" />
-                    Что вы видите сейчас
+                    What you see now
                   </div>
                   <p className="text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
                     {filtersScopeSummary}
@@ -905,7 +905,7 @@ const TestTracker = () => {
                       className="rounded-full border-white/10 bg-white/5 px-3 py-1 text-xs"
                       style={{ color: COLORS.textColorSecondary }}
                     >
-                      Базовый набор фильтров
+                      Basic filter set
                     </Badge>
                   )}
                 </div>
@@ -931,28 +931,28 @@ const TestTracker = () => {
                 <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
                   <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em]" style={{ color: COLORS.textColorSecondary }}>
                     <Gauge className="h-3.5 w-3.5" />
-                    Средний score
+                    Average score
                   </div>
                   <div className="mt-3 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{stateImpact.totals.avgScore}</div>
                 </div>
                 <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
                   <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em]" style={{ color: COLORS.textColorSecondary }}>
                     <Brain className="h-3.5 w-3.5" />
-                    Индекс состояния
+                    Condition index
                   </div>
                   <div className="mt-3 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{stateImpact.totals.avgStateIndex}</div>
                 </div>
                 <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
                   <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em]" style={{ color: COLORS.textColorSecondary }}>
                     <CheckCheck className="h-3.5 w-3.5" />
-                    Фокус high
+                    High focus
                   </div>
                   <div className="mt-3 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{stateImpact.stateToResult.focus.high}</div>
                 </div>
                 <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
                   <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em]" style={{ color: COLORS.textColorSecondary }}>
                     <Clock3 className="h-3.5 w-3.5" />
-                    Усталость high
+                    High fatigue
                   </div>
                   <div className="mt-3 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{stateImpact.stateToResult.fatigue.high}</div>
                 </div>
@@ -966,10 +966,10 @@ const TestTracker = () => {
                   <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" style={{ color: stateImpactError ? "#FBBF24" : COLORS.textColorSecondary }} />
                   <div>
                     <p className="text-sm font-medium" style={{ color: COLORS.textColor }}>
-                      {stateImpactError ? "Сводка по фильтрам временно недоступна" : "Сводка появится после первых записей"}
+                      {stateImpactError ? "Filter summary temporarily unavailable" : "Summary appears after the first records"}
                     </p>
                     <p className="mt-1 text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
-                      {stateImpactError || "Когда в выборке будет достаточно тестов, здесь появятся быстрые ориентиры по score, фокусу и состоянию."}
+                      {stateImpactError || "When the sample has enough tests, quick score, focus, and condition pointers will appear here."}
                     </p>
                   </div>
                 </div>
@@ -984,9 +984,9 @@ const TestTracker = () => {
               hasData={Boolean(teamSummary?.summary.totalEntries)}
               isLoading={isTeamSummaryLoading}
               error={teamSummaryError}
-              title="Командная сводка откроется после покупки"
+              title="Team summary opens after purchase"
               description="Read-only блок по игрокам команды, агрегаты и последние результаты доступны после активации тарифа."
-              ctaText="Открыть командную сводку"
+              ctaText="Open team summary"
               minHeightClassName="min-h-[680px]"
             >
             <div className="space-y-5">
@@ -1000,19 +1000,19 @@ const TestTracker = () => {
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div>
                     <div className="text-[11px] uppercase tracking-[0.24em]" style={{ color: COLORS.textColorSecondary }}>
-                      Командный режим
+                      Team mode
                     </div>
                     <h3 className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>
-                      Командная статистика тестов и ежедневных сигналов
+                      Team statistics for tests and daily signals
                     </h3>
                     <p className="mt-2 max-w-2xl text-sm leading-7" style={{ color: COLORS.textColorSecondary }}>
                       Для staff профиля `team` вкладка переведена в read-only режим: здесь собраны только данные вашей команды без форм заполнения.
                     </p>
                   </div>
                   <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
-                    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: COLORS.textColorSecondary }}>Команда</div>
+                    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: COLORS.textColorSecondary }}>Team</div>
                     <div className="mt-2 text-xl font-semibold" style={{ color: COLORS.textColor }}>
-                      {teamSummary?.summary.teamName || user?.teamName || "Моя команда"}
+                      {teamSummary?.summary.teamName || user?.teamName || "My team"}
                     </div>
                   </div>
                 </div>
@@ -1022,23 +1022,23 @@ const TestTracker = () => {
                 ) : (
                   <div className="mt-5 grid gap-3 md:grid-cols-4">
                     <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
-                      <div className="text-[11px] uppercase tracking-[0.18em]" style={{ color: COLORS.textColorSecondary }}>Игроков</div>
+                      <div className="text-[11px] uppercase tracking-[0.18em]" style={{ color: COLORS.textColorSecondary }}>Players</div>
                       <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{teamSummary?.summary.playersCount ?? 0}</div>
                     </div>
                     <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
-                      <div className="text-[11px] uppercase tracking-[0.18em]" style={{ color: COLORS.textColorSecondary }}>Сон</div>
+                      <div className="text-[11px] uppercase tracking-[0.18em]" style={{ color: COLORS.textColorSecondary }}>Sleep</div>
                       <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{teamSummary?.summary.avgSleepHours ?? "-"}</div>
-                      <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>среднее по команде</div>
+                      <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>team average</div>
                     </div>
                     <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
-                      <div className="text-[11px] uppercase tracking-[0.18em]" style={{ color: COLORS.textColorSecondary }}>Экранное время</div>
+                      <div className="text-[11px] uppercase tracking-[0.18em]" style={{ color: COLORS.textColorSecondary }}>Screen time</div>
                       <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{teamSummary?.summary.avgScreenTimeHours ?? "-"}</div>
-                      <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>часов в среднем</div>
+                      <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>average hours</div>
                     </div>
                     <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
                       <div className="text-[11px] uppercase tracking-[0.18em]" style={{ color: COLORS.textColorSecondary }}>State index</div>
                       <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{teamSummary?.summary.avgStateIndex ?? "-"}</div>
-                      <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>связь состояния и результата</div>
+                      <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>condition and result link</div>
                     </div>
                   </div>
                 )}
@@ -1059,9 +1059,9 @@ const TestTracker = () => {
               <section className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
                 <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
                   <CardHeader>
-                    <CardTitle style={{ color: COLORS.textColor }}>Игроки команды</CardTitle>
+                    <CardTitle style={{ color: COLORS.textColor }}>Team players</CardTitle>
                     <CardDescription style={{ color: COLORS.textColorSecondary }}>
-                      Сводка по тестовой активности, сну и экранному времени вашей команды.
+                      Summary of your team test activity, sleep, and screen time.
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-3">
@@ -1074,7 +1074,7 @@ const TestTracker = () => {
                         </div>
                       ))
                     ) : (teamSummary?.byPlayer || []).length === 0 ? (
-                      <p style={{ color: COLORS.textColorSecondary }}>Пока нет данных по игрокам команды.</p>
+                      <p style={{ color: COLORS.textColorSecondary }}>No team player data yet.</p>
                     ) : (
                       teamSummary!.byPlayer.map((player) => (
                         <div key={player.userId} className="rounded-[18px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
@@ -1087,7 +1087,7 @@ const TestTracker = () => {
                             </div>
                             <div className="text-right text-sm" style={{ color: COLORS.textColorSecondary }}>
                               <div>Score: {player.avgScore ?? "-"}</div>
-                              <div>Сон: {player.avgSleepHours ?? "-"}</div>
+                              <div>Sleep: {player.avgSleepHours ?? "-"}</div>
                               <div>Экран: {player.avgScreenTimeHours ?? "-"}</div>
                             </div>
                           </div>
@@ -1100,9 +1100,9 @@ const TestTracker = () => {
                 <div className="space-y-5">
                   <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
                     <CardHeader>
-                      <CardTitle style={{ color: COLORS.textColor }}>По типам тестов</CardTitle>
+                      <CardTitle style={{ color: COLORS.textColor }}>By test type</CardTitle>
                       <CardDescription style={{ color: COLORS.textColorSecondary }}>
-                        Какие типы тестов чаще встречаются и каков средний score.
+                        Which test types appear most often and their average score.
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-3">
@@ -1113,7 +1113,7 @@ const TestTracker = () => {
                         </div>
                       ))
                     ) : (teamSummary?.byTestType || []).length === 0 ? (
-                      <p style={{ color: COLORS.textColorSecondary }}>Пока нет сохранённых результатов.</p>
+                      <p style={{ color: COLORS.textColorSecondary }}>No saved results yet.</p>
                     ) : (
                       teamSummary!.byTestType.map((item) => (
                           <div key={item.type} className="flex items-center justify-between rounded-[16px] border px-4 py-3" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
@@ -1129,9 +1129,9 @@ const TestTracker = () => {
 
                   <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
                     <CardHeader>
-                      <CardTitle style={{ color: COLORS.textColor }}>Последние записи</CardTitle>
+                      <CardTitle style={{ color: COLORS.textColor }}>Latest records</CardTitle>
                       <CardDescription style={{ color: COLORS.textColorSecondary }}>
-                        Последние результаты игроков вашей команды.
+                        Latest results from your team players.
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-3">
@@ -1143,7 +1143,7 @@ const TestTracker = () => {
                         </div>
                       ))
                     ) : (teamSummary?.recentEntries || []).length === 0 ? (
-                      <p style={{ color: COLORS.textColorSecondary }}>Последних записей пока нет.</p>
+                      <p style={{ color: COLORS.textColorSecondary }}>No latest records yet.</p>
                     ) : (
                       teamSummary!.recentEntries.map((entry) => (
                           <div key={entry.id} className="rounded-[16px] border px-4 py-3" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
@@ -1229,7 +1229,7 @@ const TestTracker = () => {
                     </Button>
                     <span className="px-2 text-sm font-medium" style={{ color: COLORS.textColor }}>{getWeekLabel(currentWeek)}</span>
                     <Button variant="outline" size="sm" onClick={handleNextWeek} className="rounded-full" style={{ borderColor: COLORS.borderColor, color: COLORS.primary, backgroundColor: "transparent" }}>
-                      Вперёд
+                      Forward
                     </Button>
                   </div>
                 </div>
@@ -1238,28 +1238,28 @@ const TestTracker = () => {
                   <LockedResultsGate
                     hasAccess={hasPerformanceCoachCrmAccess}
                     hasData={weeklyTests.length > 0}
-                    title="Weekly-результаты заблокированы"
+                    title="Weekly results locked"
                     description="Прохождение weekly-тестов уже доступно, а сводка недели и последние результаты откроются после покупки."
-                    ctaText="Открыть итоги недели"
+                    ctaText="Open weekly summary"
                     minHeightClassName="min-h-[220px]"
                   >
                     <div className="grid gap-3 md:grid-cols-3">
                       <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
-                        <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: COLORS.textColorSecondary }}>В этой неделе</div>
+                        <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: COLORS.textColorSecondary }}>This week</div>
                         <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{currentWeekTestsCount}</div>
-                        <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>всего тестовых записей</div>
+                        <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>total test records</div>
                       </div>
                       <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
                         <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: COLORS.textColorSecondary }}>Weekly</div>
                         <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>{weeklyTests.length}</div>
-                        <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>результатов за неделю</div>
+                        <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>results this week</div>
                       </div>
                       <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
-                        <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: COLORS.textColorSecondary }}>Последний ввод</div>
+                        <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: COLORS.textColorSecondary }}>Last entry</div>
                         <div className="mt-2 text-base font-semibold" style={{ color: COLORS.textColor }}>
                           {recentTests[0] ? formatDate(recentTests[0].date, "d MMMM") : "-"}
                         </div>
-                        <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>самая свежая запись</div>
+                        <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>most recent record</div>
                       </div>
                     </div>
                   </LockedResultsGate>
@@ -1278,8 +1278,8 @@ const TestTracker = () => {
                     <Sparkles className="h-5 w-5" />
                   </div>
                   <div>
-                    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: COLORS.textColorSecondary }}>Рекомендуемые weekly</div>
-                    <h3 className="mt-1 text-xl font-semibold" style={{ color: COLORS.textColor }}>Быстрый доступ к заданиям</h3>
+                    <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: COLORS.textColorSecondary }}>Recommended weekly</div>
+                    <h3 className="mt-1 text-xl font-semibold" style={{ color: COLORS.textColor }}>Quick access to tasks</h3>
                   </div>
                 </div>
 
@@ -1291,14 +1291,14 @@ const TestTracker = () => {
                           <div>
                             <div className="text-lg font-semibold" style={{ color: COLORS.textColor }}>{test.name}</div>
                             <div className="mt-1 text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
-                              Откройте тест и сразу занесите результат в систему, чтобы недельный ритм не терялся.
+                              Open the test and enter the result right away so the weekly rhythm stays intact.
                             </div>
                           </div>
                           <div className="flex gap-2">
                             <a href={test.link} target="_blank" rel="noopener noreferrer">
                               <Button variant="ghost" className="rounded-2xl" style={{ border: `1px solid ${COLORS.borderColor}`, color: COLORS.primary, backgroundColor: "rgba(255,255,255,0.03)" }}>
                                 <ExternalLink className="mr-2 h-4 w-4" />
-                                Открыть
+                                Open
                               </Button>
                             </a>
                             {!isStaff && (
@@ -1314,7 +1314,7 @@ const TestTracker = () => {
                                 }}
                               >
                                 <Plus className="mr-2 h-4 w-4" />
-                                Результат
+                                Result
                               </Button>
                             )}
                           </div>
@@ -1324,7 +1324,7 @@ const TestTracker = () => {
                   </div>
                 ) : (
                   <div className="mt-5 rounded-[22px] border border-dashed p-5" style={{ borderColor: "rgba(0, 227, 150, 0.22)", backgroundColor: "rgba(255,255,255,0.02)" }}>
-                    <p className="text-sm font-medium" style={{ color: COLORS.textColor }}>Список weekly-тестов пока не заполнен</p>
+                    <p className="text-sm font-medium" style={{ color: COLORS.textColor }}>The weekly test list is not filled yet</p>
                     <p className="mt-1 text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
                       Пока можно заносить собственные еженедельные тесты вручную, а позже мы сможем оформить отдельный curated-набор.
                     </p>
@@ -1338,9 +1338,9 @@ const TestTracker = () => {
               hasData={weeklyTests.length > 0 || filteredEntries.length > 0}
               isLoading={isEntriesInitialLoading}
               error={entriesLoadError}
-              title="Weekly-итоги уже сохранены"
+              title="Weekly summary already saved"
               description="Записывать weekly-тесты можно бесплатно. Полный список результатов, score и история недели откроются после покупки."
-              ctaText="Открыть weekly-результаты"
+              ctaText="Open weekly-результаты"
               minHeightClassName="min-h-[520px]"
             >
             {isEntriesInitialLoading ? (
@@ -1370,7 +1370,7 @@ const TestTracker = () => {
                 style={{ backgroundColor: "rgba(255,255,255,0.03)", borderColor: COLORS.borderColor }}
               >
                 <ClipboardList className="mx-auto h-12 w-12" style={{ color: COLORS.primary }} />
-                <h3 className="mt-4 text-xl font-semibold" style={{ color: COLORS.textColor }}>На эту неделю пока нет записанных weekly-тестов</h3>
+                <h3 className="mt-4 text-xl font-semibold" style={{ color: COLORS.textColor }}>No weekly tests recorded for this week yet</h3>
                 <p className="mx-auto mt-2 max-w-xl text-sm leading-7" style={{ color: COLORS.textColorSecondary }}>
                   Смените период или добавьте новый weekly-тест, чтобы эта зона стала вашим быстрым ориентиром по текущей неделе.
                 </p>
@@ -1385,7 +1385,7 @@ const TestTracker = () => {
                     }}
                   >
                     <Plus className="mr-2 h-4 w-4" />
-                    Добавить weekly-тест
+                    Add weekly test
                   </Button>
                 )}
               </section>
@@ -1406,11 +1406,11 @@ const TestTracker = () => {
                           <CalendarIcon className="h-3.5 w-3.5" />
                           {formatDate(test.date, "d MMMM")}
                         </div>
-                        <h3 className="mt-3 text-lg font-semibold" style={{ color: COLORS.textColor }}>{test.name || "Без названия"}</h3>
+                        <h3 className="mt-3 text-lg font-semibold" style={{ color: COLORS.textColor }}>{test.name || "Untitled"}</h3>
                         <p className="mt-2 text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
                           {typeof test.scoreNormalized === "number"
-                            ? "Результат уже зафиксирован и участвует в аналитике."
-                            : "Карточка сохранена без score: результат можно дополнить позже."}
+                            ? "Result уже зафиксирован и участвует в аналитике."
+                            : "The card was saved without a score; you can add the result later."}
                         </p>
                       </div>
                       <div className="rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: "rgba(0, 227, 150, 0.14)", color: "#7EF3D1" }}>
@@ -1457,8 +1457,8 @@ const TestTracker = () => {
                               variant="ghost"
                               size="icon"
                               className="rounded-2xl"
-                              title="Открыть тест"
-                              aria-label={`Открыть тест ${test.name || "без названия"}`}
+                              title="Open тест"
+                              aria-label={`Open тест ${test.name || "без названия"}`}
                               style={{ color: COLORS.primary, border: `1px solid ${COLORS.borderColor}`, backgroundColor: "rgba(255,255,255,0.03)" }}
                             >
                               <ExternalLink className="h-4 w-4" />
@@ -1472,8 +1472,8 @@ const TestTracker = () => {
                                 variant="ghost"
                                 size="icon"
                                 className="rounded-2xl"
-                                title="Открыть скриншот"
-                                aria-label={`Открыть скриншот теста ${test.name || "без названия"}`}
+                                title="Open скриншот"
+                                aria-label={`Open скриншот теста ${test.name || "без названия"}`}
                                 style={{ color: COLORS.primary, border: `1px solid ${COLORS.borderColor}`, backgroundColor: "rgba(255,255,255,0.03)" }}
                               >
                                 <Image className="h-4 w-4" />
@@ -1481,7 +1481,7 @@ const TestTracker = () => {
                             </DialogTrigger>
                             <DialogContent style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
                               <DialogHeader>
-                                <DialogTitle style={{ color: COLORS.textColor }}>Скриншот теста: {test.name}</DialogTitle>
+                                <DialogTitle style={{ color: COLORS.textColor }}>Test screenshot: {test.name}</DialogTitle>
                               </DialogHeader>
                               <img src={test.screenshotUrl} alt={test.name} className="w-full rounded-md" />
                             </DialogContent>
@@ -1495,8 +1495,8 @@ const TestTracker = () => {
                             variant="ghost"
                             size="icon"
                             className="rounded-2xl"
-                            title="Редактировать запись"
-                            aria-label={`Редактировать тест ${test.name || "без названия"}`}
+                            title="Edit record"
+                            aria-label={`Edit test ${test.name || "без названия"}`}
                             style={{ color: COLORS.primary, border: `1px solid ${COLORS.borderColor}`, backgroundColor: "rgba(255,255,255,0.03)" }}
                             onClick={() => handleEdit(test)}
                           >
@@ -1506,8 +1506,8 @@ const TestTracker = () => {
                             variant="ghost"
                             size="icon"
                             className="rounded-2xl"
-                            title="Удалить запись"
-                            aria-label={`Удалить тест ${test.name || "без названия"}`}
+                            title="Delete record"
+                            aria-label={`Delete тест ${test.name || "без названия"}`}
                             style={{ color: COLORS.danger, border: `1px solid ${COLORS.borderColor}`, backgroundColor: "rgba(255,255,255,0.03)" }}
                             onClick={() => handleDelete(test.id)}
                           >
@@ -1542,12 +1542,12 @@ const TestTracker = () => {
               {selectedDateLabel}
             </div>
             <DialogTitle style={{ color: COLORS.textColor }}>
-              {editingTest ? "Редактировать тест" : "Добавить тест"}
+              {editingTest ? "Edit test" : "Add test"}
             </DialogTitle>
             <DialogDescription style={{ color: COLORS.textColorSecondary }}>
               {editingTest
-                ? "Обновите результат, метрики и контекст, чтобы аналитика оставалась чистой."
-                : "Соберите тест в одном месте: базовая информация, score, состояние и игровой контекст."}
+                ? "Update the result, metrics, and context so analytics stay clean."
+                : "Build the test record in one place: basic info, score, condition, and game context."}
             </DialogDescription>
           </DialogHeader>
 
@@ -1561,43 +1561,43 @@ const TestTracker = () => {
                         <ClipboardList className="h-5 w-5" />
                       </div>
                       <div>
-                        <div className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Базовая информация</div>
+                        <div className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Basic information</div>
                         <p className="mt-1 text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
-                          Что это за тест, когда его проходили и относится ли он к недельному ритму.
+                          What test it is, when it was taken, and whether it belongs to the weekly rhythm.
                         </p>
                       </div>
                     </div>
                     <div className="mt-5 space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="name" style={{ color: COLORS.textColor }}>Название теста</Label>
+                        <Label htmlFor="name" style={{ color: COLORS.textColor }}>Test name</Label>
                         <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="rounded-2xl" style={fieldStyle} />
                         <p className="text-xs leading-5" style={{ color: COLORS.textColorSecondary }}>
-                          Можно оставить пустым, если вы фиксируете запись только по типу теста.
+                          Can be left empty if you record only by test type.
                         </p>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="link" style={{ color: COLORS.textColor }}>Ссылка</Label>
+                        <Label htmlFor="link" style={{ color: COLORS.textColor }}>Link</Label>
                         <Input id="link" value={link} onChange={(e) => setLink(e.target.value)} className="rounded-2xl" style={fieldStyle} />
                       </div>
                       <div className="grid gap-4 md:grid-cols-2">
                         <div className="space-y-2">
-                          <Label htmlFor="date" style={{ color: COLORS.textColor }}>Дата</Label>
+                          <Label htmlFor="date" style={{ color: COLORS.textColor }}>Date</Label>
                           <Input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} className="rounded-2xl" style={fieldStyle} />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="testType" style={{ color: COLORS.textColor }}>Тип теста</Label>
+                          <Label htmlFor="testType" style={{ color: COLORS.textColor }}>Test type</Label>
                           <Input id="testType" value={testType} onChange={(e) => setTestType(e.target.value)} className="rounded-2xl" style={fieldStyle} />
                           <p className="text-xs leading-5" style={{ color: COLORS.textColorSecondary }}>
-                            Например: reaction, aim, cognitive, visual_search.
+                            For example: reaction, aim, cognitive, visual_search.
                           </p>
                         </div>
                       </div>
                       <div className="rounded-[20px] border px-4 py-3" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
                         <div className="flex items-center justify-between gap-3">
                           <div>
-                            <div className="text-sm font-medium" style={{ color: COLORS.textColor }}>Еженедельный тест</div>
+                            <div className="text-sm font-medium" style={{ color: COLORS.textColor }}>Weekly test</div>
                             <div className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>
-                              {isWeeklyTest ? "Запись попадёт в weekly-контур." : "Запись останется обычным тестом."}
+                              {isWeeklyTest ? "This record will enter the weekly loop." : "This record will remain a regular test."}
                             </div>
                           </div>
                           <Switch id="weekly-test" checked={isWeeklyTest} onCheckedChange={setIsWeeklyTest} />
@@ -1612,31 +1612,31 @@ const TestTracker = () => {
                         <Gauge className="h-5 w-5" />
                       </div>
                       <div>
-                        <div className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Результат теста</div>
+                        <div className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Result теста</div>
                         <p className="mt-1 text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
-                          Основные метрики, которые потом участвуют в сравнении и аналитике.
+                          Core metrics used later for comparison and analytics.
                         </p>
                       </div>
                     </div>
                     <div className="mt-5 grid gap-4 md:grid-cols-2">
                       <div className="space-y-2">
                         <Label htmlFor="rawScore" style={{ color: COLORS.textColor }}>Raw score</Label>
-                        <Input id="rawScore" placeholder="Например, 42" value={rawScore} onChange={(e) => setRawScore(e.target.value)} inputMode="decimal" className="rounded-2xl" style={fieldStyle} />
+                        <Input id="rawScore" placeholder="For example, 42" value={rawScore} onChange={(e) => setRawScore(e.target.value)} inputMode="decimal" className="rounded-2xl" style={fieldStyle} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="scoreNormalized" style={{ color: COLORS.textColor }}>Нормализованный score</Label>
+                        <Label htmlFor="scoreNormalized" style={{ color: COLORS.textColor }}>Normalized score</Label>
                         <Input id="scoreNormalized" placeholder="0-100" value={scoreNormalized} onChange={(e) => setScoreNormalized(e.target.value)} inputMode="decimal" className="rounded-2xl" style={fieldStyle} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="unit" style={{ color: COLORS.textColor }}>Единица измерения</Label>
+                        <Label htmlFor="unit" style={{ color: COLORS.textColor }}>Unit</Label>
                         <Input id="unit" placeholder="%" value={unit} onChange={(e) => setUnit(e.target.value)} className="rounded-2xl" style={fieldStyle} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="durationSec" style={{ color: COLORS.textColor }}>Длительность, сек.</Label>
-                        <Input id="durationSec" placeholder="Например, 180" value={durationSec} onChange={(e) => setDurationSec(e.target.value)} inputMode="numeric" className="rounded-2xl" style={fieldStyle} />
+                        <Label htmlFor="durationSec" style={{ color: COLORS.textColor }}>Duration, sec.</Label>
+                        <Input id="durationSec" placeholder="For example, 180" value={durationSec} onChange={(e) => setDurationSec(e.target.value)} inputMode="numeric" className="rounded-2xl" style={fieldStyle} />
                       </div>
                       <div className="space-y-2 md:col-span-2">
-                        <Label htmlFor="attempts" style={{ color: COLORS.textColor }}>Количество попыток</Label>
+                        <Label htmlFor="attempts" style={{ color: COLORS.textColor }}>Attempt count</Label>
                         <Input id="attempts" placeholder="1" value={attempts} onChange={(e) => setAttempts(e.target.value)} inputMode="numeric" className="rounded-2xl" style={fieldStyle} />
                       </div>
                     </div>
@@ -1650,35 +1650,35 @@ const TestTracker = () => {
                         <Brain className="h-5 w-5" />
                       </div>
                       <div>
-                        <div className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Срез состояния</div>
+                        <div className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Condition snapshot</div>
                         <p className="mt-1 text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
-                          Что было с ресурсом и концентрацией в момент выполнения.
+                          Resource and focus state at the time of completion.
                         </p>
                       </div>
                     </div>
                     <div className="mt-5 grid gap-4 md:grid-cols-3">
                       <div className="space-y-2">
-                        <Label htmlFor="fatigue" style={{ color: COLORS.textColor }}>Усталость</Label>
+                        <Label htmlFor="fatigue" style={{ color: COLORS.textColor }}>Fatigue</Label>
                         <Input id="fatigue" placeholder="0-10" value={fatigue} onChange={(e) => setFatigue(e.target.value)} inputMode="decimal" className="rounded-2xl" style={fieldStyle} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="focus" style={{ color: COLORS.textColor }}>Фокус</Label>
+                        <Label htmlFor="focus" style={{ color: COLORS.textColor }}>Focus</Label>
                         <Input id="focus" placeholder="0-10" value={focus} onChange={(e) => setFocus(e.target.value)} inputMode="decimal" className="rounded-2xl" style={fieldStyle} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="stress" style={{ color: COLORS.textColor }}>Стресс</Label>
+                        <Label htmlFor="stress" style={{ color: COLORS.textColor }}>Stress</Label>
                         <Input id="stress" placeholder="0-10" value={stress} onChange={(e) => setStress(e.target.value)} inputMode="decimal" className="rounded-2xl" style={fieldStyle} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="sleepHours" style={{ color: COLORS.textColor }}>Сон, часы</Label>
-                        <Input id="sleepHours" placeholder="Например, 7.5" value={sleepHours} onChange={(e) => setSleepHours(e.target.value)} inputMode="decimal" className="rounded-2xl" style={fieldStyle} />
+                        <Label htmlFor="sleepHours" style={{ color: COLORS.textColor }}>Sleep, часы</Label>
+                        <Input id="sleepHours" placeholder="For example, 7.5" value={sleepHours} onChange={(e) => setSleepHours(e.target.value)} inputMode="decimal" className="rounded-2xl" style={fieldStyle} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="snapshotMood" style={{ color: COLORS.textColor }}>Настроение</Label>
+                        <Label htmlFor="snapshotMood" style={{ color: COLORS.textColor }}>Mood</Label>
                         <Input id="snapshotMood" placeholder="0-10" value={snapshotMood} onChange={(e) => setSnapshotMood(e.target.value)} inputMode="decimal" className="rounded-2xl" style={fieldStyle} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="snapshotEnergy" style={{ color: COLORS.textColor }}>Энергия</Label>
+                        <Label htmlFor="snapshotEnergy" style={{ color: COLORS.textColor }}>Energy</Label>
                         <Input id="snapshotEnergy" placeholder="0-10" value={snapshotEnergy} onChange={(e) => setSnapshotEnergy(e.target.value)} inputMode="decimal" className="rounded-2xl" style={fieldStyle} />
                       </div>
                     </div>
@@ -1690,24 +1690,24 @@ const TestTracker = () => {
                         <LinkIcon className="h-5 w-5" />
                       </div>
                       <div>
-                        <div className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Игровой контекст</div>
+                        <div className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Game context</div>
                         <p className="mt-1 text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
-                          Если тест связан с конкретной ролью, картой или типом игры, лучше зафиксировать это сразу.
+                          If the test relates to a role, map, or game type, capture it right away.
                         </p>
                       </div>
                     </div>
                     <div className="mt-5 grid gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="matchType" style={{ color: COLORS.textColor }}>Тип матча</Label>
-                        <Input id="matchType" placeholder="Например, scrim или officials" value={matchType} onChange={(e) => setMatchType(e.target.value)} className="rounded-2xl" style={fieldStyle} />
+                        <Label htmlFor="matchType" style={{ color: COLORS.textColor }}>Match type</Label>
+                        <Input id="matchType" placeholder="For example, scrim или officials" value={matchType} onChange={(e) => setMatchType(e.target.value)} className="rounded-2xl" style={fieldStyle} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="contextMap" style={{ color: COLORS.textColor }}>Карта</Label>
-                        <Input id="contextMap" placeholder="Например, Mirage" value={contextMap} onChange={(e) => setContextMap(e.target.value)} className="rounded-2xl" style={fieldStyle} />
+                        <Label htmlFor="contextMap" style={{ color: COLORS.textColor }}>Map</Label>
+                        <Input id="contextMap" placeholder="For example, Mirage" value={contextMap} onChange={(e) => setContextMap(e.target.value)} className="rounded-2xl" style={fieldStyle} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="contextRole" style={{ color: COLORS.textColor }}>Роль</Label>
-                        <Input id="contextRole" placeholder="Например, IGL" value={contextRole} onChange={(e) => setContextRole(e.target.value)} className="rounded-2xl" style={fieldStyle} />
+                        <Label htmlFor="contextRole" style={{ color: COLORS.textColor }}>Role</Label>
+                        <Input id="contextRole" placeholder="For example, IGL" value={contextRole} onChange={(e) => setContextRole(e.target.value)} className="rounded-2xl" style={fieldStyle} />
                       </div>
                     </div>
                   </div>
@@ -1731,7 +1731,7 @@ const TestTracker = () => {
               disabled={isLoading}
               style={{ borderColor: COLORS.borderColor, color: COLORS.textColor }}
             >
-              Отмена
+              Cancel
             </Button>
             <Button 
               type="submit" 
@@ -1743,9 +1743,9 @@ const TestTracker = () => {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Сохраняем...
+                  Saving...
                 </>
-              ) : editingTest ? "Сохранить" : "Добавить"}
+              ) : editingTest ? "Save" : "Add"}
             </Button>
           </DialogFooter>
         </DialogContent>

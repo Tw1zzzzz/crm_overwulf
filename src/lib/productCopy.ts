@@ -1,30 +1,30 @@
 export const PRODUCT_BRAND_NAME = "Atlant Technology";
 export const PRODUCT_NAME = "Performance CRM";
 export const PRODUCT_DESCRIPTOR =
-  "Платформа для мониторинга состояния и результативности киберспортивных игроков и команд";
+  "A platform for monitoring esports player and team condition, rhythm, and performance";
 
 export const PRODUCT_PLAYER_OUTCOMES = [
-  "Понимать своё текущее состояние и замечать спад формы раньше, чем он скажется на игре.",
-  "Фиксировать восстановление, тесты и игровые сигналы в одном рабочем ритме.",
-  "Получать понятные подсказки: что сделать сегодня, чтобы сохранить форму.",
+  "Understand your current condition and notice form drops before they affect your game.",
+  "Track recovery, tests, and game signals in one working rhythm.",
+  "Get clear prompts for what to do today to protect your form.",
 ];
 
 export const PRODUCT_STAFF_OUTCOMES = [
-  "Видеть картину по команде и быстро находить игроков, которым нужно внимание.",
-  "Замечать риск-сигналы по восстановлению, форме и игровому ритму без ручного сбора данных.",
-  "Быстрее принимать решения по составу, нагрузке и ежедневной работе с игроками.",
+  "See the team picture and quickly find players who need attention.",
+  "Catch risk signals across recovery, form, and game rhythm without manual data collection.",
+  "Make faster decisions on roster, workload, and daily player work.",
 ];
 
 export const PRODUCT_PLAYER_JOURNEY = [
-  "Создаёте аккаунт и сразу попадаете в понятный стартовый сценарий.",
-  "Заполняете быстрый профиль, ежедневную проверку восстановления и первые тесты.",
-  "Получаете базовый сигнал по форме сразу, а расширенную аналитику открываете по мере необходимости.",
+  "Create an account and land in a clear first-run flow.",
+  "Fill in a quick profile, daily recovery check, and first tests.",
+  "Get a basic form signal right away, then unlock deeper analytics when needed.",
 ];
 
 export const PRODUCT_STAFF_JOURNEY = [
-  "Подключаете команду и открываете обзор по состоянию и активности состава.",
-  "Смотрите, у кого проседает восстановление, тестовый ритм или игровая динамика.",
-  "Переходите к составу, карточкам игроков и настройкам доступа только когда это действительно нужно.",
+  "Connect a team and open the overview of roster condition and activity.",
+  "See whose recovery, test rhythm, or game dynamics are dropping.",
+  "Move to roster, player cards, and access settings only when they are actually needed.",
 ];
 
 export type ProductPlanPresentation = {
@@ -35,43 +35,43 @@ export type ProductPlanPresentation = {
 };
 
 const DEFAULT_PLAN_PRESENTATION: ProductPlanPresentation = {
-  audience: "Для игроков и staff",
-  outcome: "Даёт более глубокую картину по состоянию, результатам и динамике команды.",
-  preview: "До оплаты остаётся базовый обзор и ранние сигналы, чтобы пользователь видел пользу ещё до покупки.",
-  unlockLabel: "Что откроется",
+  audience: "For players and staff",
+  outcome: "Gives a deeper view of condition, results, and team dynamics.",
+  preview: "Before payment, the basic overview and early signals stay visible so the value is clear.",
+  unlockLabel: "What unlocks",
 };
 
 export const getPlanPresentation = (planName: string): ProductPlanPresentation => {
   if (planName.startsWith("PerformanceCoach CRM")) {
     return {
-      audience: "Для игрока и staff, которым нужен полный рабочий контур",
+      audience: "For players and staff who need the full working loop",
       outcome:
-        "Показывает стартовый профиль игрока, историю восстановления, тестовые сигналы и расширенную расшифровку формы.",
+        "Shows the player baseline profile, recovery history, test signals, and deeper form interpretation.",
       preview:
-        "До покупки пользователь видит базовый summary и первые сигналы, а после оплаты открывает полную интерпретацию и историю.",
-      unlockLabel: "Что получите после оплаты",
+        "Before purchase, users see the basic summary and first signals; after payment, full interpretation and history open up.",
+      unlockLabel: "What you get after payment",
     };
   }
 
-  if (planName.startsWith("Корреляционный анализ")) {
+  if (planName.startsWith("Correlation analysis")) {
     return {
-      audience: "Для тех, кто хочет понять, что сильнее всего влияет на форму",
+      audience: "For users who want to understand what affects form the most",
       outcome:
-        "Показывает, какие факторы состояния заметнее всего связаны с ростом или просадкой игровой формы.",
+        "Shows which condition factors are most strongly connected with form growth or drops.",
       preview:
-        "До оплаты пользователь видит базовую динамику, а здесь открывает причинно-подобные связи и расширенный разбор факторов.",
-      unlockLabel: "Что откроется глубже",
+        "Before payment, users see basic dynamics; this unlocks relationship patterns and deeper factor analysis.",
+      unlockLabel: "What opens deeper",
     };
   }
 
-  if (planName.startsWith("Игровая статистика")) {
+  if (planName.startsWith("Game statistics")) {
     return {
-      audience: "Для staff и игроков, которым нужна витрина матчевых метрик",
+      audience: "For staff and players who need a match metrics workspace",
       outcome:
-        "Собирает игровые показатели в одну понятную таблицу, чтобы быстрее видеть сильные и слабые стороны по периоду.",
+        "Collects game indicators into one clear table so strengths and weak spots are easier to read by period.",
       preview:
-        "До оплаты остаётся ограниченный контекст по форме, а после покупки открываются таблицы, фильтры и полная витрина игровых метрик.",
-      unlockLabel: "Что станет доступно",
+        "Before payment, limited form context remains; after purchase, tables, filters, and the full game metrics view open up.",
+      unlockLabel: "What becomes available",
     };
   }
 

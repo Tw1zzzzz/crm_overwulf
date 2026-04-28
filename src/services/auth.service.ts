@@ -113,10 +113,10 @@ export class AuthService {
                 typeof profile?.label === 'string' && profile.label.trim()
                   ? profile.label
                   : profileRole === 'staff'
-                    ? 'Стафф / Team'
+                    ? 'Staff / Team'
                     : profilePlayerType === 'solo'
-                      ? 'Игрок / Solo'
-                      : 'Игрок / Team',
+                      ? 'Player / Solo'
+                      : 'Player / Team',
               role: profileRole,
               playerType: profilePlayerType,
               teamId: profile?.teamId ? String(profile.teamId) : null,
@@ -136,10 +136,10 @@ export class AuthService {
               key: `${normalizedRole}_${normalizedPlayerType || 'team'}`,
               label:
                 normalizedRole === 'staff'
-                  ? 'Стафф / Team'
+                  ? 'Staff / Team'
                   : normalizedPlayerType === 'solo'
-                    ? 'Игрок / Solo'
-                    : 'Игрок / Team',
+                    ? 'Player / Solo'
+                    : 'Player / Team',
               role: normalizedRole,
               playerType: normalizedPlayerType || 'team',
               teamId: normalizedRawUser.teamId ? String(normalizedRawUser.teamId) : null,
@@ -234,7 +234,7 @@ export class AuthService {
       if (!response.token || !normalizedUser) {
         return {
           success: false,
-          error: 'Неверный ответ от сервера'
+          error: 'Invalid server response'
         };
       }
 
@@ -287,7 +287,7 @@ export class AuthService {
 
       return {
         success: false,
-        error: 'Неверный ответ от сервера'
+        error: 'Invalid server response'
       };
     } catch (error) {
       const apiError = error as ApiError;
@@ -316,7 +316,7 @@ export class AuthService {
 
       return {
         success: false,
-        error: 'Неверный ответ от сервера'
+        error: 'Invalid server response'
       };
     } catch (error) {
       const apiError = error as ApiError;
@@ -501,7 +501,7 @@ export class AuthService {
       if (!response.avatar) {
         return {
           success: false,
-          error: 'Сервер не вернул путь к аватару'
+          error: 'Server did not return an avatar path'
         };
       }
 

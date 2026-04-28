@@ -251,11 +251,11 @@ const GameStatsPage: React.FC = () => {
           const playersData = await response.json();
           setPlayers(playersData || []);
         } else {
-          console.error('Ошибка загрузки игроков:', response.statusText);
+          console.error('Player loading error:', response.statusText);
         }
       } catch (error) {
-        console.error('Ошибка загрузки игроков:', error);
-        toast.error('Ошибка при загрузке списка игроков');
+        console.error('Player loading error:', error);
+        toast.error('Error при загрузке списка игроков');
       } finally {
         setLoadingPlayers(false);
       }
@@ -268,8 +268,8 @@ const GameStatsPage: React.FC = () => {
     return entries.map((entry, index) => {
       const userName =
         typeof entry.userId === 'object' && entry.userId !== null
-          ? entry.userId.name || 'Игрок'
-          : 'Игрок';
+          ? entry.userId.name || 'Player'
+          : 'Player';
       const dateLabel = new Date(entry.date).toLocaleDateString('ru-RU');
       return {
         ...entry,
@@ -384,7 +384,7 @@ const GameStatsPage: React.FC = () => {
         values: entries.map((e) => formatNullable(e.firstDeaths ?? null, 2))
       },
       {
-        label: 'Разница опен дуэлей',
+        label: 'Opening duel difference',
         summary: formatNullable(avgOpeningDuelDiff, 2),
         values: entries.map((e) =>
           formatNullable(
@@ -455,7 +455,7 @@ const GameStatsPage: React.FC = () => {
     }
 
     if (gameStatsMode === 'individual' && isStaff && !gameStatsPlayerId) {
-      toast.error('Выберите игрока для индивидуальной таблицы');
+      toast.error('Select player для индивидуальной таблицы');
       return;
     }
 
@@ -480,7 +480,7 @@ const GameStatsPage: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`Ошибка загрузки таблицы (${response.status})`);
+        throw new Error(`Error загрузки таблицы (${response.status})`);
       }
 
       const result = await response.json();
@@ -506,7 +506,7 @@ const GameStatsPage: React.FC = () => {
           : players.find((p) => p._id === gameStatsPlayerId)?.name || 'игрока';
       toast.success(`Таблица игровых показателей для ${targetLabel} обновлена`);
     } catch (error: any) {
-      console.error('[GameStatsPage] Ошибка загрузки таблицы игровых показателей:', error);
+      console.error('[GameStatsPage] Error загрузки таблицы игровых показателей:', error);
       toast.error(error?.message || 'Не удалось загрузить таблицу игровых показателей');
     } finally {
       setGameStatsLoading(false);
@@ -527,7 +527,7 @@ const GameStatsPage: React.FC = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Ошибка при сохранении данных');
+        throw new Error(errorData.message || 'Error при сохранении данных');
       }
 
       await response.json();
@@ -535,7 +535,7 @@ const GameStatsPage: React.FC = () => {
 
       await fetchGameStatsTemplate();
     } catch (error: any) {
-      console.error('[GameStatsPage] Ошибка сохранения игровых показателей:', error);
+      console.error('[GameStatsPage] Error сохранения игровых показателей:', error);
       throw error;
     }
   };
@@ -588,9 +588,9 @@ const GameStatsPage: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-3 xl:min-w-[420px]">
             <div className="rounded-[22px] border p-4" style={{ backgroundColor: 'rgba(9, 14, 26, 0.34)', borderColor: 'rgba(148, 163, 184, 0.18)' }}>
-              <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: 'rgba(191, 219, 254, 0.78)' }}>Режим</div>
+              <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: 'rgba(191, 219, 254, 0.78)' }}>Mode</div>
               <div className="mt-2 text-lg font-semibold" style={{ color: COLORS.textColor }}>
-                {gameStatsMode === 'team' ? 'Команда' : 'Игрок'}
+                {gameStatsMode === 'team' ? 'Team' : 'Player'}
               </div>
             </div>
             <div className="rounded-[22px] border p-4" style={{ backgroundColor: 'rgba(9, 14, 26, 0.34)', borderColor: 'rgba(148, 163, 184, 0.18)' }}>
@@ -643,7 +643,7 @@ const GameStatsPage: React.FC = () => {
           >
             <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
               <div className="space-y-2">
-                <Label style={{ color: COLORS.textColor }}>Режим</Label>
+                <Label style={{ color: COLORS.textColor }}>Mode</Label>
                 <Select
                   value={gameStatsMode}
                   onValueChange={(value: 'team' | 'individual') => setGameStatsMode(value)}
@@ -654,20 +654,20 @@ const GameStatsPage: React.FC = () => {
                   </SelectTrigger>
                   <SelectContent style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, color: COLORS.textColor }}>
                     <SelectItem value="individual">Один игрок</SelectItem>
-                    {allowTeamMode && <SelectItem value="team">Команда</SelectItem>}
+                    {allowTeamMode && <SelectItem value="team">Team</SelectItem>}
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label style={{ color: COLORS.textColor }}>Игрок</Label>
+                <Label style={{ color: COLORS.textColor }}>Player</Label>
                 <Select
                   value={gameStatsPlayerId}
                   onValueChange={setGameStatsPlayerId}
                   disabled={!showPlayerSelect || gameStatsMode !== 'individual' || loadingPlayers}
                 >
                   <SelectTrigger style={inputStyle}>
-                    <SelectValue placeholder={gameStatsMode === 'individual' ? 'Выберите игрока' : 'Только для режима игрока'} />
+                    <SelectValue placeholder={gameStatsMode === 'individual' ? 'Select player' : 'Только для режима игрока'} />
                   </SelectTrigger>
                   <SelectContent style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, color: COLORS.textColor }}>
                     {players.map((player) => (
@@ -692,7 +692,7 @@ const GameStatsPage: React.FC = () => {
               <div className="space-y-2">
                 <Label style={{ color: COLORS.textColor }}>Действие</Label>
                 <Button className="h-10 w-full rounded-2xl" onClick={fetchGameStatsTemplate} disabled={gameStatsLoading} style={{ backgroundColor: COLORS.primary, color: 'white' }}>
-                  {gameStatsLoading ? 'Загрузка...' : 'Обновить таблицу'}
+                  {gameStatsLoading ? 'Loading...' : 'Update таблицу'}
                 </Button>
               </div>
             </div>
@@ -747,7 +747,7 @@ const GameStatsPage: React.FC = () => {
                       className="px-4 py-10 text-center text-sm"
                       style={{ color: COLORS.textColorSecondary }}
                     >
-                      Нажмите "Обновить таблицу", чтобы загрузить игровые показатели.
+                      Нажмите "Update таблицу", чтобы загрузить игровые показатели.
                     </td>
                   </tr>
                 )}

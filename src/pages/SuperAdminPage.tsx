@@ -84,7 +84,7 @@ const actionLabels: Record<string, string> = {
   grant_team_subscription: "Выдача тарифа команде",
   send_password_reset: "Сброс пароля",
   block_user: "Блокировка пользователя",
-  unblock_user: "Разблокировка пользователя",
+  unblock_user: "User unblocked",
 };
 
 const OverviewCard = ({ title, value, hint }: { title: string; value: number; hint?: string }) => (
@@ -280,8 +280,8 @@ const SuperAdminPage = () => {
   const handleStatusChange = async (user: AdminUserRow, nextIsActive: boolean) => {
     const confirmation = window.confirm(
       nextIsActive
-        ? `Разблокировать пользователя ${user.name}?`
-        : `Заблокировать пользователя ${user.name}?`
+        ? `Unblock пользователя ${user.name}?`
+        : `Block пользователя ${user.name}?`
     );
 
     if (!confirmation) {
@@ -295,7 +295,7 @@ const SuperAdminPage = () => {
         reason: nextIsActive ? undefined : statusReason || "Заблокирован супер-администратором",
       });
       setStatusReason("");
-      toast.success(nextIsActive ? "Пользователь разблокирован" : "Пользователь заблокирован");
+      toast.success(nextIsActive ? "User разблокирован" : "User заблокирован");
       await Promise.all([loadUsers(), loadDashboard(dashboardWindow), loadAudit()]);
     } catch (error: unknown) {
       toast.error(getErrorMessage(error, "Не удалось обновить статус пользователя"));
@@ -330,7 +330,7 @@ const SuperAdminPage = () => {
             className="w-full md:w-80"
           />
           <Button onClick={() => void refreshAll()} disabled={loading || actionLoading}>
-            Обновить
+            Update
           </Button>
         </div>
       </div>
@@ -346,7 +346,7 @@ const SuperAdminPage = () => {
         <TabsContent value="overview" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             <OverviewCard title="Всего пользователей" value={dashboard?.totals.users || 0} />
-            <OverviewCard title="Игроки" value={dashboard?.totals.players || 0} />
+            <OverviewCard title="Playerи" value={dashboard?.totals.players || 0} />
             <OverviewCard title="Staff" value={dashboard?.totals.staff || 0} />
             <OverviewCard title="Активные аккаунты" value={dashboard?.totals.active || 0} hint={`Заблокировано: ${dashboard?.totals.blocked || 0}`} />
             <OverviewCard title="Новых за 7 дней" value={dashboard?.totals.newUsers7d || 0} />
@@ -398,10 +398,10 @@ const SuperAdminPage = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Пользователь</TableHead>
+                    <TableHead>User</TableHead>
                     <TableHead>Роль</TableHead>
-                    <TableHead>Статус</TableHead>
-                    <TableHead>Дата</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Date</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -451,7 +451,7 @@ const SuperAdminPage = () => {
                 </Select>
                 <Select value={filters.isActive} onValueChange={(value) => setFilters((prev) => ({ ...prev, isActive: value }))}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Статус" />
+                    <SelectValue placeholder="Status" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Все статусы</SelectItem>
@@ -471,10 +471,10 @@ const SuperAdminPage = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Пользователь</TableHead>
+                      <TableHead>User</TableHead>
                       <TableHead>Роль</TableHead>
                       <TableHead>Тариф</TableHead>
-                      <TableHead>Статус</TableHead>
+                      <TableHead>Status</TableHead>
                       <TableHead>Действия</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -521,7 +521,7 @@ const SuperAdminPage = () => {
                               onClick={() => void handleStatusChange(user, !user.isActive)}
                               disabled={actionLoading}
                             >
-                              {user.isActive ? "Заблокировать" : "Разблокировать"}
+                              {user.isActive ? "Block" : "Unblock"}
                             </Button>
                           </div>
                         </TableCell>
@@ -546,7 +546,7 @@ const SuperAdminPage = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Команда</TableHead>
+                      <TableHead>Team</TableHead>
                       <TableHead>Владелец</TableHead>
                       <TableHead>Состав</TableHead>
                       <TableHead>Действия</TableHead>
@@ -572,7 +572,7 @@ const SuperAdminPage = () => {
                           )}
                         </TableCell>
                         <TableCell>
-                          <div>Игроки: {team.playerCount}/{team.playerLimit}</div>
+                          <div>Playerи: {team.playerCount}/{team.playerLimit}</div>
                           <div className="text-xs text-muted-foreground">Staff: {team.staffCount}</div>
                         </TableCell>
                         <TableCell>
@@ -594,7 +594,7 @@ const SuperAdminPage = () => {
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Журнал действий</CardTitle>
               <Button variant="outline" onClick={() => void loadAudit()} disabled={auditLoading}>
-                Обновить журнал
+                Update журнал
               </Button>
             </CardHeader>
             <CardContent>
@@ -607,7 +607,7 @@ const SuperAdminPage = () => {
                       <TableHead>Действие</TableHead>
                       <TableHead>Актор</TableHead>
                       <TableHead>Цель</TableHead>
-                      <TableHead>Дата</TableHead>
+                      <TableHead>Date</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>

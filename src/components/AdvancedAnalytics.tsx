@@ -84,7 +84,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
         <CardContent className="pt-6">
           <div className="text-center text-gray-500">
             <Brain className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-            <p>Расширенная аналитика доступна только персоналу</p>
+            <p>Advanced analytics доступна только персоналу</p>
           </div>
         </CardContent>
       </Card>
@@ -122,12 +122,12 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
 
       toast({
         title: "Данные обновлены",
-        description: "Расширенная аналитика успешно загружена",
+        description: "Advanced analytics успешно загружена",
       });
     } catch (error) {
-      console.error('Ошибка загрузки данных:', error);
+      console.error('Error загрузки данных:', error);
       toast({
-        title: "Ошибка",
+        title: "Error",
         description: "Не удалось загрузить данные аналитики",
         variant: "destructive",
       });
@@ -136,7 +136,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
     }
   };
 
-  // Загрузка комплексного отчета
+  // Загрузка комплексного reportа
   const loadComprehensiveReport = async () => {
     setLoading(true);
     try {
@@ -153,10 +153,10 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
         description: "Комплексный анализ готов",
       });
     } catch (error) {
-      console.error('Ошибка генерации отчета:', error);
+      console.error('Error генерации reportа:', error);
       toast({
-        title: "Ошибка",
-        description: "Не удалось сгенерировать отчет",
+        title: "Error",
+        description: "Не удалось сгенерировать report",
         variant: "destructive",
       });
     } finally {
@@ -205,14 +205,14 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
       await pdfExporter.exportSentimentAnalysis(sentimentData);
       
       toast({
-        title: "Экспорт завершен",
-        description: "PDF отчет анализа тональности сохранен",
+        title: "Export complete",
+        description: "PDF report анализа тональности сохранен",
       });
     } catch (error) {
-      console.error('Ошибка экспорта PDF:', error);
+      console.error('Error экспорта PDF:', error);
       toast({
-        title: "Ошибка экспорта",
-        description: "Не удалось создать PDF отчет",
+        title: "Error экспорта",
+        description: "Failed to create PDF report",
         variant: "destructive",
       });
     }
@@ -224,14 +224,14 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
       await excelExporter.exportSentimentAnalysis(sentimentData);
       
       toast({
-        title: "Экспорт завершен",
+        title: "Export complete",
         description: "Excel файл анализа тональности сохранен",
       });
     } catch (error) {
-      console.error('Ошибка экспорта Excel:', error);
+      console.error('Error экспорта Excel:', error);
       toast({
-        title: "Ошибка экспорта",
-        description: "Не удалось создать Excel файл",
+        title: "Error экспорта",
+        description: "Failed to create Excel file",
         variant: "destructive",
       });
     }
@@ -243,14 +243,14 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
       await excelExporter.exportPlayerClustering(clusterData);
       
       toast({
-        title: "Экспорт завершен",
+        title: "Export complete",
         description: "Excel файл кластеризации сохранен",
       });
     } catch (error) {
-      console.error('Ошибка экспорта Excel:', error);
+      console.error('Error экспорта Excel:', error);
       toast({
-        title: "Ошибка экспорта",
-        description: "Не удалось создать Excel файл",
+        title: "Error экспорта",
+        description: "Failed to create Excel file",
         variant: "destructive",
       });
     }
@@ -262,14 +262,14 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
       await excelExporter.exportTimeSeriesAnalysis(timeSeriesData);
       
       toast({
-        title: "Экспорт завершен",
+        title: "Export complete",
         description: "Excel файл временных рядов сохранен",
       });
     } catch (error) {
-      console.error('Ошибка экспорта Excel:', error);
+      console.error('Error экспорта Excel:', error);
       toast({
-        title: "Ошибка экспорта",
-        description: "Не удалось создать Excel файл",
+        title: "Error экспорта",
+        description: "Failed to create Excel file",
         variant: "destructive",
       });
     }
@@ -283,7 +283,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
            totalReports: sentimentData?.length || 0,
            avgSentiment: sentimentData?.reduce((sum, item) => sum + item.overallSentiment, 0) / (sentimentData?.length || 1),
            strongCorrelations: clusterData?.clusters?.length || 0,
-           dominantCluster: clusterData?.clusters?.[0]?.name || 'Не определен',
+           dominantCluster: clusterData?.clusters?.[0]?.name || 'Not defined',
            weeklyTrend: timeSeriesData?.[0]?.trend?.direction === 'upward' ? 'improving' : 
                        timeSeriesData?.[0]?.trend?.direction === 'downward' ? 'declining' : 'stable'
          },
@@ -292,14 +292,14 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
       });
       
       toast({
-        title: "Экспорт завершен",
-        description: "Комплексный отчет аналитики сохранен",
+        title: "Export complete",
+        description: "Комплексный report аналитики сохранен",
       });
     } catch (error) {
-      console.error('Ошибка экспорта отчета:', error);
+      console.error('Error экспорта reportа:', error);
       toast({
-        title: "Ошибка экспорта",
-        description: "Не удалось создать комплексный отчет",
+        title: "Error экспорта",
+        description: "Не удалось создать комплексный report",
         variant: "destructive",
       });
     }
@@ -365,7 +365,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
       {/* Заголовок и фильтры */}
       <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">🧠 Расширенная аналитика</h2>
+          <h2 className="text-2xl font-bold tracking-tight">🧠 Advanced analytics</h2>
           <p className="text-gray-600">Машинное обучение и предиктивная аналитика</p>
         </div>
 
@@ -421,7 +421,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
 
           <Button onClick={loadData} disabled={loading} className="flex items-center gap-2">
             <RefreshCw className={cn("w-4 h-4", loading && "animate-spin")} />
-            Обновить
+            Update
           </Button>
         </div>
       </div>
@@ -528,7 +528,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Eye className="w-5 h-5" />
-                Анализ сентимента отчетов
+                Анализ сентимента reportов
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -564,7 +564,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
                           <h4 className="font-medium line-clamp-2">{analysis.reportTitle}</h4>
                           <Badge className={getSentimentColor(analysis.overallSentiment)}>
                             {analysis.overallSentiment === 'positive' ? 'Позитивный' :
-                             analysis.overallSentiment === 'negative' ? 'Негативный' : 'Нейтральный'}
+                             analysis.overallSentiment === 'negative' ? 'Негативный' : 'Neutral'}
                           </Badge>
                         </div>
 
@@ -575,18 +575,18 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
 
                         <div className="space-y-2">
                           <div className="flex items-center justify-between text-xs">
-                            <span>Радость</span>
+                            <span>Joy</span>
                             <span>{(analysis.emotionalTone.joy * 100).toFixed(0)}%</span>
                           </div>
                           <div className="flex items-center justify-between text-xs">
-                            <span>Уверенность</span>
+                            <span>Confidence</span>
                             <span>{(analysis.emotionalTone.confidence * 100).toFixed(0)}%</span>
                           </div>
                         </div>
 
                         {analysis.recommendedActions.length > 0 && (
                           <div className="pt-2 border-t">
-                            <p className="text-xs font-medium text-gray-600 mb-1">Рекомендации:</p>
+                            <p className="text-xs font-medium text-gray-600 mb-1">Recommendations:</p>
                             <p className="text-xs text-gray-500">{analysis.recommendedActions[0]}</p>
                           </div>
                         )}
@@ -643,8 +643,8 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
                             <Badge 
                               variant={cluster.characteristics.responsiveness === 'high' ? 'default' : 'secondary'}
                             >
-                              {cluster.characteristics.responsiveness === 'high' ? 'Высокая' :
-                               cluster.characteristics.responsiveness === 'medium' ? 'Средняя' : 'Низкая'}
+                              {cluster.characteristics.responsiveness === 'high' ? 'High' :
+                               cluster.characteristics.responsiveness === 'medium' ? 'Medium' : 'Low'}
                             </Badge>
                           </div>
                         </div>
@@ -678,7 +678,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
               <CardTitle className="flex items-center gap-2">
                 <BarChart3 className="w-5 h-5" />
                 Анализ временных рядов: {selectedMetric === 'mood' ? 'Настроение' : 
-                                         selectedMetric === 'balance' ? 'Баланс' : 'Активность'}
+                                         selectedMetric === 'balance' ? 'Balance' : 'Activity'}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -823,17 +823,17 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
           </Card>
         </TabsContent>
 
-        {/* Комплексный отчет */}
+        {/* Комплексный report */}
         <TabsContent value="comprehensive" className="space-y-4">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">Комплексный аналитический отчет</h3>
+            <h3 className="text-lg font-semibold">Комплексный аналитический report</h3>
             <Button 
               onClick={loadComprehensiveReport} 
               disabled={loading}
               className="flex items-center gap-2"
             >
               <RefreshCw className={cn("w-4 h-4", loading && "animate-spin")} />
-              Сгенерировать отчет
+              Сгенерировать report
             </Button>
           </div>
 

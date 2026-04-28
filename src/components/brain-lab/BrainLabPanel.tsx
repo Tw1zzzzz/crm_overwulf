@@ -39,9 +39,9 @@ import { PRODUCT_NAME } from "@/lib/productCopy";
 const PANEL_BG = "linear-gradient(160deg, rgba(8, 13, 27, 0.98), rgba(11, 28, 49, 0.94) 48%, rgba(4, 18, 23, 0.96))";
 
 const domainLabels: Record<string, string> = {
-  attention: "Внимание",
+  attention: "Attention",
   reaction_inhibition: "Реакция и контроль",
-  working_memory: "Рабочая память",
+  working_memory: "Working memory",
   flexibility: "Переключение",
   visuospatial: "Пространственная память"
 };
@@ -1341,7 +1341,7 @@ const BrainLabPanel = ({ hasResultsAccess = true }: BrainLabPanelProps) => {
     } catch (error: any) {
       console.error("Error completing brain attempt:", error);
       toast({
-        title: "Ошибка завершения теста",
+        title: "Error завершения теста",
         description: error?.message || "Мы не смогли сохранить результат текущего теста.",
         variant: "destructive"
       });
@@ -1414,7 +1414,7 @@ const BrainLabPanel = ({ hasResultsAccess = true }: BrainLabPanelProps) => {
             </div>
           </div>
           <div className="min-h-[172px] rounded-[28px] border border-white/8 bg-white/[0.04] p-5">
-            <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">Статус</div>
+            <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">Status</div>
             <div className="mt-4 text-[2rem] font-semibold leading-tight text-slate-50">
               {summary?.calibrationStatus === "ready" ? "Ready" : "Калибровка"}
             </div>
@@ -1527,7 +1527,7 @@ const BrainLabPanel = ({ hasResultsAccess = true }: BrainLabPanelProps) => {
                 <div className="mt-2 text-sm leading-6 text-slate-400">Валидных батарей: {summary?.validBatteryCount ?? 0}</div>
               </div>
               <div className="rounded-[24px] border border-white/8 bg-white/[0.04] p-5">
-                <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">Статус</div>
+                <div className="text-[11px] uppercase tracking-[0.22em] text-slate-400">Status</div>
                 <div className="mt-3 text-3xl font-semibold text-slate-50">{summary?.calibrationStatus === "ready" ? "Ready" : "Калибровка"}</div>
                 <div className="mt-2 text-sm leading-6 text-slate-400">{summary?.matureBaseline ? "Baseline уже зрелый" : "Нужно добрать ещё несколько валидных батарей"}</div>
               </div>
@@ -1614,7 +1614,7 @@ const BrainLabPanel = ({ hasResultsAccess = true }: BrainLabPanelProps) => {
                         <div className="text-[11px] uppercase tracking-[0.18em] text-slate-500">Статистика предыдущей попытки</div>
                         <div className="mt-4 grid gap-3 sm:grid-cols-2">
                           <div>
-                            <div className="text-xs uppercase tracking-[0.18em] text-slate-500">Дата</div>
+                            <div className="text-xs uppercase tracking-[0.18em] text-slate-500">Date</div>
                             <div className="mt-1 text-base text-slate-50">{formatDateTime(previousAttempt?.completedAt || test.latestCompletedAt)}</div>
                           </div>
                           <div>
@@ -1701,9 +1701,9 @@ const BrainLabPanel = ({ hasResultsAccess = true }: BrainLabPanelProps) => {
                 {summary ? (
                   <>
                     {[
-                      ["Внимание", summary.domains.attention],
+                      ["Attention", summary.domains.attention],
                       ["Реакция и контроль", summary.domains.reactionInhibition],
-                      ["Рабочая память", summary.domains.workingMemory],
+                      ["Working memory", summary.domains.workingMemory],
                       ["Переключение", summary.domains.flexibility],
                       ["Пространственная память", summary.domains.visuospatial]
                     ].map(([label, value]) => (
@@ -1746,14 +1746,14 @@ const BrainLabPanel = ({ hasResultsAccess = true }: BrainLabPanelProps) => {
           <LockedResultsGate
             hasAccess={hasResultsAccess}
             hasData={history.length > 0 || batteryResults.length > 0}
-            title="История попыток заблокирована"
-            description="Каждая попытка уже сохранена. История, invalid reasons и предыдущие score откроются после покупки."
+            title="History попыток заблокирована"
+            description="Каждая попытка уже сохранена. History, invalid reasons и предыдущие score откроются после покупки."
             ctaText="Открыть историю попыток"
             minHeightClassName="min-h-[420px]"
           >
           <Card className="mt-8 rounded-[30px] border border-white/8 bg-white/[0.03]">
             <CardHeader>
-              <CardTitle className="text-slate-50">История попыток</CardTitle>
+              <CardTitle className="text-slate-50">History попыток</CardTitle>
               <CardDescription className="text-slate-400">
                 Каждая попытка хранится отдельно. Валидные попытки входят в baseline, калибровка копит личную историю, а исключённые попытки не влияют на индекс.
               </CardDescription>
@@ -1793,7 +1793,7 @@ const BrainLabPanel = ({ hasResultsAccess = true }: BrainLabPanelProps) => {
                           <div className="mt-1 font-medium text-slate-50">{formatScore(item.formScore)}</div>
                         </div>
                         <div>
-                          <div className="text-[11px] uppercase tracking-[0.18em] text-slate-500">Дата</div>
+                          <div className="text-[11px] uppercase tracking-[0.18em] text-slate-500">Date</div>
                           <div className="mt-1">{formatDateTime(item.completedAt)}</div>
                         </div>
                         <div>
@@ -1906,7 +1906,7 @@ const BrainLabPanel = ({ hasResultsAccess = true }: BrainLabPanelProps) => {
             <div className="space-y-5">
               <div className="rounded-[28px] border border-white/8 bg-[radial-gradient(circle_at_top_left,_rgba(110,231,255,0.14),_transparent_34%),linear-gradient(180deg,rgba(10,16,34,0.92),rgba(6,10,22,0.98))] p-6">
                 <div className="text-[11px] uppercase tracking-[0.24em]" style={{ color: testAccent[countdown.testKey].accent }}>
-                  Предупреждение перед стартом
+                  Pre-start warning
                 </div>
                 <h3 className="mt-3 text-3xl font-semibold text-slate-50">{performanceFormulaMap[countdown.testKey].title}</h3>
                 <p className="mt-4 text-base leading-8 text-slate-300">{performanceFormulaMap[countdown.testKey].summary}</p>

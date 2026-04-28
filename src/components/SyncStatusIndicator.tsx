@@ -6,7 +6,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { Badge } from '@/components/ui/badge';
 
 /**
- * Компонент для отображения статуса синхронизации данных
+ * Компонент для отображения статуса sync данных
  */
 const SyncStatusIndicator = () => {
   const { isOnline, pendingCount, hasPendingSync, startSync } = useSyncStatus();
@@ -39,11 +39,11 @@ const SyncStatusIndicator = () => {
       <TooltipContent side="bottom" className="p-3">
         <div className="text-sm space-y-2">
           <div className="font-semibold">
-            {isOnline ? 'Онлайн' : 'Оффлайн'}
+            {isOnline ? 'Online' : 'Offline'}
           </div>
           {hasPendingSync && (
             <div>
-              {pendingCount} {pendingCount === 1 ? 'запись ожидает' : 'записей ожидают'} синхронизации
+              {pendingCount} {pendingCount === 1 ? 'record pending' : 'records pending'} sync
             </div>
           )}
           {isOnline && hasPendingSync && (
@@ -53,11 +53,11 @@ const SyncStatusIndicator = () => {
               className="w-full"
               onClick={startSync}
             >
-              Синхронизировать сейчас
+              Sync now
             </Button>
           )}
           {isOnline && !hasPendingSync && (
-            <div className="text-muted-foreground">Все данные синхронизированы</div>
+            <div className="text-muted-foreground">All data synced</div>
           )}
         </div>
       </TooltipContent>

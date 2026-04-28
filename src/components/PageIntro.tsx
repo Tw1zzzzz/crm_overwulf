@@ -55,7 +55,7 @@ const PageIntro = ({
                     {title}
                   </p>
                   <p className="hidden truncate text-xs text-slate-400 md:block">
-                    Блок скрыт. Нажмите, чтобы снова показать пояснение.
+                    Block hidden. Click to show the explanation again.
                   </p>
                 </div>
               ) : null}
@@ -71,12 +71,12 @@ const PageIntro = ({
                 {isExpanded ? (
                   <>
                     <ChevronUp className="h-4 w-4 shrink-0" />
-                    Скрыть блок
+                    Hide block
                   </>
                 ) : (
                   <>
                     <ChevronDown className="h-4 w-4 shrink-0" />
-                    Показать блок
+                    Show block
                   </>
                 )}
               </button>

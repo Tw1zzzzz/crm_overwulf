@@ -465,11 +465,11 @@ const CorrelationAnalysisPage: React.FC = () => {
         const players = await response.json();
         setPlayers(players || []);
       } else {
-        console.error('Ошибка загрузки игроков:', response.statusText);
+        console.error('Player loading error:', response.statusText);
       }
     } catch (error) {
-      console.error('Ошибка загрузки игроков:', error);
-      toast.error('Ошибка при загрузке списка игроков');
+      console.error('Player loading error:', error);
+      toast.error('Error при загрузке списка игроков');
     } finally {
       setLoadingPlayers(false);
     }
@@ -481,7 +481,7 @@ const CorrelationAnalysisPage: React.FC = () => {
   const fetchAnalysisData = async ({ resetAssistant = true, silent = false }: { resetAssistant?: boolean; silent?: boolean } = {}) => {
     if (!hasCorrelationAnalysisAccess) {
       if (!silent) {
-        toast.error('Для этого раздела нужен тариф "Корреляционный анализ"');
+        toast.error('Для этого раздела нужен тариф "Correlation analysis"');
       }
       return;
     }
@@ -495,7 +495,7 @@ const CorrelationAnalysisPage: React.FC = () => {
 
     if (analysisMode === 'individual' && !selectedPlayerId) {
       if (!silent) {
-        toast.error('Выберите игрока для индивидуального анализа');
+        toast.error('Select player для индивидуального анализа');
       }
       return;
     }
@@ -597,10 +597,10 @@ const CorrelationAnalysisPage: React.FC = () => {
           toast.success(`  ${analysisMode === 'individual' ? playerName : ''}   (${result.data?.length || 0} )`);
         }
       } else {
-        throw new Error(result.message || 'Ошибка при получении данных');
+        throw new Error(result.message || 'Error при получении данных');
       }
     } catch (error) {
-      console.error('Ошибка загрузки данных:', error);
+      console.error('Error загрузки данных:', error);
       setAnalysisGameStatsDaily([]);
       setCurrentElo(null);
       setFaceitMetricsStatus('unavailable');
@@ -608,7 +608,7 @@ const CorrelationAnalysisPage: React.FC = () => {
         setAssistantInsight(null);
       }
       if (!silent) {
-        toast.error(`Ошибка при загрузке данных: ${error.message}`);
+        toast.error(`Error при загрузке данных: ${error.message}`);
       }
     } finally {
       setLoading(false);
@@ -620,7 +620,7 @@ const CorrelationAnalysisPage: React.FC = () => {
       return [];
     }
 
-    // Р'С‹С‡РёСЃР»СЏРµРј СЃСЂРµРґРЅРёРµ Р·РЅР°С‡Рµния
+    // Р'С‹hРёСЃР»СЏРµРј СЃСЂРµРґРЅРёРµ Р·РЅР°hРµния
     const validData = data.filter(d =>
       d.mood !== null ||
       d.energy !== null ||
@@ -659,7 +659,7 @@ const CorrelationAnalysisPage: React.FC = () => {
       stats.push({
         title: `${prefix} настроение ${suffix}`,
         value: avgMood.toFixed(1),
-        change: '+0%', // TODO: РІС‹С‡РёСЃР»РёС‚СЊ РёР·РјРµРЅРµРЅРёРµ РїРѕ СЃСЂР°РІРЅРµРЅРёСЋ СЃ РїСЂРµРґС‹РґСѓС‰РёРј РїРµСЂРёРѕРґом
+        change: '+0%', // TODO: РІС‹hРёСЃР»РёС‚СЊ РёР·РјРµРЅРµРЅРёРµ РїРѕ СЃСЂР°РІРЅРµРЅРёСЋ СЃ РїСЂРµРґС‹РґСѓС‰РёРј РїРµСЂРёРѕРґом
         icon: <Calendar className="h-4 w-4 text-white" />,
         color: 'text-blue-600'
       });
@@ -698,7 +698,7 @@ const CorrelationAnalysisPage: React.FC = () => {
     if (avgScreenTime > 0) {
       stats.push({
         title: `${prefix} экранное время ${suffix}`,
-        value: `${avgScreenTime.toFixed(1)}С‡`,
+        value: `${avgScreenTime.toFixed(1)}h`,
         change: '+0%',
         icon: <Clock className="h-4 w-4 text-white" />,
         color: 'text-orange-600'
@@ -767,9 +767,9 @@ const CorrelationAnalysisPage: React.FC = () => {
     // avgFlashTime: roundWinRate:
     mood: { name: 'Настроение', color: '#3b82f6', dataKey: 'mood' },
     energy: { name: 'Энергия', color: '#10b981', dataKey: 'energy' },
-    sleepHours: { name: 'Сон (ч)', color: '#f59e0b', dataKey: 'sleepHours' },
-    balanceAvg: { name: 'Баланс жизни', color: '#8b5cf6', dataKey: 'balanceAvg' },
-    screenTime: { name: 'Экранное время', color: '#f59e0b', dataKey: 'screenTime' },
+    sleepHours: { name: 'Sleep (h)', color: '#f59e0b', dataKey: 'sleepHours' },
+    balanceAvg: { name: 'Balance жизни', color: '#8b5cf6', dataKey: 'balanceAvg' },
+    screenTime: { name: 'Screen time', color: '#f59e0b', dataKey: 'screenTime' },
     brainPerformanceIndex: { name: 'Индекс когнитивной формы', color: '#22d3ee', dataKey: 'brainPerformanceIndex' },
     currentElo: { name: 'Текущий ELO', color: '#1d4ed8', dataKey: 'currentElo' },
     winRate: { name: 'Винрейт (Пракк)', color: '#ef4444', dataKey: 'winRate' },
@@ -785,7 +785,7 @@ const CorrelationAnalysisPage: React.FC = () => {
     kast: { name: 'KAST (Пракк)', color: '#a855f7', dataKey: 'kast' },
     firstKills: { name: 'First Kills (Пракк)', color: '#ef4444', dataKey: 'firstKills' },
     firstDeaths: { name: 'First Deaths (Пракк)', color: '#94a3b8', dataKey: 'firstDeaths' },
-    openingDuelDiff: { name: 'Разница опен дуэлей (Пракк)', color: '#f59e0b', dataKey: 'openingDuelDiff' },
+    openingDuelDiff: { name: 'Opening duel difference (Пракк)', color: '#f59e0b', dataKey: 'openingDuelDiff' },
     udr: { name: 'UDR (Пракк)', color: '#22c55e', dataKey: 'udr' },
     avgMultikills: { name: 'Мультикиллы (Пракк)', color: '#8b5cf6', dataKey: 'avgMultikills' },
     clutchesWon: { name: 'Клатчи (Пракк)', color: '#e11d48', dataKey: 'clutchesWon' },
@@ -881,7 +881,7 @@ const CorrelationAnalysisPage: React.FC = () => {
 
   const handleGenerateAssistantInsight = async () => {
     if (!hasCorrelationAnalysisAccess) {
-      toast.error('Для AI-разбора нужен тариф "Корреляционный анализ"');
+      toast.error('Для AI-разбора нужен тариф "Correlation analysis"');
       return;
     }
 
@@ -921,7 +921,7 @@ const CorrelationAnalysisPage: React.FC = () => {
       });
       toast.success('AI-вывод сформирован');
     } catch (error: any) {
-      console.error('Ошибка генерации AI-вывода:', error);
+      console.error('Error генерации AI-вывода:', error);
       toast.error(error.response?.data?.message || 'Не удалось сформировать AI-вывод');
     } finally {
       setAssistantLoading(false);
@@ -929,7 +929,7 @@ const CorrelationAnalysisPage: React.FC = () => {
   };
 
   /**
-   * РћР±СЂР°Р±РѕС‚С‡РёРє РёР·РјРµРЅРµРЅРёСЏ РІС‹Р±СЂР°РЅРЅС‹С… РјРµтрик
+   * РћР±СЂР°Р±РѕС‚hРёРє РёР·РјРµРЅРµРЅРёСЏ РІС‹Р±СЂР°РЅРЅС‹С… РјРµтрик
    */
   const handleMetricToggle = (metric: string) => {
     setSelectedMetrics(prev => 
@@ -940,17 +940,17 @@ const CorrelationAnalysisPage: React.FC = () => {
   };
 
   /**
-   * РћР±СЂР°Р±РѕС‚С‡РёРє РёР·РјРµРЅРµРЅРёСЏ СЂРµР¶РёРјР° Р°РЅР°Р»РёР·Р°
+   * РћР±СЂР°Р±РѕС‚hРёРє РёР·РјРµРЅРµРЅРёСЏ СЂРµР¶РёРјР° Р°РЅР°Р»РёР·Р°
    */
   const handleAnalysisModeChange = (mode: 'team' | 'individual') => {
     setAnalysisMode(mode);
     
-    // РЎР±СЂР°СЃС‹РІР°РµРј РІС‹Р±СЂР°РЅРЅРѕРіРѕ РёРіСЂРѕРєР° РїСЂРё РїРµСЂРµРєР»СЋС‡РµРЅРёРё РІ РєРѕРјР°РЅРґРЅС‹Р№ СЂРµР¶им
+    // РЎР±СЂР°СЃС‹РІР°РµРј РІС‹Р±СЂР°РЅРЅРѕРіРѕ РёРіСЂРѕРєР° РїСЂРё РїРµСЂРµРєР»СЋhРµРЅРёРё РІ РєРѕРјР°РЅРґРЅС‹Р№ СЂРµР¶им
     if (mode === 'team') {
       setSelectedPlayerId('');
     }
     
-    // РЎР±СЂР°СЃС‹РІР°РµРј РґР°РЅРЅС‹Рµ РіСЂР°С„РёРєР°, С‡С‚РѕР±С‹ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ Р·Р°РЅРѕРІРѕ РЅР°Р¶Р°Р» "РџСЂРёРјРµнить"
+    // РЎР±СЂР°СЃС‹РІР°РµРј РґР°РЅРЅС‹Рµ РіСЂР°С„РёРєР°, hС‚РѕР±С‹ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ Р·Р°РЅРѕРІРѕ РЅР°Р¶Р°Р» "РџСЂРёРјРµнить"
     setChartData([]);
     setStats([]);
     setAnalysisGameStatsDaily([]);
@@ -1055,7 +1055,7 @@ const CorrelationAnalysisPage: React.FC = () => {
         <BarChart3 className="h-8 w-8 text-white" />
         <div>
           <span className="performance-eyebrow">Signal Matrix</span>
-          <h1 className="text-3xl font-bold performance-title">Корреляционный анализ</h1>
+          <h1 className="text-3xl font-bold performance-title">Correlation analysis</h1>
           <p className="text-muted-foreground performance-subtitle">
             Анализ взаимосвязей между различными метриками игроков
           </p>
@@ -1065,7 +1065,7 @@ const CorrelationAnalysisPage: React.FC = () => {
       <div className="w-full">
         <SubscriptionFeatureGate
           hasAccess={hasCorrelationAnalysisAccess}
-          title="Корреляционный анализ доступен после покупки"
+          title="Correlation analysis доступен после покупки"
           description="После покупки откроются настройки периода, загрузка корреляций, графики, AI-вывод и сравнительная таблица метрик за выбранный период."
           minHeightClassName="min-h-[1400px]"
         >
@@ -1082,10 +1082,10 @@ const CorrelationAnalysisPage: React.FC = () => {
               {!isSoloPlayer && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div className="space-y-2">
-                    <Label htmlFor="analysisMode">Режим анализа</Label>
+                    <Label htmlFor="analysisMode">Analysis mode</Label>
                     <Select value={analysisMode} onValueChange={(value: 'team' | 'individual') => handleAnalysisModeChange(value)}>
                       <SelectTrigger id="analysisMode">
-                        <SelectValue placeholder="Выберите режим анализа" />
+                        <SelectValue placeholder="Select analysis mode" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="team">Командная статистика</SelectItem>
@@ -1097,10 +1097,10 @@ const CorrelationAnalysisPage: React.FC = () => {
                   {/* Выбор игрока (показывается только в индивидуальном режиме) */}
                   {analysisMode === 'individual' && (
                     <div className="space-y-2">
-                      <Label htmlFor="playerSelect">Игрок</Label>
+                      <Label htmlFor="playerSelect">Player</Label>
                       <Select value={selectedPlayerId} onValueChange={setSelectedPlayerId} disabled={loadingPlayers}>
                         <SelectTrigger id="playerSelect">
-                          <SelectValue placeholder={loadingPlayers ? "Загрузка игроков..." : "Выберите игрока"} />
+                          <SelectValue placeholder={loadingPlayers ? "Loading players..." : "Select player"} />
                         </SelectTrigger>
                         <SelectContent>
                           {players.map((player) => (
@@ -1142,7 +1142,7 @@ const CorrelationAnalysisPage: React.FC = () => {
                     disabled={loading || (analysisMode === 'individual' && !selectedPlayerId)}
                     className="w-full"
                   >
-                    {loading ? 'Загрузка...' : 'Применить'}
+                    {loading ? 'Loading...' : 'Применить'}
                   </Button>
                 </div>
               </div>
@@ -1196,7 +1196,7 @@ const CorrelationAnalysisPage: React.FC = () => {
               </div>
 
               <div className="mt-6">
-                <Label className="text-base font-medium">Режим графика</Label>
+                <Label className="text-base font-medium">Mode графика</Label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 max-w-xl">
                   <Button
                     variant={chartMode === 'combined' ? 'default' : 'outline'}
@@ -1252,7 +1252,7 @@ const CorrelationAnalysisPage: React.FC = () => {
                           </p>
                         </div>
                         <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                          <p className="text-xs uppercase tracking-[0.16em] text-cyan-100/80">Режим</p>
+                          <p className="text-xs uppercase tracking-[0.16em] text-cyan-100/80">Mode</p>
                           <p className="mt-2 text-lg font-semibold text-white">
                             {analysisMode === 'team' ? 'Командный анализ' : selectedPlayerName || 'Индивидуальный анализ'}
                           </p>
@@ -1262,7 +1262,7 @@ const CorrelationAnalysisPage: React.FC = () => {
                           <p className="mt-2 text-3xl font-semibold text-white">{comparisonRows.length}</p>
                         </div>
                         <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                          <p className="text-xs uppercase tracking-[0.16em] text-cyan-100/80">Последнее обновление</p>
+                          <p className="text-xs uppercase tracking-[0.16em] text-cyan-100/80">Last update</p>
                           <p className="mt-2 text-base font-semibold text-white">
                             {lastLoadedAt ? new Date(lastLoadedAt).toLocaleString('ru-RU') : 'Пока нет'}
                           </p>
@@ -1285,7 +1285,7 @@ const CorrelationAnalysisPage: React.FC = () => {
                           <>
                             <div className="flex flex-wrap gap-2">
                               <Badge variant="secondary" className="border border-cyan-300/20 bg-cyan-300/10 text-cyan-100 hover:bg-cyan-300/10">
-                                Уверенность {assistantInsight.confidence}%
+                                Confidence {assistantInsight.confidence}%
                               </Badge>
                               {assistantInsight.model && (
                                 <Badge variant="secondary" className="border border-white/10 bg-white/10 text-slate-100 hover:bg-white/10">
@@ -1499,7 +1499,7 @@ const CorrelationAnalysisPage: React.FC = () => {
 
                     <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr_1fr]">
                       <div className="rounded-2xl border border-white/10 bg-black/10 p-5">
-                        <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/80">Уверенность</p>
+                        <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/80">Confidence</p>
                         <p className="mt-3 text-4xl font-semibold text-white">{assistantInsight.confidence}%</p>
                         <p className="mt-3 text-xs text-slate-400">
                           {assistantInsight.model ? `Модель: ${assistantInsight.model}` : 'Модель не указана'}
@@ -1536,7 +1536,7 @@ const CorrelationAnalysisPage: React.FC = () => {
                       </div>
 
                       <div className="rounded-2xl border border-white/10 bg-black/10 p-5">
-                        <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/80">Риски</p>
+                        <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/80">Risks</p>
                         <div className="mt-3 space-y-2">
                           {(assistantInsight.risks.length > 0 ? assistantInsight.risks : ['Явных критических рисков по данным периода не выявлено.']).map((risk) => (
                             <div
@@ -1756,12 +1756,12 @@ const CorrelationAnalysisPage: React.FC = () => {
                       <table className="min-w-[1120px] w-full border-collapse text-sm">
                         <thead>
                           <tr className="bg-white/5">
-                            <th className="border border-white/10 px-3 py-3 text-left text-slate-50">Дата</th>
+                            <th className="border border-white/10 px-3 py-3 text-left text-slate-50">Date</th>
                             <th className="border border-white/10 px-3 py-3 text-right text-slate-50">Настроение</th>
                             <th className="border border-white/10 px-3 py-3 text-right text-slate-50">Энергия</th>
                             <th className="border border-white/10 px-3 py-3 text-right text-slate-50">Сон</th>
-                            <th className="border border-white/10 px-3 py-3 text-right text-slate-50">Баланс</th>
-                            <th className="border border-white/10 px-3 py-3 text-right text-slate-50">Экранное время</th>
+                            <th className="border border-white/10 px-3 py-3 text-right text-slate-50">Balance</th>
+                            <th className="border border-white/10 px-3 py-3 text-right text-slate-50">Screen time</th>
                             <th className="border border-violet-400/10 bg-violet-300/8 px-3 py-3 text-right text-violet-50">Индекс когнитивной формы</th>
                             <th className="border border-cyan-400/10 bg-cyan-300/8 px-3 py-3 text-right text-cyan-50">Убийства (Пракк)</th>
                             <th className="border border-cyan-400/10 bg-cyan-300/8 px-3 py-3 text-right text-cyan-50">Смерти (Пракк)</th>

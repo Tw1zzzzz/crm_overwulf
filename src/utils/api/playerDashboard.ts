@@ -89,7 +89,7 @@ const normalizePlayerDashboardData = (payload: any): PlayerDashboardData => ({
     : undefined,
   drivers: Array.isArray(payload?.drivers)
     ? payload.drivers.map((driver: any) => ({
-        label: typeof driver?.label === "string" ? driver.label : "Без названия",
+        label: typeof driver?.label === "string" ? driver.label : "Untitled",
         value: toNullableNumber(driver?.value),
       }))
     : [],
@@ -124,9 +124,9 @@ export async function getPlayerDashboard(userId: string): Promise<{ success: boo
       return { success: true, data: normalizePlayerDashboardData(rawData) };
     }
 
-    return { success: false, error: (response.data as any)?.message || "Ошибка при загрузке дашборда" };
+    return { success: false, error: (response.data as any)?.message || "Error при загрузке дашборда" };
   } catch (e: any) {
-    const msg = e?.response?.data?.message || e?.message || "Ошибка при загрузке дашборда";
+    const msg = e?.response?.data?.message || e?.message || "Error при загрузке дашборда";
     return { success: false, error: msg };
   }
 }

@@ -36,9 +36,9 @@ interface CorrelationChartProps {
 
 const CorrelationChart: React.FC<CorrelationChartProps> = ({
   data,
-  title = "Корреляционный анализ",
-  xAxisLabel = "Настроение до отчета",
-  yAxisLabel = "Настроение после отчета",
+  title = "Correlation analysis",
+  xAxisLabel = "Настроение до reportа",
+  yAxisLabel = "Настроение после reportа",
   showHeatmap = false,
   className = ""
 }) => {
@@ -80,7 +80,7 @@ const CorrelationChart: React.FC<CorrelationChartProps> = ({
               <span className="font-medium">{data.reportType}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">Дата:</span>
+              <span className="text-gray-600">Date:</span>
               <span className="font-medium">{new Date(data.date).toLocaleDateString('ru-RU')}</span>
             </div>
             <div className="flex justify-between">
@@ -105,9 +105,9 @@ const CorrelationChart: React.FC<CorrelationChartProps> = ({
                   border: `1px solid ${getSignificanceColor(data.significance)}`
                 }}
               >
-                {data.significance === 'high' ? 'Высокая' :
-                 data.significance === 'medium' ? 'Средняя' :
-                 data.significance === 'low' ? 'Низкая' : 'Отсутствует'}
+                {data.significance === 'high' ? 'High' :
+                 data.significance === 'medium' ? 'Medium' :
+                 data.significance === 'low' ? 'Low' : 'Missing'}
               </Badge>
             </div>
           </div>
@@ -150,7 +150,7 @@ const CorrelationChart: React.FC<CorrelationChartProps> = ({
         <CardContent className="pt-6">
           <div className="text-center text-gray-500 py-8">
             <div className="text-lg mb-2">📊</div>
-            <p>Нет данных для построения графика корреляций</p>
+            <p>No data для построения графика корреляций</p>
           </div>
         </CardContent>
       </Card>
@@ -229,10 +229,10 @@ const CorrelationChart: React.FC<CorrelationChartProps> = ({
               className="w-3 h-3 rounded-full"
               style={{ backgroundColor: COLORS.primary }}
             />
-            Распределение корреляций
+            Distribution корреляций
           </CardTitle>
           <p className="text-sm text-gray-600">
-            Количество отчетов по типам корреляционных связей
+            Report count по типам корреляционных связей
           </p>
         </CardHeader>
         <CardContent>
@@ -252,7 +252,7 @@ const CorrelationChart: React.FC<CorrelationChartProps> = ({
               <YAxis
                 tick={{ fontSize: 12, fill: COLORS.textColorSecondary }}
                 label={{ 
-                  value: 'Количество отчетов', 
+                  value: 'Report count', 
                   angle: -90, 
                   position: 'insideLeft',
                   style: { textAnchor: 'middle', fill: COLORS.textColor }
@@ -260,7 +260,7 @@ const CorrelationChart: React.FC<CorrelationChartProps> = ({
               />
               <Tooltip 
                 formatter={(value: number, name: string, props: any) => [
-                  `${value} отчетов`,
+                  `${value} reportов`,
                   props.payload.label
                 ]}
                 labelFormatter={(label: string, payload: any) => {
@@ -293,10 +293,10 @@ const CorrelationChart: React.FC<CorrelationChartProps> = ({
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { level: 'high', label: 'Высокая', description: '|r| ≥ 0.7' },
-              { level: 'medium', label: 'Средняя', description: '0.5 ≤ |r| < 0.7' },
-              { level: 'low', label: 'Низкая', description: '0.3 ≤ |r| < 0.5' },
-              { level: 'none', label: 'Отсутствует', description: '|r| < 0.3' }
+              { level: 'high', label: 'High', description: '|r| ≥ 0.7' },
+              { level: 'medium', label: 'Medium', description: '0.5 ≤ |r| < 0.7' },
+              { level: 'low', label: 'Low', description: '0.3 ≤ |r| < 0.5' },
+              { level: 'none', label: 'Missing', description: '|r| < 0.3' }
             ].map((item) => (
               <div 
                 key={item.level}

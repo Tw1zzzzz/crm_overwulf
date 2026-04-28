@@ -11,10 +11,10 @@ const baseUrl = getApiBaseUrl();
  * @returns Сообщение об ошибке в читаемом формате
  */
 export const handleApiError = (error: any, defaultMessage: string): string => {
-  console.error('[API] Ошибка:', error);
+  console.error('[API] Error:', error);
   
   if (!error.response) {
-    return error.request ? 'Сервер не отвечает' : defaultMessage;
+    return error.request ? 'Server is not responding' : defaultMessage;
   }
   
   if (error.response.data?.message) {
@@ -23,12 +23,12 @@ export const handleApiError = (error: any, defaultMessage: string): string => {
   
   // Обработка типовых статус-кодов
   switch (error.response.status) {
-    case 400: return 'Некорректные данные';
-    case 401: return 'Неверные учетные данные или истек токен авторизации';
-    case 403: return 'Доступ запрещен';
-    case 409: return 'Пользователь с таким email уже существует';
-    case 404: return 'Ресурс не найден';
-    case 500: return 'Внутренняя ошибка сервера';
+    case 400: return 'Invalid data';
+    case 401: return 'Invalid credentials or authorization token expired';
+    case 403: return 'Access denied';
+    case 409: return 'A user with this email already exists';
+    case 404: return 'Resource not found';
+    case 500: return 'Internal server error';
     default: return defaultMessage;
   }
 };

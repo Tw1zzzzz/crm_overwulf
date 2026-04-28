@@ -113,14 +113,14 @@ const ClusteringChart: React.FC<ClusteringChartProps> = ({
           <p className="font-medium text-gray-900">{player.playerName}</p>
           <p className="text-sm text-gray-600 mb-2">{player.clusterName}</p>
           <div className="space-y-1 text-sm">
-            <p><strong>Активность:</strong> {(player.avgActivity * 100).toFixed(1)}%</p>
+            <p><strong>Activity:</strong> {(player.avgActivity * 100).toFixed(1)}%</p>
             <p><strong>Отзывчивость:</strong> {(player.avgResponsiveness * 100).toFixed(1)}%</p>
             <p><strong>Отчетов выполнено:</strong> {player.stats.reportsCompleted}</p>
-            <p><strong>Средняя оценка:</strong> {player.stats.averageRating.toFixed(1)}</p>
+            <p><strong>Medium оценка:</strong> {player.stats.averageRating.toFixed(1)}</p>
           </div>
           {player.recommendations.length > 0 && (
             <div className="mt-2 pt-2 border-t">
-              <p className="text-xs font-medium text-gray-700">Рекомендации:</p>
+              <p className="text-xs font-medium text-gray-700">Recommendations:</p>
               <p className="text-xs text-gray-600">{player.recommendations[0]}</p>
             </div>
           )}
@@ -180,7 +180,7 @@ const ClusteringChart: React.FC<ClusteringChartProps> = ({
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Средняя активность</p>
+                <p className="text-sm text-gray-600">Medium активность</p>
                 <p className="text-2xl font-bold">{(clusterStats.avgActivity * 100).toFixed(1)}%</p>
               </div>
               <TrendingUp className="h-8 w-8 text-orange-500" />
@@ -220,7 +220,7 @@ const ClusteringChart: React.FC<ClusteringChartProps> = ({
           size="sm"
           onClick={() => setViewMode('distribution')}
         >
-          Распределение
+          Distribution
         </Button>
         <Button
           variant={viewMode === 'details' ? 'default' : 'outline'}
@@ -276,7 +276,7 @@ const ClusteringChart: React.FC<ClusteringChartProps> = ({
                 <XAxis 
                   type="number" 
                   dataKey="x" 
-                  name="Активность"
+                  name="Activity"
                   domain={[0, 1]}
                   tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
                   tick={{ fontSize: 12 }}
@@ -336,7 +336,7 @@ const ClusteringChart: React.FC<ClusteringChartProps> = ({
           {/* Круговая диаграмма распределения */}
           <Card>
             <CardHeader>
-              <CardTitle>📊 Распределение по кластерам</CardTitle>
+              <CardTitle>📊 Distribution по кластерам</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -375,10 +375,10 @@ const ClusteringChart: React.FC<ClusteringChartProps> = ({
                   <Tooltip 
                     formatter={(value, name) => [
                       `${(Number(value) * 100).toFixed(1)}%`, 
-                      name === 'activity' ? 'Активность' : 'Отзывчивость'
+                      name === 'activity' ? 'Activity' : 'Отзывчивость'
                     ]}
                   />
-                  <Bar dataKey="activity" name="Активность" fill="#3b82f6" />
+                  <Bar dataKey="activity" name="Activity" fill="#3b82f6" />
                   <Bar dataKey="responsiveness" name="Отзывчивость" fill="#10b981" />
                 </BarChart>
               </ResponsiveContainer>
@@ -418,7 +418,7 @@ const ClusteringChart: React.FC<ClusteringChartProps> = ({
                 <div>
                   <h4 className="font-medium text-sm mb-2">Центроид:</h4>
                   <div className="text-sm space-y-1">
-                    <p>Активность: {(cluster.centroid.activity * 100).toFixed(1)}%</p>
+                    <p>Activity: {(cluster.centroid.activity * 100).toFixed(1)}%</p>
                     <p>Отзывчивость: {(cluster.centroid.responsiveness * 100).toFixed(1)}%</p>
                     <p>Дисперсия: {cluster.withinClusterVariance.toFixed(3)}</p>
                   </div>
@@ -441,9 +441,9 @@ const ClusteringChart: React.FC<ClusteringChartProps> = ({
                   </div>
                 )}
 
-                {/* Игроки кластера */}
+                {/* Playerи кластера */}
                 <div>
-                  <h4 className="font-medium text-sm mb-2">Игроки:</h4>
+                  <h4 className="font-medium text-sm mb-2">Playerи:</h4>
                   <div className="space-y-1 max-h-32 overflow-y-auto">
                     {playerData
                       .filter(player => player.clusterId === cluster.id)
@@ -479,7 +479,7 @@ const ClusteringChart: React.FC<ClusteringChartProps> = ({
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-medium mb-2">Описание и характеристики</h4>
+                <h4 className="font-medium mb-2">Description и характеристики</h4>
                 <p className="text-sm text-gray-600 mb-3">{selectedClusterInfo.description}</p>
                 <div className="flex flex-wrap gap-1">
                   {selectedClusterInfo.characteristics.map((char, index) => (

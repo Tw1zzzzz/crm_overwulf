@@ -120,7 +120,7 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
     fetchPlayers();
     
     if (report) {
-      // Заполняем форму данными отчета для редактирования
+      // Заполняем форму данными reportа для редактирования
       setFormData({
         title: report.title,
         description: report.description || '',
@@ -148,7 +148,7 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
       const response = await getPlayers();
       setPlayers(response.data);
     } catch (error: any) {
-      console.error('Ошибка загрузки игроков:', error);
+      console.error('Player loading error:', error);
     }
   };
 
@@ -247,13 +247,13 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
     );
   };
 
-  // Сохранение отчета
+  // Сохранение reportа
   const handleSave = async () => {
     // Проверяем, что пользователь загружен
     if (!user) {
       toast({
-        title: "Ошибка",
-        description: "Необходимо войти в систему для создания отчетов",
+        title: "Error",
+        description: "You must sign in to create reports",
         variant: "destructive",
       });
       return;
@@ -261,8 +261,8 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
 
     if (!formData.title.trim()) {
       toast({
-        title: "Ошибка",
-        description: "Введите название отчета",
+        title: "Error",
+        description: "Enter report title",
         variant: "destructive",
       });
       return;
@@ -270,28 +270,28 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
 
     if (!formData.content.summary.trim()) {
       toast({
-        title: "Ошибка", 
-        description: "Введите краткое изложение отчета",
+        title: "Error", 
+        description: "Enter report summary",
         variant: "destructive",
       });
       return;
     }
 
-    // Проверка минимальной длины краткого изложения (10 символов)
+    // Проверка минимальной длины краткого изложения (10 characters)
     if (formData.content.summary.trim().length < 10) {
       toast({
-        title: "Ошибка",
-        description: "Краткое изложение должно содержать не менее 10 символов",
+        title: "Error",
+        description: "Summary must contain at least 10 characters",
         variant: "destructive",
       });
       return;
     }
 
-    // Проверка максимальной длины краткого изложения (1000 символов)
+    // Проверка максимальной длины краткого изложения (1000 characters)
     if (formData.content.summary.trim().length > 1000) {
       toast({
-        title: "Ошибка",
-        description: "Краткое изложение не должно превышать 1000 символов",
+        title: "Error",
+        description: "Summary must not exceed 1000 characters",
         variant: "destructive",
       });
       return;
@@ -299,28 +299,28 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
 
     if (!formData.content.details.trim()) {
       toast({
-        title: "Ошибка",
-        description: "Введите подробное описание отчета", 
+        title: "Error",
+        description: "Enter detailed report description", 
         variant: "destructive",
       });
       return;
     }
 
-    // Проверка минимальной длины подробного описания (20 символов)
+    // Проверка минимальной длины подробного описания (20 characters)
     if (formData.content.details.trim().length < 20) {
       toast({
-        title: "Ошибка",
-        description: "Подробное описание должно содержать не менее 20 символов",
+        title: "Error",
+        description: "Detailed description must contain at least 20 characters",
         variant: "destructive",
       });
       return;
     }
 
-    // Проверка максимальной длины подробного описания (5000 символов)
+    // Проверка максимальной длины подробного описания (5000 characters)
     if (formData.content.details.trim().length > 5000) {
       toast({
-        title: "Ошибка",
-        description: "Подробное описание не должно превышать 5000 символов",
+        title: "Error",
+        description: "Detailed description must not exceed 5000 characters",
         variant: "destructive",
       });
       return;
@@ -337,13 +337,13 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
           // Создаем sections из summary и details
           sections: [
             {
-              title: "Краткое изложение",
+              title: "Summary",
               content: formData.content.summary.trim(),
               order: 0,
               type: 'text' as const
             },
             {
-              title: "Подробное описание", 
+              title: "Detailed description", 
               content: formData.content.details.trim(),
               order: 1,
               type: 'text' as const
@@ -361,22 +361,22 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
         viewableBy: formData.viewableBy.length > 0 ? formData.viewableBy : undefined,
       };
 
-      console.log('📤 [TeamReportModal] Отправляем данные отчета:', reportData);
+      console.log('📤 [TeamReportModal] Sending report data:', reportData);
 
       await createTeamReport(reportData, files);
       
       toast({
-        title: "Успех",
-        description: "Отчет успешно создан",
+        title: "Success",
+        description: "Report created successfully",
       });
       
       onSave();
       onClose();
     } catch (error: any) {
-      console.error('Ошибка сохранения отчета:', error);
+      console.error('Report save error:', error);
       toast({
-        title: "Ошибка",
-        description: error.response?.data?.message || "Не удалось создать отчет",
+        title: "Error",
+        description: error.response?.data?.message || "Failed to create report",
         variant: "destructive",
       });
     } finally {
@@ -403,12 +403,12 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto" style={{ backgroundColor: COLORS.cardBackground }}>
         <DialogHeader>
           <DialogTitle style={{ color: COLORS.textColor }}>
-            {isEdit ? 'Редактировать отчет' : 'Создать отчет команды'}
+            {isEdit ? 'Edit report' : 'Create team report'}
           </DialogTitle>
           <DialogDescription style={{ color: COLORS.textColorSecondary }}>
             {isEdit 
-              ? 'Внесите изменения в существующий отчет команды'
-              : 'Создайте новый отчет для команды с подробным описанием и рекомендациями'
+              ? 'Update the existing team report'
+              : 'Create a new team report with a detailed description and recommendations'
             }
           </DialogDescription>
         </DialogHeader>
@@ -417,46 +417,46 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
           {/* Основная информация */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="title" style={{ color: COLORS.textColor }}>Название отчета *</Label>
+              <Label htmlFor="title" style={{ color: COLORS.textColor }}>Report title *</Label>
               <Input
                 id="title"
                 value={formData.title}
                 onChange={(e) => handleInputChange('title', e.target.value)}
-                placeholder="Введите название отчета"
+                placeholder="Enter report title"
                 style={{ backgroundColor: COLORS.backgroundColor, borderColor: COLORS.borderColor }}
               />
             </div>
 
             <div>
-              <Label htmlFor="type" style={{ color: COLORS.textColor }}>Тип отчета</Label>
+              <Label htmlFor="type" style={{ color: COLORS.textColor }}>Report type</Label>
               <Select value={formData.type} onValueChange={(value) => handleInputChange('type', value)}>
                 <SelectTrigger style={{ backgroundColor: COLORS.backgroundColor, borderColor: COLORS.borderColor }}>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="weekly">Еженедельный</SelectItem>
-                  <SelectItem value="monthly">Ежемесячный</SelectItem>
-                  <SelectItem value="match_analysis">Анализ матча</SelectItem>
-                  <SelectItem value="training_report">Отчет о тренировке</SelectItem>
-                  <SelectItem value="custom">Особый</SelectItem>
+                  <SelectItem value="weekly">Weekly</SelectItem>
+                  <SelectItem value="monthly">Monthly</SelectItem>
+                  <SelectItem value="match_analysis">Match analysis</SelectItem>
+                  <SelectItem value="training_report">Training report</SelectItem>
+                  <SelectItem value="custom">Special</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <div>
-            <Label htmlFor="description" style={{ color: COLORS.textColor }}>Описание</Label>
+            <Label htmlFor="description" style={{ color: COLORS.textColor }}>Description</Label>
             <Input
               id="description"
               value={formData.description}
               onChange={(e) => handleInputChange('description', e.target.value)}
-              placeholder="Краткое описание отчета"
+              placeholder="Short report description"
               style={{ backgroundColor: COLORS.backgroundColor, borderColor: COLORS.borderColor }}
             />
           </div>
 
           <div>
-            <Label htmlFor="visibility" style={{ color: COLORS.textColor }}>Видимость</Label>
+            <Label htmlFor="visibility" style={{ color: COLORS.textColor }}>Visibility</Label>
             <Select value={formData.visibility} onValueChange={(value) => handleInputChange('visibility', value)}>
               <SelectTrigger style={{ backgroundColor: COLORS.backgroundColor, borderColor: COLORS.borderColor }}>
                 <SelectValue />
@@ -465,34 +465,34 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
                 <SelectItem value="team">
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4" />
-                    Команда
+                    Team
                   </div>
                 </SelectItem>
                 <SelectItem value="staff">
                   <div className="flex items-center gap-2">
                     <Shield className="h-4 w-4" />
-                    Персонал
+                    Staff
                   </div>
                 </SelectItem>
                 <SelectItem value="public">
                   <div className="flex items-center gap-2">
                     <Eye className="h-4 w-4" />
-                    Публичный
+                    Public
                   </div>
                 </SelectItem>
               </SelectContent>
             </Select>
           </div>
 
-          {/* Содержание отчета */}
+          {/* Report content */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold" style={{ color: COLORS.textColor }}>
-              Содержание отчета
+              Report content
             </h3>
 
             <div>
               <div className="flex justify-between items-center mb-1">
-                <Label htmlFor="summary" style={{ color: COLORS.textColor }}>Краткое изложение *</Label>
+                <Label htmlFor="summary" style={{ color: COLORS.textColor }}>Summary *</Label>
                 <span className="text-sm" style={{ 
                   color: formData.content.summary.length < 10 ? '#ef4444' : 
                         formData.content.summary.length > 1000 ? '#ef4444' : COLORS.textColorSecondary 
@@ -504,20 +504,20 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
                 id="summary"
                 value={formData.content.summary}
                 onChange={(e) => handleContentChange('summary', e.target.value)}
-                placeholder="Краткое изложение основных моментов отчета (минимум 10 символов)"
+                placeholder="Summary основных моментов reportа (минимум 10 characters)"
                 rows={3}
                 style={{ backgroundColor: COLORS.backgroundColor, borderColor: COLORS.borderColor }}
               />
               {formData.content.summary.length > 0 && formData.content.summary.length < 10 && (
                 <p className="text-sm text-red-500 mt-1">
-                  Необходимо еще {10 - formData.content.summary.length} символов
+                  Still needed {10 - formData.content.summary.length} characters
                 </p>
               )}
             </div>
 
             <div>
               <div className="flex justify-between items-center mb-1">
-                <Label htmlFor="details" style={{ color: COLORS.textColor }}>Подробное описание *</Label>
+                <Label htmlFor="details" style={{ color: COLORS.textColor }}>Detailed description *</Label>
                 <span className="text-sm" style={{ 
                   color: formData.content.details.length < 20 ? '#ef4444' : 
                         formData.content.details.length > 5000 ? '#ef4444' : COLORS.textColorSecondary 
@@ -529,20 +529,20 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
                 id="details"
                 value={formData.content.details}
                 onChange={(e) => handleContentChange('details', e.target.value)}
-                placeholder="Подробное описание событий, анализ, выводы (минимум 20 символов)"
+                placeholder="Detailed description событий, анализ, выводы (минимум 20 characters)"
                 rows={6}
                 style={{ backgroundColor: COLORS.backgroundColor, borderColor: COLORS.borderColor }}
               />
               {formData.content.details.length > 0 && formData.content.details.length < 20 && (
                 <p className="text-sm text-red-500 mt-1">
-                  Необходимо еще {20 - formData.content.details.length} символов
+                  Still needed {20 - formData.content.details.length} characters
                 </p>
               )}
             </div>
 
-            {/* Рекомендации */}
+            {/* Recommendations */}
             <div>
-              <Label style={{ color: COLORS.textColor }}>Рекомендации</Label>
+              <Label style={{ color: COLORS.textColor }}>Recommendations</Label>
               <div className="space-y-2">
                 {formData.content.recommendations.map((rec, index) => (
                   <div key={index} className="flex items-center gap-2">
@@ -585,7 +585,7 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
                         <Input
                           value={section.title}
                           onChange={(e) => updateSection(section.id, 'title', e.target.value)}
-                          placeholder="Заголовок секции"
+                          placeholder="Section title"
                           className="font-semibold"
                           style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}
                         />
@@ -601,7 +601,7 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
                       <Textarea
                         value={section.content}
                         onChange={(e) => updateSection(section.id, 'content', e.target.value)}
-                        placeholder="Содержание секции"
+                        placeholder="Section content"
                         rows={3}
                         style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}
                       />
@@ -615,19 +615,19 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
                       <Input
                         value={newSection.title}
                         onChange={(e) => setNewSection(prev => ({ ...prev, title: e.target.value }))}
-                        placeholder="Заголовок новой секции"
+                        placeholder="New section title"
                         style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}
                       />
                       <Textarea
                         value={newSection.content}
                         onChange={(e) => setNewSection(prev => ({ ...prev, content: e.target.value }))}
-                        placeholder="Содержание новой секции"
+                        placeholder="New section content"
                         rows={3}
                         style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}
                       />
                       <Button onClick={addSection} variant="outline" className="w-full">
                         <Plus className="h-4 w-4 mr-2" />
-                        Добавить секцию
+                        Add section
                       </Button>
                     </div>
                   </CardContent>
@@ -639,7 +639,7 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
           {/* Загрузка файлов (только для создания) */}
           {!isEdit && (
             <div>
-              <Label style={{ color: COLORS.textColor }}>Файлы и вложения</Label>
+              <Label style={{ color: COLORS.textColor }}>Files and attachments</Label>
               <div
                 className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
                   dragActive ? 'border-primary bg-primary/10' : 'border-gray-300'
@@ -652,10 +652,10 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
               >
                 <Upload className="h-8 w-8 mx-auto mb-2" style={{ color: COLORS.textColorSecondary }} />
                 <p style={{ color: COLORS.textColor }}>
-                  Перетащите файлы сюда или нажмите для выбора
+                  Drag files here or click to choose
                 </p>
                 <p className="text-sm" style={{ color: COLORS.textColorSecondary }}>
-                  Поддерживаются: изображения, документы, PDF (до 5 файлов, 10MB каждый)
+                  Supported: images, documents, PDF (up to 5 files, 10 MB each)
                 </p>
                 <input
                   ref={fileInputRef}
@@ -697,7 +697,7 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
           {/* Назначение игроков */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label style={{ color: COLORS.textColor }}>Назначить игрокам</Label>
+              <Label style={{ color: COLORS.textColor }}>Assign to players</Label>
               <div className="border rounded-lg p-3 max-h-32 overflow-y-auto" style={{ borderColor: COLORS.borderColor }}>
                 {players.map((player) => (
                   <div key={player._id} className="flex items-center gap-2 py-1">
@@ -713,7 +713,7 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
             </div>
 
             <div>
-              <Label style={{ color: COLORS.textColor }}>Разрешить просмотр</Label>
+              <Label style={{ color: COLORS.textColor }}>Allow viewing</Label>
               <div className="border rounded-lg p-3 max-h-32 overflow-y-auto" style={{ borderColor: COLORS.borderColor }}>
                 {players.map((player) => (
                   <div key={player._id} className="flex items-center gap-2 py-1">
@@ -738,12 +738,12 @@ const TeamReportModal: React.FC<TeamReportModalProps> = ({
               {loading ? (
                 <>
                   <Clock className="h-4 w-4 mr-2 animate-spin" />
-                  Сохранение...
+                  Saving...
                 </>
               ) : (
                 <>
                   <Save className="h-4 w-4 mr-2" />
-                  {isEdit ? 'Обновить' : 'Создать'} отчет
+                  {isEdit ? 'Update' : 'Create'} report
                 </>
               )}
             </Button>

@@ -17,12 +17,48 @@ type OverwolfProfileResponse = {
   error?: string;
 };
 
+type OverwolfWindowInfo = {
+  id?: string;
+  name?: string;
+};
+
+type OverwolfWindowResponse = {
+  success?: boolean;
+  status?: string;
+  window?: OverwolfWindowInfo;
+  window_state?: string;
+};
+
+type OverwolfHotkeyEvent = {
+  name?: string;
+};
+
 declare global {
   interface Window {
     overwolf?: {
       profile?: {
         getCurrentUser?: (callback: (result: OverwolfProfileResponse) => void) => void;
         openLoginDialog?: (callback?: (result: OverwolfProfileResponse) => void) => void;
+      };
+      windows?: {
+        obtainDeclaredWindow?: (
+          name: string,
+          callback: (result: OverwolfWindowResponse) => void
+        ) => void;
+        restore?: (windowId: string, callback?: (result: OverwolfWindowResponse) => void) => void;
+        hide?: (windowId: string, callback?: (result: OverwolfWindowResponse) => void) => void;
+        getWindowState?: (
+          windowId: string,
+          callback: (result: OverwolfWindowResponse) => void
+        ) => void;
+        getCurrentWindow?: (callback: (result: OverwolfWindowResponse) => void) => void;
+      };
+      settings?: {
+        hotkeys?: {
+          onPressed?: {
+            addListener?: (listener: (event: OverwolfHotkeyEvent) => void) => void;
+          };
+        };
       };
     };
   }

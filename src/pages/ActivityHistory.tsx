@@ -68,7 +68,7 @@ const ActivityHistory = () => {
   
   // Установка начального таба при загрузке компонента - запускается только один раз при монтировании
   useEffect(() => {
-    console.log('Компонент активности загружен. Пользователь персонал:', isStaff);
+    console.log('Компонент активности загружен. User персонал:', isStaff);
     
     // Устанавливаем активный таб при первой загрузке
     if (isStaff) {
@@ -114,11 +114,11 @@ const ActivityHistory = () => {
         setPagination(response.pagination);
       }
     } catch (error: any) {
-      console.error('Ошибка при загрузке истории активности:', error);
+      console.error('Error при загрузке истории активности:', error);
       setError(error.response?.data?.message || 'Не удалось загрузить историю активности');
       
       toast({
-        title: 'Ошибка',
+        title: 'Error',
         description: 'Не удалось загрузить историю активности. Пожалуйста, попробуйте позже.',
         variant: 'destructive'
       });
@@ -192,8 +192,8 @@ const ActivityHistory = () => {
               ...activity,
               userId: {
                 _id: 'unknown',
-                name: 'Пользователь без ID',
-                email: 'нет данных',
+                name: 'User без ID',
+                email: 'no data',
                 role: 'user'
               }
             };
@@ -213,8 +213,8 @@ const ActivityHistory = () => {
                 _id: typeof activity.userId === 'string' ? activity.userId : 
                       typeof activity.userId === 'object' && activity.userId._id ? 
                       activity.userId._id.toString() : 'unknown',
-                name: 'Неизвестный пользователь',
-                email: 'нет данных',
+                name: 'Unknown user',
+                email: 'no data',
                 role: 'user'
               }
             };
@@ -222,7 +222,7 @@ const ActivityHistory = () => {
           
           return activity;
         } catch (err) {
-          console.error(`[ActivityHistory] Ошибка при обработке записи ${index}:`, err);
+          console.error(`[ActivityHistory] Error при обработке записи ${index}:`, err);
           invalidRecords++;
           
           // В случае ошибки обработки, возвращаем оригинальную запись
@@ -231,7 +231,7 @@ const ActivityHistory = () => {
       });
       
       console.log(`[ActivityHistory] Статистика обработки: 
-        Всего записей: ${response.activities.length}
+        Total records: ${response.activities.length}
         Некорректных: ${invalidRecords}
         Записей о настроении: ${moodTrackRecords}`);
       
@@ -243,14 +243,14 @@ const ActivityHistory = () => {
         setMonthlyPeriod(response.period);
       }
     } catch (error: any) {
-      console.error('[ActivityHistory] Ошибка при загрузке месячной активности:', error);
+      console.error('[ActivityHistory] Error при загрузке месячной активности:', error);
       setMonthlyError(error.response?.data?.message || 'Не удалось загрузить месячную активность');
       
       // Гарантируем, что у нас есть пустой массив активностей вместо undefined
       setMonthlyActivities([]);
       
       toast({
-        title: 'Ошибка',
+        title: 'Error',
         description: 'Не удалось загрузить месячную активность. Пожалуйста, попробуйте позже.',
         variant: 'destructive'
       });
@@ -292,8 +292,8 @@ const ActivityHistory = () => {
       const date = new Date(dateString);
       // Проверяем валидность даты
       if (isNaN(date.getTime())) {
-        console.error('Некорректная дата:', dateString);
-        return 'Некорректная дата';
+        console.error('Invalid date:', dateString);
+        return 'Invalid date';
       }
       
       return date.toLocaleDateString('ru-RU', {
@@ -302,8 +302,8 @@ const ActivityHistory = () => {
         year: 'numeric'
       });
     } catch (error) {
-      console.error('Ошибка при форматировании даты:', error);
-      return 'Ошибка формата даты';
+      console.error('Error при форматировании даты:', error);
+      return 'Error формата даты';
     }
   };
 
@@ -326,8 +326,8 @@ const ActivityHistory = () => {
         ...activity,
         userId: {
           _id: typeof activity.userId === 'string' ? activity.userId : 'unknown',
-          name: 'Неизвестный пользователь',
-          email: 'нет данных',
+          name: 'Unknown user',
+          email: 'no data',
           role: 'user'
         }
       };
@@ -354,9 +354,9 @@ const ActivityHistory = () => {
       if (activity.details) {
         if (activity.action === 'mood_track' && activity.details.mood && activity.details.energy) {
           const timeOfDayText = 
-            activity.details.timeOfDay === 'morning' ? 'Утро' : 
-            activity.details.timeOfDay === 'afternoon' ? 'День' : 
-            activity.details.timeOfDay === 'evening' ? 'Вечер' : 
+            activity.details.timeOfDay === 'morning' ? 'Morning' : 
+            activity.details.timeOfDay === 'afternoon' ? 'Day' : 
+            activity.details.timeOfDay === 'evening' ? 'Evening' : 
             activity.details.timeOfDay;
             
           contextInfo = `Время суток: ${timeOfDayText}`;
@@ -372,7 +372,7 @@ const ActivityHistory = () => {
         }
       }
     } catch (error) {
-      console.error('[ActivityHistory] Ошибка при обработке details активности:', error);
+      console.error('[ActivityHistory] Error при обработке details активности:', error);
     }
     
     return (
@@ -390,7 +390,7 @@ const ActivityHistory = () => {
               {actionName}: {entityTypeName}
             </p>
             <p className="text-sm" style={{ color: COLORS.textColorSecondary }}>
-              {activity.userId?.name || 'Неизвестный пользователь'} – {timestamp}
+              {activity.userId?.name || 'Unknown user'} – {timestamp}
             </p>
             {contextInfo && (
               <p className="text-sm mt-1 italic" style={{ color: COLORS.textColorSecondary }}>
@@ -424,7 +424,7 @@ const ActivityHistory = () => {
     return (
       <div className="space-y-4 p-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>История активности</h2>
+          <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>History активности</h2>
         </div>
         <Card style={COMPONENT_STYLES.card}>
           <CardHeader>
@@ -455,7 +455,7 @@ const ActivityHistory = () => {
     return (
       <div className="space-y-4 p-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>История активности</h2>
+          <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>History активности</h2>
         </div>
         <Card style={COMPONENT_STYLES.card}>
           <CardContent className="flex flex-col items-center justify-center p-6">
@@ -467,7 +467,7 @@ const ActivityHistory = () => {
               style={{ borderColor: COLORS.borderColor, color: COLORS.primary }}
             >
               <RefreshCw className="mr-2 h-4 w-4" />
-              Попробовать снова
+              Try again
             </Button>
           </CardContent>
         </Card>
@@ -478,7 +478,7 @@ const ActivityHistory = () => {
   return (
     <div className="space-y-4 p-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>История активности</h2>
+        <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>History активности</h2>
       </div>
       
       <Card style={COMPONENT_STYLES.card}>
@@ -502,7 +502,7 @@ const ActivityHistory = () => {
             
             <TabsContent value="all">
               <CardDescription style={{ color: COLORS.textColorSecondary, marginBottom: '12px' }}>
-                История активности игроков с возможностью фильтрации
+                History активности игроков с возможностью фильтрации
               </CardDescription>
               
               {/* Фильтры (только для персонала) */}
@@ -519,7 +519,7 @@ const ActivityHistory = () => {
                         {users && users.length > 0 && users.map(user => (
                           user._id ? (
                             <SelectItem key={user._id} value={user._id}>
-                              {user.name || 'Пользователь'}
+                              {user.name || 'User'}
                             </SelectItem>
                           ) : null
                         ))}
@@ -598,7 +598,7 @@ const ActivityHistory = () => {
                 ) : (
                   <div className="py-8 text-center" style={{ color: COLORS.textColorSecondary }}>
                     <Search className="mx-auto h-8 w-8 opacity-50 mb-2" />
-                    <p>История активности не найдена</p>
+                    <p>History активности не найдена</p>
                     {error && (
                       <p className="mt-2 text-sm" style={{ color: COLORS.danger }}>
                         {error}
@@ -631,7 +631,7 @@ const ActivityHistory = () => {
             
             <TabsContent value="monthly">
               <CardDescription style={{ color: COLORS.textColorSecondary, marginBottom: '12px' }}>
-                Активность игроков за текущий месяц
+                Activity игроков за текущий месяц
               </CardDescription>
               
               <CardContent className="px-0">
@@ -651,7 +651,7 @@ const ActivityHistory = () => {
                     style={{ borderColor: COLORS.borderColor, color: COLORS.primary }}
                   >
                     <RefreshCw className="mr-2 h-4 w-4" />
-                    Обновить
+                    Update
                   </Button>
                 </div>
                 
@@ -676,7 +676,7 @@ const ActivityHistory = () => {
                 ) : (
                   <div className="py-8 text-center" style={{ color: COLORS.textColorSecondary }}>
                     <Search className="mx-auto h-8 w-8 opacity-50 mb-2" />
-                    <p>Активность игроков за выбранный период не найдена</p>
+                    <p>Activity игроков за выбранный период не найдена</p>
                     {monthlyError && (
                       <p className="mt-2 text-sm" style={{ color: COLORS.danger }}>
                         {monthlyError}
@@ -727,7 +727,7 @@ const ActivityHistory = () => {
               ) : (
                 <div className="py-8 text-center" style={{ color: COLORS.textColorSecondary }}>
                   <Search className="mx-auto h-8 w-8 opacity-50 mb-2" />
-                  <p>История активности не найдена</p>
+                  <p>History активности не найдена</p>
                   {error && (
                     <p className="mt-2 text-sm" style={{ color: COLORS.danger }}>
                       {error}

@@ -93,7 +93,7 @@ export default function DailyQuestionnairePanel({
 
       if ((qSleepStart && !qSleepEnd) || (!qSleepStart && qSleepEnd)) {
         toast({
-          title: "Проверьте сон",
+          title: "Check sleep",
           description: "Заполните оба поля времени сна: и 'с', и 'до'.",
           variant: "destructive"
         });
@@ -110,7 +110,7 @@ export default function DailyQuestionnairePanel({
 
       if (totalScreenTime !== undefined && hasBreakdown && breakdownSum > totalScreenTime) {
         toast({
-          title: "Ошибка экранного времени",
+          title: "Error экранного времени",
           description: `Сумма подкатегорий (${breakdownSum.toFixed(1)} ч) превышает общее экранное время (${totalScreenTime.toFixed(1)} ч).`,
           variant: "destructive"
         });
@@ -136,8 +136,8 @@ export default function DailyQuestionnairePanel({
       toast({ title: "Сохранено", description: "Данные опросника сохранены" });
       await onSaved?.();
     } catch (error: any) {
-      const message = error?.response?.data?.message || error?.message || "Ошибка сохранения";
-      toast({ title: "Ошибка", description: message, variant: "destructive" });
+      const message = error?.response?.data?.message || error?.message || "Error сохранения";
+      toast({ title: "Error", description: message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -177,7 +177,7 @@ export default function DailyQuestionnairePanel({
               style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.04)" }}
             >
               <div className="text-[11px] uppercase tracking-[0.2em]" style={{ color: COLORS.textColorSecondary }}>
-                Дата
+                Date
               </div>
               <div className="mt-1 text-base font-semibold" style={{ color: COLORS.textColor }}>
                 {qDateLabel}
@@ -216,7 +216,7 @@ export default function DailyQuestionnairePanel({
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label style={{ color: COLORS.textColor }}>Дата</Label>
+                <Label style={{ color: COLORS.textColor }}>Date</Label>
                 <Input type="date" value={qDate} onChange={(event) => setQDate(event.target.value)} className="rounded-2xl" style={fieldStyle} />
               </div>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -253,7 +253,7 @@ export default function DailyQuestionnairePanel({
                   <Monitor className="h-5 w-5" />
                 </div>
                 <div>
-                  <CardTitle style={{ color: COLORS.textColor }}>Экранное время</CardTitle>
+                  <CardTitle style={{ color: COLORS.textColor }}>Screen time</CardTitle>
                   <CardDescription style={{ color: COLORS.textColorSecondary }}>
                     Общее время и аккуратная детализация по категориям.
                   </CardDescription>
@@ -274,7 +274,7 @@ export default function DailyQuestionnairePanel({
               </div>
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <Input value={qScreenEntertainment} onChange={(event) => setQScreenEntertainment(event.target.value)} inputMode="decimal" placeholder="Развлечения" className="rounded-2xl" style={fieldStyle} />
+                <Input value={qScreenEntertainment} onChange={(event) => setQScreenEntertainment(event.target.value)} inputMode="decimal" placeholder="Entertainment" className="rounded-2xl" style={fieldStyle} />
                 <Input value={qScreenCommunication} onChange={(event) => setQScreenCommunication(event.target.value)} inputMode="decimal" placeholder="Общение" className="rounded-2xl" style={fieldStyle} />
                 <Input value={qScreenBrowser} onChange={(event) => setQScreenBrowser(event.target.value)} inputMode="decimal" placeholder="Браузер" className="rounded-2xl" style={fieldStyle} />
                 <Input value={qScreenStudy} onChange={(event) => setQScreenStudy(event.target.value)} inputMode="decimal" placeholder="Учёба / работа" className="rounded-2xl" style={fieldStyle} />
@@ -341,17 +341,17 @@ export default function DailyQuestionnairePanel({
                 Что мы сохраняем
               </div>
               <ul className="mt-3 space-y-2 text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
-                <li>Дата среза: {qDateLabel}</li>
+                <li>Date среза: {qDateLabel}</li>
                 <li>Сон: {qSleep || "не указан"}</li>
                 <li>
-                  Экранное время: {qScreen || (questionnaireBreakdownSum > 0 ? `${questionnaireBreakdownSum.toFixed(1)} ч по детализации` : "не указано")}
+                  Screen time: {qScreen || (questionnaireBreakdownSum > 0 ? `${questionnaireBreakdownSum.toFixed(1)} ч по детализации` : "не указано")}
                 </li>
               </ul>
             </div>
           </CardContent>
           <CardFooter className="pt-0">
             <Button onClick={handleSubmit} disabled={submitting || isQuestionnaireExceeded} className="h-12 w-full rounded-2xl" style={{ backgroundColor: COLORS.primary, color: "white" }}>
-              {submitting ? "Сохранение..." : "Сохранить опросник"}
+              {submitting ? "Saving..." : "Save опросник"}
             </Button>
           </CardFooter>
         </Card>

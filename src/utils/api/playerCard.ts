@@ -15,7 +15,7 @@ export const getAllPlayerCards = async (page: number = 1, limit: number = 50) =>
     const token = localStorage.getItem('token');
     
     if (!token) {
-      throw new Error('Требуется авторизация');
+      throw new Error('Authorization required');
     }
     
     const response = await axios.get(`${baseUrl}/api/player-cards?page=${page}&limit=${limit}`, {
@@ -26,7 +26,7 @@ export const getAllPlayerCards = async (page: number = 1, limit: number = 50) =>
     
     return { success: true, data: response.data };
   } catch (error) {
-    const errorMsg = handleApiError(error, 'Ошибка при получении списка карточек игроков');
+    const errorMsg = handleApiError(error, 'Error при получении списка карточек игроков');
     return { success: false, error: errorMsg };
   }
 };
@@ -41,7 +41,7 @@ export const getPlayerCard = async (userId: string) => {
     const token = localStorage.getItem('token');
     
     if (!token) {
-      throw new Error('Требуется авторизация');
+      throw new Error('Authorization required');
     }
     
     const response = await axios.get(`${baseUrl}/api/player-cards/${userId}`, {
@@ -52,7 +52,7 @@ export const getPlayerCard = async (userId: string) => {
     
     return { success: true, data: response.data };
   } catch (error) {
-    const errorMsg = handleApiError(error, 'Ошибка при получении карточки игрока');
+    const errorMsg = handleApiError(error, 'Error при получении карточки игрока');
     return { success: false, error: errorMsg };
   }
 };
@@ -67,7 +67,7 @@ export const createPlayerCard = async (userId: string) => {
     const token = localStorage.getItem('token');
     
     if (!token) {
-      throw new Error('Требуется авторизация');
+      throw new Error('Authorization required');
     }
     
     const response = await axios.post(`${baseUrl}/api/player-cards`, { userId }, {
@@ -79,7 +79,7 @@ export const createPlayerCard = async (userId: string) => {
     
     return { success: true, data: response.data };
   } catch (error) {
-    const errorMsg = handleApiError(error, 'Ошибка при создании карточки игрока');
+    const errorMsg = handleApiError(error, 'Error при создании карточки игрока');
     return { success: false, error: errorMsg };
   }
 };
@@ -104,7 +104,7 @@ export const updatePlayerContacts = async (
     const token = localStorage.getItem('token');
     
     if (!token) {
-      throw new Error('Требуется авторизация');
+      throw new Error('Authorization required');
     }
     
     const response = await axios.put(`${baseUrl}/api/player-cards/${userId}/contacts`, {
@@ -118,7 +118,7 @@ export const updatePlayerContacts = async (
     
     return { success: true, data: response.data };
   } catch (error) {
-    const errorMsg = handleApiError(error, 'Ошибка при обновлении контактов');
+    const errorMsg = handleApiError(error, 'Error при обновлении контактов');
     return { success: false, error: errorMsg };
   }
 };
@@ -137,7 +137,7 @@ export const updateCommunicationLine = async (
     const token = localStorage.getItem('token');
     
     if (!token) {
-      throw new Error('Требуется авторизация');
+      throw new Error('Authorization required');
     }
     
     const response = await axios.put(`${baseUrl}/api/player-cards/${userId}/communication-line`, {
@@ -151,7 +151,7 @@ export const updateCommunicationLine = async (
     
     return { success: true, data: response.data };
   } catch (error) {
-    const errorMsg = handleApiError(error, 'Ошибка при обновлении коммуникативной линии');
+    const errorMsg = handleApiError(error, 'Error при обновлении коммуникативной линии');
     return { success: false, error: errorMsg };
   }
 };
@@ -167,7 +167,7 @@ export const uploadRoadmap = async (file: File, userId: string) => {
     const token = localStorage.getItem('token');
     
     if (!token) {
-      throw new Error('Требуется авторизация');
+      throw new Error('Authorization required');
     }
     
     const formData = new FormData();
@@ -186,7 +186,7 @@ export const uploadRoadmap = async (file: File, userId: string) => {
     
     return { success: true, data: response.data };
   } catch (error) {
-    const errorMsg = handleApiError(error, 'Ошибка при загрузке Roadmap');
+    const errorMsg = handleApiError(error, 'Error при загрузке Roadmap');
     return { success: false, error: errorMsg };
   }
 };
@@ -202,7 +202,7 @@ export const uploadMindmap = async (file: File, userId: string) => {
     const token = localStorage.getItem('token');
     
     if (!token) {
-      throw new Error('Требуется авторизация');
+      throw new Error('Authorization required');
     }
     
     const formData = new FormData();
@@ -221,7 +221,7 @@ export const uploadMindmap = async (file: File, userId: string) => {
     
     return { success: true, data: response.data };
   } catch (error) {
-    const errorMsg = handleApiError(error, 'Ошибка при загрузке Mindmap');
+    const errorMsg = handleApiError(error, 'Error при загрузке Mindmap');
     return { success: false, error: errorMsg };
   }
 }; 
@@ -236,7 +236,7 @@ export const deletePlayerCard = async (userId: string): Promise<{success: boolea
     const token = localStorage.getItem('token');
     
     if (!token) {
-      throw new Error('Требуется авторизация');
+      throw new Error('Authorization required');
     }
     
     const response = await axios.delete(`${baseUrl}/api/player-cards/${userId}`, {
@@ -247,7 +247,7 @@ export const deletePlayerCard = async (userId: string): Promise<{success: boolea
     
     return { success: true, data: response.data };
   } catch (error) {
-    const errorMsg = handleApiError(error, 'Ошибка при удалении карточки игрока');
+    const errorMsg = handleApiError(error, 'Error при удалении карточки игрока');
     return { success: false, error: errorMsg };
   }
 };
@@ -263,7 +263,7 @@ export const attachPlayerToCard = async (cardId: string, newUserId: string) => {
     const token = localStorage.getItem('token');
     
     if (!token) {
-      throw new Error('Требуется авторизация');
+      throw new Error('Authorization required');
     }
     
     const response = await axios.put(`${baseUrl}/api/player-cards/attach-player`, {
@@ -278,7 +278,7 @@ export const attachPlayerToCard = async (cardId: string, newUserId: string) => {
     
     return { success: true, data: response.data };
   } catch (error) {
-    const errorMsg = handleApiError(error, 'Ошибка при привязке игрока к карточке');
+    const errorMsg = handleApiError(error, 'Error при привязке игрока к карточке');
     return { success: false, error: errorMsg };
   }
 };

@@ -74,12 +74,12 @@ const CorrelationAnalysis: React.FC = () => {
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Target className="w-8 h-8 text-blue-600" />
             </div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Корреляционный анализ</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">Correlation analysis</h2>
             <p className="text-gray-600 mb-4">
-              Данная функция доступна только персоналу для анализа эффективности отчетов команды
+              Данная функция доступна только персоналу для анализа эффективности reportов команды
             </p>
             <div className="text-sm text-blue-600">
-              <p>✨ Анализ связей между отчетами и настроением команды</p>
+              <p>✨ Анализ связей между reportами и настроением команды</p>
               <p>📊 Выявление паттернов производительности</p>
               <p>🎯 Оптимизация стратегий управления командой</p>
             </div>
@@ -96,7 +96,7 @@ const CorrelationAnalysis: React.FC = () => {
       setCorrelationStats(response.data);
       setIsFeatureInDevelopment(false);
     } catch (error: any) {
-      console.error('Ошибка загрузки статистики корреляций:', error);
+      console.error('Error загрузки статистики корреляций:', error);
       
       // Проверяем, если функция в разработке (501 статус)
       if (error.response?.status === 501) {
@@ -106,7 +106,7 @@ const CorrelationAnalysis: React.FC = () => {
       // Не показываем toast для 404/501 ошибок (функция может быть не реализована)
       if (error.response?.status !== 404 && error.response?.status !== 501) {
         toast({
-          title: "Ошибка",
+          title: "Error",
           description: "Не удалось загрузить статистику корреляций",
           variant: "destructive",
         });
@@ -123,11 +123,11 @@ const CorrelationAnalysis: React.FC = () => {
       });
       setMoodCorrelations(response.data);
     } catch (error: any) {
-      console.error('Ошибка загрузки корреляций настроения:', error);
+      console.error('Error загрузки корреляций настроения:', error);
       // Не показываем toast для 404/501 ошибок (функция может быть не реализована)
       if (error.response?.status !== 404 && error.response?.status !== 501) {
         toast({
-          title: "Ошибка",
+          title: "Error",
           description: "Не удалось загрузить корреляции настроения",
           variant: "destructive",
         });
@@ -141,10 +141,10 @@ const CorrelationAnalysis: React.FC = () => {
       const response = await getPerformancePatterns(monthsBack);
       setPerformancePatterns(response.data);
     } catch (error: any) {
-      console.error('Ошибка загрузки паттернов производительности:', error);
+      console.error('Error загрузки паттернов производительности:', error);
       if (error.response?.status !== 404 && error.response?.status !== 501) {
         toast({
-          title: "Ошибка",
+          title: "Error",
           description: "Не удалось загрузить паттерны производительности",
           variant: "destructive",
         });
@@ -161,10 +161,10 @@ const CorrelationAnalysis: React.FC = () => {
       });
       setBalanceCorrelations(response.data);
     } catch (error: any) {
-      console.error('Ошибка загрузки корреляций баланса:', error);
+      console.error('Error загрузки корреляций баланса:', error);
       if (error.response?.status !== 404 && error.response?.status !== 501) {
         toast({
-          title: "Ошибка",
+          title: "Error",
           description: "Не удалось загрузить корреляции колеса баланса",
           variant: "destructive",
         });
@@ -181,10 +181,10 @@ const CorrelationAnalysis: React.FC = () => {
       });
       setComprehensiveAnalysis(response.data);
     } catch (error: any) {
-      console.error('Ошибка загрузки комплексного анализа:', error);
+      console.error('Error загрузки комплексного анализа:', error);
       if (error.response?.status !== 404 && error.response?.status !== 501) {
         toast({
-          title: "Ошибка",
+          title: "Error",
           description: "Не удалось загрузить комплексный анализ",
           variant: "destructive",
         });
@@ -205,7 +205,7 @@ const CorrelationAnalysis: React.FC = () => {
             fetchPerformancePatterns()
           ]);
         } catch (error) {
-          console.error('Ошибка загрузки данных корреляций:', error);
+          console.error('Error загрузки данных корреляций:', error);
         } finally {
           setLoading(false);
         }
@@ -258,10 +258,10 @@ const CorrelationAnalysis: React.FC = () => {
 
   const getSignificanceLabel = (significance: string): string => {
     switch (significance) {
-      case 'high': return 'Высокая';
-      case 'medium': return 'Средняя';
-      case 'low': return 'Низкая';
-      default: return 'Отсутствует';
+      case 'high': return 'High';
+      case 'medium': return 'Medium';
+      case 'low': return 'Low';
+      default: return 'Missing';
     }
   };
 
@@ -335,9 +335,9 @@ const CorrelationAnalysis: React.FC = () => {
       {/* Заголовок и управление */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Корреляционный анализ</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Correlation analysis</h1>
           <p className="text-gray-600">
-            Анализ взаимосвязей между отчетами команды и метриками производительности
+            Анализ взаимосвязей между reportами команды и метриками производительности
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -348,7 +348,7 @@ const CorrelationAnalysis: React.FC = () => {
             disabled={loading}
           >
             <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            Обновить
+            Update
           </Button>
         </div>
       </div>
@@ -364,7 +364,7 @@ const CorrelationAnalysis: React.FC = () => {
               <div>
                 <h3 className="font-medium text-orange-900">Функция в разработке</h3>
                 <p className="text-sm text-orange-700">
-                  Корреляционный анализ находится в стадии активной разработки. 
+                  Correlation analysis находится в стадии активной разработки. 
                   Полная функциональность будет доступна в ближайших обновлениях.
                 </p>
               </div>
@@ -401,7 +401,7 @@ const CorrelationAnalysis: React.FC = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Месяцев для анализа
+                Monthев для анализа
               </label>
               <Select value={monthsBack.toString()} onValueChange={(value) => setMonthsBack(parseInt(value))}>
                 <SelectTrigger>
@@ -435,7 +435,7 @@ const CorrelationAnalysis: React.FC = () => {
                   <BarChart3 className="h-6 w-6" style={{ color: COLORS.primary }} />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-600">Всего отчетов</p>
+                  <p className="text-sm font-medium text-gray-600">Всего reportов</p>
                   <p className="text-2xl font-bold text-gray-900">
                     {correlationStats.totalReportsAnalyzed}
                   </p>
@@ -500,7 +500,7 @@ const CorrelationAnalysis: React.FC = () => {
           <TabsTrigger value="overview">Обзор</TabsTrigger>
           <TabsTrigger value="mood">Настроение</TabsTrigger>
           <TabsTrigger value="patterns">Паттерны</TabsTrigger>
-          <TabsTrigger value="balance">Баланс</TabsTrigger>
+          <TabsTrigger value="balance">Balance</TabsTrigger>
           <TabsTrigger value="comprehensive">Комплексный</TabsTrigger>
         </TabsList>
 
@@ -528,9 +528,9 @@ const CorrelationAnalysis: React.FC = () => {
                     <div className="p-4 rounded-lg bg-green-50">
                       <h4 className="font-semibold text-green-900 mb-2">Наиболее эффективный тип</h4>
                       <p className="text-lg font-bold text-green-700">
-                        {comprehensiveAnalysis.insights.mostEffectiveReportType || 'Не определен'}
+                        {comprehensiveAnalysis.insights.mostEffectiveReportType || 'Not defined'}
                       </p>
-                      <p className="text-sm text-green-600">отчетов команды</p>
+                      <p className="text-sm text-green-600">reportов команды</p>
                     </div>
                   </div>
                   
@@ -549,7 +549,7 @@ const CorrelationAnalysis: React.FC = () => {
                     </div>
                     
                     <div className="p-4 rounded-lg bg-purple-50">
-                      <h4 className="font-semibold text-purple-900 mb-2">Проанализировано отчетов</h4>
+                      <h4 className="font-semibold text-purple-900 mb-2">Проанализировано reportов</h4>
                       <p className="text-2xl font-bold text-purple-700">
                         {comprehensiveAnalysis.insights.totalReportsAnalyzed}
                       </p>
@@ -568,14 +568,14 @@ const CorrelationAnalysis: React.FC = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Activity className="h-5 w-5" />
-                Корреляции отчетов и настроения
+                Корреляции reportов и настроения
               </CardTitle>
             </CardHeader>
             <CardContent>
               {moodCorrelations.length === 0 ? (
                 <div className="text-center py-8">
                   <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">Нет данных для анализа корреляций</p>
+                  <p className="text-gray-600">No data для анализа корреляций</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -595,14 +595,14 @@ const CorrelationAnalysis: React.FC = () => {
                       
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="text-center p-3 bg-gray-50 rounded-lg">
-                          <p className="text-sm text-gray-600">До отчета</p>
+                          <p className="text-sm text-gray-600">До reportа</p>
                           <p className="text-lg font-bold text-gray-900">
                             {correlation.correlations.beforeAfter.moodBefore.toFixed(1)}
                           </p>
                         </div>
                         
                         <div className="text-center p-3 bg-gray-50 rounded-lg">
-                          <p className="text-sm text-gray-600">После отчета</p>
+                          <p className="text-sm text-gray-600">После reportа</p>
                           <p className="text-lg font-bold text-gray-900">
                             {correlation.correlations.beforeAfter.moodAfter.toFixed(1)}
                           </p>
@@ -639,7 +639,7 @@ const CorrelationAnalysis: React.FC = () => {
               {performancePatterns.length === 0 ? (
                 <div className="text-center py-8">
                   <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">Нет данных для анализа паттернов</p>
+                  <p className="text-gray-600">No data для анализа паттернов</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -649,7 +649,7 @@ const CorrelationAnalysis: React.FC = () => {
                         <div>
                           <h4 className="font-semibold text-gray-900">{pattern.period}</h4>
                           <p className="text-sm text-gray-600">
-                            {pattern.reportsCount} отчетов
+                            {pattern.reportsCount} reportов
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
@@ -680,7 +680,7 @@ const CorrelationAnalysis: React.FC = () => {
                       
                       {pattern.reportTypes.length > 0 && (
                         <div>
-                          <h5 className="font-medium text-gray-900 mb-2">Типы отчетов:</h5>
+                          <h5 className="font-medium text-gray-900 mb-2">Типы reportов:</h5>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                             {pattern.reportTypes.map((type, typeIndex) => (
                               <div key={typeIndex} className="flex justify-between items-center p-2 bg-gray-50 rounded">
@@ -713,14 +713,14 @@ const CorrelationAnalysis: React.FC = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Target className="h-5 w-5" />
-                Корреляции отчетов и колеса баланса
+                Корреляции reportов и колеса баланса
               </CardTitle>
             </CardHeader>
             <CardContent>
               {balanceCorrelations.length === 0 ? (
                 <div className="text-center py-8">
                   <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">Нет данных для анализа корреляций колеса баланса</p>
+                  <p className="text-gray-600">No data для анализа корреляций колеса баланса</p>
                 </div>
               ) : (
                 <div className="space-y-6">
@@ -814,7 +814,7 @@ const CorrelationAnalysis: React.FC = () => {
                         <li className="flex items-start gap-2">
                           <CheckCircle className="h-4 w-4 text-green-600 mt-0.5" />
                           <span className="text-sm text-gray-700">
-                            Проанализировано {comprehensiveAnalysis.insights.totalReportsAnalyzed} отчетов команды
+                            Проанализировано {comprehensiveAnalysis.insights.totalReportsAnalyzed} reportов команды
                           </span>
                         </li>
                         <li className="flex items-start gap-2">
@@ -868,7 +868,7 @@ const CorrelationAnalysis: React.FC = () => {
                         </div>
                         
                         <div className="p-3 bg-orange-50 rounded-lg text-center">
-                          <p className="text-sm text-orange-600">Дата анализа</p>
+                          <p className="text-sm text-orange-600">Date анализа</p>
                           <p className="text-xs font-medium text-orange-700">
                             {formatDate(comprehensiveAnalysis.generatedAt)}
                           </p>

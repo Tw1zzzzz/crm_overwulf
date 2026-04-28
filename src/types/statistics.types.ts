@@ -18,12 +18,12 @@ export const TIME_PERIOD_METADATA: Record<TimePeriod, {
   dateFormat: string;
 }> = {
   [TimePeriod.WEEK]: {
-    label: 'Неделя',
+    label: 'Week',
     days: 7,
     dateFormat: 'dd.MM'
   },
   [TimePeriod.MONTH]: {
-    label: 'Месяц', 
+    label: 'Month', 
     days: 30,
     dateFormat: 'dd.MM'
   },
@@ -33,7 +33,7 @@ export const TIME_PERIOD_METADATA: Record<TimePeriod, {
     dateFormat: 'MM.yyyy'
   },
   [TimePeriod.YEAR]: {
-    label: 'Год',
+    label: 'Year',
     days: 365,
     dateFormat: 'MM.yyyy'
   },

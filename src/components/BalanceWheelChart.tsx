@@ -29,7 +29,7 @@ interface BalanceWheelChartProps {
  */
 export const BalanceWheelChart: React.FC<BalanceWheelChartProps> = ({ 
   data, 
-  title = "Колесо баланса", 
+  title = "Balance wheel", 
   style,
   compact = false
 }) => {
@@ -37,14 +37,14 @@ export const BalanceWheelChart: React.FC<BalanceWheelChartProps> = ({
   const chartData = Array.isArray(data) && data[0]?.subject 
     ? data 
     : [
-        { subject: 'Физическое здоровье', value: (data as Record<string, number>).physical || 0 },
-        { subject: 'Эмоциональное состояние', value: (data as Record<string, number>).emotional || 0 },
-        { subject: 'Интеллектуальное развитие', value: (data as Record<string, number>).intellectual || 0 },
-        { subject: 'Духовное развитие', value: (data as Record<string, number>).spiritual || 0 },
-        { subject: 'Профессиональный рост', value: (data as Record<string, number>).occupational || 0 },
-        { subject: 'Социальные отношения', value: (data as Record<string, number>).social || 0 },
-        { subject: 'Окружающая среда', value: (data as Record<string, number>).environmental || 0 },
-        { subject: 'Финансовое благополучие', value: (data as Record<string, number>).financial || 0 },
+        { subject: 'Physical health', value: (data as Record<string, number>).physical || 0 },
+        { subject: 'Emotional state', value: (data as Record<string, number>).emotional || 0 },
+        { subject: 'Intellectual development', value: (data as Record<string, number>).intellectual || 0 },
+        { subject: 'Spiritual growth', value: (data as Record<string, number>).spiritual || 0 },
+        { subject: 'Professional growth', value: (data as Record<string, number>).occupational || 0 },
+        { subject: 'Social relationships', value: (data as Record<string, number>).social || 0 },
+        { subject: 'Environment', value: (data as Record<string, number>).environmental || 0 },
+        { subject: 'Financial wellbeing', value: (data as Record<string, number>).financial || 0 },
       ];
 
   // Кастомный рендер меток осей для поддержки переноса длинных текстов
@@ -133,7 +133,7 @@ export const BalanceWheelChart: React.FC<BalanceWheelChartProps> = ({
               strokeWidth={1}
             />
             <Radar
-              name="Баланс"
+              name="Balance"
               dataKey="value"
               stroke="#4d82ff"
               fill="#4d82ff"
@@ -199,7 +199,7 @@ export const BalanceWheelChart: React.FC<BalanceWheelChartProps> = ({
                 tickLine={{ stroke: COLORS.borderColor }}
               />
               <Radar
-                name="Баланс"
+                name="Balance"
                 dataKey="value"
                 stroke={COLORS.primary}
                 fill={COLORS.primary}

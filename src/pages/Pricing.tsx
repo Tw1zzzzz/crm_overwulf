@@ -178,7 +178,7 @@ const Pricing = () => {
                         Переход к оплате...
                       </>
                     ) : (
-                      'Купить'
+                      'Buy'
                     )}
                   </Button>
                 </CardFooter>

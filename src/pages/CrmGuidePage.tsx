@@ -51,12 +51,12 @@ const CrmGuidePage = () => {
 
   const tableOfContents = useMemo(
     () => [
-      { id: "quick-start", label: "Быстрый старт" },
-      { id: "product-map", label: "Карта продукта" },
-      { id: "role-mode", label: activeAudience === "player" ? "Режим player" : "Режим staff" },
-      { id: "workflows", label: "Пошаговые сценарии" },
+      { id: "quick-start", label: "Quick start" },
+      { id: "product-map", label: "Product map" },
+      { id: "role-mode", label: activeAudience === "player" ? "Mode player" : "Mode staff" },
+      { id: "workflows", label: "Step-by-step workflows" },
       ...visibleSections.map((section) => ({ id: section.id, label: section.title })),
-      { id: "faq-support", label: "FAQ и поддержка" },
+      { id: "faq-support", label: "FAQ and support" },
     ],
     [activeAudience, visibleSections]
   );
@@ -66,28 +66,28 @@ const CrmGuidePage = () => {
   return (
     <div className="container mx-auto space-y-6 p-6">
       <PageIntro
-        eyebrow="Помощь и onboarding"
-        title={`Гайд по ${PRODUCT_NAME}`}
-        description="Это единая карта продукта для player и staff. Она помогает быстро понять, в каком порядке открывать модули CRM, где смотреть ранние сигналы и как переходить от общего обзора к точечной работе."
+        eyebrow="Help and onboarding"
+        title={`Guide to ${PRODUCT_NAME}`}
+        description="This is one product map for players and staff. It helps you quickly understand which CRM modules to open first, where to read early signals, and how to move from overview to targeted work."
         collapsible
         bullets={[
-          "Одна вкладка для общего понимания продукта",
-          "Role-specific блоки для player и staff",
-          "Карточки модулей, визуальные примеры и короткие сниппеты",
+          "One tab for understanding the product",
+          "Role-specific blocks for players and staff",
+          "Module cards, visual examples, and short snippets",
         ]}
         actions={
           <Card className="border-sky-300/20 bg-slate-950/70">
             <CardContent className="space-y-3 p-4">
               <div className="flex items-center gap-2 text-sky-100">
                 <BookOpen className="h-4 w-4" />
-                <span className="text-sm font-medium">Как пользоваться страницей</span>
+                <span className="text-sm font-medium">How to use this page</span>
               </div>
               <p className="text-sm leading-6 text-slate-300">
-                Сначала пройдите быстрый старт, затем переключите режим на свой профиль и используйте оглавление слева,
-                чтобы быстро прыгать к нужному блоку.
+                Start with quick start, then switch the mode to your profile and use the table of contents on the left,
+                to quickly jump to the block you need.
               </p>
               <Button asChild className="w-full bg-sky-500 text-white hover:bg-sky-400">
-                <Link to={ROUTES.DASHBOARD}>Вернуться в обзор</Link>
+                <Link to={ROUTES.DASHBOARD}>Back to overview</Link>
               </Button>
             </CardContent>
           </Card>
@@ -114,11 +114,11 @@ const CrmGuidePage = () => {
             <div className="space-y-2">
               <div className="inline-flex items-center gap-2 rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1 text-[11px] uppercase tracking-[0.24em] text-sky-100">
                 <Compass className="h-3.5 w-3.5" />
-                Навигация
+                Navigation
               </div>
               <p className="text-sm leading-6 text-slate-300">
-                Используйте оглавление как быстрый маршрут по странице, когда нужно объяснить CRM новому пользователю или
-                быстро вспомнить рабочий порядок.
+                Use the table of contents as a quick route when you need to explain CRM to a new user or
+                quickly remember the working order.
               </p>
             </div>
 
@@ -142,9 +142,9 @@ const CrmGuidePage = () => {
             <div className="mb-5 flex items-center gap-3">
               <Badge variant="outline" className="border-sky-400/30 bg-sky-400/10 text-sky-100">
                 <Sparkles className="mr-1 h-3.5 w-3.5" />
-                Быстрый старт
+                Quick start
               </Badge>
-              <p className="text-sm text-slate-400">3 шага, чтобы объяснить CRM без длинного онбординга</p>
+              <p className="text-sm text-slate-400">3 steps to explain CRM without a long onboarding</p>
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
@@ -169,16 +169,16 @@ const CrmGuidePage = () => {
               <div className="space-y-2">
                 <Badge variant="outline" className="border-slate-700 bg-slate-900/80 text-slate-200">
                   <CalendarDays className="mr-1 h-3.5 w-3.5" />
-                  Карта продукта
+                  Product map
                 </Badge>
-                <h2 className="text-2xl font-semibold text-white">Какие разделы открывать и в каком порядке</h2>
+                <h2 className="text-2xl font-semibold text-white">Which sections to open and in what order</h2>
                 <p className="max-w-3xl text-sm leading-6 text-slate-300">
-                  Это не полный список всех экранов CRM, а рабочая витрина модулей, через которые пользователь чаще всего
-                  проходит свой сценарий.
+                  This is not the full list of CRM screens, but a working view of the modules users most often
+                  use in their workflow.
                 </p>
               </div>
               <Badge variant="outline" className="border-sky-400/30 bg-sky-400/10 text-sky-100">
-                Режим: {roleTitle}
+                Mode: {roleTitle}
               </Badge>
             </div>
 
@@ -192,7 +192,7 @@ const CrmGuidePage = () => {
                   <CardContent>
                     <Button asChild variant="outline" className="border-slate-700 bg-transparent text-slate-100 hover:bg-slate-800">
                       <Link to={card.href}>
-                        Перейти в раздел
+                        Go to section
                         <ArrowRight className="h-4 w-4" />
                       </Link>
                     </Button>
@@ -207,12 +207,12 @@ const CrmGuidePage = () => {
               <div className="space-y-2">
                 <Badge variant="outline" className="border-slate-700 bg-slate-900/80 text-slate-200">
                   <MonitorSmartphone className="mr-1 h-3.5 w-3.5" />
-                  Role-specific режим
+                  Role-specific mode
                 </Badge>
-                <h2 className="text-2xl font-semibold text-white">Показываем только ваш контур работы</h2>
+                <h2 className="text-2xl font-semibold text-white">Only your work loop is shown</h2>
                 <p className="max-w-3xl text-sm leading-6 text-slate-300">
-                  Общие блоки ниже видны всегда, а модульные пояснения подстраиваются под роль. Это помогает не перегружать
-                  страницу чужими сценариями.
+                  Common blocks below are always visible, while module explanations adapt to the role. This avoids overloading
+                  the page with unrelated workflows.
                 </p>
               </div>
               <Tabs value={activeAudience} onValueChange={(value) => setActiveAudience(value as "player" | "staff")}>
@@ -240,12 +240,12 @@ const CrmGuidePage = () => {
             <div className="mb-5 space-y-2">
               <Badge variant="outline" className="border-slate-700 bg-slate-900/80 text-slate-200">
                 <Compass className="mr-1 h-3.5 w-3.5" />
-                Пошаговые сценарии
+                Step-by-step workflows
               </Badge>
-              <h2 className="text-2xl font-semibold text-white">Где нажать и что делать дальше</h2>
+              <h2 className="text-2xl font-semibold text-white">Where to click and what to do next</h2>
               <p className="max-w-3xl text-sm leading-6 text-slate-300">
-                Здесь собраны самые практичные сценарии: как staff создать команду, где обновить название и коды, и как
-                игроку или сотруднику подключиться по правильному team-коду без лишних догадок.
+                The most practical workflows are collected here: how staff create a team, where to update name and codes, and how
+                a player or staff member can connect with the right team code without guessing.
               </p>
             </div>
 
@@ -263,7 +263,7 @@ const CrmGuidePage = () => {
                             item.audience === "staff" && "border-violet-400/30 bg-violet-400/10 text-violet-100"
                           )}
                         >
-                          {item.audience === "player" ? "Player" : item.audience === "staff" ? "Staff" : "Общий"}
+                          {item.audience === "player" ? "Player" : item.audience === "staff" ? "Staff" : "General"}
                         </Badge>
                         <Badge variant="outline" className="border-slate-700 text-slate-300">
                           {item.hrefLabel}
@@ -305,7 +305,7 @@ const CrmGuidePage = () => {
                   <div className="space-y-4">
                     <div className="flex flex-wrap items-center gap-2">
                       <Badge variant="outline" className="border-sky-400/30 bg-sky-400/10 text-sky-100">
-                        {section.audience === "common" ? "Общий модуль" : section.audience === "player" ? "Player" : "Staff"}
+                        {section.audience === "common" ? "General module" : section.audience === "player" ? "Player" : "Staff"}
                       </Badge>
                       <Badge variant="outline" className="border-slate-700 text-slate-300">
                         {section.hrefLabel}
@@ -319,7 +319,7 @@ const CrmGuidePage = () => {
 
                     <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_260px]">
                       <div className="space-y-3">
-                        <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">Как использовать</h3>
+                        <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">How to use</h3>
                         <ol className="space-y-3">
                           {section.steps.map((step, index) => (
                             <li key={step} className="flex gap-3 text-sm leading-6 text-slate-200">
@@ -333,7 +333,7 @@ const CrmGuidePage = () => {
                       </div>
 
                       <div className="space-y-3">
-                        <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">Ключевые акценты</h3>
+                        <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">Key points</h3>
                         <div className="flex flex-wrap gap-2">
                           {section.bullets.map((bullet) => (
                             <span
@@ -375,12 +375,12 @@ const CrmGuidePage = () => {
                 <div className="space-y-2">
                   <Badge variant="outline" className="border-slate-700 bg-slate-900/80 text-slate-200">
                     <LifeBuoy className="mr-1 h-3.5 w-3.5" />
-                    FAQ и поддержка
+                    FAQ and support
                   </Badge>
-                  <h2 className="text-2xl font-semibold text-white">Куда идти, если остались вопросы</h2>
+                  <h2 className="text-2xl font-semibold text-white">Where to go if questions remain</h2>
                   <p className="max-w-3xl text-sm leading-6 text-slate-300">
-                    Здесь собраны короткие ответы на типовые вопросы и быстрый переход в уже существующий канал поддержки
-                    внутри CRM.
+                    Short answers to common questions and a quick link to the existing support channel are collected here
+                    inside CRM.
                   </p>
                 </div>
 
@@ -389,7 +389,7 @@ const CrmGuidePage = () => {
                     <Card key={item.id} className="border-slate-800 bg-slate-900/70">
                       <CardHeader className="space-y-2">
                         <CardDescription className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                          Вопрос {index + 1}
+                          Question {index + 1}
                         </CardDescription>
                         <CardTitle className="text-lg text-white">{item.question}</CardTitle>
                       </CardHeader>
@@ -404,32 +404,31 @@ const CrmGuidePage = () => {
               <Card className="h-fit border-sky-400/20 bg-slate-950/75">
                 <CardHeader className="space-y-3">
                   <Badge variant="outline" className="w-fit border-sky-400/30 bg-sky-400/10 text-sky-100">
-                    Поддержка
+                    Support
                   </Badge>
-                  <CardTitle className="text-xl text-white">Нужна помощь по CRM?</CardTitle>
+                  <CardTitle className="text-xl text-white">Need help with CRM?</CardTitle>
                   <CardDescription className="leading-6 text-slate-300">
-                    Если сценарий не описан в этом гайде или возникла ошибка в рабочем потоке, отправьте запрос прямо из
-                    продукта.
+                    If a workflow is not covered in this guide or something breaks in your work process, send a request directly from the product.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2 text-sm leading-6 text-slate-300">
-                    <p>Поддержка поможет с доступами, ошибками интерфейса, платежами и вопросами по использованию CRM.</p>
+                    <p>Support поможет с доступами, ошибками интерфейса, платежами и вопросами по использованию CRM.</p>
                     <Separator className="bg-slate-800" />
                     <SupportRequestDialog variant="inline" />
                   </div>
 
                   <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-4 text-sm leading-6 text-slate-300">
-                    Для быстрого старта:
+                    For a quick start:
                     <ul className="mt-2 space-y-2">
-                      <li>Откройте обзор, если хотите понять текущую картину.</li>
-                      <li>Перейдите в тарифы, если ждёте закрытую аналитику.</li>
-                      <li>Используйте этот гайд как навигационную карту для новых пользователей.</li>
+                      <li>Open the overview if you want to understand the current picture.</li>
+                      <li>Go to plans if you are waiting for locked analytics.</li>
+                      <li>Use this guide as a navigation map for new users.</li>
                     </ul>
                   </div>
 
                   <Button asChild variant="outline" className="w-full border-slate-700 bg-transparent text-slate-100 hover:bg-slate-800">
-                    <Link to={ROUTES.PRICING}>Посмотреть тарифы</Link>
+                    <Link to={ROUTES.PRICING}>View plans</Link>
                   </Button>
                 </CardContent>
               </Card>

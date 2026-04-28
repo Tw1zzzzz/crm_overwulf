@@ -95,7 +95,7 @@ const PersonalStats = ({
       {!hasAnyData ? (
         <Card className="bg-[#1C1F3B] border-[#293056] shadow-none">
           <CardHeader>
-            <CardTitle className="text-white">Нет данных для отображения</CardTitle>
+            <CardTitle className="text-white">No data to display</CardTitle>
             <CardDescription className="text-gray-400">Заполните данные о настроении и энергии, пройдите тесты, чтобы увидеть вашу статистику</CardDescription>
           </CardHeader>
           <CardContent>
@@ -104,7 +104,7 @@ const PersonalStats = ({
               <ul className="text-left text-gray-300 list-disc pl-6 space-y-2">
                 <li>Заполнить данные о настроении и энергии на вкладке "Настроение и Энергия"</li>
                 <li>Пройти тесты на вкладке "Тесты"</li>
-                <li>Заполнить колесо баланса на вкладке "Колесо баланса"</li>
+                <li>Заполнить колесо баланса на вкладке "Balance wheel"</li>
               </ul>
             </div>
           </CardContent>
@@ -124,7 +124,7 @@ const PersonalStats = ({
                 <p className="text-2xl font-bold text-white">{avgStats.avgMood}</p>
               </div>
               <div className="bg-[#14162D] p-4 rounded-lg">
-                <p className="text-sm text-gray-400">Средняя энергия</p>
+                <p className="text-sm text-gray-400">Medium энергия</p>
                 <p className="text-2xl font-bold text-white">{avgStats.avgEnergy}</p>
               </div>
               <div className="bg-[#14162D] p-4 rounded-lg">
@@ -152,8 +152,8 @@ const PersonalStats = ({
             <SelectValue placeholder="Выберите период" />
           </SelectTrigger>
           <SelectContent className="bg-[#1C1F3B] border-[#293056] text-white">
-            <SelectItem value="week">Неделя</SelectItem>
-            <SelectItem value="month">Месяц</SelectItem>
+            <SelectItem value="week">Week</SelectItem>
+            <SelectItem value="month">Month</SelectItem>
             <SelectItem value="3months">3 месяца</SelectItem>
           </SelectContent>
         </Select>
@@ -177,7 +177,7 @@ const PersonalStats = ({
               <MoodChart data={moodData} height={400} />
                   ) : (
                     <div className="p-6 text-center">
-                      <p className="text-gray-400">Нет данных о настроении за выбранный период</p>
+                      <p className="text-gray-400">No data о настроении за выбранный период</p>
                     </div>
                   )}
             </CardContent>
@@ -188,7 +188,7 @@ const PersonalStats = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="bg-[#1C1F3B] border-[#293056] shadow-none">
               <CardHeader>
-                <CardTitle className="text-white">Результаты тестов {timeRangeLabel(timeRange)}</CardTitle>
+                <CardTitle className="text-white">Test results {timeRangeLabel(timeRange)}</CardTitle>
                 <CardDescription className="text-gray-400">
                   Средний score по каждому типу тестов, включая Brain Lab и ручные записи.
                 </CardDescription>
@@ -212,7 +212,7 @@ const PersonalStats = ({
                 <TestChart data={testData} height={300} />
                     ) : (
                       <div className="p-6 text-center">
-                        <p className="text-gray-400">Нет данных о тестах за выбранный период</p>
+                        <p className="text-gray-400">No data о тестах за выбранный период</p>
                       </div>
                     )}
               </CardContent>
@@ -220,7 +220,7 @@ const PersonalStats = ({
             
             <Card className="bg-[#1C1F3B] border-[#293056] shadow-none">
               <CardHeader>
-                <CardTitle className="text-white">Распределение типов тестов</CardTitle>
+                <CardTitle className="text-white">Distribution типов тестов</CardTitle>
                 <CardDescription className="text-gray-400">Соотношение различных типов тестов</CardDescription>
               </CardHeader>
               <CardContent>
@@ -231,7 +231,7 @@ const PersonalStats = ({
                 />
                     ) : (
                       <div className="p-6 text-center">
-                        <p className="text-gray-400">Нет данных о тестах</p>
+                        <p className="text-gray-400">No data о тестах</p>
                       </div>
                     )}
               </CardContent>
@@ -252,7 +252,7 @@ const PersonalStats = ({
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-[#293056]">
-                        <th className="text-left p-2 text-white">День недели</th>
+                        <th className="text-left p-2 text-white">Day недели</th>
                         <th className="text-center p-2 text-white">Настроение</th>
                         <th className="text-center p-2 text-white">Энергия</th>
                         <th className="text-center p-2 text-white">Сон</th>
@@ -269,7 +269,7 @@ const PersonalStats = ({
                               const daySleepEntries = sleepEntries.filter((entry) => {
                                 const date = new Date(entry.date);
                                 const weekDayIndex = date.getDay() === 0 ? 6 : date.getDay() - 1;
-                                const dayIndex = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'].indexOf(day.name);
+                                const dayIndex = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].indexOf(day.name);
                                 return weekDayIndex === dayIndex;
                               });
 
@@ -285,7 +285,7 @@ const PersonalStats = ({
                 </div>
                     ) : (
                       <div className="p-6 text-center">
-                        <p className="text-gray-400">Нет данных о настроении для анализа</p>
+                        <p className="text-gray-400">No data о настроении для анализа</p>
                       </div>
                     )}
               </CardContent>
@@ -302,7 +302,7 @@ const PersonalStats = ({
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-[#293056]">
-                        <th className="text-left p-2 text-white">День недели</th>
+                        <th className="text-left p-2 text-white">Day недели</th>
                         <th className="text-center p-2 text-white">Кол-во тестов</th>
                         <th className="text-center p-2 text-white">Средний результат</th>
                       </tr>
@@ -320,7 +320,7 @@ const PersonalStats = ({
                 </div>
                     ) : (
                       <div className="p-6 text-center">
-                        <p className="text-gray-400">Нет данных о тестах для анализа</p>
+                        <p className="text-gray-400">No data о тестах для анализа</p>
                       </div>
                     )}
               </CardContent>

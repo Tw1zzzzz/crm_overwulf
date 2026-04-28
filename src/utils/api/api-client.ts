@@ -104,9 +104,9 @@ export class ApiClient {
     const timestamp = new Date().toISOString();
     
     if (!error.response) {
-      // Ошибка сети или таймаут
+      // Network error или таймаут
       return {
-        message: error.request ? 'Сервер не отвечает' : 'Ошибка сети',
+        message: error.request ? 'Server is not responding' : 'Network error',
         statusCode: 0,
         timestamp,
         details: error.message
@@ -114,24 +114,24 @@ export class ApiClient {
     }
 
     const { status, data } = error.response;
-    let message = data?.message || data?.error || 'Неизвестная ошибка';
+    let message = data?.message || data?.error || 'Unknown error';
 
     if (status === 503 && data?.code === 'DB_UNAVAILABLE') {
-      message = 'Сервер не подключен к базе данных MongoDB. Проверьте запуск MongoDB и MONGODB_URI.';
+      message = 'Server is not connected to MongoDB. Check MongoDB startup and MONGODB_URI.';
     }
 
     // Обработка типовых статус-кодов с русскими сообщениями
     const statusMessages: Record<number, string> = {
-      400: 'Некорректные данные',
-      401: 'Необходима авторизация',
-      403: 'Доступ запрещен',
-      404: 'Ресурс не найден',
-      409: 'Конфликт данных',
-      422: 'Ошибка валидации',
-      429: 'Слишком много запросов',
-      500: 'Внутренняя ошибка сервера',
-      502: 'Ошибка шлюза',
-      503: 'Сервис недоступен'
+      400: 'Invalid data',
+      401: 'Authorization required',
+      403: 'Access denied',
+      404: 'Resource not found',
+      409: 'Data conflict',
+      422: 'Validation error',
+      429: 'Too many requests',
+      500: 'Internal server error',
+      502: 'Gateway error',
+      503: 'Service unavailable'
     };
 
     if (!data?.message && statusMessages[status]) {
@@ -180,7 +180,7 @@ export class ApiClient {
       
       return response.data.data || response.data as T;
     } catch (error) {
-      throw error; // Ошибка уже обработана в interceptor
+      throw error; // Error уже обработана в interceptor
     }
   }
 
@@ -208,7 +208,7 @@ export class ApiClient {
   }
 
   /**
-   * Загрузка файлов
+   * Loading файлов
    */
   public async uploadFile<T>(
     url: string,

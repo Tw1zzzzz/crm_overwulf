@@ -34,6 +34,7 @@ import NotFound from "./pages/NotFound";
 import ResetPassword from "./pages/ResetPassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import SuperAdminPage from "./pages/SuperAdminPage";
+import NotesOverlay from "./pages/NotesOverlay";
 import ROUTES from "./lib/routes";
 import StaffManagement from "./client/src/components/admin/StaffManagement";
 import { PlayerType } from "@/types";
@@ -54,7 +55,7 @@ const RouteGuard = ({ children, requiredRole, requireSuperAdmin, allowedPlayerTy
   const { user, loading } = useAuth();
   
   if (loading) {
-    return <FullScreenLoader text="РџСЂРѕРІРµСЂРєР° Р°РІС‚РѕСЂРёР·Р°С†РёРё..." />;
+    return <FullScreenLoader text="Checking authorization..." />;
   }
   
   // РџСЂРѕРІРµСЂРєР° РЅР° Р°РІС‚РѕСЂРёР·Р°С†РёСЋ
@@ -91,6 +92,14 @@ const AppRoutes = () => (
     <Route path={ROUTES.WELCOME} element={<Index />} />
     <Route path={ROUTES.RESET_PASSWORD} element={<ResetPassword />} />
     <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmail />} />
+    <Route
+      path={ROUTES.OVERLAY_NOTES}
+      element={
+        <RouteGuard>
+          <NotesOverlay />
+        </RouteGuard>
+      }
+    />
     <Route path={ROUTES.PAYMENT_SUCCESS} element={<PaymentSuccess />} />
     <Route path={ROUTES.PAYMENT_FAIL} element={<PaymentFail />} />
     <Route path={ROUTES.PAYMENT_SUCCESS_LEGACY} element={<Navigate to={ROUTES.PAYMENT_SUCCESS} replace />} />
@@ -288,6 +297,18 @@ const AppRoutes = () => (
   </Routes>
 );
 
+const AppContent = () => {
+  if (typeof window !== "undefined" && window.name === "notes_overlay") {
+    return (
+      <RouteGuard>
+        <NotesOverlay />
+      </RouteGuard>
+    );
+  }
+
+  return <AppRoutes />;
+};
+
 /**
  * Р“Р»Р°РІРЅС‹Р№ РєРѕРјРїРѕРЅРµРЅС‚ РїСЂРёР»РѕР¶РµРЅРёСЏ
  */
@@ -299,7 +320,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-            <AppRoutes />
+            <AppContent />
           </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>

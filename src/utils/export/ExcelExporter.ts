@@ -57,7 +57,7 @@ class ExcelExporter {
       saveAs(blob, fileName);
 
     } catch (error) {
-      console.error('Ошибка при экспорте Excel:', error);
+      console.error('Error при экспорте Excel:', error);
       throw error;
     }
   }
@@ -121,21 +121,21 @@ class ExcelExporter {
   }
 
   /**
-   * Экспорт отчетов команды
+   * Экспорт reportов команды
    */
   async exportTeamReports(reports: any[]): Promise<void> {
     const exportData: ExcelExportData = {
       filename: 'Отчеты_команды',
       sheets: [
         {
-          name: 'Обзор отчетов',
+          name: 'Обзор reportов',
           headers: [
             'ID',
             'Заголовок',
             'Автор',
             'Тип',
-            'Статус',
-            'Дата создания',
+            'Status',
+            'Date создания',
             'Оценка влияния',
             'Участники',
             'Теги'
@@ -143,7 +143,7 @@ class ExcelExporter {
           data: reports.map(report => [
             report.id,
             report.title,
-            report.author?.username || 'Неизвестно',
+            report.author?.username || 'Unknown',
             this.getReportTypeText(report.type),
             this.getStatusText(report.status),
             new Date(report.createdAt).toLocaleDateString('ru-RU'),
@@ -166,12 +166,12 @@ class ExcelExporter {
         },
         {
           name: 'Статистика по типам',
-          headers: ['Тип отчета', 'Количество', 'Процент', 'Средняя оценка'],
+          headers: ['Report type', 'Количество', 'Процент', 'Medium оценка'],
           data: this.generateTypeStatistics(reports)
         },
         {
           name: 'Статистика по авторам',
-          headers: ['Автор', 'Количество отчетов', 'Средняя оценка', 'Последний отчет'],
+          headers: ['Автор', 'Report count', 'Medium оценка', 'Последний report'],
           data: this.generateAuthorStatistics(reports)
         }
       ]
@@ -191,13 +191,13 @@ class ExcelExporter {
           name: 'Сводка анализа',
           headers: ['Метрика', 'Значение'],
           data: [
-            ['Общее количество отчетов', correlationData.totalReports],
+            ['Общее количество reportов', correlationData.totalReports],
             ['Проанализированный период', correlationData.period],
             ['Средний эффект на настроение (%)', correlationData.avgMoodImpact?.toFixed(1) || 'Н/Д'],
             ['Количество положительных корреляций', correlationData.positiveCorrelations],
             ['Количество отрицательных корреляций', correlationData.negativeCorrelations],
             ['Сильные корреляции (|r| > 0.7)', correlationData.strongCorrelations],
-            ['Наиболее эффективный тип отчетов', correlationData.mostEffectiveType],
+            ['Наиболее эффективный тип reportов', correlationData.mostEffectiveType],
             ['Общий тренд команды', correlationData.trend]
           ]
         },
@@ -213,8 +213,8 @@ class ExcelExporter {
           ]) || []
         },
         {
-          name: 'Влияние по типам отчетов',
-          headers: ['Тип отчета', 'Количество', 'Средний эффект (%)', 'Стандартное отклонение'],
+          name: 'Влияние по типам reportов',
+          headers: ['Report type', 'Количество', 'Средний эффект (%)', 'Стандартное отклонение'],
           data: correlationData.impactByType?.map((type: any) => [
             this.getReportTypeText(type.type),
             type.count,
@@ -239,9 +239,9 @@ class ExcelExporter {
           name: 'Обзор тональности',
           headers: ['Категория', 'Количество', 'Процент'],
           data: [
-            ['Позитивные отчеты', sentimentData.positiveCount, `${sentimentData.positivePercentage}%`],
-            ['Нейтральные отчеты', sentimentData.neutralCount, `${sentimentData.neutralPercentage}%`],
-            ['Негативные отчеты', sentimentData.negativeCount, `${sentimentData.negativePercentage}%`]
+            ['Positive reports', sentimentData.positiveCount, `${sentimentData.positivePercentage}%`],
+            ['Neutral reports', sentimentData.neutralCount, `${sentimentData.neutralPercentage}%`],
+            ['Negative reports', sentimentData.negativeCount, `${sentimentData.negativePercentage}%`]
           ]
         },
         {
@@ -256,8 +256,8 @@ class ExcelExporter {
           ]) || []
         },
         {
-          name: 'Детализация по отчетам',
-          headers: ['ID отчета', 'Заголовок', 'Общая тональность', 'Радость', 'Грусть', 'Гнев', 'Страх', 'Уверенность'],
+          name: 'Детализация по reportам',
+          headers: ['ID reportа', 'Заголовок', 'Общая тональность', 'Joy', 'Sadness', 'Anger', 'Fear', 'Confidence'],
           data: sentimentData.reportDetails?.map((report: any) => [
             report.id,
             report.title,
@@ -284,7 +284,7 @@ class ExcelExporter {
       sheets: [
         {
           name: 'Обзор кластеров',
-          headers: ['Кластер', 'Количество игроков', 'Описание', 'Характеристики'],
+          headers: ['Кластер', 'Количество игроков', 'Description', 'Характеристики'],
           data: clusteringData.clusters?.map((cluster: any) => [
             cluster.name,
             cluster.playerCount,
@@ -293,8 +293,8 @@ class ExcelExporter {
           ]) || []
         },
         {
-          name: 'Распределение игроков',
-          headers: ['Игрок', 'Кластер', 'Средняя активность', 'Средняя отзывчивость', 'Рекомендации'],
+          name: 'Distribution игроков',
+          headers: ['Player', 'Кластер', 'Medium активность', 'Medium отзывчивость', 'Recommendations'],
           data: clusteringData.playerAssignments?.map((assignment: any) => [
             assignment.playerName,
             assignment.clusterName,
@@ -305,7 +305,7 @@ class ExcelExporter {
         },
         {
           name: 'Метрики кластеров',
-          headers: ['Кластер', 'Центр - Активность', 'Центр - Отзывчивость', 'Внутрикластерная дисперсия'],
+          headers: ['Кластер', 'Центр - Activity', 'Центр - Отзывчивость', 'Внутрикластерная дисперсия'],
           data: clusteringData.clusterMetrics?.map((metric: any) => [
             metric.clusterName,
             metric.centroid?.activity?.toFixed(3),
@@ -328,7 +328,7 @@ class ExcelExporter {
       sheets: [
         {
           name: 'Исторические данные',
-          headers: ['Дата', 'Настроение команды', 'Количество отчетов', 'Активность', 'Тренд'],
+          headers: ['Date', 'Настроение команды', 'Report count', 'Activity', 'Тренд'],
           data: timeSeriesData.historicalData?.map((point: any) => [
             new Date(point.date).toLocaleDateString('ru-RU'),
             point.teamMood?.toFixed(2),
@@ -339,7 +339,7 @@ class ExcelExporter {
         },
         {
           name: 'Прогнозы',
-          headers: ['Дата', 'Прогноз настроения', 'Доверительный интервал (низ)', 'Доверительный интервал (верх)', 'Метод'],
+          headers: ['Date', 'Прогноз настроения', 'Доверительный интервал (низ)', 'Доверительный интервал (верх)', 'Метод'],
           data: timeSeriesData.forecasts?.map((forecast: any) => [
             new Date(forecast.date).toLocaleDateString('ru-RU'),
             forecast.prediction?.toFixed(2),
@@ -367,7 +367,7 @@ class ExcelExporter {
   }
 
   /**
-   * Экспорт комплексного отчета аналитики
+   * Экспорт комплексного reportа аналитики
    */
   async exportComprehensiveAnalytics(analyticsData: any): Promise<void> {
     const exportData: ExcelExportData = {
@@ -377,7 +377,7 @@ class ExcelExporter {
           name: 'Сводка',
           headers: ['Раздел', 'Ключевая метрика', 'Значение', 'Интерпретация'],
           data: [
-            ['Отчеты', 'Общее количество', analyticsData.summary?.totalReports, 'Активность команды'],
+            ['Отчеты', 'Общее количество', analyticsData.summary?.totalReports, 'Activity команды'],
             ['Тональность', 'Средний настрой (%)', analyticsData.summary?.avgSentiment?.toFixed(1), this.interpretSentiment(analyticsData.summary?.avgSentiment)],
             ['Корреляция', 'Сильные связи', analyticsData.summary?.strongCorrelations, 'Выявленные закономерности'],
             ['Кластеризация', 'Основной кластер', analyticsData.summary?.dominantCluster, 'Профиль команды'],
@@ -391,7 +391,7 @@ class ExcelExporter {
     if (analyticsData.sentiment) {
       exportData.sheets.push({
         name: 'Детали тональности',
-        headers: ['Отчет', 'Тональность', 'Доминирующая эмоция', 'Уровень'],
+        headers: ['Отчет', 'Тональность', 'Доминирующая эмоция', 'Level'],
         data: analyticsData.sentiment.details?.map((item: any) => [
           item.reportTitle,
           item.sentiment?.toFixed(2),
@@ -426,7 +426,7 @@ class ExcelExporter {
       'mood_check': 'Проверка настроения',
       'feedback_session': 'Сессия обратной связи',
       'training_session': 'Тренировочная сессия',
-      'match_analysis': 'Анализ матча',
+      'match_analysis': 'Match analysis',
       'strategy_discussion': 'Обсуждение стратегии',
       'other': 'Другое'
     };
@@ -435,9 +435,9 @@ class ExcelExporter {
 
   private getStatusText(status: string): string {
     const statusMap: { [key: string]: string } = {
-      'draft': 'Черновик',
-      'published': 'Опубликован',
-      'archived': 'Архивирован'
+      'draft': 'Draft',
+      'published': 'Published',
+      'archived': 'Archived'
     };
     return statusMap[status] || status;
   }
@@ -465,7 +465,7 @@ class ExcelExporter {
 
   private generateAuthorStatistics(reports: any[]): any[][] {
     const authorStats = reports.reduce((acc, report) => {
-      const author = report.author?.username || 'Неизвестно';
+      const author = report.author?.username || 'Unknown';
       if (!acc[author]) {
         acc[author] = { count: 0, totalRating: 0, lastReport: null };
       }
@@ -497,7 +497,7 @@ class ExcelExporter {
   private interpretSentiment(sentiment: number): string {
     if (sentiment > 0.6) return 'Положительный';
     if (sentiment < 0.4) return 'Отрицательный';
-    return 'Нейтральный';
+    return 'Neutral';
   }
 }
 

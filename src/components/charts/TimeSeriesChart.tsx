@@ -276,7 +276,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
                 {formatYAxisLabel(stats.min)} - {formatYAxisLabel(stats.max)}
               </p>
               <p className="text-xs text-gray-500">
-                Размах: {formatYAxisLabel(stats.max - stats.min)}
+                Range: {formatYAxisLabel(stats.max - stats.min)}
               </p>
             </CardContent>
           </Card>
@@ -459,7 +459,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
                   {mainPattern.period && (
                     <li><strong>Период:</strong> {mainPattern.period} дней</li>
                   )}
-                  <li><strong>Описание:</strong> {mainPattern.description}</li>
+                  <li><strong>Description:</strong> {mainPattern.description}</li>
                 </ul>
               </div>
               <div>
@@ -476,7 +476,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
                   <li>
                     <strong>Достоверность:</strong>{' '}
                     <span className={mainPattern.trend.rSquared > 0.7 ? 'text-green-600' : mainPattern.trend.rSquared > 0.4 ? 'text-yellow-600' : 'text-red-600'}>
-                      {mainPattern.trend.rSquared > 0.7 ? 'Высокая' : mainPattern.trend.rSquared > 0.4 ? 'Средняя' : 'Низкая'}
+                      {mainPattern.trend.rSquared > 0.7 ? 'High' : mainPattern.trend.rSquared > 0.4 ? 'Medium' : 'Low'}
                     </span>
                   </li>
                 </ul>

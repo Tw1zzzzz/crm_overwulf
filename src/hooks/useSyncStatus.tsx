@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react';
 import syncManager from '@/lib/syncManager';
 
 /**
- * Хук для отслеживания статуса синхронизации данных
- * @returns Объект с информацией о статусе синхронизации
+ * Хук для отслеживания статуса sync данных
+ * @returns Объект с информацией о статусе sync
  */
 export const useSyncStatus = () => {
   const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
   const [pendingCount, setPendingCount] = useState<number>(0);
   const [hasPendingSync, setHasPendingSync] = useState<boolean>(false);
 
-  // Обновляем состояние при изменении статуса синхронизации
+  // Обновляем состояние при изменении статуса sync
   const updateStatus = () => {
     setIsOnline(navigator.onLine);
     setPendingCount(syncManager.getPendingSyncCount());

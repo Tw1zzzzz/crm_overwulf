@@ -41,20 +41,20 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
   // Вспомогательные функции
   const getTypeLabel = (type: string): string => {
     const labels: Record<string, string> = {
-      weekly: 'Еженедельный',
-      monthly: 'Ежемесячный',
-      custom: 'Особый',
-      match_analysis: 'Анализ матча',
-      training_report: 'Отчет о тренировке'
+      weekly: 'Weekly',
+      monthly: 'Monthly',
+      custom: 'Special',
+      match_analysis: 'Match analysis',
+      training_report: 'Training report'
     };
     return labels[type] || type;
   };
 
   const getStatusLabel = (status: string): string => {
     const labels: Record<string, string> = {
-      draft: 'Черновик',
-      published: 'Опубликован',
-      archived: 'Архивирован'
+      draft: 'Draft',
+      published: 'Published',
+      archived: 'Archived'
     };
     return labels[status] || status;
   };
@@ -79,9 +79,9 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
 
   const getVisibilityLabel = (visibility: string): string => {
     const labels: Record<string, string> = {
-      team: 'Команда',
-      staff: 'Персонал',
-      public: 'Публичный'
+      team: 'Team',
+      staff: 'Staff',
+      public: 'Public'
     };
     return labels[visibility] || visibility;
   };
@@ -173,7 +173,7 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
         </DialogHeader>
 
         <div className="space-y-6">
-          {/* Информация об отчете */}
+          {/* Информация об reportе */}
           <Card style={{ backgroundColor: COLORS.backgroundColor, borderColor: COLORS.borderColor }}>
             <CardContent className="pt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -214,40 +214,40 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
             </CardContent>
           </Card>
 
-          {/* Краткое изложение */}
+          {/* Summary */}
           <Card style={{ backgroundColor: COLORS.backgroundColor, borderColor: COLORS.borderColor }}>
             <CardHeader className="pb-3">
               <CardTitle className="text-lg" style={{ color: COLORS.textColor }}>
-                Краткое изложение
+                Summary
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p style={{ color: COLORS.textColor, lineHeight: '1.6' }}>
-                {report.content?.summary || 'Краткое изложение не указано'}
+                {report.content?.summary || 'Summary не указано'}
               </p>
             </CardContent>
           </Card>
 
-          {/* Подробное описание */}
+          {/* Detailed description */}
           <Card style={{ backgroundColor: COLORS.backgroundColor, borderColor: COLORS.borderColor }}>
             <CardHeader className="pb-3">
               <CardTitle className="text-lg" style={{ color: COLORS.textColor }}>
-                Подробное описание
+                Detailed description
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div style={{ color: COLORS.textColor, lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
-                {report.content?.details || 'Подробное описание не указано'}
+                {report.content?.details || 'Detailed description не указано'}
               </div>
             </CardContent>
           </Card>
 
-          {/* Рекомендации */}
+          {/* Recommendations */}
           {report.content?.recommendations && report.content.recommendations.length > 0 && (
             <Card style={{ backgroundColor: COLORS.backgroundColor, borderColor: COLORS.borderColor }}>
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg" style={{ color: COLORS.textColor }}>
-                  Рекомендации
+                  Recommendations
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -317,7 +317,7 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
                             {attachment?.filename || 'Файл без имени'}
                           </p>
                           <p className="text-sm" style={{ color: COLORS.textColorSecondary }}>
-                            Загружено: {attachment.uploadedAt ? formatDate(attachment.uploadedAt.toString()) : 'Дата неизвестна'}
+                            Загружено: {attachment.uploadedAt ? formatDate(attachment.uploadedAt.toString()) : 'Date unknown'}
                           </p>
                         </div>
                       </div>
@@ -379,7 +379,7 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
                       {report.assignedTo.map((user, index) => (
                         <div key={user?._id || index} className="flex items-center gap-2">
                           <User className="h-4 w-4" style={{ color: COLORS.textColorSecondary }} />
-                          <span style={{ color: COLORS.textColor }}>{user?.name || 'Неизвестный пользователь'}</span>
+                          <span style={{ color: COLORS.textColor }}>{user?.name || 'Unknown user'}</span>
                         </div>
                       ))}
                     </div>
@@ -399,7 +399,7 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
                       {report.viewableBy.map((user, index) => (
                         <div key={user?._id || index} className="flex items-center gap-2">
                           <Eye className="h-4 w-4" style={{ color: COLORS.textColorSecondary }} />
-                          <span style={{ color: COLORS.textColor }}>{user?.name || 'Неизвестный пользователь'}</span>
+                          <span style={{ color: COLORS.textColor }}>{user?.name || 'Unknown user'}</span>
                         </div>
                       ))}
                     </div>

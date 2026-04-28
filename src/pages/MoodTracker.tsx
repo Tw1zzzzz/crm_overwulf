@@ -102,7 +102,7 @@ const extractPlayerId = (playerId: any): string => {
   // Случай 2: Строка, которая может содержать объект
   if (typeof playerId === 'string') {
     // Пытаемся найти ID в формате MongoDB ObjectId
-    // Например: new ObjectId("67e857c1c92acc6a7c9bfe5e")
+    // For example: new ObjectId("67e857c1c92acc6a7c9bfe5e")
     const objectIdMatch = playerId.match(/ObjectId\(['"]([0-9a-fA-F]{24})['"]\)/);
     if (objectIdMatch && objectIdMatch[1]) {
       console.log('Извлечено ID из ObjectId строки:', objectIdMatch[1]);
@@ -131,7 +131,7 @@ const extractPlayerId = (playerId: any): string => {
         }
       }
     } catch (error) {
-      console.error('Ошибка при разборе JSON строки:', error);
+      console.error('Error while разборе JSON строки:', error);
     }
   }
   
@@ -240,7 +240,7 @@ const MoodTracker = () => {
   
   useEffect(() => {
     if (user?.role === "staff") {
-      // Персонал видит только статистику игроков
+      // Staff видит только статистику игроков
       loadPlayerStats();
       loadRecentEntries();
       
@@ -255,10 +255,10 @@ const MoodTracker = () => {
         }
       } catch (e) {
         // Игнорируем ошибки sessionStorage
-        console.error('Ошибка при восстановлении ID игрока из sessionStorage:', e);
+        console.error('Error while восстановлении ID игрока из sessionStorage:', e);
       }
     } else {
-      // Игроки видят свои записи
+      // Players видят свои записи
       loadEntries();
     }
     generateWeekDates(currentWeek);
@@ -271,7 +271,7 @@ const MoodTracker = () => {
     }
   }, [playerEntries]);
   
-  // Загрузка статистики по всем игрокам (для персонала)
+  // Loading статистики по всем игрокам (для персонала)
   const loadPlayerStats = async (dateOverride?: Date) => {
     if (user?.role !== "staff") return;
     
@@ -287,16 +287,16 @@ const MoodTracker = () => {
       
       setPlayerStats(response.data);
     } catch (error) {
-      console.error("Ошибка при загрузке статистики игроков:", error);
+      console.error("Error while загрузке статистики игроков:", error);
       
       // Если не удалось загрузить с фильтрацией по дате, пробуем без фильтрации
       try {
         const fallbackResponse = await getAllPlayersMoodStats();
         setPlayerStats(fallbackResponse.data);
       } catch (fallbackError) {
-        console.error("Ошибка при загрузке статистики игроков (резервный метод):", fallbackError);
+        console.error("Error while загрузке статистики игроков (резервный метод):", fallbackError);
         toast({
-          title: "Ошибка загрузки",
+          title: "Error загрузки",
           description: "Не удалось загрузить статистику игроков.",
           variant: "destructive"
         });
@@ -316,7 +316,7 @@ const MoodTracker = () => {
       const sortedEntries = normalizedEntries.sort((a, b) => getEntryTimestamp(b).getTime() - getEntryTimestamp(a).getTime());
       setRecentEntries(sortedEntries.slice(0, 8));
     } catch (error) {
-      console.error("Ошибка при загрузке последних записей игроков:", error);
+      console.error("Error while загрузке последних записей игроков:", error);
       setRecentEntries([]);
     } finally {
       setIsLoadingRecentEntries(false);
@@ -336,14 +336,14 @@ const MoodTracker = () => {
     }
   };
   
-  // Загрузка записей игрока для конкретной даты
+  // Loading записей игрока для конкретной даты
   const loadPlayerEntriesForDate = async (playerId: string | any, date: Date) => {
     if (user?.role !== "staff") return;
     
     try {
       setIsLoadingPlayerData(true);
       
-      // Сбрасываем предыдущие данные и ошибки
+      // Satрасываем предыдущие данные и ошибки
       setPlayerEntries([]);
       setChartData([]);
       
@@ -353,7 +353,7 @@ const MoodTracker = () => {
       // Проверка на валидность ID
       if (!actualPlayerId || actualPlayerId === 'undefined' || actualPlayerId === 'null') {
         toast({
-          title: "Ошибка загрузки",
+          title: "Error загрузки",
           description: "Некорректный идентификатор игрока.",
           variant: "destructive"
         });
@@ -378,7 +378,7 @@ const MoodTracker = () => {
           const chartResponse = await getPlayerMoodChartDataByDate(actualPlayerId, apiDateFormat);
           setChartData(chartResponse.data);
         } catch (chartError) {
-          console.error(`Ошибка при загрузке данных для графика игрока ${actualPlayerId}:`, chartError);
+          console.error(`Error while загрузке данных для графика игрока ${actualPlayerId}:`, chartError);
           
           // Fallback: используем обычный API без фильтрации если API с фильтрацией недоступно
           try {
@@ -393,14 +393,14 @@ const MoodTracker = () => {
             
             setChartData(filteredChartData);
           } catch (fallbackError) {
-            console.error(`Ошибка при загрузке данных для графика игрока (резервный метод) ${actualPlayerId}:`, fallbackError);
+            console.error(`Error while загрузке данных для графика игрока (резервный метод) ${actualPlayerId}:`, fallbackError);
             
             // Если все API недоступны, создаем график из доступных данных
             if (playerEntries.length > 0) {
               prepareChartData(playerEntries);
             } else {
               toast({
-                title: "Ошибка загрузки графика",
+                title: "Error загрузки графика",
                 description: "Не удалось загрузить данные для графика.",
                 variant: "destructive"
               });
@@ -408,7 +408,7 @@ const MoodTracker = () => {
           }
         }
       } catch (error: any) {
-        console.error(`Ошибка при загрузке записей игрока ${actualPlayerId}:`, error);
+        console.error(`Error while загрузке записей игрока ${actualPlayerId}:`, error);
         
         // Fallback: используем обычный API если API с фильтрацией недоступно
         try {
@@ -431,29 +431,29 @@ const MoodTracker = () => {
             prepareChartData(filteredEntries);
           } else {
             setChartData([]);
-            // Если нет данных для выбранной даты
+            // Если no data для выбранной даты
             toast({
-              title: "Нет данных",
-              description: `Нет записей на ${formatDate(date)} для данного игрока.`,
+              title: "No data",
+              description: `No records на ${formatDate(date)} для данного игрока.`,
               variant: "default"
             });
           }
         } catch (fallbackError) {
-          console.error(`Ошибка при загрузке записей игрока (резервный метод) ${actualPlayerId}:`, fallbackError);
+          console.error(`Error while загрузке записей игрока (резервный метод) ${actualPlayerId}:`, fallbackError);
           
           let errorMessage = "Не удалось загрузить записи игрока.";
           if (error.response) {
             if (error.response.status === 400) {
               errorMessage = "Некорректный идентификатор игрока.";
             } else if (error.response.status === 404) {
-              errorMessage = "Игрок не найден.";
+              errorMessage = "Player not found.";
             } else if (error.response.status === 500) {
-              errorMessage = "Ошибка сервера при загрузке данных.";
+              errorMessage = "Error сервера при загрузке данных.";
             }
           }
           
           toast({
-            title: "Ошибка загрузки",
+            title: "Error загрузки",
             description: errorMessage,
             variant: "destructive"
           });
@@ -471,13 +471,13 @@ const MoodTracker = () => {
         }
       } catch (e) {
         // Игнорируем ошибки sessionStorage
-        console.error('Ошибка при сохранении ID в sessionStorage:', e);
+        console.error('Error while сохранении ID в sessionStorage:', e);
       }
 
     } catch (error) {
       console.error(`Общая ошибка загрузки данных:`, error);
       toast({
-        title: "Ошибка загрузки",
+        title: "Error загрузки",
         description: "Произошла неизвестная ошибка при попытке загрузить данные.",
         variant: "destructive"
       });
@@ -495,11 +495,11 @@ const MoodTracker = () => {
     let actualPlayerId = extractPlayerId(playerId);
     console.log('Извлечено ID игрока для загрузки записей:', actualPlayerId);
     
-    // Сброс предыдущих уведомлений
+    // Satрос предыдущих уведомлений
     try {
       // Просто показываем уведомление без сохранения ссылки
       toast({
-        title: "Загрузка...",
+        title: "Loading...",
         description: "Загружаем записи игрока",
         variant: "default"
       });
@@ -508,7 +508,7 @@ const MoodTracker = () => {
       // используем автоматическое скрытие
     } catch (e) {
       // Игнорируем ошибки toast
-      console.error("Ошибка toast:", e);
+      console.error("Error toast:", e);
     }
     
     // Используем новый метод с выбранной датой
@@ -585,7 +585,7 @@ const MoodTracker = () => {
           
           console.log('Настроения успешно загружены с сервера');
         } catch (error) {
-          console.error('Ошибка загрузки настроений с сервера:', error);
+          console.error('Error загрузки настроений с сервера:', error);
           
           // Если не удалось загрузить с сервера, используем локальные данные
           const localEntries = moodRepository.getAll().map(normalizeEntry);
@@ -593,8 +593,8 @@ const MoodTracker = () => {
           setEntries(uniqueLocalEntries as MoodEntryWithTimeOfDay[]);
           
           toast({
-            title: "Ошибка загрузки",
-            description: "Не удалось загрузить записи с сервера, используются локальные данные.",
+            title: "Error загрузки",
+            description: "Failed to load records from the server; local data is being used.",
             variant: "destructive"
           });
         }
@@ -605,10 +605,10 @@ const MoodTracker = () => {
         setEntries(uniqueLocalEntries as MoodEntryWithTimeOfDay[]);
       }
     } catch (error) {
-      console.error('Ошибка загрузки записей о настроении:', error);
+      console.error('Error загрузки записей о настроении:', error);
       
       toast({
-        title: "Ошибка загрузки",
+        title: "Error загрузки",
         description: "Не удалось загрузить записи о настроении.",
         variant: "destructive"
       });
@@ -617,7 +617,7 @@ const MoodTracker = () => {
     }
   };
   
-  // Вспомогательная функция для удаления дубликатов записей
+  // Sunпомогательная функция для удаления дубликатов записей
   const removeDuplicateEntries = (entries: any[]) => {
     const uniqueEntries = new Map();
     
@@ -677,11 +677,11 @@ const MoodTracker = () => {
   };
   
   const handleSubmit = async () => {
-    // Персонал не должен иметь возможность создавать записи
+    // Staff не должен иметь возможность создавать записи
     if (user?.role === "staff") {
       toast({
-        title: "Доступ запрещен",
-        description: "Персонал не может создавать записи о настроении.",
+        title: "Access denied",
+        description: "Staff cannot create mood records.",
         variant: "destructive"
       });
       return;
@@ -715,7 +715,7 @@ const MoodTracker = () => {
       // Если есть существующие записи, предупреждаем пользователя
       if (existingEntries.length > 0) {
         toast({
-          title: "Внимание",
+          title: "Attention",
           description: `Уже существует запись на ${formatDate(selectedDate)} (${formatTimeOfDay(timeOfDay)}). Записи на выбранное время суток не должны дублироваться.`,
           variant: "destructive"
         });
@@ -772,7 +772,7 @@ const MoodTracker = () => {
             moodRepository.updateFromServer([...allEntries, savedEntry]);
           }
         } catch (error) {
-          console.error('Ошибка сохранения на сервере (будет синхронизировано позже):', error);
+          console.error('Save error на сервере (будет синхронизировано позже):', error);
         }
       }
       
@@ -782,15 +782,15 @@ const MoodTracker = () => {
       setIsAddingEntry(false);
       
       toast({
-        title: "Запись добавлена",
-        description: "Запись о настроении успешно сохранена.",
+        title: "Record added",
+        description: "Mood record saved successfully.",
       });
     } catch (error) {
-      console.error('Ошибка сохранения записи:', error);
+      console.error('Save error записи:', error);
       
       toast({
-        title: "Ошибка сохранения",
-        description: "Не удалось сохранить запись о настроении.",
+        title: "Save error",
+        description: "Failed to save mood record.",
         variant: "destructive"
       });
     } finally {
@@ -803,10 +803,10 @@ const MoodTracker = () => {
     
     // Проверяем наличие ID
     if (!id) {
-      console.error("Ошибка: ID не определен при попытке удаления");
+      console.error("Error: ID не определен при попытке удаления");
       toast({
-        title: "Ошибка",
-        description: "Ошибка: ID записи не определен",
+        title: "Error",
+        description: "Error: ID записи не определен",
         variant: "destructive"
       });
       return;
@@ -814,10 +814,10 @@ const MoodTracker = () => {
     
     // Проверяем роль пользователя
     if (user?.role === "staff") {
-      console.error("Ошибка: Пользователь staff не может удалять записи");
+      console.error("Error: User staff не может удалять записи");
       toast({
-        title: "Ошибка",
-        description: "У вас нет прав на удаление записей",
+        title: "Error",
+        description: "You do not have permission to delete records",
         variant: "destructive"
       });
       return;
@@ -838,14 +838,14 @@ const MoodTracker = () => {
       loadEntries();
       
       toast({
-        title: "Запись удалена",
-        description: "Запись настроения была успешно удалена",
+        title: "Record deleted",
+        description: "Mood record deleted successfully",
       });
     } catch (error) {
-      console.error("Ошибка при удалении записи:", error);
+      console.error("Error while удалении записи:", error);
       toast({
-        title: "Ошибка",
-        description: "Не удалось удалить запись. Пожалуйста, попробуйте снова.",
+        title: "Error",
+        description: "Failed to delete the record. Please try again.",
         variant: "destructive"
       });
     }
@@ -901,18 +901,18 @@ const MoodTracker = () => {
       return (
         <div style={containerStyle}>
           <h2 className="text-3xl font-bold tracking-tight" style={titleStyle}>
-            Настроение и энергия игроков
+            Mood и energy игроков
           </h2>
-          <p style={descriptionStyle}>Отслеживание эмоционального состояния игроков команды</p>
+          <p style={descriptionStyle}>Tracking the emotional state of team players</p>
         </div>
       );
     } else {
       return (
         <div style={containerStyle}>
           <h2 className="text-3xl font-bold tracking-tight" style={titleStyle}>
-            Настроение и энергия
+            Mood и energy
           </h2>
-          <p style={descriptionStyle}>Отслеживание вашего эмоционального состояния и энергии</p>
+          <p style={descriptionStyle}>Tracking your emotional state and energy</p>
         </div>
       );
     }
@@ -934,21 +934,21 @@ const MoodTracker = () => {
         >
           <p style={{ margin: '0 0 5px', fontWeight: 'bold' }}>{`${label}`}</p>
           <p style={{ margin: '0 0 5px' }}>
-            {data.time ? `Время: ${data.time}` : 'Время не указано'}
-            {data.timeOfDay ? ` (${data.timeOfDay === "morning" ? "Утро" : data.timeOfDay === "afternoon" ? "День" : "Вечер"})` : ''}
+            {data.time ? `Time: ${data.time}` : 'Time не указано'}
+            {data.timeOfDay ? ` (${data.timeOfDay === "morning" ? "Morning" : data.timeOfDay === "afternoon" ? "Afternoon" : "Evening"})` : ''}
           </p>
           <p style={{ 
             margin: '0 0 5px', 
             color: COLORS.chartColors[0]
           }}>
-            {`Настроение: ${payload[0].value}/10`}
+            {`Mood: ${payload[0].value}/10`}
           </p>
           {payload.length > 1 && (
             <p style={{ 
               margin: '0', 
               color: COLORS.chartColors[1]
             }}>
-              {`Энергия: ${payload[1].value}/10`}
+              {`Energy: ${payload[1].value}/10`}
             </p>
           )}
         </div>
@@ -963,7 +963,7 @@ const MoodTracker = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const { toast } = useToast();
 
-    // Загрузка данных активности для мини-графика
+    // Loading данных активности для мини-графика
     useEffect(() => {
       const loadActivityData = async () => {
         try {
@@ -996,11 +996,11 @@ const MoodTracker = () => {
             console.log('API вернул пустые данные для графика активности');
           }
         } catch (error) {
-          console.error('Ошибка при загрузке данных активности:', error);
+          console.error('Error while загрузке данных активности:', error);
           setActivityData([]);
           
           toast({
-            title: "Ошибка загрузки данных",
+            title: "Error загрузки данных",
             description: "Не удалось загрузить данные активности игрока",
             variant: "destructive"
           });
@@ -1019,7 +1019,7 @@ const MoodTracker = () => {
     }
 
     if (!activityData || !activityData.length) {
-      return <div className="h-20 w-full bg-gray-800 rounded flex items-center justify-center text-xs" style={{ color: COLORS.textColorSecondary }}>Нет данных</div>;
+      return <div className="h-20 w-full bg-gray-800 rounded flex items-center justify-center text-xs" style={{ color: COLORS.textColorSecondary }}>No data</div>;
     }
 
     return (
@@ -1027,11 +1027,11 @@ const MoodTracker = () => {
         <div className="flex justify-end gap-3 mb-1">
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.chartColors[0] }}></div>
-            <span className="text-xs" style={{ color: COLORS.textColorSecondary }}>Настр.</span>
+            <span className="text-xs" style={{ color: COLORS.textColorSecondary }}>Mood</span>
           </div>
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.chartColors[1] }}></div>
-            <span className="text-xs" style={{ color: COLORS.textColorSecondary }}>Энерг.</span>
+            <span className="text-xs" style={{ color: COLORS.textColorSecondary }}>Energy</span>
           </div>
         </div>
         <ResponsiveContainer width="100%" height="85%">
@@ -1070,7 +1070,7 @@ const MoodTracker = () => {
   const PlayerMoodCharts = () => {
     if (!selectedPlayerId || chartData.length === 0) return null;
     
-    const playerName = playerStats.find(p => p.userId === selectedPlayerId)?.name || "Игрок";
+    const playerName = playerStats.find(p => p.userId === selectedPlayerId)?.name || "Player";
     
     return (
       <Card className="mt-6 mb-6" style={cardStyle}>
@@ -1078,7 +1078,7 @@ const MoodTracker = () => {
           <div className="flex justify-between items-center">
             <CardTitle style={titleStyle}>
               <TrendingUp className="mr-2 h-5 w-5" />
-              Динамика настроения и энергии: {playerName}
+              Mood and energy dynamics: {playerName}
             </CardTitle>
             
             {/* Добавляем селектор даты */}
@@ -1110,7 +1110,7 @@ const MoodTracker = () => {
             </div>
           </div>
           <CardDescription style={descriptionStyle}>
-            Средние показатели по дням
+            Daily averages
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -1125,7 +1125,7 @@ const MoodTracker = () => {
                 <YAxis domain={[0, 10]} tick={{ fill: COLORS.textColor }} />
                 <TooltipRecharts
                   formatter={(value: number) => [`${value}/10`, '']}
-                  labelFormatter={(label) => `Дата: ${label}`}
+                  labelFormatter={(label) => `Date: ${label}`}
                   contentStyle={{
                     backgroundColor: COLORS.cardBackground,
                     borderColor: COLORS.borderColor,
@@ -1136,7 +1136,7 @@ const MoodTracker = () => {
                 <Line 
                   type="monotone" 
                   dataKey="mood" 
-                  name="Настроение" 
+                  name="Mood" 
                   stroke={COLORS.chartColors[0]} 
                   strokeWidth={2.5}
                   dot={{ r: 4, fill: COLORS.chartColors[0] }}
@@ -1145,7 +1145,7 @@ const MoodTracker = () => {
                 <Line
                   type="monotone" 
                   dataKey="energy" 
-                  name="Энергия" 
+                  name="Energy" 
                   stroke={COLORS.chartColors[1]} 
                   strokeWidth={2.5}
                   dot={{ r: 4, fill: COLORS.chartColors[1] }}
@@ -1159,12 +1159,12 @@ const MoodTracker = () => {
             <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
               <CardContent className="pt-4">
                 <div className="text-center">
-                  <h4 className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Настроение</h4>
+                  <h4 className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Mood</h4>
                   <p className="text-sm mt-1" style={{ color: COLORS.textColorSecondary }}>
-                    Среднее: {chartData.length > 0 ? (chartData.reduce((sum, item) => sum + item.mood, 0) / chartData.length).toFixed(1) : 0}{"/10"}
+                    Average: {chartData.length > 0 ? (chartData.reduce((sum, item) => sum + item.mood, 0) / chartData.length).toFixed(1) : 0}{"/10"}
                   </p>
                   <p className="text-sm" style={{ color: COLORS.textColorSecondary }}>
-                    Диапазон: {chartData.length > 0 ? Math.min(...chartData.map(item => item.mood)) : 0}-{chartData.length > 0 ? Math.max(...chartData.map(item => item.mood)) : 0}
+                    Range: {chartData.length > 0 ? Math.min(...chartData.map(item => item.mood)) : 0}-{chartData.length > 0 ? Math.max(...chartData.map(item => item.mood)) : 0}
                   </p>
                 </div>
               </CardContent>
@@ -1173,12 +1173,12 @@ const MoodTracker = () => {
             <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
               <CardContent className="pt-4">
                 <div className="text-center">
-                  <h4 className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Энергия</h4>
+                  <h4 className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Energy</h4>
                   <p className="text-sm mt-1" style={{ color: COLORS.textColorSecondary }}>
-                    Среднее: {chartData.length > 0 ? (chartData.reduce((sum, item) => sum + item.energy, 0) / chartData.length).toFixed(1) : 0}{"/10"}
+                    Average: {chartData.length > 0 ? (chartData.reduce((sum, item) => sum + item.energy, 0) / chartData.length).toFixed(1) : 0}{"/10"}
                   </p>
                   <p className="text-sm" style={{ color: COLORS.textColorSecondary }}>
-                    Диапазон: {chartData.length > 0 ? Math.min(...chartData.map(item => item.energy)) : 0}-{chartData.length > 0 ? Math.max(...chartData.map(item => item.energy)) : 0}
+                    Range: {chartData.length > 0 ? Math.min(...chartData.map(item => item.energy)) : 0}-{chartData.length > 0 ? Math.max(...chartData.map(item => item.energy)) : 0}
                   </p>
                 </div>
               </CardContent>
@@ -1189,7 +1189,7 @@ const MoodTracker = () => {
     );
   };
 
-  // Вспомогательная функция для устранения дубликатов записей
+  // Sunпомогательная функция для устранения дубликатов записей
   const getUniqueEntriesByTimeOfDay = (entries: MoodEntryWithTimeOfDay[], timeOfDay: "morning" | "afternoon" | "evening") => {
     // Объект для отслеживания уникальных ID записей
     const uniqueIDs = new Set<string>();
@@ -1220,7 +1220,7 @@ const MoodTracker = () => {
       });
   };
 
-  // Вспомогательная функция для получения среднего значения
+  // Sunпомогательная функция для получения среднего значения
   const getAverageValue = (entries: MoodEntryWithTimeOfDay[], field: 'mood' | 'energy'): string => {
     if (!entries || entries.length === 0) return "-";
     const sum = entries.reduce((acc, entry) => acc + entry[field], 0);
@@ -1252,7 +1252,7 @@ const MoodTracker = () => {
     icon: any;
   }> = {
     morning: {
-      label: "Утро",
+      label: "Morning",
       hint: "Короткая фиксация старта дня помогает увидеть, как вы входите в тренировочный ритм.",
       emptyTitle: "Утренний слот пока пуст",
       emptyCopy: "Добавьте первый срез после пробуждения, чтобы видеть, с каким ресурсом начинается день.",
@@ -1261,7 +1261,7 @@ const MoodTracker = () => {
       icon: Sunrise
     },
     afternoon: {
-      label: "День",
+      label: "Afternoon",
       hint: "Дневная отметка показывает, как нагрузка и задачи влияют на ваше состояние по ходу дня.",
       emptyTitle: "Дневной слот пока пуст",
       emptyCopy: "Добавьте короткую заметку после первой половины дня, чтобы отследить просадку или пик.",
@@ -1270,9 +1270,9 @@ const MoodTracker = () => {
       icon: Sun
     },
     evening: {
-      label: "Вечер",
-      hint: "Вечерний срез помогает закрыть день и понять, как восстановление влияет на общую динамику.",
-      emptyTitle: "Вечерний слот пока пуст",
+      label: "Evening",
+      hint: "Eveningний срез помогает закрыть день и понять, как восстановление влияет на общую динамику.",
+      emptyTitle: "Eveningний слот пока пуст",
       emptyCopy: "Запишите состояние после завершения дня, чтобы видеть итоговую картину восстановления.",
       accent: "#A46CFF",
       surface: "rgba(164, 108, 255, 0.12)",
@@ -1383,7 +1383,7 @@ const MoodTracker = () => {
                     color: COLORS.textColor
                   }}
                 >
-                  Настроение {entry.mood}/10
+                  Mood {entry.mood}/10
                 </div>
                 <div
                   className="rounded-full px-3 py-1 text-sm font-medium"
@@ -1392,7 +1392,7 @@ const MoodTracker = () => {
                     color: COLORS.textColor
                   }}
                 >
-                  Энергия {entry.energy}/10
+                  Energy {entry.energy}/10
                 </div>
               </div>
               <p className="text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
@@ -1409,7 +1409,7 @@ const MoodTracker = () => {
               }}
             >
               <div className="text-[11px] uppercase tracking-[0.2em]" style={{ color: COLORS.textColorSecondary }}>
-                Срез
+                Wedез
               </div>
               <div className="text-sm font-medium" style={{ color: COLORS.textColor }}>
                 {formatDate(entryTimestamp, "d MMM")}
@@ -1496,7 +1496,7 @@ const MoodTracker = () => {
             }}
           >
             <Plus className="mr-2 h-4 w-4" />
-            {timeEntries.length > 0 ? "Добавить ещё" : "Заполнить слот"}
+            {timeEntries.length > 0 ? "Add ещё" : "Заполнить слот"}
           </Button>
         </div>
 
@@ -1531,7 +1531,7 @@ const MoodTracker = () => {
                 style={{ backgroundColor: slotConfig.accent, color: "#0B1020" }}
               >
                 <Plus className="mr-2 h-4 w-4" />
-                Добавить срез
+                Add срез
               </Button>
             </div>
           </div>
@@ -1551,7 +1551,7 @@ const MoodTracker = () => {
             <Card style={cardStyle}>
               <CardContent className="pt-6">
                 <div className="flex justify-center py-8">
-                  <p style={descriptionStyle}>Загрузка данных...</p>
+                  <p style={descriptionStyle}>Loading данных...</p>
                 </div>
               </CardContent>
             </Card>
@@ -1562,7 +1562,7 @@ const MoodTracker = () => {
                 <CardContent className="py-4">
                   <div className="flex justify-between items-center">
                     <h3 className="text-xl font-semibold" style={titleStyle}>
-                      Настроение и энергия на дату
+                      Mood и energy на дату
                     </h3>
                     <div className="flex items-center space-x-2">
                       <Button 
@@ -1661,17 +1661,17 @@ const MoodTracker = () => {
                     <CardHeader className="pb-2">
                       <CardTitle style={titleStyle}>{player.name}</CardTitle>
                       <CardDescription style={descriptionStyle}>
-                        Средние показатели: Настроение {player.mood.toFixed(1)}, Энергия {player.energy.toFixed(1)}
+                        Wedедние показатели: Mood {player.mood.toFixed(1)}, Energy {player.energy.toFixed(1)}
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="pb-0">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <p className="text-sm mb-1" style={descriptionStyle}>Настроение</p>
+                          <p className="text-sm mb-1" style={descriptionStyle}>Mood</p>
                           <p className="text-2xl font-semibold" style={titleStyle}>{player.mood.toFixed(1)}/10</p>
                         </div>
                         <div>
-                          <p className="text-sm mb-1" style={descriptionStyle}>Энергия</p>
+                          <p className="text-sm mb-1" style={descriptionStyle}>Energy</p>
                           <p className="text-2xl font-semibold" style={titleStyle}>{player.energy.toFixed(1)}/10</p>
                         </div>
                       </div>
@@ -1682,7 +1682,7 @@ const MoodTracker = () => {
                       
                       {/* Добавляем график активности */}
                       <div className="mt-3">
-                        <p className="text-sm mb-1" style={descriptionStyle}>Активность</p>
+                        <p className="text-sm mb-1" style={descriptionStyle}>Activity</p>
                         <PlayerActivityMiniChart playerId={player.userId} />
                       </div>
                     </CardContent>
@@ -1709,7 +1709,7 @@ const MoodTracker = () => {
             <Card style={cardStyle}>
               <CardContent className="pt-6">
                 <div className="flex justify-center py-8">
-                  <p style={descriptionStyle}>Нет данных о настроении игроков</p>
+                  <p style={descriptionStyle}>No data о настроении игроков</p>
                 </div>
               </CardContent>
             </Card>
@@ -1724,7 +1724,7 @@ const MoodTracker = () => {
                     Записи игрока
                   </h3>
                   <p className="text-sm mt-1" style={descriptionStyle}>
-                    {playerStats.find(p => p.userId === selectedPlayerId)?.name || "Игрок"} - 
+                    {playerStats.find(p => p.userId === selectedPlayerId)?.name || "Player"} - 
                     {playerStats.find(p => p.userId === selectedPlayerId)?.entries || 0} записей всего
                   </p>
                 </div>
@@ -1742,7 +1742,7 @@ const MoodTracker = () => {
                       console.log('ID игрока удален из sessionStorage');
                     } catch (e) {
                       // Игнорируем ошибки sessionStorage
-                      console.error('Ошибка при удалении ID из sessionStorage:', e);
+                      console.error('Error while удалении ID из sessionStorage:', e);
                     }
                   }}
                 >
@@ -1756,7 +1756,7 @@ const MoodTracker = () => {
                   <CardContent className="p-6">
                     <div className="flex flex-col items-center justify-center py-8">
                       <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-primary mb-2"></div>
-                      <p style={descriptionStyle}>Загрузка записей игрока...</p>
+                      <p style={descriptionStyle}>Loading записей игрока...</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -1788,7 +1788,7 @@ const MoodTracker = () => {
                             <Line 
                               type="monotone" 
                               dataKey="mood" 
-                              name="Настроение" 
+                              name="Mood" 
                               stroke={COLORS.chartColors[0]}
                               strokeWidth={2.5}
                               dot={{ r: 4, fill: COLORS.chartColors[0] }} 
@@ -1797,7 +1797,7 @@ const MoodTracker = () => {
                             <Line 
                               type="monotone" 
                               dataKey="energy" 
-                              name="Энергия" 
+                              name="Energy" 
                               stroke={COLORS.chartColors[1]}
                               strokeWidth={2.5}
                               dot={{ r: 4, fill: COLORS.chartColors[1] }}
@@ -1828,66 +1828,66 @@ const MoodTracker = () => {
                           </h4>
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                              <p className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>Утро</p>
+                              <p className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>Morning</p>
                               {getUniqueEntriesByTimeOfDay(playerEntries, "morning").length > 0 ? (
                                 <div className="mt-1">
                                   <div className="flex items-center justify-between">
-                                    <span style={{ color: COLORS.textColor }}>Настроение:</span>
+                                    <span style={{ color: COLORS.textColor }}>Mood:</span>
                                     <span className="font-medium" style={{ color: COLORS.chartColors[0] }}>
                                       {getAverageValue(getUniqueEntriesByTimeOfDay(playerEntries, "morning"), "mood")}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between">
-                                    <span style={{ color: COLORS.textColor }}>Энергия:</span>
+                                    <span style={{ color: COLORS.textColor }}>Energy:</span>
                                     <span className="font-medium" style={{ color: COLORS.chartColors[1] }}>
                                       {getAverageValue(getUniqueEntriesByTimeOfDay(playerEntries, "morning"), "energy")}
                                     </span>
                                   </div>
                                 </div>
                               ) : (
-                                <p className="mt-1 italic" style={{ color: COLORS.textColorSecondary }}>Нет данных</p>
+                                <p className="mt-1 italic" style={{ color: COLORS.textColorSecondary }}>No data</p>
                               )}
                             </div>
                             <div>
-                              <p className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>День</p>
+                              <p className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>Afternoon</p>
                               {getUniqueEntriesByTimeOfDay(playerEntries, "afternoon").length > 0 ? (
                                 <div className="mt-1">
                                   <div className="flex items-center justify-between">
-                                    <span style={{ color: COLORS.textColor }}>Настроение:</span>
+                                    <span style={{ color: COLORS.textColor }}>Mood:</span>
                                     <span className="font-medium" style={{ color: COLORS.chartColors[0] }}>
                                       {getAverageValue(getUniqueEntriesByTimeOfDay(playerEntries, "afternoon"), "mood")}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between">
-                                    <span style={{ color: COLORS.textColor }}>Энергия:</span>
+                                    <span style={{ color: COLORS.textColor }}>Energy:</span>
                                     <span className="font-medium" style={{ color: COLORS.chartColors[1] }}>
                                       {getAverageValue(getUniqueEntriesByTimeOfDay(playerEntries, "afternoon"), "energy")}
                                     </span>
                                   </div>
                                 </div>
                               ) : (
-                                <p className="mt-1 italic" style={{ color: COLORS.textColorSecondary }}>Нет данных</p>
+                                <p className="mt-1 italic" style={{ color: COLORS.textColorSecondary }}>No data</p>
                               )}
                             </div>
                             <div>
-                              <p className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>Вечер</p>
+                              <p className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>Evening</p>
                               {getUniqueEntriesByTimeOfDay(playerEntries, "evening").length > 0 ? (
                                 <div className="mt-1">
                                   <div className="flex items-center justify-between">
-                                    <span style={{ color: COLORS.textColor }}>Настроение:</span>
+                                    <span style={{ color: COLORS.textColor }}>Mood:</span>
                                     <span className="font-medium" style={{ color: COLORS.chartColors[0] }}>
                                       {getAverageValue(getUniqueEntriesByTimeOfDay(playerEntries, "evening"), "mood")}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between">
-                                    <span style={{ color: COLORS.textColor }}>Энергия:</span>
+                                    <span style={{ color: COLORS.textColor }}>Energy:</span>
                                     <span className="font-medium" style={{ color: COLORS.chartColors[1] }}>
                                       {getAverageValue(getUniqueEntriesByTimeOfDay(playerEntries, "evening"), "energy")}
                                     </span>
                                   </div>
                                 </div>
                               ) : (
-                                <p className="mt-1 italic" style={{ color: COLORS.textColorSecondary }}>Нет данных</p>
+                                <p className="mt-1 italic" style={{ color: COLORS.textColorSecondary }}>No data</p>
                               )}
                             </div>
                           </div>
@@ -1897,7 +1897,7 @@ const MoodTracker = () => {
                       <div className="space-y-4">
                         {/* Утренние записи */}
                         <div className="mb-8">
-                          <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textColor }}>Утро</h3>
+                          <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textColor }}>Morning</h3>
                           <div className="space-y-2">
                             {getUniqueEntriesByTimeOfDay(playerEntries, "morning")
                               .map(entry => (
@@ -1913,7 +1913,7 @@ const MoodTracker = () => {
                                   <div className="w-full">
                                     <div className="flex justify-between items-center mb-2">
                                       <div className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>
-                                        {formatDate(new Date(entry.date), "d MMMM")} (Утро)
+                                        {formatDate(new Date(entry.date), "d MMMM")} (Morning)
                                       </div>
                                       <div className="text-xs px-2 py-1 rounded" style={{ backgroundColor: 'rgba(0,0,0,0.2)', color: COLORS.textColorSecondary }}>
                                         ID: {entry.id?.substring(0, 8) || entry._id?.substring(0, 8) || "N/A"}
@@ -1922,7 +1922,7 @@ const MoodTracker = () => {
                                     
                                     <div className="grid grid-cols-2 gap-4 mb-2">
                                       <div>
-                                        <div className="text-sm mb-1" style={{ color: COLORS.textColorSecondary }}>Настроение</div>
+                                        <div className="text-sm mb-1" style={{ color: COLORS.textColorSecondary }}>Mood</div>
                                         <div className="flex items-center">
                                           <div className="text-xl font-bold mr-2" style={{ color: COLORS.chartColors[0] }}>
                                             {entry.mood}/10
@@ -1946,7 +1946,7 @@ const MoodTracker = () => {
                                         </div>
                                       </div>
                                       <div>
-                                        <div className="text-sm mb-1" style={{ color: COLORS.textColorSecondary }}>Энергия</div>
+                                        <div className="text-sm mb-1" style={{ color: COLORS.textColorSecondary }}>Energy</div>
                                         <div className="flex items-center">
                                           <div className="text-xl font-bold mr-2" style={{ color: COLORS.chartColors[1] }}>
                                             {entry.energy}/10
@@ -1987,7 +1987,7 @@ const MoodTracker = () => {
                               ))}
                             {getUniqueEntriesByTimeOfDay(playerEntries, "morning").length === 0 && (
                               <div className="text-center py-3" style={{ color: COLORS.textColorSecondary }}>
-                                Нет записей на утро
+                                No records на утро
                               </div>
                             )}
                           </div>
@@ -1995,7 +1995,7 @@ const MoodTracker = () => {
 
                         {/* Дневные записи */}
                         <div className="mb-8">
-                          <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textColor }}>День</h3>
+                          <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textColor }}>Afternoon</h3>
                           <div className="space-y-2">
                             {getUniqueEntriesByTimeOfDay(playerEntries, "afternoon")
                               .map(entry => (
@@ -2011,7 +2011,7 @@ const MoodTracker = () => {
                                   <div className="w-full">
                                     <div className="flex justify-between items-center mb-2">
                                       <div className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>
-                                        {formatDate(new Date(entry.date), "d MMMM")} (День)
+                                        {formatDate(new Date(entry.date), "d MMMM")} (Afternoon)
                                       </div>
                                       <div className="text-xs px-2 py-1 rounded" style={{ backgroundColor: 'rgba(0,0,0,0.2)', color: COLORS.textColorSecondary }}>
                                         ID: {entry.id?.substring(0, 8) || entry._id?.substring(0, 8) || "N/A"}
@@ -2020,7 +2020,7 @@ const MoodTracker = () => {
                                     
                                     <div className="grid grid-cols-2 gap-4 mb-2">
                                       <div>
-                                        <div className="text-sm mb-1" style={{ color: COLORS.textColorSecondary }}>Настроение</div>
+                                        <div className="text-sm mb-1" style={{ color: COLORS.textColorSecondary }}>Mood</div>
                                         <div className="flex items-center">
                                           <div className="text-xl font-bold mr-2" style={{ color: COLORS.chartColors[0] }}>
                                             {entry.mood}/10
@@ -2044,7 +2044,7 @@ const MoodTracker = () => {
                                         </div>
                                       </div>
                                       <div>
-                                        <div className="text-sm mb-1" style={{ color: COLORS.textColorSecondary }}>Энергия</div>
+                                        <div className="text-sm mb-1" style={{ color: COLORS.textColorSecondary }}>Energy</div>
                                         <div className="flex items-center">
                                           <div className="text-xl font-bold mr-2" style={{ color: COLORS.chartColors[1] }}>
                                             {entry.energy}/10
@@ -2085,15 +2085,15 @@ const MoodTracker = () => {
                               ))}
                             {getUniqueEntriesByTimeOfDay(playerEntries, "afternoon").length === 0 && (
                               <div className="text-center py-3" style={{ color: COLORS.textColorSecondary }}>
-                                Нет записей на день
+                                No records на день
                               </div>
                             )}
                           </div>
                         </div>
 
-                        {/* Вечерние записи */}
+                        {/* Eveningние записи */}
                         <div>
-                          <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textColor }}>Вечер</h3>
+                          <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textColor }}>Evening</h3>
                           <div className="space-y-2">
                             {getUniqueEntriesByTimeOfDay(playerEntries, "evening")
                               .map(entry => (
@@ -2109,7 +2109,7 @@ const MoodTracker = () => {
                                   <div className="w-full">
                                     <div className="flex justify-between items-center mb-2">
                                       <div className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>
-                                        {formatDate(new Date(entry.date), "d MMMM")} (Вечер)
+                                        {formatDate(new Date(entry.date), "d MMMM")} (Evening)
                                       </div>
                                       <div className="text-xs px-2 py-1 rounded" style={{ backgroundColor: 'rgba(0,0,0,0.2)', color: COLORS.textColorSecondary }}>
                                         ID: {entry.id?.substring(0, 8) || entry._id?.substring(0, 8) || "N/A"}
@@ -2118,7 +2118,7 @@ const MoodTracker = () => {
                                     
                                     <div className="grid grid-cols-2 gap-4 mb-2">
                                       <div>
-                                        <div className="text-sm mb-1" style={{ color: COLORS.textColorSecondary }}>Настроение</div>
+                                        <div className="text-sm mb-1" style={{ color: COLORS.textColorSecondary }}>Mood</div>
                                         <div className="flex items-center">
                                           <div className="text-xl font-bold mr-2" style={{ color: COLORS.chartColors[0] }}>
                                             {entry.mood}/10
@@ -2142,7 +2142,7 @@ const MoodTracker = () => {
                                         </div>
                                       </div>
                                       <div>
-                                        <div className="text-sm mb-1" style={{ color: COLORS.textColorSecondary }}>Энергия</div>
+                                        <div className="text-sm mb-1" style={{ color: COLORS.textColorSecondary }}>Energy</div>
                                         <div className="flex items-center">
                                           <div className="text-xl font-bold mr-2" style={{ color: COLORS.chartColors[1] }}>
                                             {entry.energy}/10
@@ -2183,7 +2183,7 @@ const MoodTracker = () => {
                               ))}
                             {getUniqueEntriesByTimeOfDay(playerEntries, "evening").length === 0 && (
                               <div className="text-center py-3" style={{ color: COLORS.textColorSecondary }}>
-                                Нет записей на вечер
+                                No records на вечер
                               </div>
                             )}
                           </div>
@@ -2282,13 +2282,13 @@ const MoodTracker = () => {
                   }}
                 >
                   <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "rgba(191, 219, 254, 0.78)" }}>
-                    Настроение
+                    Mood
                   </div>
                   <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>
                     {selectedDaySnapshot.avgMood ?? "-"}
                   </div>
                   <div className="mt-1 text-sm" style={{ color: "rgba(226, 232, 240, 0.68)" }}>
-                    {selectedDaySnapshot.avgMood !== null ? getScoreDescriptor(selectedDaySnapshot.avgMood, "mood") : "Пока без оценки"}
+                    {selectedDaySnapshot.avgMood !== null ? getScoreDescriptor(selectedDaySnapshot.avgMood, "mood") : "No rating yet"}
                   </div>
                 </div>
                 <div
@@ -2299,13 +2299,13 @@ const MoodTracker = () => {
                   }}
                 >
                   <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "rgba(191, 219, 254, 0.78)" }}>
-                    Энергия
+                    Energy
                   </div>
                   <div className="mt-2 text-2xl font-semibold" style={{ color: COLORS.textColor }}>
                     {selectedDaySnapshot.avgEnergy ?? "-"}
                   </div>
                   <div className="mt-1 text-sm" style={{ color: "rgba(226, 232, 240, 0.68)" }}>
-                    {selectedDaySnapshot.avgEnergy !== null ? getScoreDescriptor(selectedDaySnapshot.avgEnergy, "energy") : "Пока без оценки"}
+                    {selectedDaySnapshot.avgEnergy !== null ? getScoreDescriptor(selectedDaySnapshot.avgEnergy, "energy") : "No rating yet"}
                   </div>
                 </div>
               </div>
@@ -2316,7 +2316,7 @@ const MoodTracker = () => {
             <CardHeader className="pb-0">
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <CardTitle style={titleStyle}>Неделя наблюдения</CardTitle>
+                  <CardTitle style={titleStyle}>Week наблюдения</CardTitle>
                   <CardDescription style={descriptionStyle}>
                     Выберите день и посмотрите, какие слоты уже заполнены.
                   </CardDescription>
@@ -2379,7 +2379,7 @@ const MoodTracker = () => {
                               color: "#7EF3D1"
                             }}
                           >
-                            Сегодня
+                            Today
                           </span>
                         )}
                       </div>
@@ -2388,7 +2388,7 @@ const MoodTracker = () => {
                       </p>
                       <div className="mt-3 flex items-center justify-between text-sm">
                         <span style={{ color: COLORS.textColorSecondary }}>
-                          {daySnapshot.entries.length > 0 ? `${daySnapshot.entries.length} ${getEntryCountLabel(daySnapshot.entries.length)}` : "Пусто"}
+                          {daySnapshot.entries.length > 0 ? `${daySnapshot.entries.length} ${getEntryCountLabel(daySnapshot.entries.length)}` : "Empty"}
                         </span>
                         <span style={{ color: COLORS.textColor }}>
                           {daySnapshot.completedSlots}/3
@@ -2435,7 +2435,7 @@ const MoodTracker = () => {
                       }}
                     >
                       <Calendar className="h-3.5 w-3.5" />
-                      День наблюдения
+                      Afternoon наблюдения
                     </div>
                     <div>
                       <h3 className="text-2xl font-semibold" style={{ color: COLORS.textColor }}>
@@ -2456,7 +2456,7 @@ const MoodTracker = () => {
                         }}
                       >
                         <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: COLORS.textColorSecondary }}>
-                          Настроение
+                          Mood
                         </div>
                         <div className="mt-1 text-lg font-semibold" style={{ color: COLORS.textColor }}>
                           {selectedDaySnapshot.avgMood ?? "-"}
@@ -2470,7 +2470,7 @@ const MoodTracker = () => {
                         }}
                       >
                         <div className="text-[11px] uppercase tracking-[0.22em]" style={{ color: COLORS.textColorSecondary }}>
-                          Энергия
+                          Energy
                         </div>
                         <div className="mt-1 text-lg font-semibold" style={{ color: COLORS.textColor }}>
                           {selectedDaySnapshot.avgEnergy ?? "-"}
@@ -2488,7 +2488,7 @@ const MoodTracker = () => {
                       style={{ backgroundColor: COLORS.primary, color: "white" }}
                     >
                       <Plus className="mr-2 h-4 w-4" />
-                      {selectedDaySnapshot.nextMissingSlot ? `Добавить ${timeOfDayConfig[selectedDaySnapshot.nextMissingSlot].label.toLowerCase()}` : "Добавить запись"}
+                      {selectedDaySnapshot.nextMissingSlot ? `Add ${timeOfDayConfig[selectedDaySnapshot.nextMissingSlot].label.toLowerCase()}` : "Add запись"}
                     </Button>
                   </div>
                 </div>
@@ -2527,7 +2527,7 @@ const MoodTracker = () => {
                 <Calendar className="h-3.5 w-3.5" />
                 {formatDate(selectedDate, "d MMMM yyyy")}
               </div>
-              <DialogTitle style={titleStyle}>Добавить запись</DialogTitle>
+              <DialogTitle style={titleStyle}>Add запись</DialogTitle>
               <DialogDescription style={descriptionStyle}>
                 Зафиксируйте состояние в нужный момент дня. Один слот можно заполнить только один раз, поэтому интерфейс сразу подсказывает свободные периоды.
               </DialogDescription>
@@ -2600,7 +2600,7 @@ const MoodTracker = () => {
                     >
                       <div className="mb-4 flex items-center justify-between">
                         <div>
-                          <Label htmlFor="mood" style={{ color: COLORS.textColor }}>Настроение</Label>
+                          <Label htmlFor="mood" style={{ color: COLORS.textColor }}>Mood</Label>
                           <p className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>
                             {getScoreDescriptor(mood, "mood")}
                           </p>
@@ -2637,7 +2637,7 @@ const MoodTracker = () => {
                     >
                       <div className="mb-4 flex items-center justify-between">
                         <div>
-                          <Label htmlFor="energy" style={{ color: COLORS.textColor }}>Энергия</Label>
+                          <Label htmlFor="energy" style={{ color: COLORS.textColor }}>Energy</Label>
                           <p className="mt-1 text-sm" style={{ color: COLORS.textColorSecondary }}>
                             {getScoreDescriptor(energy, "energy")}
                           </p>
@@ -2733,7 +2733,7 @@ const MoodTracker = () => {
                           color: "#FFE0A3"
                         }}
                       >
-                        На этот период уже есть запись. Выберите другой слот, чтобы сохранить новый срез.
+                        На этот период уже есть запись. Choose another slot, чтобы сохранить новый срез.
                       </div>
                     )}
 
@@ -2741,14 +2741,14 @@ const MoodTracker = () => {
                       <Label htmlFor="comment" style={{ color: COLORS.textColor }}>Комментарий</Label>
                       <Textarea
                         id="comment"
-                        placeholder="Что сильнее всего влияло на состояние: сон, нагрузка, матчи, стресс, восстановление?"
+                        placeholder="What affected your condition most: sleep, load, matches, stress, recovery?"
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         className="min-h-[160px] rounded-[20px]"
                         style={{ backgroundColor: "rgba(255,255,255,0.04)", borderColor: "rgba(255,255,255,0.08)", color: COLORS.textColor }}
                       />
                       <p className="text-xs leading-5" style={{ color: COLORS.textColorSecondary }}>
-                        Необязательно писать много. Даже короткая причина поможет потом точнее читать динамику.
+                        Optional писать много. Даже короткая причина поможет потом точнее читать динамику.
                       </p>
                     </div>
                   </div>
@@ -2771,7 +2771,7 @@ const MoodTracker = () => {
               onClick={() => setIsAddingEntry(false)}
               style={{ borderColor: COLORS.borderColor, color: COLORS.textColor }}
             >
-              Отмена
+              Cancel
             </Button>
             <Button 
               type="submit" 
@@ -2786,9 +2786,9 @@ const MoodTracker = () => {
               {isLoading ? (
                 <>
                   <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-t-2 border-white mr-2"></div>
-                  Сохранение...
+                  Saving...
                 </>
-              ) : selectedSlotFilled ? "Выберите другой слот" : "Сохранить"}
+              ) : selectedSlotFilled ? "Choose another slot" : "Save"}
             </Button>
           </DialogFooter>
         </DialogContent>

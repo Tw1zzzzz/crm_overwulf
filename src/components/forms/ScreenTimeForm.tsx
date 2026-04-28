@@ -31,8 +31,8 @@ const ScreenTimeForm: React.FC = () => {
         setUsers(response.data || []);
       }
     } catch (error) {
-      console.error('Ошибка загрузки пользователей:', error);
-      toast.error('Ошибка при загрузке списка игроков');
+      console.error('Error загрузки пользователей:', error);
+      toast.error('Error при загрузке списка игроков');
     }
   };
 
@@ -82,8 +82,8 @@ const ScreenTimeForm: React.FC = () => {
         setStudy('');
       }
     } catch (error: any) {
-      console.error('Ошибка сохранения данных:', error);
-      toast.error(error.response?.data?.message || 'Ошибка при сохранении данных');
+      console.error('Error сохранения данных:', error);
+      toast.error(error.response?.data?.message || 'Error при сохранении данных');
     } finally {
       setLoading(false);
     }
@@ -114,10 +114,10 @@ const ScreenTimeForm: React.FC = () => {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="player">Игрок *</Label>
+            <Label htmlFor="player">Player *</Label>
             <Select value={selectedUserId} onValueChange={setSelectedUserId}>
               <SelectTrigger>
-                <SelectValue placeholder="Выберите игрока" />
+                <SelectValue placeholder="Select player" />
               </SelectTrigger>
               <SelectContent>
                 {users.map((user) => (
@@ -133,7 +133,7 @@ const ScreenTimeForm: React.FC = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="date">Дата *</Label>
+            <Label htmlFor="date">Date *</Label>
             <Input
               id="date"
               type="date"
@@ -160,7 +160,7 @@ const ScreenTimeForm: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="entertainment">Развлечения</Label>
+              <Label htmlFor="entertainment">Entertainment</Label>
               <Input
                 id="entertainment"
                 type="number"
@@ -246,7 +246,7 @@ const ScreenTimeForm: React.FC = () => {
             className="w-full"
           >
             <Save className="h-4 w-4 mr-2" />
-            {loading ? 'Сохранение...' : 'Сохранить'}
+            {loading ? 'Saving...' : 'Save'}
           </Button>
         </form>
       </CardContent>

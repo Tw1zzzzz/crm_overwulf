@@ -26,7 +26,7 @@ const TestChart = ({ data, height = 400, testTypes = [] }: TestChartProps) => {
   if (!data || data.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full py-10">
-        <p className="text-center text-gray-500">Нет данных для отображения</p>
+        <p className="text-center text-gray-500">No data to display</p>
       </div>
     );
   }

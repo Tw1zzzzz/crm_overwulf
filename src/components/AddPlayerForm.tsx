@@ -138,7 +138,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
     }
   };
   
-  // Загрузка файла Roadmap на сервер
+  // Loading файла Roadmap на сервер
   const uploadRoadmap = async (userId: string): Promise<string> => {
     if (!roadmapFile) return "";
     
@@ -146,7 +146,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
       setUploadingRoadmap(true);
       
       const token = localStorage.getItem('token');
-      if (!token) throw new Error('Требуется авторизация');
+      if (!token) throw new Error('Authorization required');
       
       const formData = new FormData();
       formData.append('roadmap', roadmapFile);
@@ -168,7 +168,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
       
       return "";
     } catch (error) {
-      console.error("Ошибка при загрузке Roadmap:", error);
+      console.error("Error при загрузке Roadmap:", error);
       toast.error("Не удалось загрузить Roadmap");
       return "";
     } finally {
@@ -176,7 +176,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
     }
   };
   
-  // Загрузка файла Mindmap на сервер
+  // Loading файла Mindmap на сервер
   const uploadMindmap = async (userId: string): Promise<string> => {
     if (!mindmapFile) return "";
     
@@ -184,7 +184,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
       setUploadingMindmap(true);
       
       const token = localStorage.getItem('token');
-      if (!token) throw new Error('Требуется авторизация');
+      if (!token) throw new Error('Authorization required');
       
       const formData = new FormData();
       formData.append('mindmap', mindmapFile);
@@ -206,7 +206,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
       
       return "";
     } catch (error) {
-      console.error("Ошибка при загрузке Mindmap:", error);
+      console.error("Error при загрузке Mindmap:", error);
       toast.error("Не удалось загрузить Mindmap");
       return "";
     } finally {
@@ -220,7 +220,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
     
     try {
       const token = localStorage.getItem('token');
-      if (!token) throw new Error('Требуется авторизация');
+      if (!token) throw new Error('Authorization required');
       
       await axios.put(
         `${baseUrl}/api/player-cards/${userId}/communication-line`,
@@ -235,7 +235,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
       
       return true;
     } catch (error) {
-      console.error("Ошибка при обновлении коммуникативной линии:", error);
+      console.error("Error при обновлении коммуникативной линии:", error);
       toast.error("Не удалось обновить коммуникативную линию");
       return false;
     }
@@ -252,7 +252,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
     }
 
     if (!formData.contacts.faceit.trim()) {
-      toast.error("Ссылка Faceit обязательна для регистрации игрока");
+      toast.error("FACEIT link is required to register a player");
       return;
     }
     
@@ -263,7 +263,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
       const token = localStorage.getItem('token');
       
       if (!token) {
-        throw new Error('Требуется авторизация');
+        throw new Error('Authorization required');
       }
       
       console.log("[AddPlayerForm] Создание игрока и карточки:", formData);
@@ -302,15 +302,15 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
         
         userId = response.data.user._id;
       } catch (apiError: any) {
-        const errorMessage = apiError.response?.data?.message || "Неизвестная ошибка при создании игрока";
-        console.error("[AddPlayerForm] Ошибка при создании игрока:", apiError);
+        const errorMessage = apiError.response?.data?.message || "Unknown error при создании игрока";
+        console.error("[AddPlayerForm] Error при создании игрока:", apiError);
         
         // Если ошибка связана с дубликатом email, попробуем снова с другим email
         if (errorMessage.includes('Email') && errorMessage.includes('already')) {
-          toast.error("Игрок с таким email уже существует. Генерируем новый email...");
-          throw new Error("Ошибка при создании игрока: " + errorMessage);
+          toast.error("Player с таким email уже существует. Генерируем новый email...");
+          throw new Error("Error при создании игрока: " + errorMessage);
         } else {
-          throw new Error("Ошибка при создании игрока: " + errorMessage);
+          throw new Error("Error при создании игрока: " + errorMessage);
         }
       }
       
@@ -335,9 +335,9 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
           await updateCommunicationLine(userId);
         }
       } catch (cardError: any) {
-        console.error("[AddPlayerForm] Ошибка при инициализации карточки игрока:", cardError);
-        const errorMessage = cardError.response?.data?.message || "Неизвестная ошибка при работе с карточкой";
-        throw new Error("Ошибка при инициализации карточки игрока: " + errorMessage);
+        console.error("[AddPlayerForm] Error при инициализации карточки игрока:", cardError);
+        const errorMessage = cardError.response?.data?.message || "Unknown error при работе с карточкой";
+        throw new Error("Error при инициализации карточки игрока: " + errorMessage);
       }
       
       // 3. Загружаем файлы, если они выбраны
@@ -356,7 +356,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
         try {
           await Promise.all(uploadTasks);
         } catch (fileError) {
-          console.error("[AddPlayerForm] Ошибка при загрузке файлов:", fileError);
+          console.error("[AddPlayerForm] Error при загрузке файлов:", fileError);
           // Не прерываем процесс, если не удалось загрузить файлы
           toast.error("Не удалось загрузить некоторые карты. Вы можете добавить их позже.");
         }
@@ -386,13 +386,13 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
       // Вызываем колбэк для обновления списка игроков
       onPlayerAdded();
     } catch (error: any) {
-      console.error("[AddPlayerForm] Ошибка:", error);
+      console.error("[AddPlayerForm] Error:", error);
       
       // Показываем сообщение об ошибке
       if (error.response && error.response.data && error.response.data.message) {
-        toast.error(`Ошибка: ${error.response.data.message}`);
+        toast.error(`Error: ${error.response.data.message}`);
       } else if (error.message) {
-        toast.error(`Ошибка: ${error.message}`);
+        toast.error(`Error: ${error.message}`);
       } else {
         toast.error("Не удалось создать карточку игрока. Попробуйте еще раз.");
       }
@@ -473,7 +473,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
                 name="contacts.nickname"
                 value={formData.contacts.nickname}
                 onChange={handleChange}
-                placeholder="Игровой никнейм"
+                placeholder="Game nickname"
                 disabled={isLoading}
                 className="text-lg py-6"
               />
@@ -588,7 +588,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
                 disabled={isLoading}
               >
                 <Upload className="h-5 w-5" />
-                {roadmapPreview ? "Изменить Roadmap" : "Выбрать Roadmap"}
+                {roadmapPreview ? "Change Roadmap" : "Выбрать Roadmap"}
               </Button>
             </div>
             
@@ -634,7 +634,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
                 disabled={isLoading}
               >
                 <Upload className="h-5 w-5" />
-                {mindmapPreview ? "Изменить Mindmap" : "Выбрать Mindmap"}
+                {mindmapPreview ? "Change Mindmap" : "Выбрать Mindmap"}
               </Button>
             </div>
           </TabsContent>
@@ -651,12 +651,12 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
               <>
                 <Loader2 className="h-6 w-6 animate-spin" />
                 {isLoading ? "Создание карточки..." : 
-                  uploadingRoadmap ? "Загрузка Roadmap..." : "Загрузка Mindmap..."}
+                  uploadingRoadmap ? "Loading Roadmap..." : "Loading Mindmap..."}
               </>
             ) : (
               <>
                 <Plus className="h-6 w-6" />
-                Создать карточку игрока
+                Create карточку игрока
               </>
             )}
           </Button>

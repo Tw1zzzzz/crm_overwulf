@@ -123,15 +123,15 @@ const MetricCard = ({ title, metrics, badge }: MetricCardProps) => (
 const buildCognitionMetrics = (report: PlayerStateReport): MetricRowProps[] => {
   const bd = report.zones.head.dataBreakdown;
   const metrics: MetricRowProps[] = [];
-  const attention = findBreakdown(bd, 'Внимание', 'attention');
+  const attention = findBreakdown(bd, 'Attention', 'attention');
   if (attention) {
     const val = extractNumeric(attention);
-    metrics.push({ label: 'Внимание', value: val !== null ? `${val}/100` : '—', trend: val !== null ? (val >= 75 ? 'up' : val >= 50 ? 'neutral' : 'down') : 'neutral' });
+    metrics.push({ label: 'Attention', value: val !== null ? `${val}/100` : '—', trend: val !== null ? (val >= 75 ? 'up' : val >= 50 ? 'neutral' : 'down') : 'neutral' });
   }
-  const memory = findBreakdown(bd, 'Рабочая память', 'memory');
+  const memory = findBreakdown(bd, 'Working memory', 'memory');
   if (memory) {
     const val = extractNumeric(memory);
-    metrics.push({ label: 'Рабочая память', value: val !== null ? `${val}/100` : '—', trend: val !== null ? (val >= 75 ? 'up' : val >= 50 ? 'neutral' : 'down') : 'neutral' });
+    metrics.push({ label: 'Working memory', value: val !== null ? `${val}/100` : '—', trend: val !== null ? (val >= 75 ? 'up' : val >= 50 ? 'neutral' : 'down') : 'neutral' });
   }
   const reaction = findBreakdown(report.zones.eyes.dataBreakdown, 'Go/No-Go', 'Реакция', 'reaction');
   if (!reaction) {
@@ -185,15 +185,15 @@ const buildLifestyleMetrics = (report: PlayerStateReport): MetricRowProps[] => {
   const eyesBd = report.zones.eyes.dataBreakdown;
   const legsBd = report.zones.legs.dataBreakdown;
   const metrics: MetricRowProps[] = [];
-  const screenTime = findBreakdown(eyesBd, 'Экранное время');
+  const screenTime = findBreakdown(eyesBd, 'Screen time');
   if (screenTime) {
     const val = extractNumeric(screenTime);
-    metrics.push({ label: 'Экранное время', value: val !== null ? `${val} ч/день` : '—', trend: val !== null ? (val <= 6 ? 'up' : val <= 9 ? 'neutral' : 'down') : 'neutral' });
+    metrics.push({ label: 'Screen time', value: val !== null ? `${val} ч/день` : '—', trend: val !== null ? (val <= 6 ? 'up' : val <= 9 ? 'neutral' : 'down') : 'neutral' });
   }
-  const entertainment = findBreakdown(eyesBd, 'Развлечения');
+  const entertainment = findBreakdown(eyesBd, 'Entertainment');
   if (entertainment) {
     const val = extractNumeric(entertainment);
-    metrics.push({ label: 'Развлечения', value: val !== null ? `${val} ч/день` : '—' });
+    metrics.push({ label: 'Entertainment', value: val !== null ? `${val} ч/день` : '—' });
   }
   // Balance wheel avg from legs breakdown
   const bwScores = legsBd
@@ -201,10 +201,10 @@ const buildLifestyleMetrics = (report: PlayerStateReport): MetricRowProps[] => {
     .filter((v): v is number => v !== null);
   if (bwScores.length > 0) {
     const avgBw = Math.round(bwScores.reduce((a, b) => a + b, 0) / bwScores.length);
-    metrics.push({ label: 'Колесо баланса (ср.)', value: `${avgBw}/100`, trend: avgBw >= 75 ? 'up' : avgBw >= 50 ? 'neutral' : 'down' });
+    metrics.push({ label: 'Balance wheel (ср.)', value: `${avgBw}/100`, trend: avgBw >= 75 ? 'up' : avgBw >= 50 ? 'neutral' : 'down' });
   }
   if (metrics.length === 0) {
-    metrics.push({ label: 'Образ жизни', value: `${report.zones.legs.score}/100` });
+    metrics.push({ label: 'Lifestyle', value: `${report.zones.legs.score}/100` });
   }
   return metrics;
 };
@@ -215,12 +215,12 @@ const buildGameMetrics = (report: PlayerStateReport): MetricRowProps[] => {
   const kd = findBreakdown(bd, 'K/D');
   if (kd) {
     const val = extractNumeric(kd);
-    metrics.push({ label: 'K/D', value: val !== null ? val.toFixed(2) : 'нет данных', trend: val !== null ? (val >= 1.5 ? 'up' : val >= 1.0 ? 'neutral' : 'down') : 'neutral' });
+    metrics.push({ label: 'K/D', value: val !== null ? val.toFixed(2) : 'no data', trend: val !== null ? (val >= 1.5 ? 'up' : val >= 1.0 ? 'neutral' : 'down') : 'neutral' });
   }
   const winRate = findBreakdown(bd, 'Win Rate', 'Win');
   if (winRate) {
     const val = extractNumeric(winRate);
-    metrics.push({ label: 'Win Rate', value: val !== null ? `${val.toFixed(1)}%` : 'нет данных', trend: val !== null ? (val >= 55 ? 'up' : val >= 45 ? 'neutral' : 'down') : 'neutral' });
+    metrics.push({ label: 'Win Rate', value: val !== null ? `${val.toFixed(1)}%` : 'no data', trend: val !== null ? (val >= 55 ? 'up' : val >= 45 ? 'neutral' : 'down') : 'neutral' });
   }
   const matches = findBreakdown(bd, 'Матч');
   if (matches) {
@@ -228,9 +228,9 @@ const buildGameMetrics = (report: PlayerStateReport): MetricRowProps[] => {
     metrics.push({ label: 'Матчей (30д)', value: val !== null ? `${Math.round(val)}` : '—' });
   }
   if (metrics.length === 0 || (metrics.length === 0 && bd.some((item) => item.includes('отсутствуют')))) {
-    metrics.push({ label: 'K/D', value: 'нет данных' });
-    metrics.push({ label: 'Win Rate', value: 'нет данных' });
-    metrics.push({ label: 'ADR', value: 'нет данных' });
+    metrics.push({ label: 'K/D', value: 'no data' });
+    metrics.push({ label: 'Win Rate', value: 'no data' });
+    metrics.push({ label: 'ADR', value: 'no data' });
   }
   return metrics;
 };
@@ -261,7 +261,7 @@ const StatePage = () => {
       cacheRef.current = { data, timestamp: Date.now() };
       setReport(data);
     } catch (err: unknown) {
-      console.error('[StatePage] Ошибка загрузки отчёта:', err);
+      console.error('[StatePage] Error загрузки отчёта:', err);
       setError('Не удалось загрузить анализ состояния. Попробуйте позже.');
     } finally {
       setLoading(false);
@@ -320,7 +320,7 @@ const StatePage = () => {
           className="gap-2"
         >
           <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-          Обновить
+          Update
         </Button>
       </div>
 
@@ -344,10 +344,10 @@ const StatePage = () => {
           <div className="flex items-start gap-3 text-destructive">
             <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
             <div className="space-y-2">
-              <p className="font-medium">Ошибка загрузки анализа</p>
+              <p className="font-medium">Error загрузки анализа</p>
               <p className="text-sm opacity-80">{error}</p>
               <Button variant="outline" size="sm" onClick={() => fetchReport(true)}>
-                Попробовать снова
+                Try again
               </Button>
             </div>
           </div>
@@ -413,7 +413,7 @@ const StatePage = () => {
                   {/* Recommendations */}
                   {report.recommendations.length > 0 && (
                     <div className="space-y-2">
-                      <h3 className="text-sm font-semibold">Рекомендации</h3>
+                      <h3 className="text-sm font-semibold">Recommendations</h3>
                       <ul className="space-y-1.5">
                         {report.recommendations.map((rec, i) => (
                           <li
@@ -482,7 +482,7 @@ const StatePage = () => {
             report && (
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 <MetricCard
-                  title="Когниции"
+                  title="Cognition"
                   metrics={buildCognitionMetrics(report)}
                   badge={{
                     label: report.zones.head.label,
@@ -495,7 +495,7 @@ const StatePage = () => {
                   }}
                 />
                 <MetricCard
-                  title="Психология"
+                  title="Psychology"
                   metrics={buildPsychologyMetrics(report)}
                   badge={{
                     label: report.zones.chest.label,
@@ -508,7 +508,7 @@ const StatePage = () => {
                   }}
                 />
                 <MetricCard
-                  title="Образ жизни"
+                  title="Lifestyle"
                   metrics={buildLifestyleMetrics(report)}
                   badge={{
                     label: report.zones.legs.label,
@@ -521,7 +521,7 @@ const StatePage = () => {
                   }}
                 />
                 <MetricCard
-                  title="Игра"
+                  title="Game"
                   metrics={buildGameMetrics(report)}
                   badge={{
                     label: report.zones.arms.label,

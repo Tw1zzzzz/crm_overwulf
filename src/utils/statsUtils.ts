@@ -33,7 +33,7 @@ import { ru } from "date-fns/locale";
  * Константы для статистических расчетов
  */
 export const STATS_CONSTANTS = {
-  WEEKDAYS: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
+  WEEKDAYS: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
   SHORT_WEEKDAYS: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
   MIN_ENTRIES_FOR_TREND: 3,
   CONSISTENCY_THRESHOLD: 0.7, // 70% дней с записями считается хорошей консистентностью
@@ -57,7 +57,7 @@ export const dateHelpers = {
       case TimePeriod.YEAR:
         return subMonths(baseDate, 12);
       case TimePeriod.ALL_TIME:
-        return new Date(2020, 0, 1); // Дата запуска системы
+        return new Date(2020, 0, 1); // Date запуска системы
       default:
         return subDays(baseDate, 7);
     }
@@ -93,7 +93,7 @@ export const daysInPeriod = (timeRange: TimePeriod): number => {
  * Возвращает метку для выбранного периода времени
  */
 export const timeRangeLabel = (timeRange: TimePeriod): string => {
-  return TIME_PERIOD_METADATA[timeRange]?.label || "Неделя";
+  return TIME_PERIOD_METADATA[timeRange]?.label || "Week";
 };
 
 /**
@@ -122,7 +122,7 @@ export const getMoodByDayOfWeek = (entries: MoodEntry[]): ChartDataPoint[] => {
         result[dayIndex].count += 1;
       }
     } catch (error) {
-      console.warn('Некорректная дата в записи настроения:', entry.date);
+      console.warn('Invalid date в записи настроения:', entry.date);
     }
   });
   
@@ -168,7 +168,7 @@ export const getTestsByDayOfWeek = (entries: TestEntry[]): ChartDataPoint[] => {
         dayData.byType[entryTestType].total += (entry.scoreNormalized ?? 0);
       }
     } catch (error) {
-      console.warn('Некорректная дата в записи теста:', entry.date);
+      console.warn('Invalid date в записи теста:', entry.date);
     }
   });
   
@@ -201,7 +201,7 @@ export const getChartData = (entries: MoodEntry[]): ChartDataPoint[] => {
           energy: entry.energy
         };
       } catch (error) {
-        console.warn('Некорректная дата в записи:', entry.date);
+        console.warn('Invalid date в записи:', entry.date);
         return {
           name: 'N/A',
           date: entry.date,
@@ -272,7 +272,7 @@ export const prepareMoodDataByTimeRange = (
         initialData[dataIndex].count += 1;
       }
     } catch (error) {
-      console.warn('Ошибка обработки записи настроения:', entry);
+      console.warn('Error обработки записи настроения:', entry);
     }
   });
 
@@ -291,7 +291,7 @@ export const prepareMoodDataByTimeRange = (
         initialData[dataIndex].sleepCount += 1;
       }
     } catch (error) {
-      console.warn('Ошибка обработки записи сна:', entry);
+      console.warn('Error обработки записи сна:', entry);
     }
   });
   
@@ -342,7 +342,7 @@ export const prepareTestDataByTimeRange = (
       groupedTests[dateString][testTypeKey].total += (entry.scoreNormalized ?? 0);
       groupedTests[dateString][testTypeKey].count += 1;
     } catch (error) {
-      console.warn('Ошибка обработки записи теста:', entry);
+      console.warn('Error обработки записи теста:', entry);
     }
   });
   

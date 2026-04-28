@@ -55,7 +55,7 @@ export default function Cs2AnalyticsPanel() {
         else setData(null);
       } catch (e: any) {
         setData(null);
-        toast.error(e?.response?.data?.message || e?.message || "Ошибка загрузки CS2 аналитики");
+        toast.error(e?.response?.data?.message || e?.message || "Error загрузки CS2 аналитики");
       } finally {
         setLoading(false);
       }
@@ -83,10 +83,10 @@ export default function Cs2AnalyticsPanel() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <div className="text-sm font-medium">Игрок</div>
+            <div className="text-sm font-medium">Player</div>
             <Select value={selectedUserId} onValueChange={setSelectedUserId}>
               <SelectTrigger>
-                <SelectValue placeholder="Выберите игрока" />
+                <SelectValue placeholder="Select player" />
               </SelectTrigger>
               <SelectContent>
                 {players.map((p) => (

@@ -21,17 +21,17 @@ const ResetPassword: React.FC = () => {
     event.preventDefault();
 
     if (!token) {
-      setError("Ссылка для сброса пароля неполная.");
+      setError("Link для сброса пароля неполная.");
       return;
     }
 
     if (password.length < 8) {
-      setError("Пароль должен содержать не менее 8 символов.");
+      setError("Password must be at least 8 characters long.");
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Пароли не совпадают.");
+      setError("Passwords do not match.");
       return;
     }
 
@@ -43,7 +43,7 @@ const ResetPassword: React.FC = () => {
     if (result.success) {
       navigate(ROUTES.WELCOME);
     } else {
-      setError(result.error || "Не удалось обновить пароль.");
+      setError(result.error || "Failed to update password.");
     }
   };
 
@@ -51,13 +51,13 @@ const ResetPassword: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Новый пароль</CardTitle>
-          <CardDescription>Задайте новый пароль для аккаунта.</CardDescription>
+          <CardTitle>New password</CardTitle>
+          <CardDescription>Set a new password for the account.</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="reset-password">Новый пароль</Label>
+              <Label htmlFor="reset-password">New password</Label>
               <Input
                 id="reset-password"
                 type="password"
@@ -68,7 +68,7 @@ const ResetPassword: React.FC = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="reset-password-confirm">Повторите пароль</Label>
+              <Label htmlFor="reset-password-confirm">Repeat password</Label>
               <Input
                 id="reset-password-confirm"
                 type="password"
@@ -82,10 +82,10 @@ const ResetPassword: React.FC = () => {
           </CardContent>
           <CardFooter className="flex gap-2">
             <Button type="button" variant="outline" className="w-full" onClick={() => navigate(ROUTES.WELCOME)}>
-              Назад ко входу
+              Back to sign in
             </Button>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Сохраняем..." : "Сменить пароль"}
+              {loading ? "Saving..." : "Change password"}
             </Button>
           </CardFooter>
         </form>

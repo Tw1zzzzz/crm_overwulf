@@ -1,46 +1,46 @@
 import { TEST_TYPE_METADATA, TestType } from "@/types";
 
-const FALLBACK_TEST_LABEL = "Общий тест";
+const FALLBACK_TEST_LABEL = "General test";
 
 export const BRAIN_TEST_TYPE_METADATA = {
   visual_search: {
     label: "Visual Search",
-    description: "Тест на селективное внимание и скорость поиска цели."
+    description: "A selective attention and target search speed test."
   },
   go_no_go: {
     label: "Go / No-Go",
-    description: "Тест на реакцию, самоконтроль и подавление лишних нажатий."
+    description: "A reaction, self-control, and response inhibition test."
   },
   n_back_2: {
     label: "2-Back",
-    description: "Тест на рабочую память и удержание последовательности."
+    description: "A working memory and sequence retention test."
   },
   stroop_switch: {
     label: "Stroop Switch",
-    description: "Тест на переключение правил и устойчивость к конфликту стимулов."
+    description: "A rule-switching and stimulus conflict resilience test."
   },
   spatial_span: {
     label: "Spatial Span",
-    description: "Тест на пространственную память и объём последовательности."
+    description: "A spatial memory and sequence capacity test."
   }
 } as const;
 
 const LEGACY_TEST_TYPE_LABELS: Record<string, { label: string; description: string }> = {
   generic: {
-    label: "Общий тест",
-    description: "Ручной или общий тест без отдельной классификации."
+    label: "General test",
+    description: "Manual or general test without a specific classification."
   },
   reaction: {
     label: "Reaction",
-    description: "Тест на скорость реакции."
+    description: "A reaction speed test."
   },
   aim: {
     label: "Aim",
-    description: "Тест на точность наведения и попаданий."
+    description: "An aiming and hit accuracy test."
   },
   cognitive: {
     label: "Cognitive",
-    description: "Когнитивный тест на внимание, память или мышление."
+    description: "A cognitive test for attention, memory, or thinking."
   }
 };
 
@@ -52,19 +52,19 @@ const INVALID_REASON_COPY: Record<
   }
 > = {
   tab_hidden_over_15_percent: {
-    title: "Окно теста было неактивно слишком долго",
+    title: "The test window was inactive for too long",
     description:
-      "Во время попытки вкладка или окно теста были скрыты больше 15% времени, поэтому результат не считается надёжным."
+      "During the attempt, the test tab or window was hidden for more than 15% of the time, so the result is not considered reliable."
   },
   accuracy_below_threshold: {
-    title: "Точность оказалась ниже минимального порога",
+    title: "Accuracy was below the minimum threshold",
     description:
-      "В этом тесте было слишком много ошибок, поэтому попытка не используется в baseline и не влияет на индекс."
+      "This test had too many errors, so the attempt is not used in the baseline and does not affect the index."
   },
   too_many_fast_responses: {
-    title: "Слишком много аномально быстрых ответов",
+    title: "Too many unusually fast responses",
     description:
-      "Система увидела много реакций быстрее 120 мс. Обычно это признак случайных или преждевременных нажатий."
+      "The system detected many reactions faster than 120 ms. This usually points to random or premature inputs."
   }
 };
 
@@ -117,8 +117,8 @@ export function getReadableInvalidReason(reason?: string | null) {
 
   if (!normalizedReason) {
     return {
-      title: "Попытка исключена из индекса",
-      description: "Система отметила попытку как ненадёжную и не использует её в baseline."
+      title: "Attempt excluded from the index",
+      description: "The system marked this attempt as unreliable and does not use it in the baseline."
     };
   }
 
@@ -127,7 +127,7 @@ export function getReadableInvalidReason(reason?: string | null) {
   }
 
   return {
-    title: "Попытка исключена из индекса",
-    description: reason || "Система отметила попытку как ненадёжную."
+    title: "Attempt excluded from the index",
+    description: reason || "The system marked this attempt as unreliable."
   };
 }

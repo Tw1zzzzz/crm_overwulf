@@ -79,11 +79,11 @@ export const getTimeOfDay = (): "morning" | "afternoon" | "evening" => {
 export const formatTimeOfDay = (timeOfDay: "morning" | "afternoon" | "evening"): string => {
   switch (timeOfDay) {
     case "morning":
-      return "Утро";
+      return "Morning";
     case "afternoon":
-      return "День";
+      return "Day";
     case "evening":
-      return "Вечер";
+      return "Evening";
     default:
       return "";
   }

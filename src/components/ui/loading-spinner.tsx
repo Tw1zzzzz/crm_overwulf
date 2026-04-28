@@ -16,7 +16,7 @@ interface LoadingSpinnerProps {
 export const LoadingSpinner = ({ 
   size = "md", 
   className,
-  text = "Загрузка..." 
+  text = "Loading..." 
 }: LoadingSpinnerProps) => {
   const sizeClasses = {
     sm: "w-4 h-4",
@@ -32,7 +32,7 @@ export const LoadingSpinner = ({
           sizeClasses[size]
         )}
         role="status"
-        aria-label="Загрузка"
+        aria-label="Loading"
       />
       {text && (
         <p className="text-sm text-gray-600 animate-pulse">

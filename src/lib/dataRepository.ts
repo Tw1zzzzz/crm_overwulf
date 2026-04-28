@@ -37,7 +37,7 @@ abstract class DataRepository<T> {
   }
 
   /**
-   * Добавляет новый элемент и сохраняет его локально и в очередь синхронизации
+   * Добавляет новый элемент и сохраняет его локально и в очередь sync
    */
   public create(item: Omit<T, 'id'>): T {
     // Создаем элемент с ID
@@ -50,7 +50,7 @@ abstract class DataRepository<T> {
     const items = this.getFromStorage();
     this.saveToStorage([...items, newItem]);
 
-    // Добавляем в очередь синхронизации
+    // Добавляем в очередь sync
     syncManager.addToSyncQueue('create', this.entityType, newItem);
 
     return newItem;
@@ -72,7 +72,7 @@ abstract class DataRepository<T> {
   }
 
   /**
-   * Удаляет элемент из хранилища и добавляет операцию в очередь синхронизации
+   * Удаляет элемент из хранилища и добавляет операцию в очередь sync
    */
   public delete(id: string): void {
     // Проверка на валидность ID
@@ -88,7 +88,7 @@ abstract class DataRepository<T> {
       // Сохраняем локально без удаленного элемента
       this.saveToStorage(items.filter(item => (item as any).id !== id));
       
-      // Добавляем в очередь синхронизации
+      // Добавляем в очередь sync
       syncManager.addToSyncQueue('delete', this.entityType, itemToDelete);
     } else {
       console.warn(`[DataRepository] Элемент с ID ${id} не найден для удаления`);

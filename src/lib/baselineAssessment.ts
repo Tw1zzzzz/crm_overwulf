@@ -18,62 +18,62 @@ export type BaselineQuestion = {
 export const BASELINE_PERSONALITY_QUESTIONS: BaselineQuestion[] = [
   {
     id: "personality_prep",
-    prompt: "Перед важным матчем что помогает вам быстрее всего войти в рабочий ритм?",
+    prompt: "Before an important match, what helps you get into your working rhythm fastest?",
     options: [
-      { id: "prep_action", label: "Нужна динамика и быстрый разгон через активность." },
-      { id: "prep_team_sync", label: "Сначала сверяюсь с командой и проговариваю ключевые акценты." },
-      { id: "prep_structure", label: "Лучше всего работает спокойный план и понятная структура." },
-      { id: "prep_calm", label: "Стараюсь выровнять голову и не разгонять лишние эмоции." }
+      { id: "prep_action", label: "I need movement and a fast ramp-up through activity." },
+      { id: "prep_team_sync", label: "I sync with the team first and align on key points." },
+      { id: "prep_structure", label: "A calm plan and clear structure work best for me." },
+      { id: "prep_calm", label: "I try to settle my head and avoid overloading emotions." }
     ]
   },
   {
     id: "personality_info",
-    prompt: "Когда в раунде много неполной информации, вы чаще:",
+    prompt: "When a round has a lot of incomplete information, you usually:",
     options: [
-      { id: "info_push", label: "Быстро принимаю инициативу и забираю пространство." },
-      { id: "info_call", label: "Собираю инфу через команду и договариваюсь о совместном действии." },
-      { id: "info_model", label: "Строю вероятности и выбираю самый логичный сценарий." },
-      { id: "info_patience", label: "Держу паузу и жду лучший тайминг, не форсируя." }
+      { id: "info_push", label: "Take initiative quickly and claim space." },
+      { id: "info_call", label: "Gather info through the team and agree on a shared action." },
+      { id: "info_model", label: "Build probabilities and choose the most logical scenario." },
+      { id: "info_patience", label: "Hold the pause and wait for better timing instead of forcing." }
     ]
   },
   {
     id: "personality_comms",
-    prompt: "Какой стиль коммуникации вам ближе в напряжённой игре?",
+    prompt: "Which communication style feels closest to you in a tense game?",
     options: [
-      { id: "comms_sharp", label: "Коротко, резко и по делу, чтобы держать темп." },
-      { id: "comms_guiding", label: "Спокойно направлять и держать команду в одной рамке." },
-      { id: "comms_precise", label: "Максимально точно и структурно, без лишних слов." },
-      { id: "comms_stable", label: "Поддерживать ровный тон, чтобы не качать эмоции команды." }
+      { id: "comms_sharp", label: "Short, sharp, and direct to keep the tempo." },
+      { id: "comms_guiding", label: "Calmly guide the team and keep everyone aligned." },
+      { id: "comms_precise", label: "Precise and structured, with no extra words." },
+      { id: "comms_stable", label: "Keep a steady tone so the team's emotions do not swing." }
     ]
   },
   {
     id: "personality_shift",
-    prompt: "Если план ломается, вы обычно:",
+    prompt: "If the plan breaks, you usually:",
     options: [
-      { id: "shift_force", label: "Сразу перестраиваюсь через агрессию и новый темп." },
-      { id: "shift_sync", label: "Проверяю, чтобы все поняли новый план одновременно." },
-      { id: "shift_reframe", label: "Быстро пересобираю решение на основе новых условий." },
-      { id: "shift_compose", label: "Сначала стабилизируюсь, потом действую." }
+      { id: "shift_force", label: "Rebuild immediately through aggression and a new tempo." },
+      { id: "shift_sync", label: "Make sure everyone understands the new plan at the same time." },
+      { id: "shift_reframe", label: "Quickly rebuild the decision from the new conditions." },
+      { id: "shift_compose", label: "Stabilize first, then act." }
     ]
   },
   {
     id: "personality_pressure",
-    prompt: "Что у вас чаще всего усиливается в клатч-ситуации?",
+    prompt: "What usually gets stronger for you in a clutch situation?",
     options: [
-      { id: "pressure_instinct", label: "Чувство темпа и смелость принять быстрый риск." },
-      { id: "pressure_comms", label: "Умение держать ясную связь и не терять команду." },
-      { id: "pressure_read", label: "Чтение оппонента и расчёт вероятностей." },
-      { id: "pressure_calm", label: "Холодная голова и контроль над эмоцией." }
+      { id: "pressure_instinct", label: "Tempo sense and the courage to take a fast risk." },
+      { id: "pressure_comms", label: "Clear communication and keeping the team connected." },
+      { id: "pressure_read", label: "Reading the opponent and calculating probabilities." },
+      { id: "pressure_calm", label: "A cool head and emotional control." }
     ]
   },
   {
     id: "personality_value",
-    prompt: "В своей лучшей форме вы даёте команде прежде всего:",
+    prompt: "At your best, what do you give the team most of all?",
     options: [
-      { id: "value_drive", label: "Разгон, импульс и ощущение, что можно давить." },
-      { id: "value_glue", label: "Связность, доверие и ощущение общего контура." },
-      { id: "value_clarity", label: "Ясность решений и структуру в сложных моментах." },
-      { id: "value_stability", label: "Спокойствие и устойчивость под нагрузкой." }
+      { id: "value_drive", label: "Acceleration, momentum, and the feeling that we can press." },
+      { id: "value_glue", label: "Connection, trust, and a shared team shape." },
+      { id: "value_clarity", label: "Decision clarity and structure in difficult moments." },
+      { id: "value_stability", label: "Calm and stability under load." }
     ]
   }
 ];

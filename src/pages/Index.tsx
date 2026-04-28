@@ -36,15 +36,15 @@ interface RegisterFormState {
 type RegisterMode = "solo" | "team";
 
 const heroHighlights = [
-  "Сначала видно, что происходит с формой, а не где какой модуль находится.",
-  "Игрок быстро понимает своё состояние, staff — ситуацию по команде и зонам риска.",
-  "Оплата расширяет разбор и историю, но не скрывает весь смысл продукта.",
+  "You first see what is happening with form, not where a module is hidden.",
+  "Players quickly understand their condition; staff see the team picture and risk zones.",
+  "Payment expands analysis and history, but does not hide the product's core value.",
 ];
 
 const platformMetrics = [
-  { value: "1", label: "понятное обещание продукта" },
-  { value: "2", label: "сценария входа: игрок и staff" },
-  { value: "3", label: "первых шага до полезного сигнала" },
+  { value: "1", label: "clear product promise" },
+  { value: "2", label: "entry paths: player and staff" },
+  { value: "3", label: "first steps to a useful signal" },
 ];
 
 const leftColumnFontFamily = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
@@ -90,7 +90,7 @@ const Index: React.FC = () => {
 
     const { email, password } = loginForm;
     if (!email.trim() || !password) {
-      toast.error("Пожалуйста, заполните email и пароль");
+      toast.error("Please enter your email and password");
       return;
     }
 
@@ -113,7 +113,7 @@ const Index: React.FC = () => {
   const handleForgotPassword = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     if (!forgotEmail.trim()) {
-      toast.error("Укажите email для восстановления");
+      toast.error("Enter the email address for recovery");
       return;
     }
 
@@ -134,17 +134,17 @@ const Index: React.FC = () => {
 
     const { email, password, name, faceitUrl, teamCode, role } = registerForm;
     if (!email.trim() || !password || !name.trim()) {
-      toast.error("Пожалуйста, заполните обязательные поля");
+      toast.error("Please fill in the required fields");
       return;
     }
 
     if (registerMode === "solo" && !faceitUrl.trim()) {
-      toast.error("Для solo-регистрации ссылка Faceit обязательна");
+      toast.error("A FACEIT link is required for solo registration");
       return;
     }
 
     if (registerMode === "team" && role === "player" && !teamCode.trim()) {
-      toast.error("Для командной регистрации нужен код команды");
+      toast.error("Team registration requires a team code");
       return;
     }
 
@@ -175,7 +175,7 @@ const Index: React.FC = () => {
 
   const handleResendVerification = async (): Promise<void> => {
     if (!pendingVerificationEmail.trim()) {
-      toast.error("Сначала укажите email аккаунта");
+      toast.error("Enter the account email first");
       return;
     }
 
@@ -225,22 +225,22 @@ const Index: React.FC = () => {
 
               <div className="space-y-4">
                 <h1 className="max-w-2xl text-4xl leading-tight text-white sm:text-5xl lg:text-6xl">
-                  Понимайте состояние игроков и команды в{" "}
+                  Understand player and team condition in{" "}
                   <span className="font-heading bg-gradient-to-r from-sky-300 via-blue-400 to-cyan-300 bg-clip-text text-transparent">
                     {PRODUCT_NAME}
                   </span>
                 </h1>
                 <p className="max-w-xl text-base leading-7 text-slate-300 sm:text-lg">
-                  {PRODUCT_DESCRIPTOR}. Сначала система помогает увидеть форму и риск-сигналы, а уже потом уводит в доступы, модули и оплату.
+                  {PRODUCT_DESCRIPTOR}. First, the system helps you see form and risk signals; then it moves into access, modules, and payment.
                 </p>
                 <div className="max-w-xl rounded-[24px] border border-white/10 bg-white/[0.045] p-4 shadow-lg shadow-slate-950/20 backdrop-blur-md">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="space-y-1.5">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-200/85">
-                        Что вы получите
+                        What you get
                       </p>
                       <p className="text-sm leading-6 text-slate-200">
-                        Игрок получает понятный личный контур формы. Staff — обзор команды и игроков, которым нужно внимание. Тарифы расширяют инсайт, а не скрывают базовую пользу.
+                        Players get a clear personal form loop. Staff get a team overview and the players who need attention. Plans expand insight instead of hiding the basic value.
                       </p>
                     </div>
                     <Button
@@ -249,7 +249,7 @@ const Index: React.FC = () => {
                       className="shrink-0 border-white/15 bg-white/5 text-white hover:bg-white/10 hover:text-white"
                       onClick={() => setAuthTab("register")}
                     >
-                      Перейти к входу
+                      Go to sign in
                     </Button>
                   </div>
                 </div>
@@ -271,7 +271,7 @@ const Index: React.FC = () => {
             <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
               <div className="rounded-[28px] border border-sky-400/20 bg-gradient-to-br from-sky-500/14 via-slate-900/70 to-slate-900/90 p-6 shadow-2xl shadow-sky-950/20 backdrop-blur-md">
                 <p className="text-sm font-semibold uppercase tracking-[0.28em] text-sky-200">
-                  Что делает продукт понятным
+                  What makes the product clear
                 </p>
                 <div className="mt-4 space-y-3">
                   {heroHighlights.map((item) => (
@@ -288,19 +288,19 @@ const Index: React.FC = () => {
 
               <div className="rounded-[28px] border border-white/10 bg-black/20 p-6 shadow-2xl shadow-black/25 backdrop-blur-md">
                 <p className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-300">
-                  Что произойдёт после входа
+                  What happens after sign in
                 </p>
                 <div className="mt-5 space-y-5">
                   <div>
-                    <p className="text-sm text-slate-400">1. Откроется понятный старт</p>
-                    <p className="mt-1 text-base font-medium text-white">Игрок увидит быстрый старт по форме, staff — обзор команды и ближайшие сигналы риска</p>
+                    <p className="text-sm text-slate-400">1. A clear start opens</p>
+                    <p className="mt-1 text-base font-medium text-white">Players see a quick form start; staff see the team overview and nearest risk signals</p>
                   </div>
                   <div>
-                    <p className="text-sm text-slate-400">2. CRM соберёт первые сигналы</p>
+                    <p className="text-sm text-slate-400">2. CRM collects the first signals</p>
                     <p className="mt-1 text-base font-medium text-white">{PRODUCT_PLAYER_JOURNEY[1]}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-slate-400">3. Дальше — расширение инсайта</p>
+                    <p className="text-sm text-slate-400">3. Then insight expands</p>
                     <p className="mt-1 text-base font-medium text-white">{PRODUCT_STAFF_JOURNEY[2]}</p>
                   </div>
                 </div>
@@ -316,7 +316,7 @@ const Index: React.FC = () => {
                     <div className="h-12 w-12 overflow-hidden rounded-2xl bg-white p-1 shadow-md shadow-sky-950/30">
                       <img
                         src={atlantTechnologyMark}
-                        alt={`Логотип ${PRODUCT_BRAND_NAME}`}
+                        alt={`${PRODUCT_BRAND_NAME} logo`}
                         className="h-full w-full rounded-xl object-contain"
                       />
                     </div>
@@ -324,11 +324,11 @@ const Index: React.FC = () => {
                       <p className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-200">
                         {PRODUCT_BRAND_NAME}
                       </p>
-                      <p className="text-sm text-slate-300">{PRODUCT_NAME}: вход и регистрация</p>
+                      <p className="text-sm text-slate-300">{PRODUCT_NAME}: sign in and registration</p>
                     </div>
                   </div>
                   <div className="hidden rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-200 sm:block">
-                    Безопасный вход
+                    Secure sign in
                   </div>
                 </div>
 
@@ -338,22 +338,22 @@ const Index: React.FC = () => {
                       value="login"
                       className="rounded-xl py-2.5 text-sm font-semibold text-slate-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-sky-400 data-[state=active]:to-blue-500 data-[state=active]:text-white"
                     >
-                      Вход
+                      Sign in
                     </TabsTrigger>
                     <TabsTrigger
                       value="register"
                       className="rounded-xl py-2.5 text-sm font-semibold text-slate-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-sky-400 data-[state=active]:to-blue-500 data-[state=active]:text-white"
                     >
-                      Регистрация
+                      Register
                     </TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="login" className="mt-4">
                     <Card className="border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 text-white shadow-2xl shadow-slate-950/40">
                       <CardHeader className="space-y-2">
-                        <CardTitle className="text-2xl text-white">Вход в аккаунт</CardTitle>
+                        <CardTitle className="text-2xl text-white">Account sign in</CardTitle>
                         <CardDescription className="text-slate-300">
-                          Введите ваши данные для входа в систему.
+                          Enter your credentials to access the system.
                         </CardDescription>
                       </CardHeader>
                       <form onSubmit={handleLogin}>
@@ -372,7 +372,7 @@ const Index: React.FC = () => {
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label htmlFor="login-password" className="text-slate-200">Пароль</Label>
+                            <Label htmlFor="login-password" className="text-slate-200">Password</Label>
                             <Input
                               id="login-password"
                               type="password"
@@ -388,7 +388,7 @@ const Index: React.FC = () => {
                             className="text-sm font-medium text-sky-300 underline-offset-4 transition hover:text-sky-200 hover:underline"
                             onClick={() => setShowForgotPassword((prev) => !prev)}
                           >
-                            {showForgotPassword ? "Скрыть форму восстановления" : "Забыли пароль?"}
+                            {showForgotPassword ? "Hide recovery form" : "Forgot password?"}
                           </button>
                         </CardContent>
                         <CardFooter>
@@ -397,7 +397,7 @@ const Index: React.FC = () => {
                             className="h-11 w-full bg-gradient-to-r from-sky-400 via-blue-500 to-cyan-400 text-white shadow-lg shadow-sky-950/30 hover:from-sky-300 hover:via-blue-400 hover:to-cyan-300"
                             disabled={loading}
                           >
-                            {loading ? "Вход..." : "Войти"}
+                            {loading ? "Signing in..." : "Sign in"}
                           </Button>
                         </CardFooter>
                       </form>
@@ -407,9 +407,9 @@ const Index: React.FC = () => {
                   <TabsContent value="register" className="mt-4">
                     <Card className="border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 text-white shadow-2xl shadow-slate-950/40">
                       <CardHeader className="space-y-2">
-                        <CardTitle className="text-2xl text-white">Создание аккаунта</CardTitle>
+                        <CardTitle className="text-2xl text-white">Create account</CardTitle>
                         <CardDescription className="text-slate-300">
-                          Сначала выберите сценарий: личный путь игрока или командный доступ для staff и состава.
+                          First choose a path: a personal player flow or team access for staff and roster.
                         </CardDescription>
                       </CardHeader>
                       <form onSubmit={handleRegister}>
@@ -424,7 +424,7 @@ const Index: React.FC = () => {
                               onClick={() => setRegisterMode("solo")}
                               disabled={loading}
                             >
-                              Я игрок
+                              I am a player
                             </Button>
                             <Button
                               type="button"
@@ -435,7 +435,7 @@ const Index: React.FC = () => {
                               onClick={() => setRegisterMode("team")}
                               disabled={loading}
                             >
-                              Командный доступ
+                              Team access
                             </Button>
                           </div>
 
@@ -450,7 +450,7 @@ const Index: React.FC = () => {
                                 onClick={() => updateRegisterField("role", "player")}
                                 disabled={loading}
                               >
-                                Игрок
+                                Player
                               </Button>
                               <Button
                                 type="button"
@@ -461,16 +461,16 @@ const Index: React.FC = () => {
                                 onClick={() => updateRegisterField("role", "staff")}
                                 disabled={loading}
                               >
-                                Стафф
+                                Staff
                               </Button>
                             </div>
                           )}
 
                           <div className="space-y-2">
-                            <Label htmlFor="register-name" className="text-slate-200">Имя</Label>
+                            <Label htmlFor="register-name" className="text-slate-200">Name</Label>
                             <Input
                               id="register-name"
-                              placeholder="Иван Иванов"
+                              placeholder="John Smith"
                               value={registerForm.name}
                               onChange={(event) => updateRegisterField("name", event.target.value)}
                               disabled={loading}
@@ -492,7 +492,7 @@ const Index: React.FC = () => {
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label htmlFor="register-password" className="text-slate-200">Пароль</Label>
+                            <Label htmlFor="register-password" className="text-slate-200">Password</Label>
                             <Input
                               id="register-password"
                               type="password"
@@ -506,7 +506,7 @@ const Index: React.FC = () => {
 
                           <div className="space-y-2">
                             <Label htmlFor="register-faceit" className="text-slate-200">
-                              Ссылка Faceit {registerMode === "solo" ? "" : "(обязательно для игроков)"}
+                              FACEIT link {registerMode === "solo" ? "" : "(required for players)"}
                             </Label>
                             <Input
                               id="register-faceit"
@@ -520,17 +520,17 @@ const Index: React.FC = () => {
 
                           {registerMode === "team" && (
                             <div className="space-y-2">
-                              <Label htmlFor="team-code" className="text-slate-200">Код команды</Label>
+                              <Label htmlFor="team-code" className="text-slate-200">Team code</Label>
                               <Input
                                 id="team-code"
-                                placeholder={registerForm.role === "staff" ? "Необязательно, если вы создаете новую команду" : "Код для player или staff"}
+                                placeholder={registerForm.role === "staff" ? "Optional if you are creating a new team" : "Code for player or staff"}
                                 value={registerForm.teamCode}
                                 onChange={(event) => updateRegisterField("teamCode", event.target.value)}
                                 disabled={loading}
                                 className="border-white/10 bg-white/5 text-white placeholder:text-slate-500"
                               />
                               <p className="text-xs leading-5 text-slate-400">
-                                Игроку код обязателен. Staff-профиль типа team может оставить поле пустым, если сначала создаст свою команду в профиле.
+                                Players need a code. A staff team profile can leave this empty if they create their team in the profile first.
                               </p>
                             </div>
                           )}
@@ -541,7 +541,7 @@ const Index: React.FC = () => {
                             className="h-11 w-full bg-gradient-to-r from-sky-400 via-blue-500 to-cyan-400 text-white shadow-lg shadow-sky-950/30 hover:from-sky-300 hover:via-blue-400 hover:to-cyan-300"
                             disabled={loading}
                           >
-                            {loading ? "Создание..." : "Зарегистрироваться"}
+                            {loading ? "Creating..." : "Register"}
                           </Button>
                         </CardFooter>
                       </form>
@@ -557,13 +557,13 @@ const Index: React.FC = () => {
                     <Card className="border-amber-300/25 bg-gradient-to-br from-amber-400/15 via-orange-400/10 to-white/5 text-amber-50 shadow-lg shadow-amber-950/10">
                       <CardHeader className="space-y-3 pb-4">
                         <div className="inline-flex w-fit rounded-full border border-amber-200/30 bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.14em] text-amber-100">
-                          Нужно действие
+                          Action needed
                         </div>
                         <CardTitle className="text-lg font-semibold text-amber-50">
-                          Подтвердите email
+                          Confirm your email
                         </CardTitle>
                         <CardDescription className="text-sm leading-relaxed text-amber-100/75">
-                          Мы создали аккаунт, но для первого входа нужно подтвердить почту.
+                          We created the account, but you need to confirm your email before first sign in.
                         </CardDescription>
                         <div className="break-all rounded-lg border border-amber-100/20 bg-black/15 px-4 py-3 text-sm font-medium text-amber-50">
                           {pendingVerificationEmail}
@@ -576,7 +576,7 @@ const Index: React.FC = () => {
                           onClick={handleResendVerification}
                           disabled={loading}
                         >
-                          {loading ? "Отправляем..." : "Отправить письмо повторно"}
+                          {loading ? "Sending..." : "Send email again"}
                         </Button>
                       </CardFooter>
                     </Card>
@@ -585,9 +585,9 @@ const Index: React.FC = () => {
                   {showForgotPassword && (
                     <Card className="border-white/10 bg-white/5 text-white shadow-lg shadow-slate-950/20 backdrop-blur-md">
                       <CardHeader>
-                        <CardTitle className="text-white">Восстановление пароля</CardTitle>
+                        <CardTitle className="text-white">Password recovery</CardTitle>
                         <CardDescription className="text-slate-300">
-                          Введите email, и мы отправим ссылку для смены пароля.
+                          Enter your email and we will send a password reset link.
                         </CardDescription>
                       </CardHeader>
                       <form onSubmit={handleForgotPassword}>
@@ -611,7 +611,7 @@ const Index: React.FC = () => {
                             className="h-11 w-full bg-white text-slate-950 hover:bg-slate-100"
                             disabled={loading}
                           >
-                            {loading ? "Отправляем..." : "Отправить ссылку"}
+                            {loading ? "Sending..." : "Send link"}
                           </Button>
                         </CardFooter>
                       </form>

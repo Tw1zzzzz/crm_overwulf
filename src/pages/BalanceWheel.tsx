@@ -20,7 +20,7 @@ import { format, subDays, subMonths, startOfMonth, endOfMonth, eachDayOfInterval
 import { ru } from "date-fns/locale";
 import { BalanceWheelChart } from "@/components/BalanceWheelChart";
 
-// Пользовательские стили для компонентов
+// Userские стили для компонентов
 const customStyles = {
   cardBackground: "#1a1d2d",
   cardBorder: "#3f4468",
@@ -45,14 +45,14 @@ const CLASS_STYLES = {
 
 // Categories for the balance wheel
 const categories = [
-  { id: "physical", name: "Физическое здоровье", description: "Здоровье, энергия, активность" },
-  { id: "emotional", name: "Эмоциональное состояние", description: "Управление эмоциями, стрессоустойчивость" },
-  { id: "intellectual", name: "Интеллектуальное развитие", description: "Обучение, творчество, развитие навыков" },
-  { id: "spiritual", name: "Духовное развитие", description: "Ценности, цели, смысл" },
-  { id: "occupational", name: "Профессиональная сфера", description: "Карьера, достижения, реализация" },
-  { id: "social", name: "Социальные отношения", description: "Семья, друзья, команда" },
-  { id: "environmental", name: "Окружающая среда", description: "Жизненное пространство, комфорт" },
-  { id: "financial", name: "Финансовое благополучие", description: "Доходы, сбережения, инвестиции" }
+  { id: "physical", name: "Physical health", description: "Health, energy, activity" },
+  { id: "emotional", name: "Emotional state", description: "Emotion management, stress resilience" },
+  { id: "intellectual", name: "Intellectual development", description: "Learning, creativity, skill growth" },
+  { id: "spiritual", name: "Spiritual growth", description: "Values, goals, meaning" },
+  { id: "occupational", name: "Professional area", description: "Career, achievements, fulfillment" },
+  { id: "social", name: "Social relationships", description: "Family, friends, team" },
+  { id: "environmental", name: "Environment", description: "Living space, comfort" },
+  { id: "financial", name: "Financial wellbeing", description: "Income, savings, investments" }
 ];
 
 const BalanceWheel = () => {
@@ -98,11 +98,11 @@ const BalanceWheel = () => {
             }
           } else {
             console.error("[ERROR] Неверный формат данных игроков:", response.data);
-            toast.error('Ошибка при загрузке игроков: неверный формат данных');
+            toast.error('Error loading players: invalid data format');
           }
         } catch (error) {
-          console.error('[ERROR] Ошибка при загрузке игроков:', error);
-          toast.error('Ошибка при загрузке игроков');
+          console.error('[ERROR] Error loading players:', error);
+          toast.error('Error loading players');
         } finally {
           setLoadingPlayers(false);
         }
@@ -212,8 +212,8 @@ const BalanceWheel = () => {
         console.log(`[DEBUG] Нет валидных данных колеса баланса`);
         setWheels([]);
       } catch (error) {
-        console.error('[ERROR] Ошибка при загрузке колес баланса:', error);
-        toast.error('Ошибка при загрузке истории колес баланса');
+        console.error('[ERROR] Error loading balance wheels:', error);
+        toast.error('Failed to load balance wheel history');
         setWheels([]);
       } finally {
         setIsLoading(false);
@@ -236,7 +236,7 @@ const BalanceWheel = () => {
   
   const handleSave = async () => {
     if (!user) {
-      toast.error("Необходимо войти в систему");
+      toast.error("You need to sign in");
       return;
     }
     
@@ -264,14 +264,14 @@ const BalanceWheel = () => {
         ...prev
       ]);
       
-      toast.success("Колесо баланса сохранено");
+      toast.success("Balance wheel saved");
       
       // Reset form
       setValues(initialValues);
       setDate(new Date().toISOString().split('T')[0]);
     } catch (error) {
       console.error('Error saving balance wheel:', error);
-      toast.error("Ошибка при сохранении колеса баланса");
+      toast.error("Error saving balance wheel");
     } finally {
       setSavingWheel(false);
     }
@@ -316,7 +316,7 @@ const BalanceWheel = () => {
   if (!user) {
     return (
       <div className="flex items-center justify-center h-64">
-        <p>Необходимо войти в систему для доступа к этой странице</p>
+        <p>You need to sign in для доступа к этой странице</p>
       </div>
     );
   }
@@ -340,13 +340,13 @@ const BalanceWheel = () => {
       </style>
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>Колесо баланса</h2>
+          <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>Balance wheel</h2>
         </div>
         
         {isStaffView && (
           <div className="mb-4">
             <Label htmlFor="player-select" className="block text-sm font-medium mb-2" style={{ color: customStyles.textColor }}>
-              Выберите игрока:
+              Select player:
             </Label>
             <Select 
               value={selectedPlayer} 
@@ -354,7 +354,7 @@ const BalanceWheel = () => {
               disabled={loadingPlayers}
             >
               <SelectTrigger className="w-full" style={{ backgroundColor: customStyles.inputBackground, borderColor: customStyles.cardBorder, color: customStyles.textColor }}>
-                <SelectValue placeholder="Выберите игрока" />
+                <SelectValue placeholder="Select player" />
               </SelectTrigger>
               <SelectContent style={{ backgroundColor: customStyles.cardBackground, borderColor: customStyles.cardBorder }}>
                 {players.map((player) => (
@@ -371,14 +371,14 @@ const BalanceWheel = () => {
           <CardHeader>
             <CardTitle className={CLASS_STYLES.title}>
               {isStaffView ? 
-                `Колесо баланса игрока` :
-                "Заполните ваше колесо баланса"
+                `Balance wheel игрока` :
+                "Fill in your balance wheel"
               }
             </CardTitle>
             <CardDescription className={CLASS_STYLES.description}>
               {isStaffView ? 
-                "Визуализация колеса баланса игрока" : 
-                "Ваше текущее колесо баланса"
+                "Player balance wheel visualization" : 
+                "Your current balance wheel"
               }
             </CardDescription>
           </CardHeader>
@@ -389,13 +389,13 @@ const BalanceWheel = () => {
                   value="current" 
                   className={viewMode === "current" ? CLASS_STYLES.activeTab : CLASS_STYLES.inactiveTab}
                 >
-                  Текущее состояние
+                  Current state
                 </TabsTrigger>
                 <TabsTrigger 
                   value="history" 
                   className={viewMode === "history" ? CLASS_STYLES.activeTab : CLASS_STYLES.inactiveTab}
                 >
-                  История
+                  History
                 </TabsTrigger>
               </TabsList>
               
@@ -404,14 +404,14 @@ const BalanceWheel = () => {
                   {/* Left column - Balance Wheel Form */}
                   <Card className={`${!canEdit ? "opacity-50 pointer-events-none" : ""} ${CLASS_STYLES.card}`}>
                     <CardHeader>
-                      <CardTitle className={CLASS_STYLES.title}>Заполните ваше колесо баланса</CardTitle>
+                      <CardTitle className={CLASS_STYLES.title}>Fill in your balance wheel</CardTitle>
                       <CardDescription className={CLASS_STYLES.description}>
-                        Оцените каждую область вашей жизни на данный момент
+                        Rate each area of your life right now
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="grid gap-2">
-                        <Label htmlFor="date" className={CLASS_STYLES.title}>Дата</Label>
+                        <Label htmlFor="date" className={CLASS_STYLES.title}>Date</Label>
                         <Input
                           id="date"
                           type="date"
@@ -433,7 +433,7 @@ const BalanceWheel = () => {
                           <Popover>
                             <PopoverTrigger asChild>
                               <button className={`text-sm hover:underline ${CLASS_STYLES.description}`}>
-                                Что это значит?
+                                What does it mean?
                               </button>
                             </PopoverTrigger>
                             <PopoverContent side="right" className="bg-[#2d3148] border-[#3f4468] text-white">
@@ -459,7 +459,7 @@ const BalanceWheel = () => {
                         className={`w-full ${CLASS_STYLES.button}`} 
                         disabled={!canEdit || savingWheel}
                       >
-                        {savingWheel ? "Сохранение..." : "Сохранить"}
+                        {savingWheel ? "Saving..." : "Save"}
                       </Button>
                     </CardFooter>
                   </Card>
@@ -470,34 +470,34 @@ const BalanceWheel = () => {
                       <CardTitle className={CLASS_STYLES.title}>
                         {isStaff ? (
                           selectedPlayer ? 
-                            `Колесо баланса игрока` : 
-                            "Выберите игрока"
+                            `Balance wheel игрока` : 
+                            "Select player"
                         ) : (
-                          "Ваше текущее колесо баланса"
+                          "Your current balance wheel"
                         )}
                       </CardTitle>
                       <CardDescription className={CLASS_STYLES.description}>
                         {latestWheel ? (
-                          `Последнее обновление: ${latestWheel.date.toLocaleDateString()}`
+                          `Last update: ${latestWheel.date.toLocaleDateString()}`
                         ) : (
-                          isLoading ? "Загрузка..." : "Нет данных"
+                          isLoading ? "Loading..." : "No data"
                         )}
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="flex items-center justify-center h-[900px] p-0">
                       {isLoading ? (
-                        <p className={CLASS_STYLES.title}>Загрузка данных...</p>
+                        <p className={CLASS_STYLES.title}>Loading data...</p>
                       ) : latestWheel ? (
                         <BalanceWheelChart 
                           data={getChartData(latestWheel)}
-                          title={isStaff ? `Колесо баланса игрока` : "Ваше текущее колесо баланса"}
+                          title={isStaff ? `Balance wheel игрока` : "Your current balance wheel"}
                         />
                       ) : (
                         <div className="text-center">
-                          <p className={CLASS_STYLES.title}>Нет данных для отображения</p>
+                          <p className={CLASS_STYLES.title}>No data to display</p>
                           {canEdit && (
                             <p className={`text-sm mt-2 ${CLASS_STYLES.description}`}>
-                              Заполните форму слева, чтобы создать ваше первое колесо баланса
+                              Fill in the form on the left to create your first balance wheel
                             </p>
                           )}
                         </div>
@@ -513,33 +513,33 @@ const BalanceWheel = () => {
                     <CardTitle className={CLASS_STYLES.title}>
                       {isStaff ? (
                         selectedPlayer ? 
-                          `История колес баланса игрока` : 
-                          "Выберите игрока"
+                          `History колес баланса игрока` : 
+                          "Select player"
                       ) : (
-                        "Ваша история колес баланса"
+                        "Your balance wheel history"
                       )}
                     </CardTitle>
                     <CardDescription className={CLASS_STYLES.description}>
                       {isLoading ? (
-                        "Загрузка истории..."
+                        "Loading history..."
                       ) : wheelHistory.length > 0 ? (
-                        `Всего записей: ${wheelHistory.length}`
+                        `Total records: ${wheelHistory.length}`
                       ) : (
-                        "Нет истории"
+                        "No history"
                       )}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     {isLoading ? (
                       <div className="text-center py-8">
-                        <p className={CLASS_STYLES.title}>Загрузка истории...</p>
+                        <p className={CLASS_STYLES.title}>Loading history...</p>
                       </div>
                     ) : wheelHistory.length === 0 ? (
                       <div className="text-center py-8">
-                        <p className={CLASS_STYLES.title}>Нет истории колес баланса</p>
+                        <p className={CLASS_STYLES.title}>No history колес баланса</p>
                         {canEdit && (
                           <p className={`text-sm mt-2 ${CLASS_STYLES.description}`}>
-                            Заполните форму на вкладке "Текущее состояние", чтобы создать ваше первое колесо баланса
+                            Fill in the form on the Current state tab to create your first balance wheel
                           </p>
                         )}
                       </div>
@@ -562,7 +562,7 @@ const BalanceWheel = () => {
                                       day: 'numeric'
                                     });
                                   } catch (e) {
-                                    return 'Дата неизвестна';
+                                    return 'Date unknown';
                                   }
                                 })()}
                               </h3>

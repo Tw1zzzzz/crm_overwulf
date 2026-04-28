@@ -12,7 +12,7 @@ const VerifyEmail: React.FC = () => {
   const [searchParams] = useSearchParams();
   const token = useMemo(() => searchParams.get("token") || "", [searchParams]);
   const [status, setStatus] = useState<VerificationStatus>("loading");
-  const [message, setMessage] = useState("Проверяем ссылку подтверждения...");
+  const [message, setMessage] = useState("Checking confirmation link...");
 
   useEffect(() => {
     let cancelled = false;
@@ -20,7 +20,7 @@ const VerifyEmail: React.FC = () => {
     const runVerification = async () => {
       if (!token) {
         setStatus("error");
-        setMessage("Ссылка подтверждения неполная.");
+        setMessage("Link подтверждения неполная.");
         return;
       }
 
@@ -31,10 +31,10 @@ const VerifyEmail: React.FC = () => {
 
       if (result.success) {
         setStatus("success");
-        setMessage(result.message || "Email успешно подтвержден. Теперь можно войти.");
+        setMessage(result.message || "Email confirmed successfully. You can sign in now.");
       } else {
         setStatus("error");
-        setMessage(result.error || "Не удалось подтвердить email.");
+        setMessage(result.error || "Failed to confirm email.");
       }
     };
 
@@ -49,13 +49,13 @@ const VerifyEmail: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Подтверждение email</CardTitle>
+          <CardTitle>Email confirmation</CardTitle>
           <CardDescription>
             {status === "loading"
-              ? "Завершаем активацию аккаунта."
+              ? "Finishing account activation."
               : status === "success"
-                ? "Аккаунт активирован."
-                : "Не удалось активировать аккаунт."}
+                ? "Account activated."
+                : "Failed to activate account."}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -65,11 +65,11 @@ const VerifyEmail: React.FC = () => {
         </CardContent>
         <CardFooter className="flex gap-2">
           <Button variant="outline" className="w-full" onClick={() => navigate(ROUTES.WELCOME)}>
-            На экран входа
+            Back to sign in
           </Button>
           {status === "success" && (
             <Button className="w-full" onClick={() => navigate(ROUTES.WELCOME)}>
-              Войти
+              Sign in
             </Button>
           )}
         </CardFooter>

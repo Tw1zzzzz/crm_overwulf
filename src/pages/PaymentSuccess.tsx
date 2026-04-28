@@ -17,9 +17,9 @@ const PaymentSuccess = () => {
   const location = useLocation();
   const queryClient = useQueryClient();
   const { refreshUser } = useAuth();
-  const [planName, setPlanName] = useState<string>('Новый тариф');
+  const [planName, setPlanName] = useState<string>('New plan');
   const [isAwaitingConfirmation, setIsAwaitingConfirmation] = useState<boolean>(true);
-  const [statusMessage, setStatusMessage] = useState<string>('Подтверждаем оплату...');
+  const [statusMessage, setStatusMessage] = useState<string>('Confirming payment...');
 
   const paymentParams = useMemo(() => {
     const query = new URLSearchParams(location.search);
@@ -65,12 +65,12 @@ const PaymentSuccess = () => {
 
           if (successInfo.status === 'active' || successInfo.hasAccess) {
             setIsAwaitingConfirmation(false);
-            setStatusMessage('Оплата подтверждена и доступ открыт.');
+            setStatusMessage('Payment confirmed and access opened.');
             return;
           }
 
           if (attempt < MAX_STATUS_POLL_ATTEMPTS) {
-            setStatusMessage('Оплата принята, ожидаем подтверждение сервера...');
+            setStatusMessage('Payment accepted, waiting for server confirmation...');
             await new Promise((resolve) => setTimeout(resolve, STATUS_POLL_INTERVAL_MS));
           }
         } catch {
@@ -89,7 +89,7 @@ const PaymentSuccess = () => {
       }
 
       setIsAwaitingConfirmation(false);
-      setStatusMessage('Оплата принята, но подтверждение задерживается. Обновите страницу через несколько секунд.');
+      setStatusMessage('Payment accepted, but confirmation is delayed. Refresh the page in a few seconds.');
     };
 
     void syncPaymentState();
@@ -106,14 +106,14 @@ const PaymentSuccess = () => {
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
             <CheckCircle2 className="h-7 w-7" />
           </div>
-          <CardTitle className="text-3xl">Оплата прошла успешно</CardTitle>
+          <CardTitle className="text-3xl">Payment successful</CardTitle>
           <CardDescription>
-            Доступ к платным возможностям обновляется автоматически после подтверждения оплаты Робокассой.
+            Access to paid features updates automatically after Robokassa confirms payment.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 text-center">
           <p className="text-lg">
-            Новый тариф: <span className="font-semibold">{planName}</span>
+            New plan: <span className="font-semibold">{planName}</span>
           </p>
           {isAwaitingConfirmation ? (
             <p className="inline-flex items-center gap-2 text-sm text-muted-foreground">
@@ -124,12 +124,12 @@ const PaymentSuccess = () => {
             <p className="text-sm text-muted-foreground">{statusMessage}</p>
           )}
           <p className="text-sm text-muted-foreground">
-            Если права обновились не сразу, страница уже инициировала повторную синхронизацию профиля.
+            If access did not update immediately, this page has already started another profile sync.
           </p>
         </CardContent>
         <CardFooter className="flex justify-center">
           <Button onClick={() => navigate(ROUTES.DASHBOARD)}>
-            В Dashboard
+            Go to Dashboard
             <ArrowRight className="h-4 w-4" />
           </Button>
         </CardFooter>

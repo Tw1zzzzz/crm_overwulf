@@ -35,7 +35,7 @@ const StaffPrivilegeUpgrade: React.FC<StaffPrivilegeUpgradeProps> = ({
     e.preventDefault();
     
     if (!accessCode.trim()) {
-      setError('Введите код доступа');
+      setError('Enter access code');
       return;
     }
 
@@ -50,7 +50,7 @@ const StaffPrivilegeUpgrade: React.FC<StaffPrivilegeUpgradeProps> = ({
       if (response.success) {
         setIsSuccess(true);
         setAccessCode('');
-        toast.success('Привилегии успешно получены! Теперь вы можете управлять персоналом и игроками.');
+        toast.success('Privileges activated. You can now manage staff and players.');
         
         // Обновляем данные пользователя
         await refreshUser();
@@ -60,13 +60,13 @@ const StaffPrivilegeUpgrade: React.FC<StaffPrivilegeUpgradeProps> = ({
           onUpgradeSuccess();
         }
       } else {
-        setError(response.message || 'Неверный код доступа');
-        toast.error('Неверный код доступа');
+        setError(response.message || 'Invalid access code');
+        toast.error('Invalid access code');
       }
     } catch (err: any) {
-      console.error('Ошибка при повышении привилегий:', err);
-      setError(err.message || 'Произошла ошибка при проверке кода');
-      toast.error('Ошибка при проверке кода доступа');
+      console.error('Error while повышении привилегий:', err);
+      setError(err.message || 'An error occurred while checking the code');
+      toast.error('Error while проверке кода доступа');
     } finally {
       setIsSubmitting(false);
     }
@@ -80,25 +80,25 @@ const StaffPrivilegeUpgrade: React.FC<StaffPrivilegeUpgradeProps> = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Shield className="h-5 w-5 text-green-600" />
-              <CardTitle className="text-green-800">Привилегированный доступ</CardTitle>
+              <CardTitle className="text-green-800">Privileged access</CardTitle>
             </div>
             <Badge variant="default" className="bg-green-600">
-              Активен
+              Active
             </Badge>
           </div>
           <CardDescription className="text-green-700">
-            У вас есть расширенные права для управления персоналом и игроками
+            You have extended permissions to manage staff and players
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center space-x-4 text-sm text-green-700">
             <div className="flex items-center space-x-1">
               <Users className="h-4 w-4" />
-              <span>Управление игроками</span>
+              <span>Player management</span>
             </div>
             <div className="flex items-center space-x-1">
               <UserCog className="h-4 w-4" />
-              <span>Управление персоналом</span>
+              <span>Staff management</span>
             </div>
           </div>
         </CardContent>
@@ -111,10 +111,10 @@ const StaffPrivilegeUpgrade: React.FC<StaffPrivilegeUpgradeProps> = ({
       <CardHeader>
         <div className="flex items-center space-x-2">
           <Key className="h-5 w-5 text-blue-600" />
-          <CardTitle>Получить привилегированный доступ</CardTitle>
+          <CardTitle>Get privileged access</CardTitle>
         </div>
         <CardDescription>
-          Введите код доступа для получения расширенных прав управления
+          Enter access code для получения расширенных прав управления
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -122,7 +122,7 @@ const StaffPrivilegeUpgrade: React.FC<StaffPrivilegeUpgradeProps> = ({
           <Alert className="mb-4 border-green-200 bg-green-50">
             <Shield className="h-4 w-4 text-green-600" />
             <AlertDescription className="text-green-800">
-              Привилегии успешно активированы! Перезагрузите страницу для применения изменений.
+              Privileges activated. Reload the page to apply changes.
             </AlertDescription>
           </Alert>
         )}
@@ -139,7 +139,7 @@ const StaffPrivilegeUpgrade: React.FC<StaffPrivilegeUpgradeProps> = ({
           <div>
             <Input
               type="password"
-              placeholder="Введите код доступа"
+              placeholder="Enter access code"
               value={accessCode}
               onChange={(e) => setAccessCode(e.target.value)}
               disabled={isSubmitting}
@@ -152,19 +152,19 @@ const StaffPrivilegeUpgrade: React.FC<StaffPrivilegeUpgradeProps> = ({
             disabled={isSubmitting || !accessCode.trim()}
             className="w-full"
           >
-            {isSubmitting ? 'Проверка...' : 'Активировать привилегии'}
+            {isSubmitting ? 'Checking...' : 'Activate privileges'}
           </Button>
         </form>
 
         <div className="mt-4 p-3 bg-blue-50 rounded-lg">
           <h4 className="text-sm font-medium text-blue-800 mb-2">
-            Что дают привилегии:
+            Thuо дают привилегии:
           </h4>
           <ul className="text-xs text-blue-700 space-y-1">
-            <li>• Управление составом персонала команды</li>
-            <li>• Добавление и удаление игроков</li>
-            <li>• Доступ к расширенной аналитике</li>
-            <li>• Предоставление привилегий другим сотрудникам</li>
+            <li>• Manage team staff roster</li>
+            <li>• Add and remove players</li>
+            <li>• Access extended analytics</li>
+            <li>• Grant privileges to other staff members</li>
           </ul>
         </div>
       </CardContent>

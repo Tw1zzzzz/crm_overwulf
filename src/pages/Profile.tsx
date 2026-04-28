@@ -113,7 +113,7 @@ const Profile: React.FC = () => {
    */
   const handleSaveFaceitUrl = async (): Promise<void> => {
     if (!faceitUrl.trim()) {
-      toast.error('Введите ссылку FACEIT');
+      toast.error('Enter FACEIT link');
       return;
     }
 
@@ -132,16 +132,16 @@ const Profile: React.FC = () => {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        toast.success('FACEIT ссылка успешно обновлена');
+        toast.success('FACEIT link updated successfully');
         setCurrentFaceitUrl(faceitUrl.trim());
         setIsEditingFaceit(false);
         await refreshUser();
       } else {
-        toast.error(data.message || 'Не удалось обновить FACEIT ссылку');
+        toast.error(data.message || 'Failed to update FACEIT link');
       }
     } catch (error) {
-      console.error('Ошибка при обновлении FACEIT ссылки:', error);
-      toast.error('Ошибка при сохранении FACEIT ссылки');
+      console.error('Error while обновлении FACEIT ссылки:', error);
+      toast.error('Error while сохранении FACEIT ссылки');
     } finally {
       setIsSavingFaceit(false);
     }
@@ -158,17 +158,17 @@ const Profile: React.FC = () => {
     const { currentPassword, newPassword, confirmPassword } = passwordForm;
 
     if (!currentPassword || !newPassword || !confirmPassword) {
-      toast.error("Заполните все поля для смены пароля");
+      toast.error("Fill in all password change fields");
       return;
     }
 
     if (newPassword.length < 8) {
-      toast.error("Новый пароль должен содержать минимум 8 символов");
+      toast.error("New password must be at least 8 characters long");
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      toast.error("Новый пароль и подтверждение не совпадают");
+      toast.error("New password and confirmation do not match");
       return;
     }
 
@@ -202,7 +202,7 @@ const Profile: React.FC = () => {
 
   const handleCreatePlayerProfile = async (): Promise<void> => {
     if (!playerProfileForm.faceitUrl.trim()) {
-      toast.error("Укажите Faceit-ссылку для профиля игрока");
+      toast.error("Enter a FACEIT link for the player profile");
       return;
     }
 
@@ -233,7 +233,7 @@ const Profile: React.FC = () => {
     const normalizedTeamCode = (overrideCode || teamCode).trim();
 
     if (!normalizedTeamCode) {
-      toast.error("Введите team-код");
+      toast.error("Enter team code");
       return;
     }
 
@@ -245,7 +245,7 @@ const Profile: React.FC = () => {
       });
 
       if (!result.success) {
-        toast.error(result.error || "Не удалось привязать профиль к команде");
+        toast.error(result.error || "Failed to link profile to team");
         return;
       }
 
@@ -272,13 +272,13 @@ const Profile: React.FC = () => {
       if (targetProfileKey && activeProfileKey && targetProfileKey !== activeProfileKey) {
         setTeamSwitchSuggestion({
           profileKey: targetProfileKey,
-          label: targetProfileKey === "staff_team" ? "Переключиться в Staff / Team" : "Переключиться в Игрок / Team",
+          label: targetProfileKey === "staff_team" ? "Switch to Staff / Team" : "Switchся в Player / Team",
         });
       } else {
         setTeamSwitchSuggestion(null);
       }
 
-      toast.success(result.message || "Team-профиль успешно привязан");
+      toast.success(result.message || "Team profile linked successfully");
     } finally {
       setIsLinkingTeamProfile(false);
     }
@@ -313,9 +313,9 @@ const Profile: React.FC = () => {
       // После успешного удаления перенаправляем на страницу входа
       navigate("/login");
     } catch (error) {
-      console.error("Ошибка при удалении аккаунта:", error);
+      console.error("Error while удалении аккаунта:", error);
     } finally {
-      // Сбрасываем состояния независимо от результата
+      // Satрасываем состояния независимо от результата
       setState(prevState => ({ 
         ...prevState, 
         isDeleting: false, 
@@ -342,13 +342,13 @@ const Profile: React.FC = () => {
 
     // Проверка типа файла
     if (!file.type.startsWith('image/')) {
-      alert('Пожалуйста, выберите изображение');
+      alert('Please choose an image');
       return;
     }
 
     // Проверка размера файла (макс. 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('Файл слишком большой. Максимальный размер - 5MB');
+      alert('File is too large. Maximum size is 5 MB');
       return;
     }
 
@@ -359,7 +359,7 @@ const Profile: React.FC = () => {
       const result = await updateAvatar(file);
       
       if (result.success) {
-        console.log('Аватар успешно загружен:', result.avatar);
+        console.log('Avatar uploaded successfully:', result.avatar);
         
         // Принудительно обновляем состояние компонента
         setState(prevState => ({ 
@@ -378,15 +378,15 @@ const Profile: React.FC = () => {
               console.log('Проверка аватара:', data);
             })
             .catch(err => {
-              console.error('Ошибка при проверке аватара:', err);
+              console.error('Error while проверке аватара:', err);
             });
         }, 500);
       } else {
-        console.error('Ошибка при загрузке аватара:', result.error);
+        console.error('Error while загрузке аватара:', result.error);
         setState(prevState => ({ ...prevState, isUploadingAvatar: false }));
       }
     } catch (error) {
-      console.error("Ошибка при загрузке аватара:", error);
+      console.error("Error while загрузке аватара:", error);
       setState(prevState => ({ ...prevState, isUploadingAvatar: false }));
     } finally {
       // Очищаем поле ввода для возможности повторной загрузки того же файла
@@ -429,14 +429,14 @@ const Profile: React.FC = () => {
     <div className="flex items-center justify-center h-full performance-page">
       <Card className="w-full max-w-md performance-hero">
         <CardHeader>
-          <CardTitle>Требуется авторизация</CardTitle>
+          <CardTitle>Authorization required</CardTitle>
           <CardDescription>
             Для доступа к профилю необходимо войти в систему
           </CardDescription>
         </CardHeader>
         <CardFooter>
           <Button className="w-full" onClick={() => navigate("/login")}>
-            Войти
+            Sign in
           </Button>
         </CardFooter>
       </Card>
@@ -461,16 +461,16 @@ const Profile: React.FC = () => {
   const hasLinkedTeamProfileForActiveRole = availableProfiles.some(
     (profile) => profile.role === user.role && profile.playerType === "team" && Boolean(profile.teamId)
   );
-  const teamLinkTargetLabel = user.role === "staff" ? "staff-код" : "player-код";
-  const teamLinkTitle = user.role === "staff" ? "Привязка Staff / Team" : "Привязка Игрок / Team";
+  const teamLinkTargetLabel = user.role === "staff" ? "staff code" : "player code";
+  const teamLinkTitle = user.role === "staff" ? "Staff / Team link" : "Привязка Player / Team";
   const teamLinkDescription =
     user.playerType === "team" && teamName
       ? `Сейчас активный team-профиль привязан к команде «${teamName}». Здесь можно перепривязать его по новому ${teamLinkTargetLabel}.`
       : hasLinkedTeamProfileForActiveRole
         ? `У вас уже есть Team-профиль для роли «${user.role === "staff" ? "staff" : "player"}». Введите новый ${teamLinkTargetLabel}, чтобы обновить привязку команды.`
         : user.role === "staff"
-          ? "Введите staff-код, чтобы добавить отдельный профиль Staff / Team и затем переключаться между контекстами."
-          : "Введите player-код, чтобы добавить отдельный профиль Игрок / Team и затем переключаться между Solo и Team.";
+          ? "Введите staff code, чтобы добавить отдельный профиль Staff / Team и затем переключаться между контекстами."
+          : "Введите player code, чтобы добавить отдельный профиль Player / Team и затем переключаться между Solo и Team.";
   const currentActiveProfile = availableProfiles.find((profile) => profile.key === user.activeProfileKey) || null;
   const hasMultipleProfiles = availableProfiles.length > 1;
 
@@ -548,14 +548,14 @@ const Profile: React.FC = () => {
               <div className="p-2 bg-muted rounded space-y-2">
                 <div>{user.email}</div>
                 <div className="text-xs text-muted-foreground">
-                  {user.emailVerified ? "Email подтвержден" : "Email пока не подтвержден"}
+                  {user.emailVerified ? "Email confirmed" : "Email not confirmed yet"}
                 </div>
               </div>
             </div>
             <div className="space-y-2">
-              <Label>Роль</Label>
+              <Label>Role</Label>
               <div className="p-2 bg-muted rounded">
-                {user.role === "player" ? "Игрок" : "Стафф"}
+                {user.role === "player" ? "Player" : "Staff"}
               </div>
             </div>
             {user.playerType === "team" && (
@@ -575,16 +575,16 @@ const Profile: React.FC = () => {
                       Текущая команда
                     </p>
                     <p className="mt-2 text-2xl font-semibold text-white">
-                      {teamName || "Команда пока не назначена"}
+                      {teamName || "Team пока не назначена"}
                     </p>
                     <p className="mt-2 text-sm text-slate-300">
                       {teamName
                         ? user.role === "staff"
-                          ? "Вы работаете внутри этой команды и управляете её составом."
-                          : "Ваш профиль привязан к этой команде."
+                          ? "You work inside this team and manage its roster."
+                          : "Your profile is linked to this team."
                         : user.role === "staff"
-                          ? "Создайте команду или присоединитесь по staff-коду, чтобы начать работу."
-                        : "Команда появится здесь после привязки по team-коду."}
+                          ? "Создайте команду или присоединитесь по staff codeу, чтобы начать работу."
+                        : "Team появится здесь после привязки по team-коду."}
                     </p>
                     </div>
                   </div>
@@ -689,11 +689,11 @@ const Profile: React.FC = () => {
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-4 rounded-lg border p-4">
                     <div>
-                      <p className="font-medium">Статус email</p>
+                      <p className="font-medium">Status email</p>
                       <p className="text-sm text-muted-foreground">
                         {user.emailVerified
-                          ? "Почта подтверждена, аккаунт активен."
-                          : "Почта еще не подтверждена. Без этого вход может быть ограничен."}
+                          ? "Email is confirmed and the account is active."
+                          : "Email is not confirmed yet. Sign in may be limited until then."}
                       </p>
                     </div>
                     {!user.emailVerified && (
@@ -702,7 +702,7 @@ const Profile: React.FC = () => {
                         onClick={handleResendVerificationEmail}
                         disabled={isSendingVerificationEmail}
                       >
-                        {isSendingVerificationEmail ? "Отправляем..." : "Отправить письмо"}
+                        {isSendingVerificationEmail ? "Sending..." : "Send email"}
                       </Button>
                     )}
                   </div>
@@ -710,7 +710,7 @@ const Profile: React.FC = () => {
 
                 <div className="space-y-4">
                   <div>
-                    <p className="font-medium">Сменить пароль</p>
+                    <p className="font-medium">Change password</p>
                     <p className="text-sm text-muted-foreground">
                       После смены пароля потребуется войти в аккаунт заново.
                     </p>
@@ -729,7 +729,7 @@ const Profile: React.FC = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="new-password">Новый пароль</Label>
+                    <Label htmlFor="new-password">New password</Label>
                     <Input
                       id="new-password"
                       type="password"
@@ -753,7 +753,7 @@ const Profile: React.FC = () => {
                   </div>
 
                   <Button onClick={handleChangePassword} disabled={isChangingPassword}>
-                    {isChangingPassword ? "Сохраняем..." : "Обновить пароль"}
+                    {isChangingPassword ? "Saving..." : "Update password"}
                   </Button>
                 </div>
               </div>
@@ -764,7 +764,7 @@ const Profile: React.FC = () => {
             {/* Диалог подтверждения удаления аккаунта */}
             <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
               <DialogTrigger asChild>
-                <Button variant="destructive">Удалить аккаунт</Button>
+                <Button variant="destructive">Delete аккаунт</Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
@@ -778,14 +778,14 @@ const Profile: React.FC = () => {
                     variant="outline"
                     onClick={() => handleDialogChange(false)}
                   >
-                    Отмена
+                    Cancel
                   </Button>
                   <Button
                     variant="destructive"
                     onClick={handleDeleteAccount}
                     disabled={isDeleting}
                   >
-                    {isDeleting ? "Удаление..." : "Удалить"}
+                    {isDeleting ? "Deleting..." : "Delete"}
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -802,7 +802,7 @@ const Profile: React.FC = () => {
             >
               <TabsList className="grid w-full grid-cols-2 bg-muted/40">
                 <TabsTrigger value="profile">Профиль и доступ</TabsTrigger>
-                <TabsTrigger value="team">Моя команда и коды приглашения</TabsTrigger>
+                <TabsTrigger value="team">My team и коды приглашения</TabsTrigger>
               </TabsList>
             </Tabs>
           )}
@@ -827,7 +827,7 @@ const Profile: React.FC = () => {
                             Сейчас активен
                           </p>
                           <p className="mt-2 text-lg font-semibold">
-                            {currentActiveProfile?.label || "Текущий профиль"}
+                            {currentActiveProfile?.label || "Current profile"}
                           </p>
                           <p className="mt-1 text-sm text-muted-foreground">
                             {currentActiveProfile?.teamName
@@ -854,8 +854,8 @@ const Profile: React.FC = () => {
                         <div className="space-y-2">
                           <div className="flex flex-wrap items-center gap-2">
                             <p className="font-medium">{profile.label}</p>
-                            {isActive && <Badge>Активен</Badge>}
-                            {profile.teamId && <Badge variant="secondary">Команда подключена</Badge>}
+                            {isActive && <Badge>Active</Badge>}
+                            {profile.teamId && <Badge variant="secondary">Team подключена</Badge>}
                           </div>
                           <p className="text-sm text-muted-foreground">
                             {profile.teamName ? `${profile.teamName} • ` : ""}
@@ -878,10 +878,10 @@ const Profile: React.FC = () => {
                             }}
                             disabled={isActive}
                           >
-                            {isActive ? "Активен" : "Переключить"}
+                            {isActive ? "Active" : "Switch"}
                           </Button>
                         ) : (
-                          <Badge className="w-fit">Текущий профиль</Badge>
+                          <Badge className="w-fit">Current profile</Badge>
                         )}
                       </div>
                     );
@@ -900,7 +900,7 @@ const Profile: React.FC = () => {
               <Alert className="border-border/80 bg-muted/20">
                 <Link2 className="h-4 w-4" />
                 <AlertTitle>
-                  {user.playerType === "team" && teamName ? "Профиль уже связан с командой" : "Нужен корректный код команды"}
+                  {user.playerType === "team" && teamName ? "Profile already linked to a team" : "A valid team code is required"}
                 </AlertTitle>
                 <AlertDescription>
                   {user.playerType === "team" && teamName
@@ -920,14 +920,14 @@ const Profile: React.FC = () => {
                   <div className="flex flex-col gap-3 sm:flex-row">
                     <Input
                       id="team-profile-code"
-                      placeholder={user.role === "staff" ? "Введите staff-код команды" : "Введите player-код команды"}
+                      placeholder={user.role === "staff" ? "Введите staff code команды" : "Введите player code команды"}
                       value={teamCode}
                       onChange={(event) => setTeamCode(event.target.value)}
                       disabled={isLinkingTeamProfile}
                       aria-describedby="team-profile-code-hint"
                     />
                     <Button type="submit" disabled={isLinkingTeamProfile} className="sm:min-w-[240px]">
-                      {isLinkingTeamProfile ? "Проверяем код..." : user.playerType === "team" ? "Обновить привязку Team-профиля" : "Добавить Team-профиль"}
+                      {isLinkingTeamProfile ? "Checking code..." : user.playerType === "team" ? "Update Team profile link" : "Add Team-профиль"}
                     </Button>
                   </div>
                   <p id="team-profile-code-hint" className="text-sm text-muted-foreground">
@@ -964,7 +964,7 @@ const Profile: React.FC = () => {
           {!hasPlayerProfile && (
             <Card>
               <CardHeader>
-                <CardTitle>Добавить профиль игрока</CardTitle>
+                <CardTitle>Add профиль игрока</CardTitle>
                 <CardDescription>
                   Можно оставить один логин и добавить второй контекст игрока. Для Team-профиля команда возьмётся из текущего staff/team аккаунта.
                 </CardDescription>
@@ -983,7 +983,7 @@ const Profile: React.FC = () => {
                     onClick={() => setPlayerProfileForm((prev) => ({ ...prev, playerType: "team" }))}
                     disabled={!canCreateTeamPlayerProfile}
                   >
-                    <p className="font-medium">Игрок / Team</p>
+                    <p className="font-medium">Player / Team</p>
                     <p className="mt-1 text-sm text-muted-foreground">
                       Командный игровой контекст с привязкой к текущей staff/team команде.
                     </p>
@@ -998,7 +998,7 @@ const Profile: React.FC = () => {
                     )}
                     onClick={() => setPlayerProfileForm((prev) => ({ ...prev, playerType: "solo" }))}
                   >
-                    <p className="font-medium">Игрок / Solo</p>
+                    <p className="font-medium">Player / Solo</p>
                     <p className="mt-1 text-sm text-muted-foreground">
                       Отдельный личный игровой контекст без командной привязки.
                     </p>
@@ -1025,14 +1025,14 @@ const Profile: React.FC = () => {
                     <Label htmlFor="player-profile-nickname">Никнейм</Label>
                     <Input
                       id="player-profile-nickname"
-                      placeholder="Необязательно"
+                      placeholder="Optional"
                       value={playerProfileForm.nickname}
                       onChange={(event) => setPlayerProfileForm((prev) => ({ ...prev, nickname: event.target.value }))}
                       disabled={isCreatingPlayerProfile}
                     />
                   </div>
                   <Button type="submit" disabled={isCreatingPlayerProfile} className="sm:min-w-[220px]">
-                    {isCreatingPlayerProfile ? "Добавляем..." : "Добавить профиль игрока"}
+                    {isCreatingPlayerProfile ? "Adding..." : "Add профиль игрока"}
                   </Button>
                 </form>
                 {!canCreateTeamPlayerProfile && (
@@ -1061,8 +1061,8 @@ const Profile: React.FC = () => {
                 <DialogTitle>Подтвердите перепривязку Team-профиля</DialogTitle>
                 <DialogDescription>
                   {pendingTeamRelink
-                    ? `Сейчас профиль привязан к команде «${pendingTeamRelink.currentTeam.name || "Без названия"}». После подтверждения он будет перепривязан к «${pendingTeamRelink.nextTeam.name}».`
-                    : "Подтвердите действие."}
+                    ? `Сейчас профиль привязан к команде «${pendingTeamRelink.currentTeam.name || "Untitled"}». После подтверждения он будет перепривязан к «${pendingTeamRelink.nextTeam.name}».`
+                    : "Confirm the action."}
                 </DialogDescription>
               </DialogHeader>
               {pendingTeamRelink && (
@@ -1071,7 +1071,7 @@ const Profile: React.FC = () => {
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                       Сейчас
                     </p>
-                    <p className="mt-2 font-medium">{pendingTeamRelink.currentTeam.name || "Без названия"}</p>
+                    <p className="mt-2 font-medium">{pendingTeamRelink.currentTeam.name || "Untitled"}</p>
                   </div>
                   <div className="flex items-center justify-center text-muted-foreground">
                     <ArrowRightLeft className="h-5 w-5" />
@@ -1090,10 +1090,10 @@ const Profile: React.FC = () => {
                   onClick={() => setPendingTeamRelink(null)}
                   disabled={isLinkingTeamProfile}
                 >
-                  Отмена
+                  Cancel
                 </Button>
                 <Button onClick={() => void handleConfirmTeamRelink()} disabled={isLinkingTeamProfile}>
-                  {isLinkingTeamProfile ? "Перепривязываем..." : "Подтвердить перепривязку"}
+                  {isLinkingTeamProfile ? "Relinking..." : "Confirm relink"}
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -1109,7 +1109,7 @@ const Profile: React.FC = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="p-4 bg-muted rounded">
-                  <p className="text-sm">Подробная статистика доступна в разделах «Статистика», «Настроение и энергия» и «Тесты».</p>
+                  <p className="text-sm">Подробная статистика доступна в разделах «Статистика», «Mood и energy» и «Тесты».</p>
                 </div>
               </CardContent>
             </Card>

@@ -42,7 +42,7 @@ export interface PeriodData {
  */
 const activityHistoryService = {
   /**
-   * Создать запись активности
+   * Create запись активности
    */
   createActivity: async (
     action: ActivityHistoryItem['action'],
@@ -54,7 +54,7 @@ const activityHistoryService = {
       const token = localStorage.getItem('token');
       
       if (!token) {
-        throw new Error('Не авторизован');
+        throw new Error('Not authorized');
       }
 
       const response = await axios.post(
@@ -65,7 +65,7 @@ const activityHistoryService = {
       
       return response.data.data.activity;
     } catch (error) {
-      console.error('Ошибка при создании записи активности:', error);
+      console.error('Error creating activity record:', error);
       throw error;
     }
   },
@@ -81,7 +81,7 @@ const activityHistoryService = {
       const token = localStorage.getItem('token');
       
       if (!token) {
-        throw new Error('Не авторизован');
+        throw new Error('Not authorized');
       }
       
       const response = await axios.get(
@@ -94,7 +94,7 @@ const activityHistoryService = {
         pagination: response.data.data.pagination
       };
     } catch (error) {
-      console.error('Ошибка при получении истории активности:', error);
+      console.error('Error fetching activity history:', error);
       throw error;
     }
   },
@@ -117,7 +117,7 @@ const activityHistoryService = {
       const token = localStorage.getItem('token');
       
       if (!token) {
-        throw new Error('Не авторизован');
+        throw new Error('Not authorized');
       }
       
       // Формируем параметры запроса
@@ -141,7 +141,7 @@ const activityHistoryService = {
         pagination: response.data.data.pagination
       };
     } catch (error) {
-      console.error('Ошибка при получении истории активности:', error);
+      console.error('Error fetching activity history:', error);
       throw error;
     }
   },
@@ -158,7 +158,7 @@ const activityHistoryService = {
       const token = localStorage.getItem('token');
       
       if (!token) {
-        throw new Error('Не авторизован');
+        throw new Error('Not authorized');
       }
       
       const response = await axios.get(
@@ -168,7 +168,7 @@ const activityHistoryService = {
       
       return response.data.data;
     } catch (error) {
-      console.error('Ошибка при получении статистики активности:', error);
+      console.error('Error fetching activity statistics:', error);
       throw error;
     }
   },
@@ -184,26 +184,26 @@ const activityHistoryService = {
       const token = localStorage.getItem('token');
       
       if (!token) {
-        throw new Error('Не авторизован');
+        throw new Error('Not authorized');
       }
       
-      console.log('[History Service] Отправка запроса на получение месячной активности...');
+      console.log('[History Service] Sending request for monthly activity...');
       const response = await axios.get(
         `${API_URL}/api/history/monthly`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       
-      console.log('[History Service] Получен ответ от API:', {
+      console.log('[History Service] Received API response:', {
         status: response.status,
         statusText: response.statusText,
         hasData: !!response.data,
         dataSize: JSON.stringify(response.data).length,
-        dataStructure: response.data ? Object.keys(response.data) : 'нет данных'
+        dataStructure: response.data ? Object.keys(response.data) : 'no data'
       });
       
       // Детальный анализ ответа API
       if (response.data) {
-        console.log('[History Service] Структура данных:', {
+        console.log('[History Service] Data structure:', {
           status: response.data.status,
           hasDataField: !!response.data.data,
           activitiesCount: response.data.data?.activities?.length || 0,
@@ -277,7 +277,7 @@ const activityHistoryService = {
             end: endDate.toISOString()
           };
         } catch (e) {
-          console.error('[History Service] Ошибка при обработке дат периода:', e);
+          console.error('[History Service] Error при обработке дат периода:', e);
           
           // Если даты некорректны, используем текущий месяц
           const now = new Date();
@@ -300,7 +300,7 @@ const activityHistoryService = {
         period
       };
     } catch (error) {
-      console.error('[History Service] Ошибка при получении месячной активности:', error);
+      console.error('[History Service] Error при получении месячной активности:', error);
       
       // Возвращаем пустой массив и период текущего месяца в случае ошибки
       const now = new Date();
@@ -340,7 +340,7 @@ const activityHistoryService = {
       logout: 'Выход',
       test_complete: 'Завершение теста',
       mood_track: 'Запись настроения',
-      file_upload: 'Загрузка файла',
+      file_upload: 'Loading файла',
       balance_wheel: 'Обновление колеса баланса'
     };
     
@@ -352,11 +352,11 @@ const activityHistoryService = {
    */
   getEntityTypeName: (entityType: ActivityHistoryItem['entityType']): string => {
     const entityTypeNames: Record<ActivityHistoryItem['entityType'], string> = {
-      user: 'Пользователь',
+      user: 'User',
       mood: 'Настроение',
       test: 'Тест',
       file: 'Файл',
-      balance_wheel: 'Колесо баланса',
+      balance_wheel: 'Balance wheel',
       system: 'Система'
     };
     
@@ -373,7 +373,7 @@ const activityHistoryService = {
       const dateObj = typeof date === 'string' ? new Date(date) : date;
       
       if (isNaN(dateObj.getTime())) {
-        return 'Некорректная дата';
+        return 'Invalid date';
       }
       
       return dateObj.toLocaleDateString('ru-RU', {
@@ -382,7 +382,7 @@ const activityHistoryService = {
         year: 'numeric'
       });
     } catch (e) {
-      return 'Ошибка формата';
+      return 'Error формата';
     }
   },
   

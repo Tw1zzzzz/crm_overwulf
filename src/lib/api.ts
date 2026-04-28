@@ -204,7 +204,7 @@ export const deletePlayerComplete = (playerId: string | any) =>
 export const updatePlayerStatus = (playerId: string | any, status: PlayerStatusUpdate) => 
   retryRequest(() => api.patch(`/users/players/${extractPlayerId(playerId)}/status`, status));
 
-// API для работы с Колесом Баланса
+// API для работы с Колесом Balanceа
 export const saveBalanceWheel = (data: BalanceWheelData) => retryRequest(() => api.post('/balance-wheel', data));
 export const getMyBalanceWheels = () => retryRequest(() => api.get('/balance-wheel/my'));
 export const getMyLatestBalanceWheel = () => retryRequest(() => api.get('/balance-wheel/my/latest'));
@@ -214,7 +214,7 @@ export const getPlayerBalanceWheels = async (playerId: string | any) => {
   const actualPlayerId = extractPlayerId(playerId);
   
   if (!actualPlayerId) {
-    throw new Error('Не указан ID игрока');
+    throw new Error('Player ID is missing');
   }
   
   try {
@@ -224,7 +224,7 @@ export const getPlayerBalanceWheels = async (playerId: string | any) => {
     console.log(`[API] Получены данные колеса баланса (${normalized.data.length} записей)`);
     return normalized;
   } catch (error) {
-    console.error(`[API] Ошибка при получении данных колеса баланса:`, error);
+    console.error(`[API] Error при получении данных колеса баланса:`, error);
     
     // В случае 4xx ошибок, пробрасываем их дальше для обработки на уровне компонента
     if (error.response && error.response.status >= 400 && error.response.status < 500) {
@@ -378,7 +378,7 @@ export const updatePrivilegeKey = async (privilegeKey: string) => {
     return response.data;
   } catch (error: any) {
     console.error('API Error - updatePrivilegeKey:', error);
-    throw new Error(error.response?.data?.message || 'Ошибка при обновлении ключа привилегий');
+    throw new Error(error.response?.data?.message || 'Error при обновлении ключа привилегий');
   }
 };
 
@@ -560,7 +560,7 @@ export const getAdminAuditLog = (limit = 30) =>
 
 // ====== TEAM REPORTS API ======
 
-// Типы для отчетов команды
+// Типы для reportов команды
 export interface TeamReportData {
   title: string;
   description?: string;
@@ -629,7 +629,7 @@ export interface TeamReportFilters {
   dateTo?: string;
 }
 
-// API функции для работы с отчетами команды
+// API функции для работы с reportами команды
 export const getTeamReports = (filters?: TeamReportFilters) => {
   return retryRequest(() => api.get(buildTeamReportsPath(filters)));
 };
@@ -643,7 +643,7 @@ export const getTeamReportsStats = () =>
 export const createTeamReport = (data: TeamReportData, files?: File[]) => {
   const formData = new FormData();
   
-  // Добавляем данные отчета
+  // Добавляем данные reportа
   formData.append('title', data.title);
   if (data.description) formData.append('description', data.description);
   formData.append('content', JSON.stringify(data.content));
@@ -826,7 +826,7 @@ export interface CorrelationAssistantResponse {
 // API функции для корреляционного анализа
 
 /**
- * Получить корреляции между отчетами команды и настроением игроков
+ * Получить корреляции между reportами команды и настроением игроков
  */
 export const getMoodReportsCorrelations = async (params?: {
   dateFrom?: string;
@@ -854,7 +854,7 @@ export const getPerformancePatterns = async (monthsBack: number = 6): Promise<{ 
 };
 
 /**
- * Получить корреляции между отчетами и колесом баланса
+ * Получить корреляции между reportами и колесом баланса
  */
 export const getBalanceWheelReportsCorrelations = async (params?: {
   dateFrom?: string;
@@ -1012,7 +1012,7 @@ export interface AdvancedAnalyticsReport {
 // API функции для расширенной аналитики
 
 /**
- * Получить анализ сентимента отчетов команды
+ * Получить анализ сентимента reportов команды
  */
 export const getSentimentAnalysis = async (params?: {
   dateFrom?: string;
@@ -1069,7 +1069,7 @@ export const getTeamPerformanceProfile = async (): Promise<{ data: TeamPerforman
 };
 
 /**
- * Получить комплексный расширенный аналитический отчет
+ * Получить комплексный расширенный аналитический report
  */
 export const getAdvancedAnalyticsReport = async (params?: {
   dateFrom?: string;

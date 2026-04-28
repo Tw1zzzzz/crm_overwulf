@@ -67,7 +67,7 @@ const PlayersStats = ({
                 <p className="text-2xl font-bold text-white">{averagePlayerStats.avgMood.toFixed(1)}</p>
               </div>
               <div className="bg-[#14162D] p-4 rounded-lg">
-                <p className="text-sm text-gray-400">Средняя энергия</p>
+                <p className="text-sm text-gray-400">Medium энергия</p>
                 <p className="text-2xl font-bold text-white">{averagePlayerStats.avgEnergy.toFixed(1)}</p>
               </div>
               <div className="bg-[#14162D] p-4 rounded-lg">
@@ -101,7 +101,7 @@ const PlayersStats = ({
 
       {loadingPlayersData ? (
         <div className="flex justify-center items-center py-20">
-          <p className="text-white">Загрузка данных...</p>
+          <p className="text-white">Loading data...</p>
         </div>
       ) : loadingError ? (
         <div className="flex justify-center items-center py-20">
@@ -121,7 +121,7 @@ const PlayersStats = ({
         <Card className="bg-[#1C1F3B] border-[#293056] shadow-none">
           <CardHeader>
             <CardTitle className="text-white">Статистика тестов игроков</CardTitle>
-            <CardDescription className="text-gray-400">Результаты тестов игроков по типам</CardDescription>
+            <CardDescription className="text-gray-400">Test results игроков по типам</CardDescription>
           </CardHeader>
           <CardContent>
             <TestChart data={playersTestStats} height={400} />
@@ -139,7 +139,7 @@ const PlayersStats = ({
             <div className="mb-4">
               <Select value={selectedPlayerId} onValueChange={onPlayerChange}>
                 <SelectTrigger className="bg-[#1C1F3B] border-[#293056] text-white">
-                  <SelectValue placeholder="Выберите игрока" />
+                  <SelectValue placeholder="Select player" />
                 </SelectTrigger>
                 <SelectContent className="bg-[#1C1F3B] border-[#293056] text-white">
                   {players.map((player) => (
@@ -153,11 +153,11 @@ const PlayersStats = ({
 
             {loadingPlayerStats ? (
               <div className="flex justify-center items-center py-20">
-                <p className="text-white">Загрузка данных игрока...</p>
+                <p className="text-white">Loading player data...</p>
               </div>
             ) : !playerStatsData ? (
               <div className="flex justify-center items-center py-20">
-                <p className="text-white">Выберите игрока для просмотра статистики</p>
+                <p className="text-white">Select player для просмотра статистики</p>
               </div>
             ) : (
               <div className="space-y-6">
@@ -167,13 +167,13 @@ const PlayersStats = ({
                 </div>
                 {playerStatsData.testStats && playerStatsData.testStats.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-semibold mb-4 text-white">Результаты тестов</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-white">Test results</h3>
                     <TestChart data={playerStatsData.testStats || []} height={300} />
                   </div>
                 )}
                 {playerStatsData.testEntries && playerStatsData.testEntries.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-semibold mb-4 text-white">Распределение типов тестов</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-white">Distribution типов тестов</h3>
                     <TestDistributionChart 
                       data={prepareTestDistribution(playerStatsData.testEntries || [])} 
                       height={300} 

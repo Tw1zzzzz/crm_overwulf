@@ -8,7 +8,7 @@ const PaymentFail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const reason = searchParams.get('reason') || 'Платёж был отменён или не подтверждён.';
+  const reason = searchParams.get('reason') || 'Payment was canceled or not confirmed.';
 
   return (
     <div className="container mx-auto py-10">
@@ -17,19 +17,19 @@ const PaymentFail = () => {
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-destructive/10 text-destructive">
             <XCircle className="h-7 w-7" />
           </div>
-          <CardTitle className="text-3xl">Оплата не завершена</CardTitle>
+          <CardTitle className="text-3xl">Payment not completed</CardTitle>
           <CardDescription>
-            Вы можете попробовать ещё раз после проверки способа оплаты или параметров счёта.
+            You can try again after checking the payment method or invoice settings.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2 text-center">
-          <p className="text-sm text-muted-foreground">Причина</p>
+          <p className="text-sm text-muted-foreground">Reason</p>
           <p className="text-base font-medium">{reason}</p>
         </CardContent>
         <CardFooter className="flex justify-center">
           <Button onClick={() => navigate(ROUTES.PRICING)}>
             <RefreshCcw className="h-4 w-4" />
-            Повторить
+            Try again
           </Button>
         </CardFooter>
       </Card>

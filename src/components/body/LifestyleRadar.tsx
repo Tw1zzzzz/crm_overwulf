@@ -14,12 +14,12 @@ interface LifestyleRadarProps {
 }
 
 const AXES = [
-  { key: 'head' as BodyZone, label: 'Когниции' },
+  { key: 'head' as BodyZone, label: 'Cognition' },
   { key: 'eyes' as BodyZone, label: 'Концентрация' },
-  { key: 'chest' as BodyZone, label: 'Психология' },
-  { key: 'arms' as BodyZone, label: 'Игра' },
-  { key: 'back' as BodyZone, label: 'Восстановление' },
-  { key: 'legs' as BodyZone, label: 'Образ жизни' },
+  { key: 'chest' as BodyZone, label: 'Psychology' },
+  { key: 'arms' as BodyZone, label: 'Game' },
+  { key: 'back' as BodyZone, label: 'Recovery' },
+  { key: 'legs' as BodyZone, label: 'Lifestyle' },
 ];
 
 const SEVERITY_DOT_COLORS: Record<string, string> = {
@@ -78,7 +78,7 @@ const LifestyleRadar = ({ zones }: LifestyleRadarProps) => {
   return (
     <div className="flex flex-col items-center w-full">
       <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">
-        Радар состояния
+        Condition radar
       </p>
       <ResponsiveContainer width="100%" height={250}>
         <RadarChart data={data} margin={{ top: 10, right: 20, bottom: 10, left: 20 }}>

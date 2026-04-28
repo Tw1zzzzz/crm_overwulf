@@ -179,7 +179,7 @@ const SentimentChart: React.FC<SentimentChartProps> = ({
 
         <Card>
           <CardContent className="p-4">
-            <p className="text-sm text-gray-600">Позитивные отчеты</p>
+            <p className="text-sm text-gray-600">Positive reports</p>
             <p className="text-2xl font-bold text-green-600">
               {sentimentCategories[0].value}
             </p>
@@ -191,7 +191,7 @@ const SentimentChart: React.FC<SentimentChartProps> = ({
 
         <Card>
           <CardContent className="p-4">
-            <p className="text-sm text-gray-600">Нейтральные отчеты</p>
+            <p className="text-sm text-gray-600">Neutral reports</p>
             <p className="text-2xl font-bold text-gray-600">
               {sentimentCategories[1].value}
             </p>
@@ -203,7 +203,7 @@ const SentimentChart: React.FC<SentimentChartProps> = ({
 
         <Card>
           <CardContent className="p-4">
-            <p className="text-sm text-gray-600">Негативные отчеты</p>
+            <p className="text-sm text-gray-600">Negative reports</p>
             <p className="text-2xl font-bold text-red-600">
               {sentimentCategories[2].value}
             </p>
@@ -250,11 +250,11 @@ const SentimentChart: React.FC<SentimentChartProps> = ({
       </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Распределение по категориям тональности */}
+        {/* Distribution по категориям тональности */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              🎯 Распределение тональности
+              🎯 Distribution тональности
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -280,7 +280,7 @@ const SentimentChart: React.FC<SentimentChartProps> = ({
           </CardContent>
         </Card>
 
-        {/* Распределение эмоций (если включено) */}
+        {/* Distribution эмоций (если включено) */}
         {showEmotions && (
           <Card>
             <CardHeader>
@@ -304,7 +304,7 @@ const SentimentChart: React.FC<SentimentChartProps> = ({
                     tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
                   />
                   <Tooltip 
-                    formatter={(value) => [`${(Number(value) * 100).toFixed(1)}%`, 'Уровень']}
+                    formatter={(value) => [`${(Number(value) * 100).toFixed(1)}%`, 'Level']}
                   />
                   <Bar dataKey="value" fill="#8884d8">
                     {emotionDistributionData.map((entry, index) => (
@@ -318,7 +318,7 @@ const SentimentChart: React.FC<SentimentChartProps> = ({
         )}
       </div>
 
-      {/* Детальная таблица последних отчетов */}
+      {/* Детальная таблица последних reportов */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -331,7 +331,7 @@ const SentimentChart: React.FC<SentimentChartProps> = ({
               <thead>
                 <tr className="border-b">
                   <th className="text-left p-2">Отчет</th>
-                  <th className="text-left p-2">Дата</th>
+                  <th className="text-left p-2">Date</th>
                   <th className="text-left p-2">Тональность</th>
                   <th className="text-left p-2">Доминирующая эмоция</th>
                   <th className="text-left p-2">Ключевые фразы</th>
@@ -392,11 +392,11 @@ const SentimentChart: React.FC<SentimentChartProps> = ({
 // Вспомогательные функции
 function getEmotionName(emotion: string): string {
   const emotionNames: Record<string, string> = {
-    joy: 'Радость',
-    sadness: 'Грусть',
-    anger: 'Гнев',
-    fear: 'Страх',
-    confidence: 'Уверенность',
+    joy: 'Joy',
+    sadness: 'Sadness',
+    anger: 'Anger',
+    fear: 'Fear',
+    confidence: 'Confidence',
     surprise: 'Удивление'
   };
   return emotionNames[emotion] || emotion;

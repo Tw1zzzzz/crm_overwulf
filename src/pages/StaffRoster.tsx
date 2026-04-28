@@ -25,7 +25,7 @@ const getAllStaff = async () => {
   
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Ошибка при получении списка персонала');
+    throw new Error(error.message || 'Error при получении списка персонала');
   }
   
   return response.json();
@@ -44,7 +44,7 @@ const updateStaffPrivileges = async (staffId: string, grantPrivileges: boolean) 
   
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Ошибка при обновлении привилегий');
+    throw new Error(error.message || 'Error при обновлении привилегий');
   }
   
   return response.json();
@@ -62,7 +62,7 @@ const deleteStaffMember = async (staffId: string) => {
   
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Ошибка при удалении сотрудника');
+    throw new Error(error.message || 'Error при удалении сотрудника');
   }
   
   return response.json();
@@ -81,7 +81,7 @@ const createStaffMember = async (staffData: { name: string; email: string; passw
   
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Ошибка при создании сотрудника');
+    throw new Error(error.message || 'Error при создании сотрудника');
   }
   
   return response.json();
@@ -123,7 +123,7 @@ const StaffRoster = () => {
       const response = await checkStaffPrivilege();
       setHasPrivilege(response.data.hasPrivilege);
     } catch (error) {
-      console.error('Ошибка при проверке привилегий:', error);
+      console.error('Error при проверке привилегий:', error);
       setHasPrivilege(false);
     } finally {
       setCheckingPrivilege(false);
@@ -141,7 +141,7 @@ const StaffRoster = () => {
       setStaffMembers(staffData);
     } catch (err: any) {
       console.error('Error fetching staff members:', err);
-      setError('Ошибка при загрузке персонала: ' + err.message);
+      setError('Error при загрузке персонала: ' + err.message);
       toast.error('Не удалось загрузить список персонала');
     } finally {
       setIsLoading(false);
@@ -172,7 +172,7 @@ const StaffRoster = () => {
       toast.success(`Привилегии сотрудника ${staffName} успешно ${currentPrivileges ? 'отозваны' : 'предоставлены'}`);
     } catch (err: any) {
       console.error('Error updating privileges:', err);
-      toast.error('Ошибка при обновлении привилегий: ' + err.message);
+      toast.error('Error при обновлении привилегий: ' + err.message);
     } finally {
       setIsLoading(false);
     }
@@ -194,7 +194,7 @@ const StaffRoster = () => {
       toast.success(`Сотрудник ${staffName} успешно удален`);
     } catch (err: any) {
       console.error('Error deleting staff:', err);
-      toast.error('Ошибка при удалении сотрудника: ' + err.message);
+      toast.error('Error при удалении сотрудника: ' + err.message);
     } finally {
       setIsLoading(false);
     }
@@ -210,7 +210,7 @@ const StaffRoster = () => {
     }
     
     if (newStaffData.password.length < 6) {
-      toast.error('Пароль должен содержать не менее 6 символов');
+      toast.error('Пароль должен содержать не менее 6 characters');
       return;
     }
     
@@ -238,7 +238,7 @@ const StaffRoster = () => {
       toast.success(`Сотрудник ${response.staff.name} успешно добавлен`);
     } catch (err: any) {
       console.error('Error adding staff:', err);
-      toast.error('Ошибка при добавлении сотрудника: ' + err.message);
+      toast.error('Error при добавлении сотрудника: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -265,7 +265,7 @@ const StaffRoster = () => {
       <div className="flex items-center justify-center h-full">
         <Card className="w-96" style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
           <CardHeader>
-            <CardTitle style={{ color: COLORS.textColor }}>Доступ запрещен</CardTitle>
+            <CardTitle style={{ color: COLORS.textColor }}>Access denied</CardTitle>
             <CardDescription style={{ color: COLORS.textColorSecondary }}>
               Эта страница доступна только для персонала команды
             </CardDescription>
@@ -470,7 +470,7 @@ const StaffRoster = () => {
                           borderColor: COLORS.inputBorder,
                           color: COLORS.textColor
                         }}
-                        placeholder="Минимум 6 символов"
+                        placeholder="Минимум 6 characters"
                         required
                         minLength={6}
                       />
@@ -484,7 +484,7 @@ const StaffRoster = () => {
                       style={{ color: COLORS.textColorSecondary }}
                     >
                       <Info className="h-3 w-3" />
-                      Пользователь сможет изменить пароль после первого входа
+                      User сможет изменить пароль после первого входа
                     </p>
                   </div>
                 </div>
@@ -530,7 +530,7 @@ const StaffRoster = () => {
                       ) : (
                         <>
                           <UserPlus className="h-4 w-4 mr-2" />
-                          Создать сотрудника
+                          Create сотрудника
                         </>
                       )}
                     </Button>
@@ -544,7 +544,7 @@ const StaffRoster = () => {
       
       <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
           <CardHeader className="pb-2">
-          <CardTitle style={{ color: COLORS.textColor }}>Персонал команды</CardTitle>
+          <CardTitle style={{ color: COLORS.textColor }}>Staff команды</CardTitle>
           <CardDescription style={{ color: COLORS.textColorSecondary }}>
             {isTeamStaff ? 'Управление составом персонала своей команды' : 'Управление составом персонала и их привилегиями'}
           </CardDescription>
@@ -552,7 +552,7 @@ const StaffRoster = () => {
         <CardContent>
           {isLoading ? (
             <div className="text-center py-4" style={{ color: COLORS.textColorSecondary }}>
-              <p>Загрузка...</p>
+              <p>Loading...</p>
             </div>
           ) : error ? (
             <div className="text-center py-4" style={{ color: COLORS.danger }}>
@@ -563,7 +563,7 @@ const StaffRoster = () => {
                 onClick={() => loadStaffMembers()}
                 style={{ borderColor: COLORS.borderColor, color: COLORS.primary }}
               >
-                Обновить
+                Update
               </Button>
             </div>
           ) : (
@@ -630,7 +630,7 @@ const StaffRoster = () => {
                                   }
                                   disabled={isLoading}
                                 >
-                                  {staff.hasPrivileges ? 'Отозвать' : 'Предоставить'}
+                                  {staff.hasPrivileges ? 'Revoke' : 'Grant'}
                                 </Button>
                               )}
                               <Button
@@ -641,7 +641,7 @@ const StaffRoster = () => {
                                 disabled={isLoading}
                               >
                                 <UserMinus className="w-4 h-4" />
-                                Удалить
+                                Delete
                               </Button>
                             </>
                           )}

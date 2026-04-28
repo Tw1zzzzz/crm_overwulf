@@ -42,7 +42,7 @@ class PDFExporter {
   }
 
   /**
-   * Основная функция экспорта отчета в PDF
+   * Основная функция экспорта reportа в PDF
    */
   async exportReport(data: ExportData): Promise<void> {
     try {
@@ -62,13 +62,13 @@ class PDFExporter {
       this.pdf.save(fileName);
 
     } catch (error) {
-      console.error('Ошибка при экспорте PDF:', error);
+      console.error('Error при экспорте PDF:', error);
       throw error;
     }
   }
 
   /**
-   * Добавление заголовка отчета
+   * Добавление заголовка reportа
    */
   private addHeader(title: string, subtitle?: string, generatedAt?: string): void {
     // Логотип или заголовок приложения
@@ -91,7 +91,7 @@ class PDFExporter {
       this.currentY += 8;
     }
 
-    // Дата генерации
+    // Date генерации
     if (generatedAt) {
       this.pdf.setFontSize(10);
       this.pdf.setTextColor(150, 150, 150);
@@ -113,7 +113,7 @@ class PDFExporter {
   }
 
   /**
-   * Добавление секции отчета
+   * Добавление секции reportа
    */
   private async addSection(section: ReportSection): Promise<void> {
     // Проверяем, нужна ли новая страница
@@ -121,7 +121,7 @@ class PDFExporter {
       this.addPage();
     }
 
-    // Заголовок секции
+    // Section title
     this.pdf.setFontSize(14);
     this.pdf.setTextColor(47, 85, 151);
     this.pdf.text(section.title, this.margins.left, this.currentY);
@@ -201,9 +201,9 @@ class PDFExporter {
       this.currentY += imgHeight + 5;
 
     } catch (error) {
-      console.error('Ошибка при добавлении графика в PDF:', error);
+      console.error('Error при добавлении графика в PDF:', error);
       // Добавляем заглушку
-      this.addTextContent('[Ошибка загрузки графика]');
+      this.addTextContent('[Error загрузки графика]');
     }
   }
 
@@ -362,14 +362,14 @@ class PDFExporter {
   async exportCorrelationAnalysis(correlationData: any): Promise<void> {
     const exportData: ExportData = {
       title: 'Отчет корреляционного анализа',
-      subtitle: 'Анализ взаимосвязей между отчетами команды и метриками производительности',
+      subtitle: 'Анализ взаимосвязей между reportами команды и метриками производительности',
       generatedAt: new Date().toISOString(),
       sections: [
         {
           title: 'Общая статистика',
           type: 'metrics',
           metrics: [
-            { label: 'Проанализировано отчетов', value: correlationData.totalReports },
+            { label: 'Проанализировано reportов', value: correlationData.totalReports },
             { label: 'Средний эффект на настроение', value: `${correlationData.avgMoodImpact.toFixed(1)}%` },
             { label: 'Положительных корреляций', value: correlationData.positiveCorrelations },
             { label: 'Сильных корреляций', value: correlationData.strongCorrelations }
@@ -378,7 +378,7 @@ class PDFExporter {
         {
           title: 'Ключевые выводы',
           type: 'text',
-          content: `Анализ показал ${correlationData.strongCorrelations} сильных корреляций из ${correlationData.totalReports} проанализированных отчетов. Наиболее эффективный тип отчетов: ${correlationData.mostEffectiveType}. Общий тренд команды: ${correlationData.trend}.`
+          content: `Анализ показал ${correlationData.strongCorrelations} сильных корреляций из ${correlationData.totalReports} проанализированных reportов. Наиболее эффективный тип reportов: ${correlationData.mostEffectiveType}. Общий тренд команды: ${correlationData.trend}.`
         }
       ]
     };
@@ -392,22 +392,22 @@ class PDFExporter {
   async exportSentimentAnalysis(sentimentData: any): Promise<void> {
     const exportData: ExportData = {
       title: 'Отчет анализа тональности',
-      subtitle: 'Эмоциональный анализ отчетов команды',
+      subtitle: 'Эмоциональный анализ reportов команды',
       generatedAt: new Date().toISOString(),
       sections: [
         {
-          title: 'Распределение тональности',
+          title: 'Distribution тональности',
           type: 'metrics',
           metrics: [
-            { label: 'Позитивные отчеты', value: `${sentimentData.positivePercentage}%`, trend: 'up' },
-            { label: 'Нейтральные отчеты', value: `${sentimentData.neutralPercentage}%`, trend: 'stable' },
-            { label: 'Негативные отчеты', value: `${sentimentData.negativePercentage}%`, trend: 'down' }
+            { label: 'Positive reports', value: `${sentimentData.positivePercentage}%`, trend: 'up' },
+            { label: 'Neutral reports', value: `${sentimentData.neutralPercentage}%`, trend: 'stable' },
+            { label: 'Negative reports', value: `${sentimentData.negativePercentage}%`, trend: 'down' }
           ]
         },
         {
           title: 'Анализ эмоционального тона',
           type: 'text',
-          content: `Доминирующие эмоции в отчетах: ${sentimentData.dominantEmotions.join(', ')}. Средняя оценка тональности: ${sentimentData.averageSentiment}%. Рекомендации: ${sentimentData.recommendations.join(' ')}`
+          content: `Доминирующие эмоции в reportах: ${sentimentData.dominantEmotions.join(', ')}. Medium оценка тональности: ${sentimentData.averageSentiment}%. Recommendations: ${sentimentData.recommendations.join(' ')}`
         }
       ]
     };
@@ -416,7 +416,7 @@ class PDFExporter {
   }
 
   /**
-   * Экспорт комплексного отчета команды
+   * Экспорт комплексного reportа команды
    */
   async exportTeamReport(teamData: any): Promise<void> {
     const exportData: ExportData = {
@@ -425,7 +425,7 @@ class PDFExporter {
       generatedAt: teamData.createdAt,
       sections: [
         {
-          title: 'Краткое изложение',
+          title: 'Summary',
           type: 'text',
           content: teamData.summary
         },
@@ -440,7 +440,7 @@ class PDFExporter {
           content: teamData.details
         },
         {
-          title: 'Рекомендации',
+          title: 'Recommendations',
           type: 'text',
           content: teamData.recommendations.join('\n\n')
         }
@@ -451,7 +451,7 @@ class PDFExporter {
       exportData.sections.push({
         title: 'Приложения',
         type: 'text',
-        content: `Отчет содержит ${teamData.attachments.length} приложений. См. исходный отчет для доступа к файлам.`
+        content: `Отчет содержит ${teamData.attachments.length} приложений. См. исходный report для доступа к файлам.`
       });
     }
 

@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import './lib/desktopApiRuntime.ts'
+import './lib/overwolfNotesRuntime.ts'
 import App from './App.tsx'
 import './index.css'
 

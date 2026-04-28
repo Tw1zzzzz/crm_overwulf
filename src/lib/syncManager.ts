@@ -1,7 +1,7 @@
 import { MoodEntry, TestEntry, BalanceWheel } from "@/types";
 
 /**
- * Типы операций для синхронизации
+ * Типы операций для sync
  */
 type OperationType = 'create' | 'update' | 'delete';
 type EntityType = 'mood' | 'test' | 'balanceWheel';
@@ -35,12 +35,12 @@ class SyncManager {
     window.addEventListener('online', this.handleOnline);
     window.addEventListener('offline', this.handleOffline);
 
-    // Проверяем очередь синхронизации при запуске
+    // Проверяем очередь sync при запуске
     this.checkSyncQueue();
   }
 
   /**
-   * Добавляет операцию в очередь синхронизации
+   * Добавляет операцию в очередь sync
    */
   public addToSyncQueue<T>(type: OperationType, entityType: EntityType, data: T): string {
     const id = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
@@ -83,7 +83,7 @@ class SyncManager {
   }
 
   /**
-   * Получает очередь синхронизации из localStorage
+   * Получает очередь sync из localStorage
    */
   private getSyncQueue(): SyncOperation<any>[] {
     const queueJson = localStorage.getItem(this.getKey(this.syncQueueKey));
@@ -91,7 +91,7 @@ class SyncManager {
   }
 
   /**
-   * Сохраняет очередь синхронизации в localStorage
+   * Сохраняет очередь sync в localStorage
    */
   private saveSyncQueue(queue: SyncOperation<any>[]): void {
     localStorage.setItem(this.getKey(this.syncQueueKey), JSON.stringify(queue));
@@ -118,7 +118,7 @@ class SyncManager {
   };
 
   /**
-   * Запускает процесс синхронизации
+   * Запускает процесс sync
    */
   public startSync(): void {
     // Останавливаем предыдущий интервал, если он был
@@ -127,14 +127,14 @@ class SyncManager {
     // Запускаем синхронизацию сразу
     this.processNextSyncOperation();
 
-    // Запускаем интервал синхронизации
+    // Запускаем интервал sync
     this.syncInterval = window.setInterval(() => {
       this.processNextSyncOperation();
     }, this.retryDelay);
   }
 
   /**
-   * Останавливает процесс синхронизации
+   * Останавливает процесс sync
    */
   private stopSync(): void {
     if (this.syncInterval !== null) {
@@ -144,7 +144,7 @@ class SyncManager {
   }
 
   /**
-   * Обрабатывает следующую операцию из очереди синхронизации
+   * Обрабатывает следующую операцию из очереди sync
    */
   private async processNextSyncOperation(): Promise<void> {
     if (!this.isOnline) {
@@ -176,7 +176,7 @@ class SyncManager {
       operation.attempts += 1;
       this.saveSyncQueue(queue);
 
-      // Здесь вызываем API для синхронизации данных
+      // Здесь вызываем API для sync данных
       // Реализация будет зависеть от типа операции и сущности
       const success = await this.syncOperation(operation);
 
@@ -189,7 +189,7 @@ class SyncManager {
         console.log(`[SyncManager] Не удалось синхронизировать операцию ${operation.id}, попытка ${operation.attempts}`);
       }
     } catch (error) {
-      console.error(`[SyncManager] Ошибка при синхронизации операции ${operation.id}:`, error);
+      console.error(`[SyncManager] Error при sync операции ${operation.id}:`, error);
     }
 
     this.notifyListeners();
@@ -247,18 +247,18 @@ class SyncManager {
       }
       return true;
     } catch (error) {
-      console.error(`[SyncManager] Ошибка при выполнении операции ${operation.entityType} ${operation.type}:`, error);
+      console.error(`[SyncManager] Error при выполнении операции ${operation.entityType} ${operation.type}:`, error);
       return false;
     }
   }
 
   /**
-   * Проверяет очередь синхронизации и запускает синхронизацию, если нужно
+   * Проверяет очередь sync и запускает синхронизацию, если нужно
    */
   private checkSyncQueue(): void {
     const queue = this.getSyncQueue();
     if (queue.length > 0 && this.isOnline) {
-      console.log(`[SyncManager] Найдено ${queue.length} несинхронизированных операций. Запуск синхронизации...`);
+      console.log(`[SyncManager] Найдено ${queue.length} несинхронизированных операций. Запуск sync...`);
       this.startSync();
     }
   }
@@ -272,7 +272,7 @@ class SyncManager {
   }
 
   /**
-   * Подписывает слушателя на изменения статуса синхронизации
+   * Подписывает слушателя на изменения статуса sync
    */
   public subscribe(listener: () => void): () => void {
     this.listeners.add(listener);
@@ -289,13 +289,13 @@ class SyncManager {
       try {
         listener();
       } catch (e) {
-        console.error('[SyncManager] Ошибка в слушателе:', e);
+        console.error('[SyncManager] Error в слушателе:', e);
       }
     });
   }
 
   /**
-   * Очищает все данные синхронизации
+   * Очищает все данные sync
    */
   public clear(): void {
     localStorage.removeItem(this.getKey(this.syncQueueKey));

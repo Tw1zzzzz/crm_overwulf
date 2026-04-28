@@ -30,7 +30,7 @@ const getAllStaff = async () => {
   
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Ошибка при получении списка персонала');
+    throw new Error(error.message || 'Failed to fetch staff list');
   }
   
   return response.json();
@@ -49,7 +49,7 @@ const updateStaffPrivileges = async (staffId: string, grantPrivileges: boolean) 
   
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Ошибка при обновлении привилегий');
+    throw new Error(error.message || 'Failed to update privileges');
   }
   
   return response.json();
@@ -67,7 +67,7 @@ const deleteStaffMember = async (staffId: string) => {
   
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Ошибка при удалении сотрудника');
+    throw new Error(error.message || 'Failed to delete staff member');
   }
   
   return response.json();
@@ -86,7 +86,7 @@ const createStaffMember = async (staffData: { name: string; email: string; passw
   
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Ошибка при создании сотрудника');
+    throw new Error(error.message || 'Failed to create staff member');
   }
   
   return response.json();
@@ -125,7 +125,7 @@ const StaffManagement: React.FC = () => {
         const user = JSON.parse(userStr);
         setCurrentUser(user);
       } catch (e) {
-        console.error('Ошибка при парсинге данных пользователя:', e);
+        console.error('Failed to parse user data:', e);
       }
     }
   }, []);
@@ -142,9 +142,9 @@ const StaffManagement: React.FC = () => {
       console.error('Error loading staff:', err);
       
       if (err.message?.includes('привилегий')) {
-        setError('Для просмотра и управления сотрудниками требуется ключ доступа для staff');
+        setError('A staff access key is required to view and manage staff');
       } else {
-        setError(`Ошибка при загрузке списка сотрудников: ${err.message}`);
+        setError(`Failed to load staff list: ${err.message}`);
       }
     } finally {
       setLoading(false);
@@ -175,30 +175,30 @@ const StaffManagement: React.FC = () => {
     const errors: Record<string, string> = {};
     
     if (!newStaffData.name.trim()) {
-      errors.name = 'Имя обязательно для заполнения';
+      errors.name = 'Name is required';
     }
     
     if (!newStaffData.email.trim()) {
-      errors.email = 'Email обязателен для заполнения';
+      errors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(newStaffData.email)) {
-      errors.email = 'Введите корректный email';
+      errors.email = 'Enter a valid email';
     }
     
     if (!newStaffData.password) {
-      errors.password = 'Пароль обязателен для заполнения';
+      errors.password = 'Password is required';
     } else if (newStaffData.password.length < 6) {
-      errors.password = 'Пароль должен содержать не менее 6 символов';
+      errors.password = 'Password must be at least 6 characters long';
     }
     
     if (newStaffData.password !== newStaffData.confirmPassword) {
-      errors.confirmPassword = 'Пароли не совпадают';
+      errors.confirmPassword = 'Passwords do not match';
     }
     
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
-  // Добавление нового сотрудника
+  // Add new staff member
   const handleAddStaff = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -235,10 +235,10 @@ const StaffManagement: React.FC = () => {
       });
       
       setShowAddForm(false);
-      setSuccessMessage(`Сотрудник ${response.staff.name} успешно добавлен`);
+      setSuccessMessage(`Staff member ${response.staff.name} added successfully`);
     } catch (err: any) {
       console.error('Error adding staff:', err);
-      setError(`Ошибка при добавлении сотрудника: ${err.message}`);
+      setError(`Failed to add staff member: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -246,7 +246,7 @@ const StaffManagement: React.FC = () => {
 
   // Удаление сотрудника
   const handleDeleteStaff = async (staffId: string, staffName: string) => {
-    if (!window.confirm(`Вы действительно хотите удалить сотрудника ${staffName}? Это действие нельзя отменить.`)) {
+    if (!window.confirm(`Are you sure you want to delete staff member ${staffName}? This action cannot be undone.`)) {
       return;
     }
     
@@ -260,10 +260,10 @@ const StaffManagement: React.FC = () => {
       // Обновляем локальный список
       setStaffList(prev => prev.filter(staff => getStaffId(staff) !== staffId));
       
-      setSuccessMessage(`Сотрудник ${staffName} успешно удален`);
+      setSuccessMessage(`Staff member ${staffName} deleted successfully`);
     } catch (err: any) {
       console.error('Error deleting staff:', err);
-      setError(`Ошибка при удалении сотрудника: ${err.message}`);
+      setError(`Failed to delete staff member: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -271,9 +271,9 @@ const StaffManagement: React.FC = () => {
 
   // Обновление привилегий сотрудника
   const handleTogglePrivileges = async (staffId: string, staffName: string, currentStatus: boolean) => {
-    const action = currentStatus ? 'отозвать' : 'предоставить';
+    const action = currentStatus ? 'revoke' : 'grant';
     
-    if (!window.confirm(`Вы действительно хотите ${action} привилегии у сотрудника ${staffName}?`)) {
+    if (!window.confirm(`Are you sure you want to ${action} privileges for staff member ${staffName}?`)) {
       return;
     }
     
@@ -293,10 +293,10 @@ const StaffManagement: React.FC = () => {
         )
       );
       
-      setSuccessMessage(`Привилегии сотрудника ${staffName} успешно ${currentStatus ? 'отозваны' : 'предоставлены'}`);
+      setSuccessMessage(`Staff privileges for ${staffName} successfully ${currentStatus ? 'revoked' : 'granted'}`);
     } catch (err: any) {
       console.error('Error updating staff privileges:', err);
-      setError(`Ошибка при обновлении привилегий: ${err.message}`);
+      setError(`Failed to update privileges: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -316,14 +316,14 @@ const StaffManagement: React.FC = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h2 className="text-3xl font-bold mb-6 text-white">Управление сотрудниками</h2>
+      <h2 className="text-3xl font-bold mb-6 text-white">Staff management</h2>
       
       {/* Сообщения об ошибках и успешных операциях */}
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-4 shadow-sm">
           <div className="flex">
             <div className="ml-3">
-              <h3 className="text-sm font-medium">Ошибка</h3>
+              <h3 className="text-sm font-medium">Error</h3>
               <div className="mt-1 text-sm">{error}</div>
             </div>
           </div>
@@ -334,7 +334,7 @@ const StaffManagement: React.FC = () => {
         <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-4 shadow-sm">
           <div className="flex">
             <div className="ml-3">
-              <h3 className="text-sm font-medium">Успешно</h3>
+              <h3 className="text-sm font-medium">Success</h3>
               <div className="mt-1 text-sm">{successMessage}</div>
             </div>
           </div>
@@ -347,18 +347,18 @@ const StaffManagement: React.FC = () => {
           onClick={() => setShowAddForm(true)}
           className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg mb-6 transition-colors duration-200 shadow-sm"
         >
-          Добавить сотрудника
+          Add staff member
         </button>
       )}
       
       {/* Форма добавления нового сотрудника */}
       {showAddForm && (
         <div className="bg-gray-50 p-6 rounded-lg mb-6 shadow-sm border">
-          <h3 className="text-xl font-semibold mb-4 text-gray-900">Добавление нового сотрудника</h3>
+          <h3 className="text-xl font-semibold mb-4 text-gray-900">Add new staff member</h3>
           
           <form onSubmit={handleAddStaff} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Имя:</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Name:</label>
               <input
                 type="text"
                 name="name"
@@ -367,7 +367,7 @@ const StaffManagement: React.FC = () => {
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 ${
                   formErrors.name ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                 }`}
-                placeholder="Введите имя сотрудника"
+                placeholder="Enter staff member name"
               />
               {formErrors.name && (
                 <p className="text-red-600 text-xs mt-1">{formErrors.name}</p>
@@ -392,7 +392,7 @@ const StaffManagement: React.FC = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Пароль:</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password:</label>
               <input
                 type="password"
                 name="password"
@@ -401,7 +401,7 @@ const StaffManagement: React.FC = () => {
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 ${
                   formErrors.password ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                 }`}
-                placeholder="Минимум 6 символов"
+                placeholder="Minimum 6 characters"
               />
               {formErrors.password && (
                 <p className="text-red-600 text-xs mt-1">{formErrors.password}</p>
@@ -409,7 +409,7 @@ const StaffManagement: React.FC = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Подтверждение пароля:</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password confirmation:</label>
               <input
                 type="password"
                 name="confirmPassword"
@@ -418,7 +418,7 @@ const StaffManagement: React.FC = () => {
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 ${
                   formErrors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                 }`}
-                placeholder="Повторите пароль"
+                placeholder="Repeat password"
               />
               {formErrors.confirmPassword && (
                 <p className="text-red-600 text-xs mt-1">{formErrors.confirmPassword}</p>
@@ -431,7 +431,7 @@ const StaffManagement: React.FC = () => {
                 className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200 shadow-sm"
                 disabled={loading}
               >
-                {loading ? 'Добавление...' : 'Добавить сотрудника'}
+                {loading ? 'Adding...' : 'Add staff member'}
               </button>
               
               <button
@@ -440,7 +440,7 @@ const StaffManagement: React.FC = () => {
                 className="bg-gray-500 hover:bg-gray-600 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200 shadow-sm"
                 disabled={loading}
               >
-                Отмена
+                Cancel
               </button>
             </div>
           </form>
@@ -451,7 +451,7 @@ const StaffManagement: React.FC = () => {
       {loading && !showAddForm ? (
         <div className="text-center py-8">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600"></div>
-          <p className="mt-2 text-gray-600">Загрузка списка сотрудников...</p>
+          <p className="mt-2 text-gray-600">Loading staff list...</p>
         </div>
       ) : (
         <div className="bg-white shadow-sm rounded-lg overflow-hidden border">
@@ -460,19 +460,19 @@ const StaffManagement: React.FC = () => {
               <thead className="bg-gray-50">
                 <tr>
                   <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Имя
+                    Name
                   </th>
                   <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Email
                   </th>
                   <th scope="col" className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Дата регистрации
+                    Registration date
                   </th>
                   <th scope="col" className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Привилегии
+                    Privileges
                   </th>
                   <th scope="col" className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Действия
+                    Actions
                   </th>
               </tr>
             </thead>
@@ -484,8 +484,8 @@ const StaffManagement: React.FC = () => {
                         <svg className="w-12 h-12 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
-                        <p className="text-lg font-medium">Список сотрудников пуст</p>
-                        <p className="text-sm">Добавьте первого сотрудника для начала работы</p>
+                        <p className="text-lg font-medium">Staff list is empty</p>
+                        <p className="text-sm">Add the first staff member to get started</p>
                       </div>
                   </td>
                 </tr>
@@ -516,10 +516,10 @@ const StaffManagement: React.FC = () => {
                               <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                               </svg>
-                              Есть
+                              Yes
                             </>
                           ) : (
-                            'Нет'
+                            'No'
                           )}
                       </span>
                     </td>
@@ -541,7 +541,7 @@ const StaffManagement: React.FC = () => {
                               }`}
                               disabled={loading}
                             >
-                              {staff.hasPrivileges ? 'Отозвать' : 'Предоставить'}
+                              {staff.hasPrivileges ? 'Revoke' : 'Grant'}
                             </button>
                             
                             <button
@@ -552,7 +552,7 @@ const StaffManagement: React.FC = () => {
                                 <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                 </svg>
-                              Удалить
+                              Delete
                             </button>
                           </>
                         )}
@@ -562,7 +562,7 @@ const StaffManagement: React.FC = () => {
                               <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                               </svg>
-                            Текущий пользователь
+                            Current user
                           </span>
                         )}
                       </div>
@@ -578,10 +578,10 @@ const StaffManagement: React.FC = () => {
       
       {/* Информационный блок */}
       <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="text-sm font-medium text-blue-800 mb-2">Информация о привилегиях</h3>
+        <h3 className="text-sm font-medium text-blue-800 mb-2">Privilege information</h3>
         <p className="text-sm text-blue-700">
-          Сотрудники с предоставленными привилегиями имеют доступ к управлению составом участников команды и персонала.
-          Для получения привилегий необходимо ввести специальный ключ доступа в профиле пользователя.
+          Staff members with granted privileges can manage team members and staff roster.
+          To receive privileges, enter a special access key in the user profile.
         </p>
       </div>
     </div>

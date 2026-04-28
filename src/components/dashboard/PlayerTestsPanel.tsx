@@ -31,13 +31,13 @@ export default function PlayerTestsPanel({
             Brain Lab
           </CardTitle>
           <CardDescription className="text-sm leading-7" style={{ color: COLORS.textColorSecondary }}>
-            Откройте живую батарею когнитивной формы, чтобы пройти контур внимания, реакции, памяти и переключения.
-            {!hasResultsAccess ? " Полная история и индексы откроются после покупки тарифа." : ""}
+            Open the live cognitive form battery to complete attention, reaction, memory, and switching tasks.
+            {!hasResultsAccess ? " Full history and indexes open after purchasing a plan." : ""}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Button className="rounded-2xl" style={{ backgroundColor: COLORS.primary, color: "white" }} onClick={onOpenBrainLab}>
-            Перейти к Brain Lab
+            Go to Brain Lab
             <ExternalLink className="ml-2 h-4 w-4" />
           </Button>
         </CardContent>
@@ -55,11 +55,11 @@ export default function PlayerTestsPanel({
             <ClipboardList className="h-5 w-5" />
           </div>
           <CardTitle className="mt-4 text-2xl" style={{ color: COLORS.textColor }}>
-            Журнал тестов
+            Test log
           </CardTitle>
           <CardDescription className="text-sm leading-7" style={{ color: COLORS.textColorSecondary }}>
-            Быстро перейдите в weekly-контур, добавьте результат или продолжите разбор уже сохранённых попыток.
-            {!hasResultsAccess ? " Сохранять прохождение можно бесплатно, детальная аналитика откроется после покупки." : ""}
+            Jump into the weekly loop, add a result, or continue reviewing saved attempts.
+            {!hasResultsAccess ? " Attempts can be saved for free; detailed analytics open after purchase." : ""}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -69,7 +69,7 @@ export default function PlayerTestsPanel({
             style={{ borderColor: COLORS.borderColor, color: COLORS.textColor }}
             onClick={onOpenWeeklyTests}
           >
-            Открыть тесты
+            Open тесты
             <ExternalLink className="ml-2 h-4 w-4" />
           </Button>
         </CardContent>

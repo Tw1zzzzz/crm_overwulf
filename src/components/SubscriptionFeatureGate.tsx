@@ -26,7 +26,7 @@ const SubscriptionFeatureGate = ({
   className,
   contentClassName,
   minHeightClassName = "min-h-[440px]",
-  buttonText = "Купить",
+  buttonText = "Buy",
 }: SubscriptionFeatureGateProps) => {
   if (hasAccess) {
     return <>{children}</>;
@@ -103,7 +103,7 @@ const SubscriptionFeatureGate = ({
                   boxShadow: "0 18px 50px -26px rgba(56, 189, 248, 0.95)",
                 }}
               >
-                {buttonText === "Купить" ? "Открыть тарифы" : buttonText}
+                {buttonText === "Buy" ? "Открыть тарифы" : buttonText}
               </Button>
             </Link>
           </div>

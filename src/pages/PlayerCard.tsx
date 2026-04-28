@@ -30,7 +30,7 @@ import PageIntro from "@/components/PageIntro";
  * @param className - CSS-классы
  * @param fallback - текст, отображаемый при ошибке загрузки
  */
-const SafeImage = ({ src, alt, className, fallback = "Изображение недоступно" }: { src?: string, alt: string, className?: string, fallback?: string }) => {
+const SafeImage = ({ src, alt, className, fallback = "Image unavailable" }: { src?: string, alt: string, className?: string, fallback?: string }) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   
@@ -42,7 +42,7 @@ const SafeImage = ({ src, alt, className, fallback = "Изображение н�
     return src.includes('?') ? `${src}&t=${timestamp}` : `${src}?t=${timestamp}`;
   }, [src]);
   
-  // Сбрасываем состояние ошибки при изменении URL
+  // Satрасываем состояние ошибки при изменении URL
   useEffect(() => {
     setError(false);
     setLoading(true);
@@ -76,7 +76,7 @@ const SafeImage = ({ src, alt, className, fallback = "Изображение н�
           className={`w-full h-full object-contain ${loading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
           onLoad={() => setLoading(false)}
           onError={(e) => {
-            console.error(`Ошибка загрузки изображения: ${src}`, e);
+            console.error(`Image load error: ${src}`, e);
             setError(true);
             setLoading(false);
           }}
@@ -94,10 +94,10 @@ const SafeImage = ({ src, alt, className, fallback = "Изображение н�
  * - Поиск игроков по имени и email
  * - Просмотр и редактирование карточек игроков
  * - Добавление новых игроков
- * - Загрузка карт развития (Roadmap и Mindmap)
+ * - Loading карт развития (Roadmap и Mindmap)
  * - Управление контактами и коммуникативной линией
  * 
- * Режимы отображения:
+ * Modeы отображения:
  * - Сетка (Grid): список всех игроков с раскрывающимися карточками
  * - Детальное представление (Detail): детальная информация о выбранном игроке
  * 
@@ -109,7 +109,7 @@ const SafeImage = ({ src, alt, className, fallback = "Изображение н�
  * - Оптимизирована загрузка данных по требованию при раскрытии карточек
  * 
  * @version 2.0.0
- * @author Команда разработки
+ * @author Team разработки
  */
 
 // Определяем режимы отображения
@@ -375,7 +375,7 @@ const PlayerCardPage: React.FC = () => {
   const mindmapFileRef = useRef<HTMLInputElement>(null);
   const dialogRoadmapRef = useRef<HTMLInputElement>(null);
   const dialogMindmapRef = useRef<HTMLInputElement>(null);
-  const communicationLineImageRef = useRef<HTMLInputElement>(null); // Ссылка на инпут для загрузки изображения в коммуникативную линию
+  const communicationLineImageRef = useRef<HTMLInputElement>(null); // Link на инпут для загрузки изображения в коммуникативную линию
   
   // Состояние для файлов в диалоге добавления
   const [dialogRoadmapFile, setDialogRoadmapFile] = useState<File | null>(null);
@@ -399,7 +399,7 @@ const PlayerCardPage: React.FC = () => {
   
   // Функция сброса всех состояний для нового игрока
   const resetAllPlayerStates = () => {
-    // Сбрасываем данные для формы нового игрока
+    // Satрасываем данные для формы нового игрока
     setNewPlayerData({
       name: "",
       contacts: {
@@ -412,7 +412,7 @@ const PlayerCardPage: React.FC = () => {
       communicationLine: ""
     });
     
-    // Сбрасываем файлы
+    // Satрасываем файлы
     setDialogRoadmapFile(null);
     setDialogMindmapFile(null);
     
@@ -426,7 +426,7 @@ const PlayerCardPage: React.FC = () => {
     });
     setCommunicationLine("");
     
-    // Сбрасываем флаги загрузки
+    // Satрасываем флаги загрузки
     setUploadingRoadmap(false);
     setUploadingMindmap(false);
     setSaving(false);
@@ -480,11 +480,11 @@ const PlayerCardPage: React.FC = () => {
     return typeof value === 'number' ? Math.round(value) : '—';
   };
   
-  // Загрузка всех карточек игроков при инициализации страницы
+  // Loading всех карточек игроков при инициализации страницы
   useEffect(() => {
     const loadAllPlayerCards = async () => {
       try {
-        // Загрузка всех карточек с сервера
+        // Loading всех карточек с сервера
         setLoadingProgress(10);
         const result = await getAllPlayerCards();
         setLoadingProgress(50);
@@ -500,7 +500,7 @@ const PlayerCardPage: React.FC = () => {
                 // Используем как userId, так и user.id для гарантии связи с игроками
                 playerCardsObj[card.userId] = {
                   playerCard: card,
-                  user: card.user || { id: card.userId, name: 'Неизвестный игрок', avatar: '' }
+                  user: card.user || { id: card.userId, name: 'Unknown player', avatar: '' }
                 };
                 
                 // Если есть информация о пользователе, создаем еще один ключ
@@ -538,7 +538,7 @@ const PlayerCardPage: React.FC = () => {
                 if (!existingPlayersMap.has(userId)) {
                   existingPlayersMap.set(userId, {
                     id: userId,
-                    name: card.user.name || 'Без имени',
+                    name: card.user.name || 'Unnamed',
                     role: 'player',
                     avatar: card.user.avatar || ''
                   });
@@ -556,9 +556,9 @@ const PlayerCardPage: React.FC = () => {
           console.warn('Не удалось загрузить карточки игроков:', result.error);
         }
       } catch (error) {
-        console.error('Ошибка при загрузке карточек игроков:', error);
+        console.error('Error while загрузке карточек игроков:', error);
       } finally {
-        // Сбрасываем прогресс загрузки
+        // Satрасываем прогресс загрузки
         setTimeout(() => {
           setLoadingProgress(0);
         }, 300);
@@ -569,7 +569,7 @@ const PlayerCardPage: React.FC = () => {
     loadAllPlayerCards();
   }, [forceUpdateCounter]); // Зависимость от forceUpdateCounter позволяет принудительно обновлять карточки
   
-  // Загрузка дашборда игрока при выборе
+  // Loading дашборда игрока при выборе
   useEffect(() => {
     const loadDashboard = async () => {
       if (!selectedPlayerId) {
@@ -586,15 +586,15 @@ const PlayerCardPage: React.FC = () => {
         setDashboardData(result.data);
       } else {
         const isDashboardAccessDenied =
-          result.error?.trim() === "Нет прав доступа для этого действия";
+          result.error?.trim() === "You do not have permission for this action";
 
         setDashboardData(null);
 
-        // Для solo-игрока скрываем системное сообщение 403 в "Моей карточке".
+        // Для solo-игрока скрываем системное сообщение 403 в "My card".
         setDashboardError(
           isSoloPlayer && isDashboardAccessDenied
             ? null
-            : result.error || 'Ошибка при загрузке дашборда'
+            : result.error || 'Failed to load dashboard'
         );
       }
       
@@ -639,7 +639,7 @@ const PlayerCardPage: React.FC = () => {
     if (file) {
       // Проверка размера файла (не более 5 МБ)
       if (file.size > 5 * 1024 * 1024) {
-        toast.error("Размер файла не должен превышать 5 МБ");
+        toast.error("File size must not exceed 5 MB");
         if (dialogRoadmapRef.current) {
           dialogRoadmapRef.current.value = "";
         }
@@ -649,7 +649,7 @@ const PlayerCardPage: React.FC = () => {
       // Проверка типа файла
       const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
       if (!allowedTypes.includes(file.type)) {
-        toast.error("Разрешены только изображения форматов: .jpg, .jpeg, .png, .webp");
+        toast.error("Only .jpg, .jpeg, .png, and .webp images are allowed");
         if (dialogRoadmapRef.current) {
           dialogRoadmapRef.current.value = "";
         }
@@ -666,7 +666,7 @@ const PlayerCardPage: React.FC = () => {
     if (file) {
       // Проверка размера файла (не более 5 МБ)
       if (file.size > 5 * 1024 * 1024) {
-        toast.error("Размер файла не должен превышать 5 МБ");
+        toast.error("File size must not exceed 5 MB");
         if (communicationLineImageRef.current) {
           communicationLineImageRef.current.value = "";
         }
@@ -676,7 +676,7 @@ const PlayerCardPage: React.FC = () => {
       // Проверка типа файла
       const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
       if (!allowedTypes.includes(file.type)) {
-        toast.error("Разрешены только изображения форматов: .jpg, .jpeg, .png, .webp");
+        toast.error("Only .jpg, .jpeg, .png, and .webp images are allowed");
         if (communicationLineImageRef.current) {
           communicationLineImageRef.current.value = "";
         }
@@ -684,7 +684,7 @@ const PlayerCardPage: React.FC = () => {
       }
       
       setCommunicationLineImage(file);
-      toast.success("Изображение для коммуникативной линии выбрано");
+      toast.success("Communication line image selected");
     }
   };
   
@@ -694,7 +694,7 @@ const PlayerCardPage: React.FC = () => {
     if (file) {
       // Проверка размера файла (не более 5 МБ)
       if (file.size > 5 * 1024 * 1024) {
-        toast.error("Размер файла не должен превышать 5 МБ");
+        toast.error("File size must not exceed 5 MB");
         if (dialogMindmapRef.current) {
           dialogMindmapRef.current.value = "";
         }
@@ -704,7 +704,7 @@ const PlayerCardPage: React.FC = () => {
       // Проверка типа файла
       const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
       if (!allowedTypes.includes(file.type)) {
-        toast.error("Разрешены только изображения форматов: .jpg, .jpeg, .png, .webp");
+        toast.error("Only .jpg, .jpeg, .png, and .webp images are allowed");
         if (dialogMindmapRef.current) {
           dialogMindmapRef.current.value = "";
         }
@@ -727,7 +727,7 @@ const PlayerCardPage: React.FC = () => {
   // Обработчик создания карточки для выбранного игрока
   const handlePlayerAdded = async () => {
     if (!selectedPlayerId) {
-      toast.error("Выберите игрока для создания карточки");
+      toast.error("Choose a player to create a card");
       return;
     }
     
@@ -737,12 +737,12 @@ const PlayerCardPage: React.FC = () => {
       // Получаем токен
       const token = localStorage.getItem('token');
       if (!token) {
-        throw new Error('Требуется авторизация');
+        throw new Error('Authorization required');
       }
       
       const baseUrl = '';
       
-      toast.loading("Создание карточки игрока...");
+      toast.loading("Creating player card...");
       
       // Создаем карточку для выбранного игрока
       let cardResponse;
@@ -758,7 +758,7 @@ const PlayerCardPage: React.FC = () => {
           }
         );
       } catch (cardError: any) {
-        console.error("Детали ошибки создания карточки:", {
+        console.error("Player card creation error details:", {
           status: cardError.response?.status,
           statusText: cardError.response?.statusText,
           data: cardError.response?.data,
@@ -767,19 +767,19 @@ const PlayerCardPage: React.FC = () => {
         
         const errorMsg = cardError.response?.data?.message || 
                        cardError.message || 
-                       "Ошибка при создании карточки игрока";
+                       "Failed to create player card";
                        
-        toast.error(`Ошибка: ${errorMsg}`);
+        toast.error(`Error: ${errorMsg}`);
         setIsDialogSubmitting(false);
         return;
       }
       
       if (!cardResponse.data) {
-        console.error("Ответ сервера при создании карточки некорректен:", cardResponse);
-        throw new Error("Не удалось создать карточку игрока: некорректный ответ сервера");
+        console.error("Invalid server response while creating player card:", cardResponse);
+        throw new Error("Failed to create player card: invalid server response");
       }
       
-      toast.loading("Обновление контактов...", { id: "contacts-update" });
+      toast.loading("Updating contacts...", { id: "contacts-update" });
       
       // Обновляем контакты игрока
       await axios.put(
@@ -813,7 +813,7 @@ const PlayerCardPage: React.FC = () => {
       let mindmapUrl = '';
       
       if (dialogRoadmapFile) {
-        toast.loading("Загрузка файла Roadmap...", { id: "roadmap-upload" });
+        toast.loading("Uploading Roadmap file...", { id: "roadmap-upload" });
         const formData = new FormData();
         formData.append('roadmap', dialogRoadmapFile);
         const uploadPromise = axios.post(
@@ -836,7 +836,7 @@ const PlayerCardPage: React.FC = () => {
       }
       
       if (dialogMindmapFile) {
-        toast.loading("Загрузка файла Mindmap...", { id: "mindmap-upload" });
+        toast.loading("Uploading Mindmap file...", { id: "mindmap-upload" });
         const formData = new FormData();
         formData.append('mindmap', dialogMindmapFile);
         const uploadPromise = axios.post(
@@ -863,18 +863,18 @@ const PlayerCardPage: React.FC = () => {
         try {
           await Promise.all(uploadTasks);
         } catch (e) {
-          console.error("Ошибка при загрузке файлов:", e);
-          toast.error("Не удалось загрузить некоторые карты. Вы можете добавить их позже.");
+          console.error("File upload error:", e);
+          toast.error("Some maps could not be uploaded. You can add them later.");
         }
       }
       
       toast.dismiss();
-      toast.success("Карточка игрока успешно создана");
+      toast.success("Player card created successfully");
       
       // Скрываем диалог добавления игрока
       setShowAddPlayerDialog(false);
       
-      // Сбрасываем форму
+      // Satрасываем форму
       setNewPlayerData({
         name: '',
         contacts: { vk: '', telegram: '', faceit: '', steam: '', nickname: '' },
@@ -886,10 +886,10 @@ const PlayerCardPage: React.FC = () => {
       window.location.reload();
     } catch (error: any) {
       toast.dismiss();
-      console.error("Ошибка при создании игрока:", error);
+      console.error("Failed to create player:", error);
       
-      const errorMessage = error.response?.data?.message || "Неизвестная ошибка при создании игрока";
-      toast.error(`Ошибка: ${errorMessage}`);
+      const errorMessage = error.response?.data?.message || "Unknown error while creating player";
+      toast.error(`Error: ${errorMessage}`);
     } finally {
       setIsDialogSubmitting(false);
     }
@@ -913,7 +913,7 @@ const PlayerCardPage: React.FC = () => {
             const id = (p as any)._id || p.id;
             return {
               id: id,
-            name: p.name || "Неизвестно",
+            name: p.name || "Unknown",
             email: p.email || "",
             role: p.role
             };
@@ -936,15 +936,15 @@ const PlayerCardPage: React.FC = () => {
         // Логирование для отладки
         console.log(`Загружено ${uniquePlayers.length} игроков`);
       } else {
-        console.error("Неверный формат данных игроков:", result.data);
-        toast.error("Не удалось загрузить список игроков: неверный формат данных");
+        console.error("Invalid player data format:", result.data);
+        toast.error("Failed to load player list: invalid data format");
         setPlayers([]);
       }
       
       setLoadingProgress(100); // Финальный прогресс
     } catch (error) {
-      console.error("Ошибка при загрузке списка игроков:", error);
-      toast.error("Не удалось загрузить список игроков");
+      console.error("Failed to load player list:", error);
+      toast.error("Failed to load player list");
       setPlayers([]);
     } finally {
       // Небольшая задержка перед сбросом индикаторов загрузки, чтобы пользователь увидел 100%
@@ -955,10 +955,10 @@ const PlayerCardPage: React.FC = () => {
     }
   };
   
-  // Загрузка списка игроков при монтировании компонента
+  // Loading списка игроков при монтировании компонента
   useEffect(() => {
     if (user && user.role === "staff") {
-      // Стафф: загружаем всех игроков
+      // Staff: загружаем всех игроков
       fetchPlayers();
     } else if (user && isSoloPlayer) {
       // Solo-игрок: сразу показываем свою карточку без загрузки общего списка
@@ -967,7 +967,7 @@ const PlayerCardPage: React.FC = () => {
       setLoadingPlayers(false);
     } else {
       navigate("/dashboard");
-      toast.error("Доступ запрещен. Только для персонала и одиночных игроков.");
+      toast.error("Access denied. Staff and solo players only.");
     }
   }, [user, navigate, isSoloPlayer]);
   
@@ -980,7 +980,7 @@ const PlayerCardPage: React.FC = () => {
       
       // Проверяем, не выполняется ли уже запрос
       if (pendingRequests.current[selectedPlayerId]) {
-        toast.info("Запрос уже выполняется, пожалуйста, подождите");
+        toast.info("Request already in progress, please wait");
         return;
       }
       
@@ -990,7 +990,7 @@ const PlayerCardPage: React.FC = () => {
       const result = await createPlayerCard(selectedPlayerId);
       
       if (result.success && result.data) {
-        toast.success("Карточка игрока успешно создана");
+        toast.success("Player card created successfully");
         
         // Обновляем данные в состоянии
         setPlayerCardsData(prev => ({
@@ -1011,7 +1011,7 @@ const PlayerCardPage: React.FC = () => {
         });
         setCommunicationLine(result.data.playerCard.communicationLine || "");
       } else {
-        const errorMsg = result.error || "Не удалось создать карточку игрока";
+        const errorMsg = result.error || "Failed to create player card";
         toast.error(errorMsg);
         
         // Обновляем состояние для отображения ошибки
@@ -1022,8 +1022,8 @@ const PlayerCardPage: React.FC = () => {
         setPlayerHasCard(false);
       }
     } catch (error) {
-      console.error("Ошибка при создании карточки игрока:", error);
-      toast.error("Ошибка при создании карточки игрока");
+      console.error("Failed to create player card:", error);
+      toast.error("Failed to create player card");
       
       // Обновляем состояние для отображения ошибки
       setPlayerCardsData(prev => ({
@@ -1120,11 +1120,11 @@ const PlayerCardPage: React.FC = () => {
         }
         }
       } catch (error) {
-        console.error("Ошибка при загрузке карточки игрока:", error);
+        console.error("Failed to load player card:", error);
       
       // Показываем ошибку только если это выбранный игрок
       if (userId === selectedPlayerId) {
-        toast.error("Ошибка при загрузке карточки игрока");
+        toast.error("Failed to load player card");
       }
         
         setPlayerCardsData(prev => ({
@@ -1154,7 +1154,7 @@ const PlayerCardPage: React.FC = () => {
     }
   }, [selectedPlayerId, playerCardsData]);
   
-  // Загрузка данных карточки игрока при выборе игрока
+  // Loading данных карточки игрока при выборе игрока
   useEffect(() => {
     if (!selectedPlayerId) return;
     
@@ -1171,8 +1171,8 @@ const PlayerCardPage: React.FC = () => {
         setDisplayMode(DisplayMode.DETAIL);
         console.log(`Автоматически выбран игрок из URL: ${playerId}`);
       } else {
-        console.warn(`Игрок с ID ${playerId} не найден в списке`);
-        toast.error("Игрок не найден. Отображается список всех игроков.");
+        console.warn(`Player с ID ${playerId} не найден в списке`);
+        toast.error("Player not found. Showing all players.");
         // Остаемся на текущей странице в режиме сетки
         setDisplayMode(DisplayMode.GRID);
       }
@@ -1200,7 +1200,7 @@ const safeDeletePlayerCard = async (
 ) => {
   try {
     if (!userId) {
-      toast.error('Невозможно удалить карточку: ID пользователя не указан');
+      toast.error('Cannot delete card: user ID is missing');
       return false;
     }
     
@@ -1213,7 +1213,7 @@ const safeDeletePlayerCard = async (
     let canceled = false;
     const timeoutId = setTimeout(() => {
       canceled = true;
-      toast.error('Время ожидания истекло. Попробуйте еще раз.');
+      toast.error('Request timed out. Please try again.');
     }, 10000);
     
     // Вызываем API для удаления
@@ -1229,7 +1229,7 @@ const safeDeletePlayerCard = async (
     
     if (result.success) {
       // Показываем уведомление об успехе
-      toast.success(`Карточка игрока ${playerName} успешно удалена`);
+      toast.success(`Player card ${playerName} успешно удалена`);
       
       console.log(`Успешное удаление карточки, начинаем обновление UI для playerId: ${playerId}`);
       
@@ -1246,7 +1246,7 @@ const safeDeletePlayerCard = async (
         return newState;
       });
       
-      // Сбрасываем состояние загрузки для избежания зависшей анимации
+      // Satрасываем состояние загрузки для избежания зависшей анимации
       if (playerId === selectedPlayerId) {
         setLoading(false);
       }
@@ -1263,12 +1263,12 @@ const safeDeletePlayerCard = async (
       return true;
     } else {
       // Показываем ошибку при удалении
-      toast.error(result.error || 'Ошибка при удалении карточки');
+      toast.error(result.error || 'Failed to delete card');
       return false;
     }
   } catch (error) {
     console.error('Критическая ошибка при удалении карточки:', error);
-    toast.error('Произошла непредвиденная ошибка при удалении карточки');
+    toast.error('An unexpected error occurred while deleting the card');
     return false;
   }
 };
@@ -1280,7 +1280,7 @@ const safeDeletePlayerCard = async (
     
     // Если карточка не найдена
     if (!playerCardData || !playerCardData.playerCard) {
-      toast.error('Карточка игрока не найдена');
+      toast.error('Player card not found');
       return;
     }
     
@@ -1288,7 +1288,7 @@ const safeDeletePlayerCard = async (
     const userId = playerCardData.playerCard.userId;
     
     if (!userId) {
-      toast.error('Не удалось получить ID карточки');
+      toast.error('Failed to get card ID');
       return;
     }
     
@@ -1303,7 +1303,7 @@ const safeDeletePlayerCard = async (
   // Обработчик удаления карточки игрока
   const handleDeletePlayerCard = async () => {
     if (!playerToDeleteId) {
-      toast.error('Не удалось удалить карточку: ID не указан');
+      toast.error('Failed to delete card: ID is missing');
       return;
     }
     
@@ -1343,7 +1343,7 @@ const safeDeletePlayerCard = async (
           });
           setCommunicationLine("");
           
-          // Сбрасываем флаг наличия карточки
+          // Satрасываем флаг наличия карточки
           setPlayerHasCard(false);
           
           // Принудительно сбрасываем все состояния загрузки
@@ -1355,18 +1355,18 @@ const safeDeletePlayerCard = async (
         }
         
         // Показываем уведомление об успехе
-        toast.success("Карточка игрока успешно удалена");
+        toast.success("Player card deleted successfully");
         
         // Обновляем данные на странице с небольшой задержкой для корректного обновления UI
         setTimeout(() => {
           setForceUpdateCounter(prev => prev + 1);
         }, 100);
       } else {
-        toast.error(result.error || "Ошибка при удалении карточки игрока");
+        toast.error(result.error || "Failed to delete player card");
       }
     } catch (error) {
-      console.error("Ошибка при удалении карточки игрока:", error);
-      toast.error("Произошла ошибка при удалении карточки");
+      console.error("Failed to delete player card:", error);
+      toast.error("An error occurred while deleting the card");
     } finally {
       setDeleting(false);
       setShowDeleteConfirmDialog(false);
@@ -1492,14 +1492,14 @@ const safeDeletePlayerCard = async (
       const result = await updatePlayerContacts(contacts, selectedPlayerId);
       
       if (result.success) {
-        toast.success("Контакты успешно обновлены");
+        toast.success("Contacts updated successfully");
         
         // Обновляем время последнего обновления в кэше
         lastUpdated.current[selectedPlayerId] = Date.now();
         await fetchPlayerCard(selectedPlayerId, true);
       } else {
         // В случае ошибки возвращаем предыдущее состояние
-        toast.error(result.error || "Не удалось обновить контакты");
+        toast.error(result.error || "Failed to update contacts");
         
         if (previousData) {
           setPlayerCardsData(prev => ({
@@ -1509,14 +1509,14 @@ const safeDeletePlayerCard = async (
         }
       }
     } catch (error) {
-      console.error("Ошибка при сохранении контактов:", error);
-      toast.error("Ошибка при сохранении контактов");
+      console.error("Failed to save contacts:", error);
+      toast.error("Failed to save contacts");
     } finally {
       setSaving(false);
     }
   };
   
-  // Загрузка изображения для коммуникативной линии
+  // Loading изображения для коммуникативной линии
   const handleUploadCommunicationImage = async () => {
     if (!selectedPlayerId || !communicationLineImage) return;
     
@@ -1530,7 +1530,7 @@ const safeDeletePlayerCard = async (
       // Получаем токен аутентификации
       const token = localStorage.getItem('token');
       if (!token) {
-        throw new Error('Требуется авторизация');
+        throw new Error('Authorization required');
       }
       
       // Создаем аналогичный URL как для загрузки других изображений
@@ -1546,7 +1546,7 @@ const safeDeletePlayerCard = async (
       });
       
       if (response.status >= 200 && response.status < 300) {
-        toast.success('Изображение коммуникативной линии успешно загружено');
+        toast.success('Communication line image uploaded successfully');
         
         // Обновляем данные карточки
         await fetchPlayerCard(selectedPlayerId, true);
@@ -1557,11 +1557,11 @@ const safeDeletePlayerCard = async (
         }
         setCommunicationLineImage(null);
       } else {
-        toast.error('Не удалось загрузить изображение');
+        toast.error('Failed to upload image');
       }
     } catch (error) {
-      console.error('Ошибка при загрузке изображения коммуникативной линии:', error);
-      toast.error('Произошла ошибка при загрузке изображения');
+      console.error('Failed to upload communication line image:', error);
+      toast.error('An error occurred while uploading the image');
     } finally {
       setUploadingCommunicationImage(false);
     }
@@ -1594,13 +1594,13 @@ const safeDeletePlayerCard = async (
       const result = await updateCommunicationLine(communicationLine, selectedPlayerId);
       
       if (result.success) {
-        toast.success("Коммуникативная линия успешно обновлена");
+        toast.success("Communication line updated successfully");
         
         // Обновляем время последнего обновления в кэше
         lastUpdated.current[selectedPlayerId] = Date.now();
       } else {
         // В случае ошибки возвращаем предыдущее состояние
-        toast.error(result.error || "Не удалось обновить коммуникативную линию");
+        toast.error(result.error || "Failed to update communication line");
         
         if (previousData) {
           setPlayerCardsData(prev => ({
@@ -1610,8 +1610,8 @@ const safeDeletePlayerCard = async (
         }
       }
     } catch (error) {
-      console.error("Ошибка при сохранении коммуникативной линии:", error);
-      toast.error("Ошибка при сохранении коммуникативной линии");
+      console.error("Failed to save communication line:", error);
+      toast.error("Failed to save communication line");
     } finally {
       setSavingCommunicationLine(false);
     }
@@ -1629,7 +1629,7 @@ const safeDeletePlayerCard = async (
       // Принудительно загружаем свежие данные с сервера
       const token = localStorage.getItem('token');
       if (!token) {
-        throw new Error('Требуется авторизация');
+        throw new Error('Authorization required');
       }
       
       // Загружаем данные напрямую с сервера
@@ -1641,7 +1641,7 @@ const safeDeletePlayerCard = async (
         }
       });
       
-      console.log('Получен ответ от API:', response.data);
+      console.log('Received API response:', response.data);
       
       if (response.data) {
         // Обновляем данные в состоянии
@@ -1671,11 +1671,11 @@ const safeDeletePlayerCard = async (
         setSelectedPlayerId(playerId);
         setDisplayMode(DisplayMode.DETAIL);
       } else {
-        toast.error('Не удалось загрузить данные игрока');
+        toast.error('Failed to load player data');
       }
     } catch (error) {
-      console.error('Ошибка при загрузке деталей игрока:', error);
-      toast.error('Не удалось загрузить детали игрока');
+      console.error('Failed to load player details:', error);
+      toast.error('Failed to load player details');
     } finally {
       setLoading(false);
     }
@@ -1708,7 +1708,7 @@ const safeDeletePlayerCard = async (
         await fetchPlayerCard(playerId, true);
       }
     } catch (error) {
-      console.error(`Ошибка при загрузке карточки игрока ${playerId}:`, error);
+      console.error(`Failed to load player card ${playerId}:`, error);
     }
   };
   
@@ -1753,7 +1753,7 @@ const safeDeletePlayerCard = async (
           lastUpdated: dateFormatted
         });
       } catch (error) {
-        console.error("Ошибка при расчете статистики:", error);
+        console.error("Error while расчете статистики:", error);
       } finally {
         setStatsLoading(false);
       }
@@ -1781,7 +1781,7 @@ const safeDeletePlayerCard = async (
     }
   };
   
-  // Загрузка Roadmap
+  // Loading Roadmap
   const handleRoadmapChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!selectedPlayerId) return;
     
@@ -1814,7 +1814,7 @@ const safeDeletePlayerCard = async (
       const result = await uploadRoadmap(file, selectedPlayerId);
       
       if (result.success && result.data) {
-        toast.success("Roadmap успешно загружен");
+        toast.success("Roadmap uploaded successfully");
         
         // Обновляем данные в состоянии с реальным URL
         if (playerCardsData[selectedPlayerId]) {
@@ -1833,7 +1833,7 @@ const safeDeletePlayerCard = async (
         // Обновляем время последнего обновления в кэше
         lastUpdated.current[selectedPlayerId] = Date.now();
       } else {
-        toast.error(result.error || "Не удалось загрузить Roadmap");
+        toast.error(result.error || "Failed to upload Roadmap");
         
         // Откатываем изменения в случае ошибки
         if (previousData) {
@@ -1847,8 +1847,8 @@ const safeDeletePlayerCard = async (
       // Освобождаем временный URL
       URL.revokeObjectURL(tempUrl);
     } catch (error) {
-      console.error("Ошибка при загрузке Roadmap:", error);
-      toast.error("Ошибка при загрузке Roadmap");
+      console.error("Roadmap upload failed:", error);
+      toast.error("Roadmap upload failed");
     } finally {
       setUploadingRoadmap(false);
       if (roadmapFileRef.current) {
@@ -1857,7 +1857,7 @@ const safeDeletePlayerCard = async (
     }
   };
   
-  // Загрузка Mindmap
+  // Loading Mindmap
   const handleMindmapChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!selectedPlayerId) return;
     
@@ -1890,7 +1890,7 @@ const safeDeletePlayerCard = async (
       const result = await uploadMindmap(file, selectedPlayerId);
       
       if (result.success && result.data) {
-        toast.success("Mindmap успешно загружен");
+        toast.success("Mindmap uploaded successfully");
         
         // Обновляем данные в состоянии с реальным URL
         if (playerCardsData[selectedPlayerId]) {
@@ -1909,7 +1909,7 @@ const safeDeletePlayerCard = async (
         // Обновляем время последнего обновления в кэше
         lastUpdated.current[selectedPlayerId] = Date.now();
       } else {
-        toast.error(result.error || "Не удалось загрузить Mindmap");
+        toast.error(result.error || "Failed to upload Mindmap");
         
         // Откатываем изменения в случае ошибки
         if (previousData) {
@@ -1923,8 +1923,8 @@ const safeDeletePlayerCard = async (
       // Освобождаем временный URL
       URL.revokeObjectURL(tempUrl);
     } catch (error) {
-      console.error("Ошибка при загрузке Mindmap:", error);
-      toast.error("Ошибка при загрузке Mindmap");
+      console.error("Mindmap upload failed:", error);
+      toast.error("Mindmap upload failed");
     } finally {
       setUploadingMindmap(false);
       if (mindmapFileRef.current) {
@@ -1936,7 +1936,7 @@ const safeDeletePlayerCard = async (
   // Функция восстановления данных при ошибках
   const handleRecoverData = async () => {
     try {
-      toast.info("Попытка восстановления данных...");
+      toast.info("Trying to recover data...");
       
       // Очищаем кэш для принудительного обновления
       lastUpdated.current = {};
@@ -1961,10 +1961,10 @@ const safeDeletePlayerCard = async (
       // Принудительно обновляем компонент
       forceUpdate();
       
-      toast.success("Данные успешно восстановлены");
+      toast.success("Data recovered successfully");
     } catch (error) {
-      console.error("Ошибка при восстановлении данных:", error);
-      toast.error("Не удалось восстановить данные, попробуйте перезагрузить страницу");
+      console.error("Error while восстановлении данных:", error);
+      toast.error("Failed to recover data. Try refreshing the page.");
     }
   };
 
@@ -1972,7 +1972,7 @@ const safeDeletePlayerCard = async (
   // Функция для открытия диалога создания карточки
   const handleOpenCreatePlayerCardDialog = async () => {
     try {
-      // Сбрасываем все состояния перед открытием диалога
+      // Satрасываем все состояния перед открытием диалога
       resetAllPlayerStates();
       
       console.log('Загружаем игроков для диалога создания карточки...');
@@ -1994,7 +1994,7 @@ const safeDeletePlayerCard = async (
             const id = (p as any)._id || p.id;
             return {
               id: id,
-              name: p.name || "Неизвестно",
+              name: p.name || "Unknown",
               email: p.email || "",
               role: p.role
             };
@@ -2018,12 +2018,12 @@ const safeDeletePlayerCard = async (
         // Открываем диалог только после успешной загрузки данных
         setShowAddPlayerDialog(true);
       } else {
-        console.error("Неверный формат данных игроков:", playersResult.data);
-        toast.error("Не удалось загрузить список игроков: неверный формат данных");
+        console.error("Invalid player data format:", playersResult.data);
+        toast.error("Failed to load player list: invalid data format");
       }
     } catch (error) {
-      console.error('Ошибка при открытии диалога создания карточки:', error);
-      toast.error('Не удалось загрузить список игроков');
+      console.error('Error while открытии диалога создания карточки:', error);
+      toast.error('Failed to load player list');
     } finally {
       setLoadingPlayers(false);
     }
@@ -2043,14 +2043,14 @@ const safeDeletePlayerCard = async (
       if (playersResult && playersResult.data && Array.isArray(playersResult.data)) {
         allPlayers = playersResult.data.map(p => ({
           id: p._id || p.id,
-          name: p.name || "Неизвестно",
+          name: p.name || "Unknown",
           email: p.email || "",
           role: p.role
         }));
         console.log(`Загружено ${allPlayers.length} игроков из базы:`, allPlayers);
       } else {
         console.error("Не удалось загрузить игроков:", playersResult);
-        toast.error("Не удалось загрузить список игроков");
+        toast.error("Failed to load player list");
         return;
       }
       
@@ -2067,7 +2067,7 @@ const safeDeletePlayerCard = async (
         cardsResult.data.data.forEach(card => {
           if (card && card.userId) {
             existingCardUserIds.add(card.userId.toString());
-            console.log(`Карточка найдена для игрока: ${card.userId} (${card.user?.name || 'Без имени'})`);
+            console.log(`Карточка найдена для игрока: ${card.userId} (${card.user?.name || 'Unnamed'})`);
           }
         });
         
@@ -2081,20 +2081,20 @@ const safeDeletePlayerCard = async (
       console.log("3. Фильтруем игроков без карточек...");
       const playersWithoutCards = allPlayers.filter(player => {
         const hasCard = existingCardUserIds.has(player.id.toString());
-        console.log(`Игрок ${player.name} (${player.id}): есть карточка = ${hasCard}`);
+        console.log(`Player ${player.name} (${player.id}): есть карточка = ${hasCard}`);
         return !hasCard;
       });
       
       console.log("=== РЕЗУЛЬТАТ ФИЛЬТРАЦИИ ===");
-      console.log(`Всего игроков в базе: ${allPlayers.length}`);
-      console.log(`Игроков с карточками: ${existingCardUserIds.size}`);
-      console.log(`Игроков без карточек: ${playersWithoutCards.length}`);
-      console.log("Игроки без карточек:", playersWithoutCards);
+      console.log(`Total игроков в базе: ${allPlayers.length}`);
+      console.log(`Players with карточками: ${existingCardUserIds.size}`);
+      console.log(`Players without карточек: ${playersWithoutCards.length}`);
+      console.log("Players without карточек:", playersWithoutCards);
       
       setAvailablePlayersForAttach(playersWithoutCards);
       setShowAttachPlayerDialog(true);
     } catch (error) {
-      console.error("Ошибка при открытии диалога привязки:", error);
+      console.error("Error while открытии диалога привязки:", error);
       toast.error("Не удалось загрузить данные для привязки");
     } finally {
       setLoadingAttachDialog(false);
@@ -2114,7 +2114,7 @@ const safeDeletePlayerCard = async (
       const result = await attachPlayerToCard(selectedCardForAttach, selectedPlayerForAttach);
       
       if (result.success) {
-        toast.success("Игрок успешно привязан к карточке");
+        toast.success("Player linked to card successfully");
         
         // Обновляем данные карточек
         setPlayerCardsData(prev => ({
@@ -2131,11 +2131,11 @@ const safeDeletePlayerCard = async (
         await fetchPlayers();
         forceUpdate();
       } else {
-        toast.error(result.error || "Не удалось привязать игрока к карточке");
+        toast.error(result.error || "Failed to link player to card");
       }
     } catch (error) {
-      console.error("Ошибка при привязке игрока:", error);
-      toast.error("Произошла ошибка при привязке игрока");
+      console.error("Error while привязке игрока:", error);
+      toast.error("An error occurred while linking the player");
     } finally {
       setAttachingPlayer(false);
     }
@@ -2143,7 +2143,7 @@ const safeDeletePlayerCard = async (
   
   // Для solo-игрока используем данные из useAuth как данные текущего игрока
   const currentPlayerForDetail = selectedPlayerId
-    ? (players.find(p => p.id === selectedPlayerId) || (isSoloPlayer ? { id: user?.id || '', name: user?.name || 'Без имени', email: user?.email || '' } : null))
+    ? (players.find(p => p.id === selectedPlayerId) || (isSoloPlayer ? { id: user?.id || '', name: user?.name || 'Unnamed', email: user?.email || '' } : null))
     : null;
 
   // Компонент для загрузки списка игроков
@@ -2151,7 +2151,7 @@ const safeDeletePlayerCard = async (
     return (
       <div className="container mx-auto performance-page flex flex-col justify-center items-center h-[80vh]">
         <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
-        <span className="mb-4">Загрузка списка игроков...</span>
+        <span className="mb-4">Loading списка игроков...</span>
         
         {/* Индикатор прогресса */}
         <div className="w-full max-w-md bg-muted rounded-full h-2.5 mb-2">
@@ -2178,17 +2178,17 @@ const safeDeletePlayerCard = async (
 
       <div className="mb-4">
         <PageIntro
-          eyebrow={isSoloPlayer ? "Карточка игрока" : "Карточки команды"}
-          title={isSoloPlayer ? "Моя карточка: быстрый контекст по игроку" : "Карточки игроков: контекст для работы с командой"}
+          eyebrow={isSoloPlayer ? "Player card" : "Team cards"}
+          title={isSoloPlayer ? "My card: quick player context" : "Player cards: context for team work"}
           description={
             isSoloPlayer
-              ? "Здесь собран ваш рабочий профиль: контакты, карта развития и контекст, который помогает быстрее понять себя без переходов по нескольким разделам."
-              : "Раздел нужен, чтобы staff не терял контекст по игрокам. Здесь собраны контакты, карта развития и материалы, связанные с общей CRM-логикой."
+              ? "Your working profile lives here: contacts, development map, and context that helps you understand yourself faster without jumping across sections."
+              : "This section keeps player context together for staff: contacts, development maps, and materials connected to the broader CRM workflow."
           }
           bullets={[
-            "Карточка дополняет аналитику контекстом",
-            "Используйте раздел перед решением или коммуникацией",
-            "Контакты, roadmap и mindmap лежат в одном месте",
+            "The card adds context to analytics",
+            "Use this section before decisions or communication",
+            "Contacts, roadmap, and mindmap stay in one place",
           ]}
         />
       </div>
@@ -2198,7 +2198,7 @@ const safeDeletePlayerCard = async (
         <div className="relative w-full max-w-xs">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Поиск игроков..."
+            placeholder="Search players..."
             className="pl-8 pr-4"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -2210,7 +2210,7 @@ const safeDeletePlayerCard = async (
             onClick={handleRecoverData}
             disabled={loadingPlayers}
             className="text-foreground"
-            title="Восстановить данные в случае ошибок"
+            title="Recover data if errors occur"
           >
             <AlertCircle className="h-4 w-4 mr-2" />
             Восстановить
@@ -2219,7 +2219,7 @@ const safeDeletePlayerCard = async (
             variant="outline"
             onClick={() => {
               console.log("=== ОТЛАДКА ДАННЫХ ===");
-              console.log("Игроки:", players);
+              console.log("Players:", players);
               console.log("Данные карточек:", playerCardsData);
               console.log("Доступные карточки:", availableCards);
               console.log("Доступные игроки для привязки:", availablePlayersForAttach);
@@ -2229,14 +2229,14 @@ const safeDeletePlayerCard = async (
               players.forEach(player => {
                 const hasCardInData = playerCardsData[player.id] && playerCardsData[player.id] !== null;
                 const hasCardInAvailable = availableCards.some(card => card.userId === player.id);
-                console.log(`Игрок: ${player.name} (${player.id})`);
+                console.log(`Player: ${player.name} (${player.id})`);
                 console.log(`  - Есть в playerCardsData: ${hasCardInData}`);
                 console.log(`  - Есть в availableCards: ${hasCardInAvailable}`);
               });
             }}
             disabled={loadingPlayers}
             className="text-foreground"
-            title="Отладка данных"
+            title="Debug data"
           >
             <Bug className="h-4 w-4 mr-2" />
             Отладка
@@ -2246,12 +2246,12 @@ const safeDeletePlayerCard = async (
             onClick={handleOpenAttachPlayerDialog}
             disabled={loadingPlayers || loadingAttachDialog}
             className="text-foreground"
-            title="Привязать существующую карточку к игроку"
+            title="Link an existing card to a player"
           >
             {loadingAttachDialog ? (
               <>
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Загрузка...
+                Loading...
               </>
             ) : (
               <>
@@ -2268,12 +2268,12 @@ const safeDeletePlayerCard = async (
           {loadingPlayers ? (
             <>
               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              Загрузка...
+              Loading...
             </>
           ) : (
             <>
           <Plus className="h-4 w-4 mr-2" />
-          Добавить карточку
+          Add карточку
             </>
           )}
         </Button>
@@ -2292,7 +2292,7 @@ const safeDeletePlayerCard = async (
               className="mt-4" 
               onClick={() => setSearchQuery("")}
             >
-              Сбросить поиск
+              Satросить поиск
             </Button>
           </div>
         )}
@@ -2306,7 +2306,7 @@ const safeDeletePlayerCard = async (
               className="mt-4" 
               onClick={handleOpenCreatePlayerCardDialog}
             >
-              Создать карточку игрока
+              Create карточку игрока
             </Button>
           </div>
         )}
@@ -2320,7 +2320,7 @@ const safeDeletePlayerCard = async (
           
           // ВАЖНО: Проверяем, была ли карточка удалена
           if (playerCardsData[player.id] === null) {
-            console.log(`Карточка игрока ${player.id} была удалена, скрываем её`);
+            console.log(`Player card ${player.id} была удалена, скрываем её`);
             return null; // Если карточка была удалена, не показываем её
           }
           
@@ -2339,8 +2339,8 @@ const safeDeletePlayerCard = async (
                   <div className="flex items-center gap-3">
                     <UserAvatar user={player} className="h-10 w-10" />
                     <div>
-                      <CardTitle className="text-lg">{player.name || "Без имени"}</CardTitle>
-                      <CardDescription>{player.email || "Email отсутствует"}</CardDescription>
+                      <CardTitle className="text-lg">{player.name || "Unnamed"}</CardTitle>
+                      <CardDescription>{player.email || "Email missing"}</CardDescription>
                     </div>
                   </div>
                   
@@ -2403,20 +2403,20 @@ const safeDeletePlayerCard = async (
                           // Получаем данные карточки
                           const card = playerCardsData[player.id]?.playerCard;
                           if (!card) {
-                            toast.error('Карточка не найдена');
+                            toast.error('Card not found');
                             return;
                           }
                           
                           // Используем userId вместо _id карточки
                           const userId = card.userId;
                           if (!userId) {
-                            toast.error('ID пользователя не найден в карточке');
-                            console.error('Отсутствует userId в карточке:', card);
+                            toast.error('User ID not found in card');
+                            console.error('Missing userId в карточке:', card);
                             return;
                           }
                           
                           // Подтверждение
-                          if (!confirm(`Удалить карточку игрока ${player.name}?`)) {
+                          if (!confirm(`Delete player card ${player.name}?`)) {
                             return;
                           }
                           
@@ -2437,7 +2437,7 @@ const safeDeletePlayerCard = async (
                         className="bg-destructive hover:bg-destructive/90"
                       >
                         <Trash className="h-4 w-4 mr-1" />
-                        Удалить
+                        Delete
                       </Button>
                     )}
                   </div>
@@ -2449,32 +2449,32 @@ const safeDeletePlayerCard = async (
                     
                     {/* Индикация отсутствия карточки */}
                     {playerCardsData[player.id] === null && (
-                      <AlertCircle className="h-4 w-4 text-destructive" aria-label="Карточка не создана" />
+                      <AlertCircle className="h-4 w-4 text-destructive" aria-label="Card not created" />
                     )}
                     
                     {/* Индикация наличия данных */}
                     {playerCardsData[player.id]?.playerCard?.roadmap && (
-                      <FileImage className="h-5 w-5 text-primary drop-shadow-md" aria-label="Есть Roadmap" />
+                      <FileImage className="h-5 w-5 text-primary drop-shadow-md" aria-label="Roadmap added" />
                     )}
                     {playerCardsData[player.id]?.playerCard?.mindmap && (
-                      <FileBarChart className="h-5 w-5 text-primary drop-shadow-md" aria-label="Есть Mindmap" />
+                      <FileBarChart className="h-5 w-5 text-primary drop-shadow-md" aria-label="Mindmap added" />
                     )}
                     {playerCardsData[player.id]?.playerCard?.communicationLine && (
-                      <MessageSquare className="h-5 w-5 text-primary drop-shadow-md" aria-label="Есть коммуникативная линия" />
+                      <MessageSquare className="h-5 w-5 text-primary drop-shadow-md" aria-label="Communication line added" />
                     )}
                   </div>
                 </CardFooter>
               </Card>
             );
           } catch (error) {
-            console.error(`Ошибка при рендеринге карточки игрока ${player?.id}:`, error);
+            console.error(`Error while рендеринге карточки игрока ${player?.id}:`, error);
             return (
               <Card key={player.id || `error-${Date.now()}`} className="overflow-hidden bg-destructive/10">
                 <CardHeader>
-                  <CardTitle>Ошибка отображения</CardTitle>
+                  <CardTitle>Error отображения</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p>Произошла ошибка при отображении карточки игрока.</p>
+                  <p>An error occurred при отображении карточки игрока.</p>
                 </CardContent>
               </Card>
             );
@@ -2505,26 +2505,26 @@ const safeDeletePlayerCard = async (
                   // Получаем данные выбранного игрока
                   const player = players.find(p => p.id === selectedPlayerId);
                   if (!player) {
-                    toast.error('Игрок не найден');
+                    toast.error('Player not found');
                     return;
                   }
                   
                   // Получаем данные карточки
                   const playerData = playerCardsData[selectedPlayerId];
                   if (!playerData || !playerData.playerCard) {
-                    toast.error('Карточка не найдена');
+                    toast.error('Card not found');
                     return;
                   }
                   
                   // Получаем userId
                   const userId = playerData.playerCard.userId;
                   if (!userId) {
-                    toast.error('ID пользователя не найден в карточке');
+                    toast.error('User ID not found in card');
                     return;
                   }
                   
                   // Подтверждение
-                  if (!confirm(`Удалить карточку игрока ${player.name}?`)) {
+                  if (!confirm(`Delete player card ${player.name}?`)) {
                     return;
                   }
                   
@@ -2544,7 +2544,7 @@ const safeDeletePlayerCard = async (
                       });
                       setCommunicationLine("");
                       
-                      // Сбрасываем флаг наличия карточки
+                      // Satрасываем флаг наличия карточки
                       setPlayerHasCard(false);
                       
                       // Возвращаемся к списку игроков
@@ -2569,7 +2569,7 @@ const safeDeletePlayerCard = async (
                 ) : (
                   <Trash className="h-4 w-4 mr-2" />
                 )}
-                Удалить карточку
+                Delete card
               </Button>
             )}
           </div>
@@ -2586,7 +2586,7 @@ const safeDeletePlayerCard = async (
                   />
                   <div>
                     <CardTitle className="text-2xl">
-                      {currentPlayerForDetail.name || "Без имени"}
+                      {currentPlayerForDetail.name || "Unnamed"}
                     </CardTitle>
                     <CardDescription className="text-base">
                       {(currentPlayerForDetail as any).email || "Без email"}
@@ -2614,7 +2614,7 @@ const safeDeletePlayerCard = async (
                       ) : (
                         <>
                           <Plus className="h-4 w-4 mr-2" />
-                          Создать мою карточку
+                          Create мою карточку
                         </>
                       )}
                     </Button>
@@ -2664,7 +2664,7 @@ const safeDeletePlayerCard = async (
 
                               <Card className="bg-muted/20">
                                 <CardHeader className="pb-3">
-                                  <CardTitle className="text-lg">Роль в CS2</CardTitle>
+                                  <CardTitle className="text-lg">Role в CS2</CardTitle>
                                   <CardDescription>
                                     Как игрок распределяет ответственность по ролям и фазам раунда.
                                   </CardDescription>
@@ -2677,7 +2677,7 @@ const safeDeletePlayerCard = async (
                                     </span>
                                   </div>
                                   <div className="flex justify-between gap-3">
-                                    <span className="text-muted-foreground">Вторичная роль</span>
+                                    <span className="text-muted-foreground">Tueоричная роль</span>
                                     <span className="font-medium text-foreground">
                                       {playerCardsData[selectedPlayerId]?.baselineAssessment?.cs2Role?.secondaryRole || "Не указана"}
                                     </span>
@@ -2703,17 +2703,17 @@ const safeDeletePlayerCard = async (
                         </>
                       )}
 
-                    {/* Карточка игрока (v1): индексы и таймлайн */}
+                    {/* Player card (v1): индексы и таймлайн */}
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold">Карточка игрока (v1)</h3>
-                        <span className="text-sm text-muted-foreground">Индексы 7/30 дней</span>
+                        <h3 className="text-lg font-semibold">Player card (v1)</h3>
+                        <span className="text-sm text-muted-foreground">Индексы 7/30 days</span>
                       </div>
                       
                       {dashboardLoading && (
                         <div className="flex items-center text-muted-foreground">
                           <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Загрузка индексов...
+                          Loading индексов...
                         </div>
                       )}
                       
@@ -2722,7 +2722,7 @@ const safeDeletePlayerCard = async (
                       )}
                       
                       {!dashboardLoading && !dashboardError && !dashboardData && (
-                        <div className="text-sm text-muted-foreground">Нет данных для индексов</div>
+                        <div className="text-sm text-muted-foreground">No data для индексов</div>
                       )}
                       
                       {!dashboardLoading && dashboardData && (
@@ -2780,7 +2780,7 @@ const safeDeletePlayerCard = async (
                           
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="rounded-md border bg-muted/10 p-3">
-                              <div className="text-sm font-medium mb-2">Драйверы (7 дней)</div>
+                              <div className="text-sm font-medium mb-2">Драйверы (7 days)</div>
                               <div className="space-y-1 text-sm">
                                 {dashboardData.drivers.length > 0 ? (
                                   dashboardData.drivers.map((driver) => (
@@ -2790,7 +2790,7 @@ const safeDeletePlayerCard = async (
                                     </div>
                                   ))
                                 ) : (
-                                  <div className="text-muted-foreground">Нет данных по драйверам</div>
+                                  <div className="text-muted-foreground">No data по драйверам</div>
                                 )}
                               </div>
                             </div>
@@ -2814,7 +2814,7 @@ const safeDeletePlayerCard = async (
                                         </div>
                                       ))
                                     ) : (
-                                      <div className="text-muted-foreground">Нет данных за 7 дней</div>
+                                      <div className="text-muted-foreground">No data за 7 days</div>
                                     )}
                                   </div>
                                 </TabsContent>
@@ -2830,7 +2830,7 @@ const safeDeletePlayerCard = async (
                                         </div>
                                       ))
                                     ) : (
-                                      <div className="text-muted-foreground">Нет данных за 30 дней</div>
+                                      <div className="text-muted-foreground">No data за 30 days</div>
                                     )}
                                   </div>
                                 </TabsContent>
@@ -2856,12 +2856,12 @@ const safeDeletePlayerCard = async (
                           {saving ? (
                             <>
                               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                              Сохранение...
+                              Saving...
                             </>
                           ) : (
                             <>
                               <Send className="h-4 w-4 mr-2" />
-                              Сохранить
+                              Save
                             </>
                           )}
                         </Button>
@@ -2875,7 +2875,7 @@ const safeDeletePlayerCard = async (
                             name="nickname" 
                             value={contacts.nickname} 
                             onChange={handleContactsChange} 
-                            placeholder="Игровой никнейм"
+                            placeholder="Game nickname"
                           />
                         </div>
                         <div className="space-y-2">
@@ -2938,7 +2938,7 @@ const safeDeletePlayerCard = async (
                             {uploadingCommunicationImage ? (
                               <>
                                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                Загрузка...
+                                Loading...
                               </>
                             ) : (
                               <>
@@ -2956,12 +2956,12 @@ const safeDeletePlayerCard = async (
                             {savingCommunicationLine ? (
                               <>
                                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                Сохранение...
+                                Saving...
                               </>
                             ) : (
                               <>
                                 <Send className="h-4 w-4 mr-2" />
-                                Сохранить
+                                Save
                               </>
                             )}
                           </Button>
@@ -2976,7 +2976,7 @@ const safeDeletePlayerCard = async (
                               src={getImageUrl(playerCardsData[selectedPlayerId]?.playerCard?.communicationImage)} 
                               alt="Изображение коммуникативной линии" 
                               className="w-full h-auto max-h-64 object-contain transition-transform duration-300 group-hover:scale-105"
-                              fallback="Ошибка загрузки изображения" 
+                              fallback="Image load error" 
                             />
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                               <Button 
@@ -3069,7 +3069,7 @@ const safeDeletePlayerCard = async (
                                 src={getImageUrl(playerCardsData[selectedPlayerId]?.playerCard?.roadmap)} 
                                 alt="Roadmap" 
                                 className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                                fallback="Ошибка загрузки Roadmap" 
+                                fallback="Error загрузки Roadmap" 
                               />
                               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                 <Button 
@@ -3120,7 +3120,7 @@ const safeDeletePlayerCard = async (
                                 src={getImageUrl(playerCardsData[selectedPlayerId]?.playerCard?.mindmap)} 
                                 alt="Mindmap" 
                                 className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" 
-                                fallback="Ошибка загрузки Mindmap"
+                                fallback="Error загрузки Mindmap"
                               />
                               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                 <Button 
@@ -3172,7 +3172,7 @@ const safeDeletePlayerCard = async (
               }}
               disabled={deleting}
             >
-              Отмена
+              Cancel
             </Button>
             <Button 
               variant="destructive" 
@@ -3187,12 +3187,12 @@ const safeDeletePlayerCard = async (
               {deleting ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Удаление...
+                  Deleting...
                 </>
               ) : (
                 <>
                   <Trash className="h-4 w-4 mr-2" />
-                  Удалить
+                  Delete
                 </>
               )}
             </Button>
@@ -3206,7 +3206,7 @@ const safeDeletePlayerCard = async (
           <DialogHeader>
             <DialogTitle className="text-primary text-xl">Создание карточки игрока</DialogTitle>
             <DialogDescription className="text-foreground">
-              Выберите игрока и заполните данные для создания его карточки
+              Select player и заполните данные для создания его карточки
             </DialogDescription>
           </DialogHeader>
           
@@ -3220,10 +3220,10 @@ const safeDeletePlayerCard = async (
             <TabsContent value="contacts">
               <div className="space-y-4 py-2">
                 <div className="space-y-2">
-                  <Label className="text-foreground font-medium">Выберите игрока</Label>
+                  <Label className="text-foreground font-medium">Select player</Label>
                   <Select value={selectedPlayerId} onValueChange={setSelectedPlayerId}>
                     <SelectTrigger className="text-foreground">
-                      <SelectValue placeholder="Выберите игрока для создания карточки" />
+                      <SelectValue placeholder="Choose a player to create a card" />
                     </SelectTrigger>
                     <SelectContent>
                       {players
@@ -3241,7 +3241,7 @@ const safeDeletePlayerCard = async (
                       {loadingPlayers ? (
                         <div className="px-2 py-1 text-sm text-muted-foreground flex items-center">
                           <Loader2 className="h-3 w-3 animate-spin mr-2" />
-                          Загрузка игроков...
+                          Loading игроков...
                         </div>
                       ) : players.filter(player => {
                         const hasCard = playerCardsData[player.id];
@@ -3249,14 +3249,14 @@ const safeDeletePlayerCard = async (
                         return isPlayer && (hasCard === null || hasCard === undefined);
                       }).length === 0 ? (
                         <div className="px-2 py-1 text-sm text-muted-foreground">
-                          {players.length === 0 ? 'Нет доступных игроков' : 'Все игроки уже имеют карточки'}
+                          {players.length === 0 ? 'Нет доступных игроков' : 'Sunе игроки уже имеют карточки'}
                         </div>
                       ) : null}
                     </SelectContent>
                   </Select>
                   {/* Отладочная информация */}
                   <div className="text-xs text-muted-foreground">
-                    Всего игроков: {players.length}, игроков с ролью 'player': {players.filter(p => p.role === 'player').length}, без карточек: {players.filter(player => {
+                    Total игроков: {players.length}, игроков с ролью 'player': {players.filter(p => p.role === 'player').length}, без карточек: {players.filter(player => {
                       const hasCard = playerCardsData[player.id];
                       const isPlayer = player.role === 'player';
                       return isPlayer && (hasCard === null || hasCard === undefined);
@@ -3271,7 +3271,7 @@ const safeDeletePlayerCard = async (
                     name="contacts.nickname" 
                     value={newPlayerData.contacts.nickname}
                     onChange={handleDialogInputChange}
-                    placeholder="Игровой никнейм" 
+                    placeholder="Game nickname" 
                     className="text-foreground" 
                   />
                 </div>
@@ -3350,7 +3350,7 @@ const safeDeletePlayerCard = async (
                       onClick={() => handleDialogFileClick('roadmap')}
                     >
                       <Upload className="h-4 w-4 mr-2" />
-                      {dialogRoadmapFile ? 'Изменить Roadmap' : 'Загрузить Roadmap'}
+                      {dialogRoadmapFile ? 'Change Roadmap' : 'Загрузить Roadmap'}
                     </Button>
                   </div>
                   {dialogRoadmapFile && (
@@ -3369,7 +3369,7 @@ const safeDeletePlayerCard = async (
                       onClick={() => handleDialogFileClick('mindmap')}
                     >
                       <Upload className="h-4 w-4 mr-2" />
-                      {dialogMindmapFile ? 'Изменить Mindmap' : 'Загрузить Mindmap'}
+                      {dialogMindmapFile ? 'Change Mindmap' : 'Загрузить Mindmap'}
                     </Button>
                   </div>
                   {dialogMindmapFile && (
@@ -3389,7 +3389,7 @@ const safeDeletePlayerCard = async (
               className="text-foreground hover:bg-secondary/90 border border-input"
               disabled={isDialogSubmitting}
             >
-              Отмена
+              Cancel
             </Button>
             <Button 
               type="button" 
@@ -3405,7 +3405,7 @@ const safeDeletePlayerCard = async (
               ) : (
                 <>
                   <Plus className="h-4 w-4 mr-2" />
-                  Создать карточку игрока
+                  Create карточку игрока
                 </>
               )}
             </Button>
@@ -3458,7 +3458,7 @@ const safeDeletePlayerCard = async (
           {loadingAttachDialog ? (
             <div className="flex items-center justify-center py-8">
               <Loader2 className="h-8 w-8 animate-spin text-primary mr-2" />
-              <span>Загрузка данных...</span>
+              <span>Loading данных...</span>
             </div>
           ) : (
             <>
@@ -3489,11 +3489,11 @@ const safeDeletePlayerCard = async (
                 
                 <div className="space-y-2">
                   <Label htmlFor="playerSelect" className="text-foreground font-medium">
-                    Выберите игрока ({availablePlayersForAttach.length} доступно)
+                    Select player ({availablePlayersForAttach.length} доступно)
                   </Label>
                   <Select value={selectedPlayerForAttach} onValueChange={setSelectedPlayerForAttach}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Выберите игрока для привязки" />
+                      <SelectValue placeholder="Select player для привязки" />
                     </SelectTrigger>
                     <SelectContent>
                       {availablePlayersForAttach.length === 0 ? (
@@ -3516,11 +3516,11 @@ const safeDeletePlayerCard = async (
                   <div className="text-xs text-muted-foreground p-2 bg-muted rounded">
                     <div className="font-semibold mb-1">Отладочная информация:</div>
                     <div>• Доступных карточек: {availableCards.length}</div>
-                    <div>• Игроков без карточек: {availablePlayersForAttach.length}</div>
-                    <div>• Всего игроков в системе: {players.length}</div>
+                    <div>• Players without карточек: {availablePlayersForAttach.length}</div>
+                    <div>• Total игроков в системе: {players.length}</div>
                     {availablePlayersForAttach.length > 0 && (
                       <div className="mt-2">
-                        <div className="font-semibold">Игроки без карточек:</div>
+                        <div className="font-semibold">Players without карточек:</div>
                         {availablePlayersForAttach.map(p => (
                           <div key={p.id} className="ml-2">• {p.name} (ID: {p.id})</div>
                         ))}
@@ -3531,7 +3531,7 @@ const safeDeletePlayerCard = async (
                         <div className="font-semibold">Доступные карточки:</div>
                         {availableCards.slice(0, 3).map(card => (
                           <div key={card._id} className="ml-2">
-                            • {card.user?.name || 'Без имени'} ({card.contacts?.nickname || 'Без никнейма'})
+                            • {card.user?.name || 'Unnamed'} ({card.contacts?.nickname || 'Без никнейма'})
                           </div>
                         ))}
                         {availableCards.length > 3 && (
@@ -3554,7 +3554,7 @@ const safeDeletePlayerCard = async (
                   className="text-foreground hover:bg-secondary/90 border border-input"
                   disabled={attachingPlayer}
                 >
-                  Отмена
+                  Cancel
                 </Button>
                 <Button 
                   type="button" 

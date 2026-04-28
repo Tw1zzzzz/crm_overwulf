@@ -108,7 +108,7 @@ const TopPlayers: React.FC = () => {
         setStats(response.data.stats);
         setError(null);
       } catch (err) {
-        console.error('Ошибка при загрузке данных:', err);
+        console.error('Error при загрузке данных:', err);
         setError('Не удалось загрузить данные. Пожалуйста, попробуйте позже.');
       } finally {
         setLoading(false);
@@ -198,7 +198,7 @@ const TopPlayers: React.FC = () => {
       
       handleCloseDialog();
     } catch (err) {
-      console.error('Ошибка при обновлении рейтинга:', err);
+      console.error('Error при обновлении рейтинга:', err);
       setError('Не удалось обновить рейтинг. Пожалуйста, проверьте авторизацию и попробуйте еще раз.');
     } finally {
       setLoading(false);
@@ -232,7 +232,7 @@ const TopPlayers: React.FC = () => {
       
       handleCloseDialog();
     } catch (err) {
-      console.error('Ошибка при сбросе рейтинга:', err);
+      console.error('Error при сбросе рейтинга:', err);
       setError('Не удалось сбросить рейтинг. Пожалуйста, проверьте авторизацию и попробуйте еще раз.');
     } finally {
       setLoading(false);
@@ -247,7 +247,7 @@ const TopPlayers: React.FC = () => {
         backgroundColor: theme.palette.background.paper,
       }}>
         <Typography variant="h5" component="h1" gutterBottom color="text.primary">
-          Рейтинг игроков
+          Rating игроков
         </Typography>
         
         {error && (
@@ -263,8 +263,8 @@ const TopPlayers: React.FC = () => {
           textColor="primary"
           sx={{ mb: 2, '& .MuiTab-root.Mui-selected': { color: '#3c83f6' }, '& .MuiTabs-indicator': { backgroundColor: '#3c83f6' } }}
         >
-          <Tab label="Неделя" value="week" />
-          <Tab label="Месяц" value="month" />
+          <Tab label="Week" value="week" />
+          <Tab label="Month" value="month" />
           <Tab label="Все время" value="all" />
         </Tabs>
         
@@ -355,7 +355,7 @@ const TopPlayers: React.FC = () => {
               disabled={!pointsForm.points}
               sx={{ backgroundColor: '#3c83f6', '&:hover': { backgroundColor: '#2d6ad9' } }}
             >
-              Сохранить
+              Save
             </Button>
           </DialogActions>
         </Dialog>
@@ -450,9 +450,9 @@ const PlayersTable: React.FC<PlayersTableProps> = ({ players, isStaff, onEditCli
       <Table size="medium" sx={{ '& .MuiTableCell-root': { py: 2, px: 2.5 } }}>
         <TableHead>
           <TableRow sx={{ backgroundColor: '#3c83f6', color: 'white' }}>
-            <TableCell width="60px" sx={{ color: 'white', fontWeight: 'bold' }}>Ранг</TableCell>
-            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Игрок</TableCell>
-            <TableCell align="right" sx={{ color: 'white', fontWeight: 'bold' }}>Рейтинг</TableCell>
+            <TableCell width="60px" sx={{ color: 'white', fontWeight: 'bold' }}>Rank</TableCell>
+            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Player</TableCell>
+            <TableCell align="right" sx={{ color: 'white', fontWeight: 'bold' }}>Rating</TableCell>
             <TableCell align="right" sx={{ color: 'white', fontWeight: 'bold' }}>Игровые очки</TableCell>
             <TableCell align="right" sx={{ color: 'white', fontWeight: 'bold' }}>Внеигровые</TableCell>
             <TableCell align="right" sx={{ color: 'white', fontWeight: 'bold' }}>Дисциплина</TableCell>
@@ -463,7 +463,7 @@ const PlayersTable: React.FC<PlayersTableProps> = ({ players, isStaff, onEditCli
           {players.length === 0 ? (
             <TableRow>
               <TableCell colSpan={isStaff ? 7 : 6} align="center">
-                Нет данных для отображения
+                No data to display
               </TableCell>
             </TableRow>
           ) : (

@@ -76,8 +76,8 @@ export default function BaselineAssessmentCard({
   const handleSubmit = async () => {
     if (!primaryRole || !sidePreference || !roundStrength) {
       toast({
-        title: "Не всё заполнено",
-        description: "Выберите основную роль, сторону и сильную фазу раунда.",
+        title: "Some fields are missing",
+        description: "Choose your primary role, side preference, and strongest round phase.",
         variant: "destructive"
       });
       return;
@@ -85,8 +85,8 @@ export default function BaselineAssessmentCard({
 
     if (secondaryRole && secondaryRole === primaryRole) {
       toast({
-        title: "Проверьте роли",
-        description: "Вторичная роль должна отличаться от основной.",
+        title: "Check the roles",
+        description: "The secondary role must be different from the primary role.",
         variant: "destructive"
       });
       return;
@@ -108,17 +108,17 @@ export default function BaselineAssessmentCard({
       });
 
       toast({
-        title: "Профиль сохранён",
-        description: "Базовое анкетирование завершено. Профиль уже доступен в карточке игрока."
+        title: "Profile saved",
+        description: "The baseline assessment is complete. The profile is already available in the player card."
       });
 
       setLocalAssessment(response.data.data);
       setEditing(false);
       await onCompleted?.(response.data.data);
     } catch (error: any) {
-      const message = error?.response?.data?.message || error?.message || "Не удалось сохранить анкетирование";
+      const message = error?.response?.data?.message || error?.message || "Failed to save the assessment";
       toast({
-        title: "Ошибка сохранения",
+        title: "Save failed",
         description: message,
         variant: "destructive"
       });
@@ -141,13 +141,13 @@ export default function BaselineAssessmentCard({
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-[11px] uppercase tracking-[0.24em] text-cyan-100">
                 <CheckCheck className="h-3.5 w-3.5" />
-                Анкетирование завершено
+                Assessment complete
               </div>
               <CardTitle className="mt-4 text-2xl" style={{ color: COLORS.textColor }}>
-                Результат уже сохранён
+                Result already saved
               </CardTitle>
               <CardDescription className="mt-2 max-w-2xl text-sm leading-7" style={{ color: COLORS.textColorSecondary }}>
-                Базовая анкета пройдена, а итоговый архетип, расшифровка и стиль игрока откроются после покупки тарифа {PRODUCT_NAME}.
+                The baseline assessment is complete. The final archetype, interpretation, and player style open after purchasing {PRODUCT_NAME}.
               </CardDescription>
             </div>
             <Button
@@ -159,7 +159,7 @@ export default function BaselineAssessmentCard({
                 setStep(1);
               }}
             >
-              Обновить ответы
+              Update answers
             </Button>
           </div>
         </CardHeader>
@@ -168,22 +168,22 @@ export default function BaselineAssessmentCard({
             <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
               <div className="flex items-center gap-2 text-sm font-medium" style={{ color: COLORS.textColor }}>
                 <BrainCircuit className="h-4 w-4" />
-                Что откроется после оплаты
+                What opens after payment
               </div>
               <p className="mt-3 text-sm leading-7" style={{ color: COLORS.textColorSecondary }}>
-                Архетип игрока, headline, поведенческая расшифровка и персональные теги стиля.
+                Player archetype, headline, behavioral interpretation, and personal style tags.
               </p>
             </div>
             <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
               <div className="flex items-center gap-2 text-sm font-medium" style={{ color: COLORS.textColor }}>
                 <Swords className="h-4 w-4" />
-                Игровая роль уже зафиксирована
+                Game role already captured
               </div>
               <div className="mt-3 space-y-2 text-sm" style={{ color: COLORS.textColorSecondary }}>
-                <p>Основная роль: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.primaryRole}</span></p>
-                <p>Вторичная роль: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.secondaryRole || "Не указана"}</span></p>
-                <p>Предпочтение: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.sidePreference}</span></p>
-                <p>Сильная фаза: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.roundStrength}</span></p>
+                <p>Primary role: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.primaryRole}</span></p>
+                <p>Secondary role: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.secondaryRole || "Not specified"}</span></p>
+                <p>Preference: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.sidePreference}</span></p>
+                <p>Strongest phase: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.roundStrength}</span></p>
               </div>
             </div>
           </div>
@@ -191,15 +191,15 @@ export default function BaselineAssessmentCard({
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-[22px] border px-4 py-4" style={{ borderColor: "rgba(96, 165, 250, 0.18)", backgroundColor: "rgba(53, 144, 255, 0.08)" }}>
             <div>
               <div className="text-sm font-medium" style={{ color: COLORS.textColor }}>
-                Полная расшифровка уже готова
+                Full interpretation is ready
               </div>
               <div className="mt-1 text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
-                Откройте тариф, и результат появится без повторного прохождения анкеты.
+                Open the plan and the result will appear without repeating the assessment.
               </div>
             </div>
             <Link to={ROUTES.PRICING}>
               <Button className="rounded-2xl" style={{ backgroundColor: COLORS.primary, color: "white" }}>
-                Открыть результат
+                Open result
               </Button>
             </Link>
           </div>
@@ -224,7 +224,7 @@ export default function BaselineAssessmentCard({
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-[11px] uppercase tracking-[0.24em] text-emerald-100">
                 <CheckCheck className="h-3.5 w-3.5" />
-                Базовый профиль заполнен
+                Baseline profile complete
               </div>
               <CardTitle className="mt-4 text-2xl" style={{ color: COLORS.textColor }}>
                 {summary.archetype}
@@ -242,7 +242,7 @@ export default function BaselineAssessmentCard({
                 setStep(1);
               }}
             >
-              Обновить ответы
+              Update answers
             </Button>
           </div>
         </CardHeader>
@@ -263,7 +263,7 @@ export default function BaselineAssessmentCard({
             <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
               <div className="flex items-center gap-2 text-sm font-medium" style={{ color: COLORS.textColor }}>
                 <BrainCircuit className="h-4 w-4" />
-                Психологический контур
+                Psychological profile
               </div>
               <p className="mt-3 text-sm leading-7" style={{ color: COLORS.textColorSecondary }}>
                 {summary.description}
@@ -272,13 +272,13 @@ export default function BaselineAssessmentCard({
             <div className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
               <div className="flex items-center gap-2 text-sm font-medium" style={{ color: COLORS.textColor }}>
                 <Swords className="h-4 w-4" />
-                Игровая роль
+                Game role
               </div>
               <div className="mt-3 space-y-2 text-sm" style={{ color: COLORS.textColorSecondary }}>
-                <p>Основная роль: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.primaryRole}</span></p>
-                <p>Вторичная роль: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.secondaryRole || "Не указана"}</span></p>
-                <p>Предпочтение: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.sidePreference}</span></p>
-                <p>Сильная фаза: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.roundStrength}</span></p>
+                <p>Primary role: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.primaryRole}</span></p>
+                <p>Secondary role: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.secondaryRole || "Not specified"}</span></p>
+                <p>Preference: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.sidePreference}</span></p>
+                <p>Strongest phase: <span style={{ color: COLORS.textColor }}>{resolvedAssessment.cs2Role.roundStrength}</span></p>
               </div>
             </div>
           </div>
@@ -298,28 +298,28 @@ export default function BaselineAssessmentCard({
       <CardHeader>
         <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-[11px] uppercase tracking-[0.24em] text-cyan-100">
           <ShieldCheck className="h-3.5 w-3.5" />
-          Шаг {step} из 2
+          Step {step} of 2
         </div>
         <CardTitle className="mt-4 text-2xl" style={{ color: COLORS.textColor }}>
-          {step === 1 ? "Базовое анкетирование личности" : "Роль игрока в CS2"}
+          {step === 1 ? "Baseline personality assessment" : "CS2 player role"}
         </CardTitle>
         <CardDescription className="mt-2 max-w-2xl text-sm leading-7" style={{ color: COLORS.textColorSecondary }}>
           {step === 1
-            ? "Сначала фиксируем ваш игровой и психологический контур. Это не диагноз, а стартовая карта того, как вы принимаете решения, общаетесь и держите давление."
-            : "Теперь задаём игровую рамку: основная и вторичная роль, предпочтительная сторона и сильная фаза раунда."}
+            ? "First we capture your game and psychological profile. This is not a diagnosis, but a starting map of how you make decisions, communicate, and handle pressure."
+            : "Now we define the game frame: primary and secondary role, preferred side, and strongest round phase."}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">
         {step === 1 ? (
           <>
             <div className="rounded-[22px] border p-4 text-sm" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)", color: COLORS.textColorSecondary }}>
-              Заполнено {completedQuestions} из {BASELINE_PERSONALITY_QUESTIONS.length} вопросов.
+              Completed {completedQuestions} of {BASELINE_PERSONALITY_QUESTIONS.length} questions.
             </div>
             <div className="space-y-4">
               {BASELINE_PERSONALITY_QUESTIONS.map((question, index) => (
                 <div key={question.id} className="rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
                   <div className="text-xs uppercase tracking-[0.18em]" style={{ color: COLORS.textColorSecondary }}>
-                    Вопрос {index + 1}
+                    Question {index + 1}
                   </div>
                   <div className="mt-2 text-base font-semibold" style={{ color: COLORS.textColor }}>
                     {question.prompt}
@@ -359,7 +359,7 @@ export default function BaselineAssessmentCard({
                 disabled={completedQuestions !== BASELINE_PERSONALITY_QUESTIONS.length}
                 onClick={() => setStep(2)}
               >
-                Перейти к роли
+                Go to role
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
@@ -368,13 +368,13 @@ export default function BaselineAssessmentCard({
           <div className="grid gap-5 lg:grid-cols-2">
             <div className="space-y-4 rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
               <div className="text-sm font-medium" style={{ color: COLORS.textColor }}>
-                Ролевой профиль
+                Role profile
               </div>
               <div className="space-y-2">
-                <Label style={{ color: COLORS.textColor }}>Основная роль</Label>
+                <Label style={{ color: COLORS.textColor }}>Primary role</Label>
                 <Select value={primaryRole} onValueChange={(value) => setPrimaryRole(value as BaselineRole)}>
                   <SelectTrigger className="rounded-2xl" style={selectStyle}>
-                    <SelectValue placeholder="Выберите основную роль" />
+                    <SelectValue placeholder="Choose primary role" />
                   </SelectTrigger>
                   <SelectContent>
                     {BASELINE_ROLE_OPTIONS.map((role) => (
@@ -384,13 +384,13 @@ export default function BaselineAssessmentCard({
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label style={{ color: COLORS.textColor }}>Вторичная роль</Label>
+                <Label style={{ color: COLORS.textColor }}>Secondary role</Label>
                 <Select value={secondaryRole || "__none__"} onValueChange={(value) => setSecondaryRole(value === "__none__" ? "" : (value as BaselineRole))}>
                   <SelectTrigger className="rounded-2xl" style={selectStyle}>
-                    <SelectValue placeholder="Можно оставить пустым" />
+                    <SelectValue placeholder="Can be left empty" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="__none__">Не указывать</SelectItem>
+                    <SelectItem value="__none__">Do not specify</SelectItem>
                     {BASELINE_ROLE_OPTIONS.filter((role) => role !== primaryRole).map((role) => (
                       <SelectItem key={role} value={role}>{role}</SelectItem>
                     ))}
@@ -401,13 +401,13 @@ export default function BaselineAssessmentCard({
 
             <div className="space-y-4 rounded-[22px] border p-4" style={{ borderColor: COLORS.borderColor, backgroundColor: "rgba(255,255,255,0.03)" }}>
               <div className="text-sm font-medium" style={{ color: COLORS.textColor }}>
-                Игровый контекст
+                Game context
               </div>
               <div className="space-y-2">
-                <Label style={{ color: COLORS.textColor }}>Предпочтительная сторона</Label>
+                <Label style={{ color: COLORS.textColor }}>Preferred side</Label>
                 <Select value={sidePreference} onValueChange={setSidePreference}>
                   <SelectTrigger className="rounded-2xl" style={selectStyle}>
-                    <SelectValue placeholder="Выберите сторону" />
+                    <SelectValue placeholder="Choose side" />
                   </SelectTrigger>
                   <SelectContent>
                     {BASELINE_SIDE_OPTIONS.map((option) => (
@@ -417,10 +417,10 @@ export default function BaselineAssessmentCard({
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label style={{ color: COLORS.textColor }}>Сильная фаза раунда</Label>
+                <Label style={{ color: COLORS.textColor }}>Strongest round phase</Label>
                 <Select value={roundStrength} onValueChange={setRoundStrength}>
                   <SelectTrigger className="rounded-2xl" style={selectStyle}>
-                    <SelectValue placeholder="Выберите фазу" />
+                    <SelectValue placeholder="Choose phase" />
                   </SelectTrigger>
                   <SelectContent>
                     {BASELINE_ROUND_STRENGTH_OPTIONS.map((option) => (
@@ -438,7 +438,7 @@ export default function BaselineAssessmentCard({
                 style={{ borderColor: COLORS.borderColor, color: COLORS.textColor }}
                 onClick={() => setStep(1)}
               >
-                Назад к личности
+                Back to personality
               </Button>
               <Button
                 className="rounded-2xl px-5"
@@ -446,7 +446,7 @@ export default function BaselineAssessmentCard({
                 onClick={handleSubmit}
                 disabled={submitting}
               >
-                {submitting ? "Сохранение..." : "Завершить анкетирование"}
+                {submitting ? "Saving..." : "Complete assessment"}
               </Button>
             </div>
           </div>

@@ -40,7 +40,7 @@ const normalizePlayer = (player: any): User => {
   return {
     ...player,
     id: playerId,
-    name: player.name || player.username || 'Неизвестно',
+    name: player.name || player.username || 'Unknown',
     email: player.email || 'Нет email',
     role: player.role || 'player',
   };
@@ -68,7 +68,7 @@ const PlayersManagement = () => {
       const response = await checkStaffPrivilege();
       setHasPrivilege(response.data.hasPrivilege);
     } catch (error) {
-      console.error('Ошибка при проверке привилегий:', error);
+      console.error('Error при проверке привилегий:', error);
       setHasPrivilege(false);
     } finally {
       setCheckingPrivilege(false);
@@ -104,8 +104,8 @@ const PlayersManagement = () => {
       }
     } catch (err) {
       console.error('Error fetching players:', err);
-      setError('Ошибка при загрузке игроков');
-      toast.error('Не удалось загрузить список игроков');
+      setError('Error loading players');
+      toast.error('Failed to load player list');
     } finally {
       setIsLoading(false);
     }
@@ -166,16 +166,16 @@ const PlayersManagement = () => {
       
       setDeleteProgress(90);
       
-      console.log(`Игрок и все связанные данные успешно удалены: ${playerName} (${playerId})`);
+      console.log(`Player и все связанные данные успешно удалены: ${playerName} (${playerId})`);
       
       // Обновляем список игроков
       await loadPlayers();
       
       setDeleteProgress(100);
-      toast.success(`Игрок ${playerName} и все его данные успешно удалены`);
+      toast.success(`Player ${playerName} и все его данные успешно удалены`);
     } catch (error) {
-      console.error('Ошибка при удалении игрока:', error);
-      toast.error(`Ошибка при удалении игрока: ${error.message || 'Неизвестная ошибка'}`);
+      console.error('Error при удалении игрока:', error);
+      toast.error(`Error при удалении игрока: ${error.message || 'Unknown error'}`);
     } finally {
       setIsDeleting(false);
       setSelectedPlayer(null);
@@ -190,7 +190,7 @@ const PlayersManagement = () => {
       <div className="flex items-center justify-center h-full">
         <Card className="w-96" style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
           <CardHeader>
-            <CardTitle style={{ color: COLORS.textColor }}>Доступ запрещен</CardTitle>
+            <CardTitle style={{ color: COLORS.textColor }}>Access denied</CardTitle>
             <CardDescription style={{ color: COLORS.textColorSecondary }}>
               Эта страница доступна только для персонала команды
             </CardDescription>
@@ -275,7 +275,7 @@ const PlayersManagement = () => {
         <CardContent>
           {isLoading ? (
             <div className="text-center py-4" style={{ color: COLORS.textColorSecondary }}>
-              <p>Загрузка...</p>
+              <p>Loading...</p>
             </div>
           ) : error ? (
             <div className="text-center py-4" style={{ color: COLORS.danger }}>
@@ -286,7 +286,7 @@ const PlayersManagement = () => {
                 onClick={() => loadPlayers()}
                 style={{ borderColor: COLORS.borderColor, color: COLORS.primary }}
               >
-                Обновить
+                Update
               </Button>
             </div>
           ) : (
@@ -368,7 +368,7 @@ const PlayersManagement = () => {
                           style={{ backgroundColor: COLORS.danger, color: COLORS.textColor }}
                           disabled={!isValidId(player.id)}
                         >
-                          Удалить
+                          Delete
                         </Button>
                       </td>
                     </tr>
@@ -464,7 +464,7 @@ const PlayersManagement = () => {
                 opacity: (confirmText !== selectedPlayer?.name && !isDeleting) ? 0.5 : 1
               }}
             >
-              {isDeleting ? `Удаление... ${deleteProgress}%` : "Удалить"}
+              {isDeleting ? `Удаление... ${deleteProgress}%` : "Delete"}
             </Button>
           </DialogFooter>
         </DialogContent>

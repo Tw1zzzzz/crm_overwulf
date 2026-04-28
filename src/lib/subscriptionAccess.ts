@@ -6,7 +6,7 @@ export const PERFORMANCE_COACH_CRM_ROUTES = [
   ROUTES.TEST_TRACKER,
 ] as const;
 
-export const CORRELATION_ANALYSIS_PLAN_PREFIX = 'Корреляционный анализ';
+export const CORRELATION_ANALYSIS_PLAN_PREFIX = 'Correlation analysis';
 export const GAME_STATS_PLAN_PREFIX = 'Игровая статистика';
 export const PERFORMANCE_COACH_CRM_PLAN_PREFIX = 'PerformanceCoach CRM';
 

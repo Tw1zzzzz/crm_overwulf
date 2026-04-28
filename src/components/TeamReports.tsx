@@ -103,7 +103,7 @@ const TeamReports: React.FC = () => {
 
   const fetchReports = async () => {
     if (!user) {
-      console.log('Пользователь не загружен, пропускаем загрузку отчетов');
+      console.log('User не загружен, пропускаем загрузку reportов');
       setReports([]);
       setLoading(false);
       return;
@@ -118,18 +118,18 @@ const TeamReports: React.FC = () => {
       if (Array.isArray(reportsData)) {
         setReports(reportsData);
       } else {
-        console.warn('Получены некорректные данные отчетов:', reportsData);
+        console.warn('Получены некорректные данные reportов:', reportsData);
         setReports([]);
       }
     } catch (error: any) {
-      console.error('Ошибка загрузки отчетов:', error);
+      console.error('Error загрузки reportов:', error);
       setReports([]);
       
       // Показываем ошибку только если это не ошибка аутентификации
       if (error.response?.status !== 401 && error.response?.status !== 403) {
         toast({
-          title: "Ошибка",
-          description: error.response?.data?.message || "Не удалось загрузить отчеты",
+          title: "Error",
+          description: error.response?.data?.message || "Не удалось загрузить reportы",
           variant: "destructive",
         });
       }
@@ -171,7 +171,7 @@ const TeamReports: React.FC = () => {
         setStats(null);
       }
     } catch (error: any) {
-      console.error('Ошибка загрузки статистики отчетов:', error);
+      console.error('Error загрузки статистики reportов:', error);
       setStats(null); // Устанавливаем null при ошибке
     }
   };
@@ -200,13 +200,13 @@ const TeamReports: React.FC = () => {
   };
 
   const handleCreateReport = () => {
-    console.log('Создание отчета - клик по кнопке');
+    console.log('Создание reportа - клик по кнопке');
     
     // Проверяем авторизацию
     if (!user) {
       toast({
-        title: "Ошибка",
-        description: "Необходимо войти в систему для создания отчетов",
+        title: "Error",
+        description: "You must sign in to create reports",
         variant: "destructive",
       });
       return;
@@ -234,11 +234,11 @@ const TeamReports: React.FC = () => {
       await fetchReports();
       toast({
         title: "Успешно",
-        description: `Статус отчета изменен на "${getStatusLabel(newStatus)}"`,
+        description: `Status reportа изменен на "${getStatusLabel(newStatus)}"`,
       });
     } catch (error: any) {
       toast({
-        title: "Ошибка",
+        title: "Error",
         description: error.response?.data?.message || "Не удалось изменить статус",
         variant: "destructive",
       });
@@ -248,7 +248,7 @@ const TeamReports: React.FC = () => {
   };
 
   const handleDeleteReport = async (reportId: string) => {
-    if (!window.confirm('Вы уверены, что хотите удалить этот отчет?')) {
+    if (!window.confirm('Вы уверены, что хотите удалить этот report?')) {
       return;
     }
 
@@ -263,8 +263,8 @@ const TeamReports: React.FC = () => {
       });
     } catch (error: any) {
       toast({
-        title: "Ошибка",
-        description: error.response?.data?.message || "Не удалось удалить отчет",
+        title: "Error",
+        description: error.response?.data?.message || "Не удалось удалить report",
         variant: "destructive",
       });
     } finally {
@@ -284,33 +284,33 @@ const TeamReports: React.FC = () => {
       const pdfExporter = new PDFExporter();
       await pdfExporter.exportTeamReport({
         title: 'Отчеты команды',
-        subtitle: 'Сводка всех отчетов команды',
+        subtitle: 'Сводка всех reportов команды',
         createdAt: new Date().toISOString(),
-        summary: `Всего отчетов: ${stats?.total || 0}. Опубликованных: ${stats?.byStatus.published || 0}. Архивированных: ${stats?.byStatus.archived || 0}.`,
+        summary: `Всего reportов: ${stats?.total || 0}. Publishedных: ${stats?.byStatus.published || 0}. Archivedных: ${stats?.byStatus.archived || 0}.`,
         keyMetrics: [
-          { label: 'Всего отчетов', value: stats?.total || 0 },
-          { label: 'Опубликованных', value: stats?.byStatus.published || 0 },
-          { label: 'Черновиков', value: stats?.byStatus.draft || 0 },
-          { label: 'Архивированных', value: stats?.byStatus.archived || 0 }
+          { label: 'Всего reportов', value: stats?.total || 0 },
+          { label: 'Publishedных', value: stats?.byStatus.published || 0 },
+          { label: 'Draftов', value: stats?.byStatus.draft || 0 },
+          { label: 'Archivedных', value: stats?.byStatus.archived || 0 }
         ],
-        details: `Активность команды за последний период показывает ${stats?.total || 0} отчетов. Большинство отчетов находятся в активном статусе.`,
+        details: `Activity команды за последний период показывает ${stats?.total || 0} reportов. Большинство reportов находятся в активном статусе.`,
         recommendations: [
-          'Регулярно обновляйте отчеты для поддержания актуальности',
+          'Регулярно обновляйте reportы для поддержания актуальности',
           'Переводите черновики в статус "опубликован" после завершения',
-          'Архивируйте устаревшие отчеты для улучшения организации'
+          'Архивируйте устаревшие reportы для улучшения организации'
         ],
         attachments: []
       });
       
       toast({
-        title: "Экспорт завершен",
-        description: "PDF отчет успешно сохранен",
+        title: "Export complete",
+        description: "PDF report успешно сохранен",
       });
     } catch (error) {
-      console.error('Ошибка экспорта PDF:', error);
+      console.error('Error экспорта PDF:', error);
       toast({
-        title: "Ошибка экспорта",
-        description: "Не удалось создать PDF отчет",
+        title: "Error экспорта",
+        description: "Failed to create PDF report",
         variant: "destructive",
       });
     }
@@ -322,14 +322,14 @@ const TeamReports: React.FC = () => {
       await excelExporter.exportTeamReports(reports);
       
       toast({
-        title: "Экспорт завершен",
+        title: "Export complete",
         description: "Excel файл успешно сохранен",
       });
     } catch (error) {
-      console.error('Ошибка экспорта Excel:', error);
+      console.error('Error экспорта Excel:', error);
       toast({
-        title: "Ошибка экспорта",
-        description: "Не удалось создать Excel файл",
+        title: "Error экспорта",
+        description: "Failed to create Excel file",
         variant: "destructive",
       });
     }
@@ -338,20 +338,20 @@ const TeamReports: React.FC = () => {
   // Вспомогательные функции
   const getTypeLabel = (type: string): string => {
     const labels: Record<string, string> = {
-      weekly: 'Еженедельный',
-      monthly: 'Ежемесячный',
-      custom: 'Особый',
-      match_analysis: 'Анализ матча',
-      training_report: 'Отчет о тренировке'
+      weekly: 'Weekly',
+      monthly: 'Monthly',
+      custom: 'Special',
+      match_analysis: 'Match analysis',
+      training_report: 'Training report'
     };
     return labels[type] || type;
   };
 
   const getStatusLabel = (status: string): string => {
     const labels: Record<string, string> = {
-      draft: 'Черновик',
-      published: 'Опубликован',
-      archived: 'Архивирован'
+      draft: 'Draft',
+      published: 'Published',
+      archived: 'Archived'
     };
     return labels[status] || status;
   };
@@ -402,7 +402,7 @@ const TeamReports: React.FC = () => {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <Clock className="h-8 w-8 animate-spin mx-auto mb-2 text-blue-400" />
-          <p className="text-white font-medium">Загрузка...</p>
+          <p className="text-white font-medium">Loading...</p>
         </div>
       </div>
     );
@@ -413,7 +413,7 @@ const TeamReports: React.FC = () => {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <Clock className="h-8 w-8 animate-spin mx-auto mb-2 text-blue-400" />
-          <p className="text-white font-medium">Загрузка отчетов...</p>
+          <p className="text-white font-medium">Loading reports...</p>
         </div>
       </div>
     );
@@ -429,7 +429,7 @@ const TeamReports: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-2xl font-bold text-white">{stats?.total || 0}</p>
-                  <p className="text-sm text-gray-300">Всего отчетов</p>
+                  <p className="text-sm text-gray-300">Всего reportов</p>
                 </div>
                 <FileText className="h-8 w-8 text-blue-400" />
               </div>
@@ -441,7 +441,7 @@ const TeamReports: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-2xl font-bold text-white">{stats?.byStatus?.published || 0}</p>
-                  <p className="text-sm text-gray-300">Опубликованы</p>
+                  <p className="text-sm text-gray-300">Publishedы</p>
                 </div>
                 <CheckCircle className="h-8 w-8 text-green-400" />
               </div>
@@ -453,7 +453,7 @@ const TeamReports: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-2xl font-bold text-white">{stats?.byStatus?.draft || 0}</p>
-                  <p className="text-sm text-gray-300">Черновики</p>
+                  <p className="text-sm text-gray-300">Draftи</p>
                 </div>
                 <Edit className="h-8 w-8 text-yellow-400" />
               </div>
@@ -481,7 +481,7 @@ const TeamReports: React.FC = () => {
             Отчеты команды
           </h2>
           <p className="text-gray-300">
-            Управление отчетами о работе команды
+            Управление reportами о работе команды
           </p>
         </div>
         
@@ -508,7 +508,7 @@ const TeamReports: React.FC = () => {
             </>
           )}
           
-          {/* Кнопка создания отчета доступна всем авторизованным пользователям */}
+          {/* Кнопка создания reportа доступна всем авторизованным пользователям */}
           {user && (
             <Button 
               onClick={handleCreateReport} 
@@ -516,7 +516,7 @@ const TeamReports: React.FC = () => {
               disabled={!user}
             >
               <Plus className="h-4 w-4 mr-2" />
-              <span className="text-white font-medium">Создать отчет</span>
+              <span className="text-white font-medium">Create report</span>
             </Button>
           )}
         </div>
@@ -529,7 +529,7 @@ const TeamReports: React.FC = () => {
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
-                placeholder="Поиск отчетов..."
+                placeholder="Поиск reportов..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
@@ -539,27 +539,27 @@ const TeamReports: React.FC = () => {
 
             <Select value={filters.type || 'all'} onValueChange={(value) => handleFilterChange('type', value === 'all' ? undefined : value)}>
               <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
-                <SelectValue placeholder="Тип отчета" />
+                <SelectValue placeholder="Report type" />
               </SelectTrigger>
               <SelectContent className="bg-gray-700 border-gray-600">
                 <SelectItem value="all" className="text-white hover:bg-gray-600">Все типы</SelectItem>
-                <SelectItem value="weekly" className="text-white hover:bg-gray-600">Еженедельный</SelectItem>
-                <SelectItem value="monthly" className="text-white hover:bg-gray-600">Ежемесячный</SelectItem>
-                <SelectItem value="match_analysis" className="text-white hover:bg-gray-600">Анализ матча</SelectItem>
-                <SelectItem value="training_report" className="text-white hover:bg-gray-600">Отчет о тренировке</SelectItem>
-                <SelectItem value="custom" className="text-white hover:bg-gray-600">Особый</SelectItem>
+                <SelectItem value="weekly" className="text-white hover:bg-gray-600">Weekly</SelectItem>
+                <SelectItem value="monthly" className="text-white hover:bg-gray-600">Monthly</SelectItem>
+                <SelectItem value="match_analysis" className="text-white hover:bg-gray-600">Match analysis</SelectItem>
+                <SelectItem value="training_report" className="text-white hover:bg-gray-600">Training report</SelectItem>
+                <SelectItem value="custom" className="text-white hover:bg-gray-600">Special</SelectItem>
               </SelectContent>
             </Select>
 
             <Select value={filters.status || 'all'} onValueChange={(value) => handleFilterChange('status', value === 'all' ? undefined : value)}>
               <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
-                <SelectValue placeholder="Статус" />
+                <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent className="bg-gray-700 border-gray-600">
                 <SelectItem value="all" className="text-white hover:bg-gray-600">Все статусы</SelectItem>
-                <SelectItem value="draft" className="text-white hover:bg-gray-600">Черновик</SelectItem>
-                <SelectItem value="published" className="text-white hover:bg-gray-600">Опубликован</SelectItem>
-                <SelectItem value="archived" className="text-white hover:bg-gray-600">Архивирован</SelectItem>
+                <SelectItem value="draft" className="text-white hover:bg-gray-600">Draft</SelectItem>
+                <SelectItem value="published" className="text-white hover:bg-gray-600">Published</SelectItem>
+                <SelectItem value="archived" className="text-white hover:bg-gray-600">Archived</SelectItem>
               </SelectContent>
             </Select>
 
@@ -574,7 +574,7 @@ const TeamReports: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Список отчетов */}
+      {/* Список reportов */}
       <div className="grid grid-cols-1 gap-4">
         {safeReports.map((report) => (
           <Card key={report.id} style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
@@ -600,7 +600,7 @@ const TeamReports: React.FC = () => {
                   <div className="flex items-center gap-4 text-sm text-gray-400">
                     <div className="flex items-center gap-1">
                       <Users className="h-4 w-4" />
-                      <span className="text-gray-300">{report.author?.username || 'Неизвестно'}</span>
+                      <span className="text-gray-300">{report.author?.username || 'Unknown'}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
@@ -618,7 +618,7 @@ const TeamReports: React.FC = () => {
                     size="sm"
                     onClick={() => handleViewReport(report)}
                     className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-md"
-                    title="Просмотреть отчет"
+                    title="Просмотреть report"
                   >
                     <Eye className="h-4 w-4" />
                   </Button>
@@ -629,7 +629,7 @@ const TeamReports: React.FC = () => {
                         size="sm"
                         onClick={() => handleEditReport(report)}
                         className="bg-orange-600 hover:bg-orange-700 text-white border-0 shadow-md"
-                        title="Редактировать отчет"
+                        title="Edit report"
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
@@ -643,9 +643,9 @@ const TeamReports: React.FC = () => {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="bg-gray-700 border-gray-600">
-                          <SelectItem value="draft" className="text-white hover:bg-gray-600">Черновик</SelectItem>
-                          <SelectItem value="published" className="text-white hover:bg-gray-600">Опубликован</SelectItem>
-                          <SelectItem value="archived" className="text-white hover:bg-gray-600">Архивирован</SelectItem>
+                          <SelectItem value="draft" className="text-white hover:bg-gray-600">Draft</SelectItem>
+                          <SelectItem value="published" className="text-white hover:bg-gray-600">Published</SelectItem>
+                          <SelectItem value="archived" className="text-white hover:bg-gray-600">Archived</SelectItem>
                         </SelectContent>
                       </Select>
                       
@@ -654,7 +654,7 @@ const TeamReports: React.FC = () => {
                         onClick={() => handleDeleteReport(report.id)}
                         className="bg-red-600 hover:bg-red-700 text-white border-0 shadow-md"
                         disabled={isUpdating}
-                        title="Удалить отчет"
+                        title="Delete report"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -674,14 +674,14 @@ const TeamReports: React.FC = () => {
             <div className="text-center py-8">
               <FileText className="h-12 w-12 mx-auto mb-4 text-gray-400" />
               <h3 className="text-lg font-semibold mb-2 text-white">
-                {user ? 'Отчетов не найдено' : 'Войдите в систему для просмотра отчетов'}
+                {user ? 'Отчетов не найдено' : 'Войдите в систему для просмотра reportов'}
               </h3>
               <p className="text-gray-300">
                 {user ? (
                   searchQuery || filters.type || filters.status 
                     ? 'Попробуйте изменить параметры поиска'
-                    : 'Создайте первый отчет команды'
-                ) : 'Необходима авторизация для доступа к отчетам'}
+                    : 'Создайте первый report команды'
+                ) : 'Необходима авторизация для доступа к reportам'}
               </p>
             </div>
           </CardContent>
@@ -693,7 +693,7 @@ const TeamReports: React.FC = () => {
         <TeamReportModal
           report={selectedReport}
           onClose={() => {
-            console.log('Закрытие модального окна создания отчета');
+            console.log('Закрытие модального окна создания reportа');
             setShowCreateModal(false);
           }}
           onSave={onReportSaved}

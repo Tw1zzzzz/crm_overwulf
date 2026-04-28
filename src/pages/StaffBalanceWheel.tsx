@@ -65,20 +65,20 @@ const StaffBalanceWheel = () => {
             setPlayers([]);
             setSelectedPlayerId("");
             setPlayersDataError(true);
-            setApiError("Игроки команды не найдены");
+            setApiError("Playerи команды не найдены");
           }
         } else {
           setPlayers([]);
           setSelectedPlayerId("");
           setPlayersDataError(true);
-          setApiError("Не удалось загрузить список игроков");
+          setApiError("Failed to load player list");
         }
       } catch (error) {
-        console.error("Ошибка при загрузке игроков:", error);
+        console.error("Error loading players:", error);
         setPlayers([]);
         setSelectedPlayerId("");
         setPlayersDataError(true);
-        setApiError("Не удалось загрузить список игроков");
+        setApiError("Failed to load player list");
       } finally {
         setLoadingPlayers(false);
       }
@@ -112,7 +112,7 @@ const StaffBalanceWheel = () => {
                     userId = match[1];
                   }
                 } catch (e) {
-                  console.error("[DEBUG] Ошибка при обработке userId:", e);
+                  console.error("[DEBUG] Error при обработке userId:", e);
                 }
               }
               
@@ -141,9 +141,9 @@ const StaffBalanceWheel = () => {
             setPlayersDataError(false); // Сбрасываем флаг ошибки, так как данные получены
             
           } else {
-            console.log("[DEBUG] Нет данных о колесах баланса");
+            console.log("[DEBUG] No data о колесах баланса");
             // Не устанавливаем тестовые данные, а просто показываем сообщение об ошибке
-            setApiError("Нет данных о колесах баланса");
+            setApiError("No data о колесах баланса");
             setPlayersDataError(true);
           }
         } else {
@@ -152,8 +152,8 @@ const StaffBalanceWheel = () => {
           setPlayersDataError(true);
         }
       } catch (error) {
-        console.error("[DEBUG] Ошибка при загрузке данных колес баланса всех игроков:", error);
-        setApiError(error instanceof Error ? error.message : 'Неизвестная ошибка');
+        console.error("[DEBUG] Error при загрузке данных колес баланса всех игроков:", error);
+        setApiError(error instanceof Error ? error.message : 'Unknown error');
         setPlayersDataError(true);
       } finally {
         setLoading(false);
@@ -295,7 +295,7 @@ const StaffBalanceWheel = () => {
       setPlayersDataError(true);
       
     } catch (error) {
-      console.error(`Ошибка при загрузке колеса баланса игрока ${playerId}:`, error);
+      console.error(`Error при загрузке колеса баланса игрока ${playerId}:`, error);
       setApiError('Не удалось загрузить данные колеса баланса. Попробуйте позже.');
       setPlayersDataError(true);
     } finally {
@@ -394,7 +394,7 @@ const StaffBalanceWheel = () => {
       
       setLastRefreshTime(Date.now());
     } catch (error) {
-      console.error("Ошибка при обновлении данных игрока:", error);
+      console.error("Error при обновлении данных игрока:", error);
       toast.error("Не удалось обновить данные игрока");
       setPlayersDataError(true);
     } finally {
@@ -438,7 +438,7 @@ const StaffBalanceWheel = () => {
   // Получение имени игрока
   const getPlayerName = () => {
     const player = players.find((p) => p.id === selectedPlayerId);
-    return player ? player.name : "Выберите игрока";
+    return player ? player.name : "Select player";
   };
 
   // Расчет среднего значения всех параметров
@@ -462,7 +462,7 @@ const StaffBalanceWheel = () => {
   const prepareChartData = () => {
     return [
       {
-        subject: "Физическое здоровье",
+        subject: "Physical health",
         value: balanceWheelData.physical,
       },
       {
@@ -470,11 +470,11 @@ const StaffBalanceWheel = () => {
         value: balanceWheelData.emotional,
       },
       {
-        subject: "Интеллектуальное развитие",
+        subject: "Intellectual development",
         value: balanceWheelData.intellectual,
       },
       {
-        subject: "Духовное развитие",
+        subject: "Spiritual growth",
         value: balanceWheelData.spiritual,
       },
       {
@@ -482,15 +482,15 @@ const StaffBalanceWheel = () => {
         value: balanceWheelData.occupational,
       },
       {
-        subject: "Социальные отношения",
+        subject: "Social relationships",
         value: balanceWheelData.social,
       },
       {
-        subject: "Окружающая среда",
+        subject: "Environment",
         value: balanceWheelData.environmental,
       },
       {
-        subject: "Финансовое благополучие",
+        subject: "Financial wellbeing",
         value: balanceWheelData.financial,
       },
     ];
@@ -502,7 +502,7 @@ const StaffBalanceWheel = () => {
       const date = new Date(balanceWheels[0].date);
       return date.toLocaleDateString();
     }
-    return "Нет данных";
+    return "No data";
   };
 
   // Функция для обновления всех данных 
@@ -526,7 +526,7 @@ const StaffBalanceWheel = () => {
   if (user?.role !== "staff") {
     return (
       <div className="container mx-auto py-6">
-        <h2 className="text-2xl font-bold mb-4">Доступ запрещен</h2>
+        <h2 className="text-2xl font-bold mb-4">Access denied</h2>
         <p>Этот раздел доступен только для персонала</p>
       </div>
     );
@@ -536,7 +536,7 @@ const StaffBalanceWheel = () => {
     <div className="container py-6">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>Колесо баланса</h2>
+          <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>Balance wheel</h2>
           
           <div className="flex items-center space-x-3">
             <Button
@@ -547,21 +547,21 @@ const StaffBalanceWheel = () => {
               style={{ borderColor: COLORS.borderColor, color: COLORS.textColor, backgroundColor: COLORS.cardBackground }}
             >
               <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-              Обновить
+              Update
             </Button>
           </div>
         </div>
         
         <div className="flex flex-wrap gap-4 items-center mb-4">
           <div className="flex-1 min-w-[300px]">
-            <label htmlFor="playerSelect" className="text-sm font-medium mb-2 block" style={{ color: COLORS.textColor }}>Выберите игрока:</label>
+            <label htmlFor="playerSelect" className="text-sm font-medium mb-2 block" style={{ color: COLORS.textColor }}>Select player:</label>
             <Select
               value={selectedPlayerId}
               onValueChange={handlePlayerSelect}
               disabled={loading || players.length === 0}
             >
               <SelectTrigger id="playerSelect" className="w-full" style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, color: COLORS.textColor }}>
-                <SelectValue placeholder="Выберите игрока" />
+                <SelectValue placeholder="Select player" />
               </SelectTrigger>
               <SelectContent>
                 {players.map((player) => (
@@ -583,7 +583,7 @@ const StaffBalanceWheel = () => {
         {balanceWheels.length > 0 && (
           <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
             <CardHeader>
-              <CardTitle style={{ color: COLORS.textColor }}>Колесо баланса: {getPlayerName()}</CardTitle>
+              <CardTitle style={{ color: COLORS.textColor }}>Balance wheel: {getPlayerName()}</CardTitle>
               <CardDescription style={{ color: COLORS.textColorSecondary }}>
                 {getWheelDate()}
               </CardDescription>
@@ -592,11 +592,11 @@ const StaffBalanceWheel = () => {
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="h-[900px] flex justify-center items-center">
                   {loading ? (
-                    <p>Загрузка данных...</p>
+                    <p>Loading data...</p>
                   ) : (
                     <BalanceWheelChart 
                       data={prepareChartData()} 
-                      title={getPlayerName() ? `Колесо баланса: ${getPlayerName()}` : "Колесо баланса"}
+                      title={getPlayerName() ? `Balance wheel: ${getPlayerName()}` : "Balance wheel"}
                       style={{ 
                         width: '100%', 
                         height: '100%', 
@@ -609,49 +609,49 @@ const StaffBalanceWheel = () => {
                 
                 <div className="grid gap-4 grid-cols-2">
                   <StatCard 
-                    title="Физическое здоровье" 
+                    title="Physical health" 
                     value={balanceWheelData.physical} 
                     maxValue={10}
                     style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}
                   />
                   <StatCard 
-                    title="Эмоциональное состояние" 
+                    title="Emotional state" 
                     value={balanceWheelData.emotional} 
                     maxValue={10}
                     style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}
                   />
                   <StatCard 
-                    title="Интеллектуальное развитие" 
+                    title="Intellectual development" 
                     value={balanceWheelData.intellectual} 
                     maxValue={10}
                     style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}
                   />
                   <StatCard 
-                    title="Духовное развитие" 
+                    title="Spiritual growth" 
                     value={balanceWheelData.spiritual} 
                     maxValue={10}
                     style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}
                   />
                   <StatCard 
-                    title="Профессиональная сфера" 
+                    title="Professional area" 
                     value={balanceWheelData.occupational} 
                     maxValue={10}
                     style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}
                   />
                   <StatCard 
-                    title="Социальные отношения" 
+                    title="Social relationships" 
                     value={balanceWheelData.social} 
                     maxValue={10}
                     style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}
                   />
                   <StatCard 
-                    title="Окружающая среда" 
+                    title="Environment" 
                     value={balanceWheelData.environmental} 
                     maxValue={10}
                     style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}
                   />
                   <StatCard 
-                    title="Финансовое благополучие" 
+                    title="Financial wellbeing" 
                     value={balanceWheelData.financial} 
                     maxValue={10}
                     style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}

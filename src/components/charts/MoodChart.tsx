@@ -25,7 +25,7 @@ const MoodChart = ({ data, height = 400 }: MoodChartProps) => {
   if (!data || data.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full py-10">
-        <p className="text-center text-gray-500">Нет данных для отображения</p>
+        <p className="text-center text-gray-500">No data to display</p>
       </div>
     );
   }
@@ -80,7 +80,7 @@ const MoodChart = ({ data, height = 400 }: MoodChartProps) => {
           <Line
             type="monotone"
             dataKey="sleepHours"
-            name="Сон (ч)"
+            name="Sleep (h)"
             stroke={COLORS.chartColors[2] || "#f59e0b"}
             strokeWidth={2}
             strokeDasharray="6 4"

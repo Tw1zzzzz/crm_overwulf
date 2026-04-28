@@ -32,7 +32,7 @@ const LockedResultsGate = ({
   className,
   contentClassName,
   minHeightClassName = "min-h-[320px]",
-  ctaText = "Открыть результаты",
+  ctaText = "Open результаты",
   compact = false,
 }: LockedResultsGateProps) => {
   if (hasAccess) {
@@ -41,30 +41,30 @@ const LockedResultsGate = ({
 
   const stateMeta = isLoading
     ? {
-        badge: "Загрузка",
+        badge: "Loading",
         icon: <Loader2 className="h-3.5 w-3.5 animate-spin" />,
         accentColor: "#B6F0FF",
-        helper: "Проходить задания можно уже сейчас, полная витрина результатов подтянется после оплаты."
+        helper: "You can complete tasks now; the full results view opens after payment."
       }
     : error
       ? {
-          badge: "Временная ошибка",
+          badge: "Temporary error",
           icon: <AlertCircle className="h-3.5 w-3.5" />,
           accentColor: "#FECACA",
           helper: error
         }
       : hasData
         ? {
-            badge: "Результат сохранён",
+            badge: "Result сохранён",
             icon: <Lock className="h-3.5 w-3.5" />,
             accentColor: "#86EFAC",
-            helper: "Прохождение уже сохранено. После покупки откроются score, история, аналитика и расшифровка."
+            helper: "The attempt is already saved. After purchase, score, history, analytics, and interpretation open."
           }
         : {
-            badge: "Можно пройти бесплатно",
+            badge: "Available for free",
             icon: <Sparkles className="h-3.5 w-3.5" />,
             accentColor: "#B6F0FF",
-            helper: "Сначала пройдите шаги бесплатно. Когда результаты появятся, этот блок раскроется после покупки."
+            helper: "Complete the steps for free first. When results appear, this block opens after purchase."
           };
 
   return (

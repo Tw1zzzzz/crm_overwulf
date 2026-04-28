@@ -16,7 +16,7 @@ const ZONE_LABELS: Record<BodyZone, string> = {
   eyes: 'Фокус и концентрация',
   chest: 'Психологическое ядро',
   arms: 'Игровой перформанс',
-  back: 'Восстановление',
+  back: 'Recovery',
   legs: 'Жизненный фундамент',
 };
 

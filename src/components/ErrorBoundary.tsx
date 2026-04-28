@@ -42,15 +42,15 @@ class ErrorBoundary extends Component<Props, State> {
             <div className="text-center py-8">
               <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-red-500" />
               <h3 className="text-lg font-semibold mb-2 text-red-700">
-                Произошла ошибка
+                An error occurred
               </h3>
               <p className="text-gray-600 mb-4">
-                Что-то пошло не так. Попробуйте обновить страницу.
+                Something went wrong. Try refreshing the page.
               </p>
               {this.state.error && (
                 <details className="text-left mb-4 p-2 bg-gray-100 rounded">
                   <summary className="cursor-pointer text-sm font-semibold">
-                    Подробности ошибки
+                    Error details
                   </summary>
                   <pre className="text-xs mt-2 whitespace-pre-wrap">
                     {this.state.error.message}
@@ -61,13 +61,13 @@ class ErrorBoundary extends Component<Props, State> {
               )}
               <div className="flex gap-2 justify-center">
                 <Button onClick={this.handleReset}>
-                  Попробовать снова
+                  Try again
                 </Button>
                 <Button 
                   variant="outline" 
                   onClick={() => window.location.reload()}
                 >
-                  Обновить страницу
+                  Update страницу
                 </Button>
               </div>
             </div>

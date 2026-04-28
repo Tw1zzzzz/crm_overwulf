@@ -182,8 +182,8 @@ const Statistics = () => {
         setTestEntries([]);
       }
     } catch (error) {
-      console.error('Ошибка при загрузке данных:', error);
-      setLoadingError(`Ошибка загрузки данных: ${(error as Error).message}`);
+      console.error('Error при загрузке данных:', error);
+      setLoadingError(`Error загрузки данных: ${(error as Error).message}`);
       
       // В случае ошибки API, пытаемся получить данные из локального хранилища как запасной вариант
       const loadedMoodEntries = getMoodEntries();
@@ -202,7 +202,7 @@ const Statistics = () => {
       setLoadingError(null);
       const response = await getPlayers();
       if (!response.data) {
-        throw new Error('Не удалось загрузить список игроков');
+        throw new Error('Failed to load player list');
       }
       setPlayers(response.data);
       if (response.data.length > 0 && !selectedPlayerId) {
@@ -274,7 +274,7 @@ const Statistics = () => {
       }
     } catch (error) {
       console.error('Error fetching player stats:', error);
-      setLoadingError(`Ошибка загрузки данных игрока: ${(error as Error).message}`);
+      setLoadingError(`Error загрузки данных игрока: ${(error as Error).message}`);
       setMoodEntries([]);
       setSleepEntries([]);
       setTestEntries([]);
@@ -310,7 +310,7 @@ const Statistics = () => {
       }
     } catch (error) {
       console.error('Error loading players data:', error);
-      setLoadingError(`Ошибка загрузки данных: ${(error as Error).message}`);
+      setLoadingError(`Error загрузки данных: ${(error as Error).message}`);
     } finally {
       setLoadingPlayersData(false);
     }
@@ -445,7 +445,7 @@ const Statistics = () => {
           <div className="mb-4">
             <Select value={selectedPlayerId} onValueChange={handlePlayerChange}>
               <SelectTrigger className="w-[250px] bg-[#1C1F3B] border-[#293056] text-white">
-                <SelectValue placeholder="Выберите игрока" />
+                <SelectValue placeholder="Select player" />
               </SelectTrigger>
               <SelectContent className="bg-[#1C1F3B] border-[#293056] text-white">
                 {players.map((player) => (

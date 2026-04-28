@@ -192,7 +192,7 @@ const Dashboard = () => {
               }
             }
             
-            console.log(`[Dashboard] Обработано ${loadedMoodEntries.length} записей о настроении из API`);
+            console.log(`[Dashboard] Обработано ${loadedMoodEntries.length} records о настроении из API`);
             
             console.log("[Dashboard] API Test Response:", testResponse);
             
@@ -212,7 +212,7 @@ const Dashboard = () => {
               }
             }
             
-            console.log(`[Dashboard] Обработано ${loadedTestEntries.length} записей о тестах из API`);
+            console.log(`[Dashboard] Обработано ${loadedTestEntries.length} records о тестах из API`);
             
             // Устанавливаем данные в состояние
             setMoodEntries(loadedMoodEntries as MoodEntry[]);
@@ -229,18 +229,18 @@ const Dashboard = () => {
             
             // Преобразуем результаты в формат для графика
             const weeklyChartData = [
-              { date: 'Вс', mood: weeklyDataResult.mood[0], energy: weeklyDataResult.energy[0] },
-              { date: 'Пн', mood: weeklyDataResult.mood[1], energy: weeklyDataResult.energy[1] },
-              { date: 'Вт', mood: weeklyDataResult.mood[2], energy: weeklyDataResult.energy[2] },
-              { date: 'Ср', mood: weeklyDataResult.mood[3], energy: weeklyDataResult.energy[3] },
-              { date: 'Чт', mood: weeklyDataResult.mood[4], energy: weeklyDataResult.energy[4] },
-              { date: 'Пт', mood: weeklyDataResult.mood[5], energy: weeklyDataResult.energy[5] },
-              { date: 'Сб', mood: weeklyDataResult.mood[6], energy: weeklyDataResult.energy[6] }
+              { date: 'Sun', mood: weeklyDataResult.mood[0], energy: weeklyDataResult.energy[0] },
+              { date: 'Mon', mood: weeklyDataResult.mood[1], energy: weeklyDataResult.energy[1] },
+              { date: 'Tue', mood: weeklyDataResult.mood[2], energy: weeklyDataResult.energy[2] },
+              { date: 'Wed', mood: weeklyDataResult.mood[3], energy: weeklyDataResult.energy[3] },
+              { date: 'Thu', mood: weeklyDataResult.mood[4], energy: weeklyDataResult.energy[4] },
+              { date: 'Fri', mood: weeklyDataResult.mood[5], energy: weeklyDataResult.energy[5] },
+              { date: 'Sat', mood: weeklyDataResult.mood[6], energy: weeklyDataResult.energy[6] }
             ];
             
             setWeeklyData(weeklyChartData);
           } catch (apiError) {
-            console.error("Ошибка получения данных из API:", apiError);
+            console.error("Error получения данных из API:", apiError);
             // Резервный вариант: загружаем из локального хранилища
             console.log("[Dashboard] Использую данные из локального хранилища");
             const localMoodEntries = getMoodEntries();
@@ -260,21 +260,21 @@ const Dashboard = () => {
             
             // Преобразуем результаты в формат для графика
             const weeklyChartData = [
-              { date: 'Вс', mood: weeklyDataResult.mood[0], energy: weeklyDataResult.energy[0] },
-              { date: 'Пн', mood: weeklyDataResult.mood[1], energy: weeklyDataResult.energy[1] },
-              { date: 'Вт', mood: weeklyDataResult.mood[2], energy: weeklyDataResult.energy[2] },
-              { date: 'Ср', mood: weeklyDataResult.mood[3], energy: weeklyDataResult.energy[3] },
-              { date: 'Чт', mood: weeklyDataResult.mood[4], energy: weeklyDataResult.energy[4] },
-              { date: 'Пт', mood: weeklyDataResult.mood[5], energy: weeklyDataResult.energy[5] },
-              { date: 'Сб', mood: weeklyDataResult.mood[6], energy: weeklyDataResult.energy[6] }
+              { date: 'Sun', mood: weeklyDataResult.mood[0], energy: weeklyDataResult.energy[0] },
+              { date: 'Mon', mood: weeklyDataResult.mood[1], energy: weeklyDataResult.energy[1] },
+              { date: 'Tue', mood: weeklyDataResult.mood[2], energy: weeklyDataResult.energy[2] },
+              { date: 'Wed', mood: weeklyDataResult.mood[3], energy: weeklyDataResult.energy[3] },
+              { date: 'Thu', mood: weeklyDataResult.mood[4], energy: weeklyDataResult.energy[4] },
+              { date: 'Fri', mood: weeklyDataResult.mood[5], energy: weeklyDataResult.energy[5] },
+              { date: 'Sat', mood: weeklyDataResult.mood[6], energy: weeklyDataResult.energy[6] }
             ];
             
             setWeeklyData(weeklyChartData);
           }
         }
       } catch (err) {
-        console.error("Ошибка загрузки данных:", err);
-        setError("Не удалось загрузить данные. Попробуйте позже.");
+        console.error("Error загрузки данных:", err);
+        setError("Failed to load data. Try again later.");
       } finally {
         setLoading(false);
       }
@@ -290,7 +290,7 @@ const Dashboard = () => {
       if (moodResponse && Array.isArray(moodResponse.data)) {
         setPlayersMoodStats(moodResponse.data);
       } else {
-        console.warn("Некорректный формат данных о настроении");
+        console.warn("Invalid mood data format");
         setPlayersMoodStats([]);
       }
       
@@ -299,7 +299,7 @@ const Dashboard = () => {
       if (testsResponse && Array.isArray(testsResponse.data)) {
         setPlayersTestStats(testsResponse.data);
       } else {
-        console.warn("Некорректный формат данных о тестах");
+        console.warn("Invalid test data format");
         setPlayersTestStats([]);
       }
       
@@ -308,7 +308,7 @@ const Dashboard = () => {
       if (chartDataResponse && Array.isArray(chartDataResponse.data)) {
         setWeeklyData(chartDataResponse.data);
       } else {
-        console.warn("Некорректный формат данных для графика");
+        console.warn("Invalid chart data format");
         setWeeklyData([]);
       }
       
@@ -318,7 +318,7 @@ const Dashboard = () => {
         testsResponse && Array.isArray(testsResponse.data) ? testsResponse.data : []
       );
     } catch (err) {
-      console.error("Ошибка загрузки данных персонала:", err);
+      console.error("Error загрузки данных персонала:", err);
       throw err;
     }
   };
@@ -383,7 +383,7 @@ const Dashboard = () => {
       return dateB.getTime() - dateA.getTime();
     });
 
-    // Берем последние 7 записей для графика
+    // Берем последние 7 records для графика
     const recentEntries = sortedEntries.slice(0, 7).map(entry => {
       const entryDate = typeof entry.date === 'string' ? new Date(entry.date) : entry.date as Date;
       const formattedDate = `${entryDate.getDate().toString().padStart(2, '0')}.${(entryDate.getMonth() + 1).toString().padStart(2, '0')}`;
@@ -397,7 +397,7 @@ const Dashboard = () => {
       };
     });
     
-    // Рассчитываем средние значения для всех записей
+    // Рассчитываем средние значения для всех records
     const moodSum = entries.reduce((sum, entry) => {
       const moodValue = typeof entry.mood === 'number' ? entry.mood : 
                        (typeof entry.value === 'number' ? entry.value : 0);
@@ -473,7 +473,7 @@ const Dashboard = () => {
     return { mood: moodByDay, energy: energyByDay };
   };
 
-  // Обработчик для кнопки "Смотреть все"
+  // Обработчик для кнопки "View all"
   const handleViewAllUpdates = () => {
     // Перенаправляем на страницу истории активности
     navigate(ROUTES.ACTIVITY_HISTORY);
@@ -484,7 +484,7 @@ const Dashboard = () => {
     return (
       <div className="flex justify-center items-center h-[50vh]" 
            style={{ color: COLORS.textColorSecondary }}>
-        <p className="text-muted-foreground">Загрузка данных...</p>
+        <p className="text-muted-foreground">Loading данных...</p>
       </div>
     );
   }
@@ -525,16 +525,16 @@ const Dashboard = () => {
 
   const moodDistributionData = isStaff
     ? [
-        { name: 'Отличное', range: '8-10', value: playersMoodStats.filter((p: any) => p.mood >= 8 || p.value >= 8).length, color: '#22c55e' },
-        { name: 'Хорошее', range: '6-7', value: playersMoodStats.filter((p: any) => (p.mood >= 6 && p.mood < 8) || (p.value >= 6 && p.value < 8)).length, color: '#38bdf8' },
-        { name: 'Среднее', range: '4-5', value: playersMoodStats.filter((p: any) => (p.mood >= 4 && p.mood < 6) || (p.value >= 4 && p.value < 6)).length, color: '#f59e0b' },
-        { name: 'Плохое', range: '1-3', value: playersMoodStats.filter((p: any) => (p.mood >= 1 && p.mood < 4) || (p.value >= 1 && p.value < 4)).length, color: '#f43f5e' }
+        { name: 'Excellent', range: '8-10', value: playersMoodStats.filter((p: any) => p.mood >= 8 || p.value >= 8).length, color: '#22c55e' },
+        { name: 'Good', range: '6-7', value: playersMoodStats.filter((p: any) => (p.mood >= 6 && p.mood < 8) || (p.value >= 6 && p.value < 8)).length, color: '#38bdf8' },
+        { name: 'Average', range: '4-5', value: playersMoodStats.filter((p: any) => (p.mood >= 4 && p.mood < 6) || (p.value >= 4 && p.value < 6)).length, color: '#f59e0b' },
+        { name: 'Poor', range: '1-3', value: playersMoodStats.filter((p: any) => (p.mood >= 1 && p.mood < 4) || (p.value >= 1 && p.value < 4)).length, color: '#f43f5e' }
       ]
     : [
-        { name: 'Отличное', range: '8-10', value: moodEntries.filter(e => e.mood >= 8 || e.value >= 8).length || 0, color: '#22c55e' },
-        { name: 'Хорошее', range: '6-7', value: moodEntries.filter(e => (e.mood >= 6 && e.mood < 8) || (e.value >= 6 && e.value < 8)).length || 0, color: '#38bdf8' },
-        { name: 'Среднее', range: '4-5', value: moodEntries.filter(e => (e.mood >= 4 && e.mood < 6) || (e.value >= 4 && e.value < 6)).length || 0, color: '#f59e0b' },
-        { name: 'Плохое', range: '1-3', value: moodEntries.filter(e => (e.mood >= 1 && e.mood < 4) || (e.value >= 1 && e.value < 4)).length || 0, color: '#f43f5e' }
+        { name: 'Excellent', range: '8-10', value: moodEntries.filter(e => e.mood >= 8 || e.value >= 8).length || 0, color: '#22c55e' },
+        { name: 'Good', range: '6-7', value: moodEntries.filter(e => (e.mood >= 6 && e.mood < 8) || (e.value >= 6 && e.value < 8)).length || 0, color: '#38bdf8' },
+        { name: 'Average', range: '4-5', value: moodEntries.filter(e => (e.mood >= 4 && e.mood < 6) || (e.value >= 4 && e.value < 6)).length || 0, color: '#f59e0b' },
+        { name: 'Poor', range: '1-3', value: moodEntries.filter(e => (e.mood >= 1 && e.mood < 4) || (e.value >= 1 && e.value < 4)).length || 0, color: '#f43f5e' }
       ];
   const moodDistributionTotal = moodDistributionData.reduce((sum, item) => sum + item.value, 0);
   const dominantMoodBucket = moodDistributionData.reduce((top, item) => (item.value > top.value ? item : top), moodDistributionData[0]);
@@ -543,20 +543,20 @@ const Dashboard = () => {
     weeklyData.map((entry: any) => [entry.date, typeof entry.energy === 'number' ? entry.energy : 0])
   );
   const energyDistributionData = [
-    { day: 'Пн', энергия: isStaff ? (staffEnergyByDay.get('Пн') ?? 0) : calcDayAvgEnergy(moodEntries, 1) },
-    { day: 'Вт', энергия: isStaff ? (staffEnergyByDay.get('Вт') ?? 0) : calcDayAvgEnergy(moodEntries, 2) },
-    { day: 'Ср', энергия: isStaff ? (staffEnergyByDay.get('Ср') ?? 0) : calcDayAvgEnergy(moodEntries, 3) },
-    { day: 'Чт', энергия: isStaff ? (staffEnergyByDay.get('Чт') ?? 0) : calcDayAvgEnergy(moodEntries, 4) },
-    { day: 'Пт', энергия: isStaff ? (staffEnergyByDay.get('Пт') ?? 0) : calcDayAvgEnergy(moodEntries, 5) },
-    { day: 'Сб', энергия: isStaff ? (staffEnergyByDay.get('Сб') ?? 0) : calcDayAvgEnergy(moodEntries, 6) },
-    { day: 'Вс', энергия: isStaff ? (staffEnergyByDay.get('Вс') ?? 0) : calcDayAvgEnergy(moodEntries, 0) }
+    { day: 'Mon', energy: isStaff ? (staffEnergyByDay.get('Mon') ?? 0) : calcDayAvgEnergy(moodEntries, 1) },
+    { day: 'Tue', energy: isStaff ? (staffEnergyByDay.get('Tue') ?? 0) : calcDayAvgEnergy(moodEntries, 2) },
+    { day: 'Wed', energy: isStaff ? (staffEnergyByDay.get('Wed') ?? 0) : calcDayAvgEnergy(moodEntries, 3) },
+    { day: 'Thu', energy: isStaff ? (staffEnergyByDay.get('Thu') ?? 0) : calcDayAvgEnergy(moodEntries, 4) },
+    { day: 'Fri', energy: isStaff ? (staffEnergyByDay.get('Fri') ?? 0) : calcDayAvgEnergy(moodEntries, 5) },
+    { day: 'Sat', energy: isStaff ? (staffEnergyByDay.get('Sat') ?? 0) : calcDayAvgEnergy(moodEntries, 6) },
+    { day: 'Sun', energy: isStaff ? (staffEnergyByDay.get('Sun') ?? 0) : calcDayAvgEnergy(moodEntries, 0) }
   ];
-  const nonZeroEnergyDays = energyDistributionData.filter((item) => item.энергия > 0);
+  const nonZeroEnergyDays = energyDistributionData.filter((item) => item.energy > 0);
   const averageEnergyLevel = nonZeroEnergyDays.length
-    ? (nonZeroEnergyDays.reduce((sum, item) => sum + item.энергия, 0) / nonZeroEnergyDays.length).toFixed(1)
+    ? (nonZeroEnergyDays.reduce((sum, item) => sum + item.energy, 0) / nonZeroEnergyDays.length).toFixed(1)
     : "0.0";
   const peakEnergyDay = nonZeroEnergyDays.length
-    ? nonZeroEnergyDays.reduce((peak, item) => (item.энергия > peak.энергия ? item : peak), nonZeroEnergyDays[0])
+    ? nonZeroEnergyDays.reduce((peak, item) => (item.energy > peak.energy ? item : peak), nonZeroEnergyDays[0])
     : null;
   const testsDone = Boolean(user?.completedTests || testEntries.length > 0);
 
@@ -614,26 +614,26 @@ const Dashboard = () => {
         eyebrow={PRODUCT_NAME}
         title={
           isStaff
-            ? "Командный обзор, чтобы быстрее замечать риск-сигналы и принимать решения"
-            : "Личный обзор формы, чтобы понимать состояние и следующий полезный шаг"
+            ? "Team overview for spotting risk signals and making decisions faster"
+            : "Personal form overview for understanding your condition and next useful step"
         }
         description={
           isStaff
-            ? `${PRODUCT_DESCRIPTOR}. Здесь собраны командная картина, признаки просадки и быстрый вход в рабочие действия без лишней операционки.`
-            : `${PRODUCT_DESCRIPTOR}. Сначала вы видите главное: что происходит с формой сейчас, что уже заполнено и что стоит сделать следующим шагом.`
+            ? `${PRODUCT_DESCRIPTOR}. This brings together the team picture, drop signals, and quick access to useful actions without extra operations.`
+            : `${PRODUCT_DESCRIPTOR}. You first see the essentials: what is happening with form now, what is already filled in, and what the next useful step is.`
         }
         collapsible
         bullets={
           isStaff
             ? [
-                "Сначала обзор команды и игроки, которым нужно внимание",
-                "Затем аналитика по форме и игровой динамике",
-                "Настройки состава и доступа — глубже, без конкуренции с core value",
+                "First, the team overview and players who need attention",
+                "Then form and game dynamics analytics",
+                "Roster and access settings go deeper without competing with the core value",
               ]
             : [
-                "Сначала состояние и восстановление",
-                "Потом тесты, форма и игровые сигналы",
-                "Оплата расширяет инсайт, а не скрывает весь смысл",
+                "First, condition and recovery",
+                "Then tests, form, and game signals",
+                "Payment expands insight instead of hiding the whole point",
               ]
         }
       />
@@ -655,12 +655,12 @@ const Dashboard = () => {
         >
           <DialogHeader className="border-b px-6 pb-4 pt-6" style={{ borderColor: COLORS.borderColor }}>
             <DialogTitle style={{ color: COLORS.textColor }}>
-              Добро пожаловать в {PRODUCT_NAME}
+              Welcome to {PRODUCT_NAME}
             </DialogTitle>
             <DialogDescription style={{ color: COLORS.textColorSecondary }}>
               {isStaff
-                ? "Это первое окно после регистрации. Оно помогает быстро понять, как CRM собирает сигналы по команде и куда идти дальше без лишней операционки."
-                : "Это первое окно после регистрации. Оно помогает быстро понять, как CRM собирает сигналы по форме и с какого шага начать, чтобы сразу увидеть пользу."}
+                ? "This is the first screen after registration. It helps you quickly understand how the CRM gathers team signals and where to go next without extra operations."
+                : "This is the first screen after registration. It helps you quickly understand how the CRM gathers form signals and which step shows value first."}
             </DialogDescription>
           </DialogHeader>
 
@@ -668,22 +668,22 @@ const Dashboard = () => {
             <div className="rounded-[24px] border px-5 py-4" style={{ borderColor: "rgba(96, 165, 250, 0.18)", background: "linear-gradient(145deg, rgba(53, 144, 255, 0.1), rgba(17, 24, 39, 0.94))" }}>
               <p className="text-sm leading-7" style={{ color: COLORS.textColorSecondary }}>
                 {isStaff
-                  ? "Сначала CRM собирает сигналы по состоянию, восстановлению и активности игроков. Затем вы смотрите обзор команды, находите зоны риска и только после этого идёте в состав, карточки и доступы."
-                  : "Сначала CRM собирает ваш стартовый профиль, ежедневную проверку восстановления и тестовый ритм. Затем показывает базовый сигнал по форме и постепенно открывает более глубокую аналитику."}
+                  ? "First, CRM collects signals about player condition, recovery, and activity. Then you read the team overview, find risk zones, and only after that move to roster, cards, and access."
+                  : "First, CRM collects your baseline profile, daily recovery check, and test rhythm. Then it shows a basic form signal and gradually opens deeper analytics."}
               </p>
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
               {(isStaff
                 ? [
-                    "Где смотреть командную картину: в обзоре и статистике команды.",
-                    "Что считается сигналом: просадка по настроению, энергии и тестовому ритму.",
-                    "Когда идти в операционку: только после того, как найден игрок или риск, требующий внимания.",
+                    "Where to read the team picture: overview and team statistics.",
+                    "What counts as a signal: drops in mood, energy, and test rhythm.",
+                    "When to go into operations: only after a player or risk that needs attention is found.",
                   ]
                 : [
-                    "Что вы заполняете: быстрый старт, ежедневную проверку восстановления и тесты.",
-                    "Какие сигналы считает CRM: настроение, энергия, ритм тестов и игровые данные.",
-                    "Что делать первым: пройти быстрый старт, чтобы система собрала основу вашей карточки и формы.",
+                    "What you fill in: quick start, daily recovery check, and tests.",
+                    "Which signals CRM reads: mood, energy, test rhythm, and game data.",
+                    "What to do first: complete quick start so the system builds the base for your card and form.",
                   ]).map((item) => (
                 <div
                   key={item}
@@ -707,7 +707,7 @@ const Dashboard = () => {
                   style={{ borderColor: COLORS.borderColor, color: COLORS.textColor }}
                   onClick={() => handleWelcomeOpenStaffRoute(ROUTES.STATISTICS)}
                 >
-                  Открыть статистику
+                  Open statistics
                 </Button>
                 <Button
                   variant="outline"
@@ -715,14 +715,14 @@ const Dashboard = () => {
                   style={{ borderColor: COLORS.borderColor, color: COLORS.textColor }}
                   onClick={dismissRegisterWelcome}
                 >
-                  Открыть обзор
+                  Open обзор
                 </Button>
                 <Button
                   className="rounded-2xl"
                   style={{ backgroundColor: COLORS.primary, color: COLORS.textColor }}
                   onClick={() => handleWelcomeOpenStaffRoute(ROUTES.PLAYERS_MANAGEMENT)}
                 >
-                  Открыть состав
+                  Open roster
                 </Button>
               </>
             ) : (
@@ -865,7 +865,7 @@ const Dashboard = () => {
             value="overview" 
             className="text-sm px-4 py-2 rounded-md data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:font-medium hover:bg-gray-800"
           >
-            Обзор
+            Overview
           </TabsTrigger>
           {!isStaff && (
             <>
@@ -873,13 +873,13 @@ const Dashboard = () => {
                 value="quick-start"
                 className="text-sm px-4 py-2 rounded-md data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:font-medium hover:bg-gray-800"
               >
-                Быстрый старт
+                Quick start
               </TabsTrigger>
               <TabsTrigger
                 value="tests"
                 className="text-sm px-4 py-2 rounded-md data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:font-medium hover:bg-gray-800"
               >
-                Тесты
+                Tests
               </TabsTrigger>
             </>
           )}
@@ -892,14 +892,14 @@ const Dashboard = () => {
               <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, boxShadow: "0 1px 20px 0 rgba(0,0,0,.1)" }}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>
-                    Всего игроков
+                    Total players
                   </CardTitle>
                   <Users className="h-4 w-4" style={{ color: COLORS.primary }} />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold" style={{ color: COLORS.textColor }}>{averageStats.totalPlayers}</div>
                   <p className="text-xs" style={{ color: COLORS.textColorSecondary }}>
-                    Активных пользователей
+                    Active users
                   </p>
                 </CardContent>
               </Card>
@@ -907,14 +907,14 @@ const Dashboard = () => {
               <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, boxShadow: "0 1px 20px 0 rgba(0,0,0,.1)" }}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>
-                    Среднее настроение
+                    Average mood
                   </CardTitle>
                   <SmilePlus className="h-4 w-4" style={{ color: COLORS.success }} />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold" style={{ color: COLORS.textColor }}>{averageStats.avgMood}</div>
                   <p className="text-xs" style={{ color: COLORS.textColorSecondary }}>
-                    По всем игрокам
+                    Across all players
                   </p>
                 </CardContent>
               </Card>
@@ -922,14 +922,14 @@ const Dashboard = () => {
               <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, boxShadow: "0 1px 20px 0 rgba(0,0,0,.1)" }}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>
-                    Средняя энергия
+                    Average energy
                   </CardTitle>
                   <Zap className="h-4 w-4" style={{ color: COLORS.warning }} />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold" style={{ color: COLORS.textColor }}>{averageStats.avgEnergy}</div>
                   <p className="text-xs" style={{ color: COLORS.textColorSecondary }}>
-                    По всем игрокам
+                    Across all players
                   </p>
                 </CardContent>
               </Card>
@@ -937,14 +937,14 @@ const Dashboard = () => {
               <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, boxShadow: "0 1px 20px 0 rgba(0,0,0,.1)" }}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>
-                    Тесты выполнены
+                    Tests completed
                   </CardTitle>
                   <ListChecks className="h-4 w-4" style={{ color: COLORS.info }} />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold" style={{ color: COLORS.textColor }}>{averageStats.completedTests}</div>
                   <p className="text-xs" style={{ color: COLORS.textColorSecondary }}>
-                    Всего по команде
+                    Total по команде
                   </p>
                 </CardContent>
               </Card>
@@ -955,14 +955,14 @@ const Dashboard = () => {
               <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, boxShadow: "0 1px 20px 0 rgba(0,0,0,.1)" }}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>
-                    Записи настроения
+                    Mood records
                   </CardTitle>
                   <SmilePlus className="h-4 w-4" style={{ color: COLORS.success }} />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold" style={{ color: COLORS.textColor }}>{moodEntries.length}</div>
                   <p className="text-xs" style={{ color: COLORS.textColorSecondary }}>
-                    Всего записей
+                    Total records
                   </p>
                 </CardContent>
               </Card>
@@ -970,7 +970,7 @@ const Dashboard = () => {
               <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, boxShadow: "0 1px 20px 0 rgba(0,0,0,.1)" }}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>
-                    Среднее настроение
+                    Average mood
                   </CardTitle>
                   <SmilePlus className="h-4 w-4" style={{ color: COLORS.success }} />
                 </CardHeader>
@@ -985,7 +985,7 @@ const Dashboard = () => {
                     })() : "N/A"}
                   </div>
                   <p className="text-xs" style={{ color: COLORS.textColorSecondary }}>
-                    Ваше среднее настроение
+                    Your average mood
                   </p>
                 </CardContent>
               </Card>
@@ -993,7 +993,7 @@ const Dashboard = () => {
               <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, boxShadow: "0 1px 20px 0 rgba(0,0,0,.1)" }}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>
-                    Средняя энергия
+                    Average energy
                   </CardTitle>
                   <Zap className="h-4 w-4" style={{ color: COLORS.warning }} />
                 </CardHeader>
@@ -1008,7 +1008,7 @@ const Dashboard = () => {
                     })() : "N/A"}
                   </div>
                   <p className="text-xs" style={{ color: COLORS.textColorSecondary }}>
-                    Ваш уровень энергии
+                    Your energy level
                   </p>
                 </CardContent>
               </Card>
@@ -1016,14 +1016,14 @@ const Dashboard = () => {
               <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, boxShadow: "0 1px 20px 0 rgba(0,0,0,.1)" }}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>
-                    Тесты
+                    Tests
                   </CardTitle>
                   <ListChecks className="h-4 w-4" style={{ color: COLORS.info }} />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold" style={{ color: COLORS.textColor }}>{testEntries.length}</div>
                   <p className="text-xs" style={{ color: COLORS.textColorSecondary }}>
-                    Всего завершено
+                    Total завершено
                   </p>
                 </CardContent>
               </Card>
@@ -1031,17 +1031,17 @@ const Dashboard = () => {
               <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, boxShadow: "0 1px 20px 0 rgba(0,0,0,.1)" }}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium" style={{ color: COLORS.textColorSecondary }}>
-                    Последняя активность
+                    Latest activity
                   </CardTitle>
                   <TrendingUp className="h-4 w-4" style={{ color: COLORS.primary }} />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold" style={{ color: COLORS.textColor }}>
                     {moodEntries.length > 0 || testEntries.length > 0 ? 
-                     "Сегодня" : "Нет активности"}
+                     "Today" : "No activity"}
                   </div>
                   <p className="text-xs" style={{ color: COLORS.textColorSecondary }}>
-                    Отслеживание прогресса
+                    Progress tracking
                   </p>
                 </CardContent>
               </Card>
@@ -1055,12 +1055,12 @@ const Dashboard = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold" style={{ color: COLORS.textColor }}>
-                    {brainSummary?.brainPerformanceIndex != null ? brainSummary.brainPerformanceIndex.toFixed(1) : "Калибровка"}
+                    {brainSummary?.brainPerformanceIndex != null ? brainSummary.brainPerformanceIndex.toFixed(1) : "Calibration"}
                   </div>
                   <p className="text-xs" style={{ color: COLORS.textColorSecondary }}>
                     {brainSummary
                       ? `${brainSummary.confidence} confidence · батарей ${brainSummary.validBatteryCount}`
-                      : "Запустите Brain Lab на вкладке тестов"}
+                      : "Launch Brain Lab from the tests tab"}
                   </p>
                 </CardContent>
               </Card>
@@ -1070,9 +1070,9 @@ const Dashboard = () => {
           {/* Обновленный график активности с новыми стилями */}
           <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, boxShadow: "0 1px 20px 0 rgba(0,0,0,.1)" }}>
             <CardHeader>
-              <CardTitle style={{ color: COLORS.textColor }}>Статистика активности</CardTitle>
+              <CardTitle style={{ color: COLORS.textColor }}>Activity statistics</CardTitle>
               <CardDescription style={{ color: COLORS.textColorSecondary }}>
-                {isStaff ? "Активность команды за последний период" : "Ваша активность за последнюю неделю"}
+                {isStaff ? "Team activity over the latest period" : "Your activity over the last week"}
               </CardDescription>
             </CardHeader>
             <CardContent className="pl-2">
@@ -1114,7 +1114,7 @@ const Dashboard = () => {
                   <Area 
                     type="monotone" 
                     dataKey={isStaff ? "mood" : "mood"} 
-                    name="Настроение" 
+                    name="Mood" 
                     stroke={COLORS.primary} 
                     fillOpacity={1}
                     fill="url(#colorMood)" 
@@ -1122,7 +1122,7 @@ const Dashboard = () => {
                   <Area 
                     type="monotone" 
                     dataKey={isStaff ? "energy" : "energy"} 
-                    name="Энергия" 
+                    name="Energy" 
                     stroke={COLORS.success} 
                     fillOpacity={1}
                     fill="url(#colorEnergy)" 
@@ -1146,14 +1146,14 @@ const Dashboard = () => {
               <CardHeader className="border-b border-white/5">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <CardTitle style={{ color: COLORS.textColor }}>Распределение настроения</CardTitle>
+                    <CardTitle style={{ color: COLORS.textColor }}>Distribution настроения</CardTitle>
                     <CardDescription style={{ color: COLORS.textColorSecondary }}>
-                      {isStaff ? "Распределение настроения среди игроков" : "Ваше настроение по категориям"}
+                      {isStaff ? "Mood distribution across players" : "Your mood by category"}
                     </CardDescription>
                   </div>
                   <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium tracking-[0.14em] uppercase text-slate-300">
                     <PieChartIcon className="mr-2 inline h-3.5 w-3.5 text-cyan-300" />
-                    {moodDistributionTotal} записей
+                    {moodDistributionTotal} records
                   </div>
                 </div>
               </CardHeader>
@@ -1186,13 +1186,13 @@ const Dashboard = () => {
                         ))}
                       </Pie>
                       <text x="50%" y="46%" textAnchor="middle" fill="#E5EEF9" fontSize="13" letterSpacing="1.8">
-                        ДОМИНАНТА
+                        DOMINANT
                       </text>
                       <text x="50%" y="55%" textAnchor="middle" fill={dominantMoodBucket.color} fontSize="24" fontWeight="700">
                         {dominantMoodBucket.name}
                       </text>
                       <text x="50%" y="64%" textAnchor="middle" fill="#8FA3BF" fontSize="13">
-                        {moodDistributionTotal ? `${Math.round((dominantMoodBucket.value / moodDistributionTotal) * 100)}% выборки` : "Пока нет данных"}
+                        {moodDistributionTotal ? `${Math.round((dominantMoodBucket.value / moodDistributionTotal) * 100)}% выборки` : "No data yet"}
                       </text>
                       <Tooltip contentStyle={chartTooltipStyle} />
                     </PieChart>
@@ -1219,7 +1219,7 @@ const Dashboard = () => {
                             </div>
                             <div className="text-right">
                               <p className="text-lg font-semibold text-white">{share}%</p>
-                              <p className="text-xs text-slate-400">{item.value} записей</p>
+                              <p className="text-xs text-slate-400">{item.value} records</p>
                             </div>
                           </div>
                         </div>
@@ -1242,29 +1242,29 @@ const Dashboard = () => {
               <CardHeader className="border-b border-white/5">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <CardTitle style={{ color: COLORS.textColor }}>Распределение энергии</CardTitle>
+                    <CardTitle style={{ color: COLORS.textColor }}>Energy distribution</CardTitle>
                     <CardDescription style={{ color: COLORS.textColorSecondary }}>
-                      {isStaff ? "Уровни энергии по дням недели" : "Ваша энергия по дням недели"}
+                      {isStaff ? "Energy levels by weekday" : "Your energy by weekday"}
                     </CardDescription>
                   </div>
                   <div className="rounded-full border border-amber-300/15 bg-amber-300/10 px-3 py-1 text-xs font-medium tracking-[0.14em] uppercase text-amber-100">
                     <Zap className="mr-2 inline h-3.5 w-3.5" />
-                    Среднее {averageEnergyLevel}
+                    Average {averageEnergyLevel}
                   </div>
                 </div>
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="mb-5 grid grid-cols-2 gap-3">
                   <div className="rounded-2xl border border-white/8 bg-white/[0.04] px-4 py-3">
-                    <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Пиковый день</p>
+                    <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Peak day</p>
                     <p className="mt-2 text-xl font-semibold text-white">
-                      {peakEnergyDay ? peakEnergyDay.day : "Нет данных"}
+                      {peakEnergyDay ? peakEnergyDay.day : "No data"}
                     </p>
                   </div>
                   <div className="rounded-2xl border border-white/8 bg-white/[0.04] px-4 py-3">
-                    <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Пиковое значение</p>
+                    <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Peak value</p>
                     <p className="mt-2 text-xl font-semibold text-white">
-                      {peakEnergyDay ? peakEnergyDay.энергия.toFixed(1) : "0.0"}
+                      {peakEnergyDay ? peakEnergyDay.energy.toFixed(1) : "0.0"}
                     </p>
                   </div>
                 </div>
@@ -1293,7 +1293,7 @@ const Dashboard = () => {
                       contentStyle={chartTooltipStyle}
                       cursor={{ fill: "rgba(255,255,255,0.03)" }}
                     />
-                    <Bar dataKey="энергия" fill="url(#energyBarGradient)" radius={[12, 12, 4, 4]} maxBarSize={52} />
+                    <Bar dataKey="energy" fill="url(#energyBarGradient)" radius={[12, 12, 4, 4]} maxBarSize={52} />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -1327,7 +1327,7 @@ const Dashboard = () => {
                 }}
               >
                 <p className="text-sm leading-7" style={{ color: COLORS.textColorSecondary }}>
-                  Проходить Brain Lab и заносить тесты можно бесплатно. После покупки откроются история, score и расширенная аналитика по форме.
+                  You can complete Brain Lab and enter tests for free. After purchase, history, score, and extended form analytics open.
                 </p>
               </section>
             )}
@@ -1342,15 +1342,15 @@ const Dashboard = () => {
         <TabsContent value="analytics" className="space-y-4">
           <Card style={COMPONENT_STYLES.card}>
             <CardHeader>
-              <CardTitle style={{ color: COLORS.textColor }}>Детальная аналитика</CardTitle>
-              <CardDescription style={{ color: COLORS.textColorSecondary }}>Подробный анализ данных за выбранный период</CardDescription>
+              <CardTitle style={{ color: COLORS.textColor }}>Detailed analytics</CardTitle>
+              <CardDescription style={{ color: COLORS.textColorSecondary }}>Detailed data analysis for the selected period</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="h-[350px] flex items-center justify-center">
                 <p style={{ color: COLORS.textColorSecondary }}>
                   {isStaff 
-                    ? "Перейдите в раздел Аналитика для детального анализа командных данных" 
-                    : "Перейдите в раздел Статистика для детального анализа ваших данных"}
+                    ? "Go to Analytics for deeper team data analysis" 
+                    : "Go to Statistics for deeper analysis of your data"}
                 </p>
               </div>
             </CardContent>
@@ -1360,9 +1360,9 @@ const Dashboard = () => {
         <TabsContent value="balance" className="space-y-4">
           <Card style={COMPONENT_STYLES.card}>
             <CardHeader>
-              <CardTitle style={{ color: COLORS.textColor }}>Колесо баланса</CardTitle>
+              <CardTitle style={{ color: COLORS.textColor }}>Balance wheel</CardTitle>
               <CardDescription style={{ color: COLORS.textColorSecondary }}>
-                {isStaff ? "Баланс колеса команды" : "Ваше колесо баланса"}
+                {isStaff ? "Team balance wheel" : "Your balance wheel"}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -1371,7 +1371,7 @@ const Dashboard = () => {
                   <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
                     <CardHeader>
                       <CardTitle style={{ color: COLORS.textColor, fontSize: '1.25rem' }}>
-                        Средние показатели команды
+                        Team average indicators
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
@@ -1387,7 +1387,7 @@ const Dashboard = () => {
                             environmental: 7.0,
                             financial: 6.2
                           }}
-                          title="Усредненные показатели команды"
+                          title="Team averaged indicators"
                         />
                       </div>
                     </CardContent>
@@ -1397,7 +1397,7 @@ const Dashboard = () => {
                     <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
                       <CardHeader>
                         <CardTitle style={{ color: COLORS.textColor, fontSize: '1.25rem' }}>
-                          Рекомендации по балансу команды
+                          Team balance recommendations
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -1405,19 +1405,19 @@ const Dashboard = () => {
                           <li className="flex items-start">
                             <ArrowUpRight className="mr-2 h-5 w-5" style={{ color: COLORS.primary }} />
                             <p className="text-sm" style={{ color: COLORS.textColor }}>
-                              Уделите внимание духовному развитию команды - самый низкий показатель
+                              Pay attention to the team's spiritual growth - it is the lowest score
                             </p>
                           </li>
                           <li className="flex items-start">
                             <ArrowUpRight className="mr-2 h-5 w-5" style={{ color: COLORS.primary }} />
                             <p className="text-sm" style={{ color: COLORS.textColor }}>
-                              Развивайте социальные связи между игроками команды
+                              Develop social connections between team players
                             </p>
                           </li>
                           <li className="flex items-start">
                             <ArrowUpRight className="mr-2 h-5 w-5" style={{ color: COLORS.primary }} />
                             <p className="text-sm" style={{ color: COLORS.textColor }}>
-                              Проверьте финансовое благополучие игроков - один из низких показателей
+                              Check players' financial wellbeing - one of the lower scores
                             </p>
                           </li>
                         </ul>
@@ -1425,7 +1425,7 @@ const Dashboard = () => {
                       <CardFooter>
                         <Button variant="outline" className="w-full" size="sm" 
                                 style={{ borderColor: COLORS.borderColor, color: COLORS.primary }}>
-                          Подробный анализ
+                          Detailed analysis
                           <ChevronRight className="ml-auto h-4 w-4" />
                         </Button>
                       </CardFooter>
@@ -1434,36 +1434,36 @@ const Dashboard = () => {
                     <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
                       <CardHeader>
                         <CardTitle style={{ color: COLORS.textColor, fontSize: '1.25rem' }}>
-                          Динамика изменений
+                          Change dynamics
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
                         <p className="text-sm" style={{ color: COLORS.textColorSecondary }}>
-                          По сравнению с прошлым месяцем:
+                          Compared with last month:
                         </p>
                         <div className="mt-4 grid grid-cols-2 gap-4">
                           <div className="flex items-center">
                             <div className="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
                             <span className="text-sm" style={{ color: COLORS.textColor }}>
-                              Интеллектуальное развитие: +0.7
+                              Intellectual development: +0.7
                             </span>
                           </div>
                           <div className="flex items-center">
                             <div className="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
                             <span className="text-sm" style={{ color: COLORS.textColor }}>
-                              Профессиональный рост: +0.5
+                              Professional growth: +0.5
                             </span>
                           </div>
                           <div className="flex items-center">
                             <div className="w-2 h-2 rounded-full bg-red-500 mr-2"></div>
                             <span className="text-sm" style={{ color: COLORS.textColor }}>
-                              Эмоциональное состояние: -0.3
+                              Emotional state: -0.3
                             </span>
                           </div>
                           <div className="flex items-center">
                             <div className="w-2 h-2 rounded-full bg-gray-500 mr-2"></div>
                             <span className="text-sm" style={{ color: COLORS.textColor }}>
-                              Другие показатели: без изменений
+                              Other indicators: unchanged
                             </span>
                           </div>
                   </div>
@@ -1485,7 +1485,7 @@ const Dashboard = () => {
                         environmental: 8,
                         financial: 7
                       }}
-                      title="Ваше колесо баланса"
+                      title="Your balance wheel"
                     />
                   </div>
                   
@@ -1493,7 +1493,7 @@ const Dashboard = () => {
                     <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
                       <CardHeader>
                         <CardTitle style={{ color: COLORS.textColor, fontSize: '1.25rem' }}>
-                          Персональные рекомендации
+                          Personal recommendations
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -1501,19 +1501,19 @@ const Dashboard = () => {
                           <li className="flex items-start">
                             <ArrowUpRight className="mr-2 h-5 w-5" style={{ color: COLORS.primary }} />
                             <p className="text-sm" style={{ color: COLORS.textColor }}>
-                              Уделите внимание духовному развитию - медитация, чтение и саморефлексия
+                              Pay attention to spiritual growth - meditation, reading, and self-reflection
                             </p>
                           </li>
                           <li className="flex items-start">
                             <ArrowUpRight className="mr-2 h-5 w-5" style={{ color: COLORS.primary }} />
                             <p className="text-sm" style={{ color: COLORS.textColor }}>
-                              Работайте над эмоциональным состоянием - практикуйте техники релаксации
+                              Work on emotional state - practice relaxation techniques
                             </p>
                           </li>
                           <li className="flex items-start">
                             <ArrowUpRight className="mr-2 h-5 w-5" style={{ color: COLORS.primary }} />
                             <p className="text-sm" style={{ color: COLORS.textColor }}>
-                              Развивайте социальные связи - участвуйте в командных мероприятиях
+                              Develop social connections - join team activities
                             </p>
                           </li>
                         </ul>
@@ -1523,7 +1523,7 @@ const Dashboard = () => {
                     <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor }}>
                       <CardHeader>
                         <CardTitle style={{ color: COLORS.textColor, fontSize: '1.25rem' }}>
-                          Сильные стороны
+                          Strengths
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -1531,19 +1531,19 @@ const Dashboard = () => {
                           <li className="flex items-center">
                             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.primary, marginRight: '0.5rem' }}></div>
                             <span className="text-sm" style={{ color: COLORS.textColor }}>
-                              Интеллектуальное развитие (9/10)
+                              Intellectual development (9/10)
                             </span>
                           </li>
                           <li className="flex items-center">
                             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.primary, marginRight: '0.5rem' }}></div>
                             <span className="text-sm" style={{ color: COLORS.textColor }}>
-                              Физическое здоровье (8/10)
+                              Physical health (8/10)
                             </span>
                           </li>
                           <li className="flex items-center">
                             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.primary, marginRight: '0.5rem' }}></div>
                             <span className="text-sm" style={{ color: COLORS.textColor }}>
-                              Окружающая среда (8/10)
+                              Environment (8/10)
                             </span>
                           </li>
                         </ul>
@@ -1551,7 +1551,7 @@ const Dashboard = () => {
                       <CardFooter>
                         <Button variant="outline" className="w-full" size="sm" 
                                 style={{ borderColor: COLORS.borderColor, color: COLORS.primary }}>
-                          Перейти в раздел "Колесо баланса"
+                          Go to section "Balance wheel"
                           <ChevronRight className="ml-auto h-4 w-4" />
                         </Button>
                       </CardFooter>
@@ -1566,15 +1566,15 @@ const Dashboard = () => {
         <TabsContent value="reports" className="space-y-4">
           <Card style={COMPONENT_STYLES.card}>
             <CardHeader>
-              <CardTitle style={{ color: COLORS.textColor }}>Отчеты</CardTitle>
+              <CardTitle style={{ color: COLORS.textColor }}>Reports</CardTitle>
               <CardDescription style={{ color: COLORS.textColorSecondary }}>
-                {isStaff ? "Отчеты команды" : "Отчеты вашей команды"}
+                {isStaff ? "Team reports" : "Your team reports"}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="h-[350px] flex items-center justify-center">
                 <p style={{ color: COLORS.textColorSecondary }}>
-                  {isStaff ? "Отчеты команды" : "Отчеты вашей команды"}
+                  {isStaff ? "Team reports" : "Your team reports"}
                     </p>
                   </div>
             </CardContent>
