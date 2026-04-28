@@ -7,6 +7,8 @@
     "dev": "concurrently \"vite\" \"npm:server:dev\"",
     "dev:react-devtools": "react-devtools",
     "postinstall": "node scripts/fix-mui-icons.cjs",
+    "setup:windows": "powershell -ExecutionPolicy Bypass -File scripts/setup-windows.ps1",
+    "setup:windows:start": "powershell -ExecutionPolicy Bypass -File scripts/setup-windows.ps1 -Start",
     "build": "tsc && vite build",
     "build:overwolf": "tsc && vite build --base=./ --outDir dist-overwolf && node scripts/prepare-overwolf.cjs",
     "build:dev": "vite build --mode development",

@@ -28,25 +28,51 @@ git clone https://github.com/Tw1zzzzz/crm_overwulf.git
 cd crm_overwulf
 ```
 
-2. Установите зависимости frontend:
+2. Запустите автоматическую установку:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\setup-windows.ps1
+```
+
+Если на новой машине еще нет Node.js или MongoDB, можно попросить скрипт поставить их через `winget`:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\setup-windows.ps1 -InstallMissing
+```
+
+Чтобы после установки сразу запустить проект:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\setup-windows.ps1 -InstallMissing -Start
+```
+
+После успешной установки откройте:
+
+```text
+http://localhost:8080
+```
+
+## Ручной запуск на Windows
+
+1. Установите зависимости frontend:
 
 ```powershell
 npm install
 ```
 
-3. Установите зависимости backend:
+2. Установите зависимости backend:
 
 ```powershell
 npm run server:install
 ```
 
-4. Создайте локальный `.env` из примера:
+3. Создайте локальный `.env` из примера:
 
 ```powershell
 copy .env-example .env
 ```
 
-5. Откройте `.env` в любом редакторе и задайте минимум эти значения:
+4. Откройте `.env` в любом редакторе и задайте минимум эти значения:
 
 ```env
 PORT=5001
@@ -59,7 +85,7 @@ CLIENT_URL=http://localhost:8080
 
 FACEIT, почта и Robokassa нужны только для соответствующих интеграций. Для первого локального запуска их можно оставить плейсхолдерами.
 
-6. Запустите MongoDB.
+5. Запустите MongoDB.
 
 Вариант через Docker:
 
@@ -79,13 +105,13 @@ docker start crmatlant-mongo
 net start MongoDB
 ```
 
-7. Запустите приложение:
+6. Запустите приложение:
 
 ```powershell
 npm run dev
 ```
 
-8. Откройте приложение в браузере:
+7. Откройте приложение в браузере:
 
 ```text
 http://localhost:8080
