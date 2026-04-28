@@ -5,7 +5,7 @@
     "name": "CRM Atlant Desktop",
     "author": "CRM Atlant",
     "version": "0.1.0",
-    "minimum-overwolf-version": "128.0.0.1",
+    "minimum-overwolf-version": "0.296.0.0",
     "description": "Desktop Overwolf client for pre-match, session and post-match player analytics.",
     "dock_button_title": "CRM Atlant",
     "icon": "favicon.ico",
