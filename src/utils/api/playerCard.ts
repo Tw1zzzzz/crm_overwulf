@@ -26,14 +26,14 @@ export const getAllPlayerCards = async (page: number = 1, limit: number = 50) =>
   
   return { success: true, data: response.data };
  } catch (error) {
-  const errorMsg = handleApiError(error, 'Error while получении списка карточек players');
+  const errorMsg = handleApiError(error, 'Error while getting player card list');
   return { success: false, error: errorMsg };
  }
 };
 
 /**
- * Получение карточки игрока по ID игрока
- * @param userId - ID игрока
+ * Получение карточки player по ID player
+ * @param userId - ID player
  * @returns Promise с результатом запроса
  */
 export const getPlayerCard = async (userId: string) => {
@@ -59,7 +59,7 @@ export const getPlayerCard = async (userId: string) => {
 
 /**
  * Create player card
- * @param userId - ID игрока для которого создается карточка
+ * @param userId - ID player для которого создается карточка
  * @returns Promise с результатом запроса
  */
 export const createPlayerCard = async (userId: string) => {
@@ -85,9 +85,9 @@ export const createPlayerCard = async (userId: string) => {
 };
 
 /**
- * Обновление контактов игрока
+ * Update контактов player
  * @param contacts - Объект с контактами
- * @param userId - ID игрока
+ * @param userId - ID player
  * @returns Promise с результатом запроса
  */
 export const updatePlayerContacts = async (
@@ -124,9 +124,9 @@ export const updatePlayerContacts = async (
 };
 
 /**
- * Обновление коммуникативной линии игрока
+ * Update коммуникативной линии player
  * @param communicationLine - Текст коммуникативной линии
- * @param userId - ID игрока
+ * @param userId - ID player
  * @returns Promise с результатом запроса
  */
 export const updateCommunicationLine = async (
@@ -158,8 +158,8 @@ export const updateCommunicationLine = async (
 
 /**
  * Загрузка images Roadmap
- * @param file - Файл images
- * @param userId - ID игрока
+ * @param file - File images
+ * @param userId - ID player
  * @returns Promise с результатом запроса
  */
 export const uploadRoadmap = async (file: File, userId: string) => {
@@ -193,8 +193,8 @@ export const uploadRoadmap = async (file: File, userId: string) => {
 
 /**
  * Загрузка images Mindmap
- * @param file - Файл images
- * @param userId - ID игрока
+ * @param file - File images
+ * @param userId - ID player
  * @returns Promise с результатом запроса
  */
 export const uploadMindmap = async (file: File, userId: string) => {
@@ -228,7 +228,7 @@ export const uploadMindmap = async (file: File, userId: string) => {
 
 /**
  * Deleting player card
- * @param userId - ID игрока
+ * @param userId - ID player
  * @returns Promise с результатом запроса
  */
 export const deletePlayerCard = async (userId: string): Promise<{success: boolean, data?: any, error?: string}> => {
@@ -253,9 +253,9 @@ export const deletePlayerCard = async (userId: string): Promise<{success: boolea
 };
 
 /**
- * Привязка игрока к существующей карточке
+ * Привязка player к существующей карточке
  * @param cardId - ID карточки
- * @param newUserId - ID игрока для привязки
+ * @param newUserId - ID player для привязки
  * @returns Promise с результатом запроса
  */
 export const attachPlayerToCard = async (cardId: string, newUserId: string) => {

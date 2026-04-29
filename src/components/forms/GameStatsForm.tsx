@@ -222,7 +222,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
 
  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
 
- // РћР±СЂР°Р±РѕС‚hє ·РјРµРЅРµРЅРёСЏ СЂРµР¶јР° Р°РЅР°ёР·Р°
+ //  · СЂ 
  const handleAnalysisModeChange = (mode: 'team' | 'individual') => {
   if (!allowTeamMode && mode === 'team') {
    return;
@@ -235,13 +235,13 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
   }
  };
 
- // РћР±СЂР°Р±РѕС‚hє РІС‹Р±РѕСЂР° іСЂРѕРєР°
+ //   іСЂ
  const handlePlayerSelect = (playerId: string) => {
   onSelectedPlayerChange(playerId);
   setFormData(prev => ({ ...prev, userId: playerId }));
  };
 
- // Р¤СѓРЅРєС†РёСЏ РґЏ СЂР°СЃhРµС‚Р° СЃС‚Р°С‚РёСЃС‚єРё РѕРґРЅРѕР№ стороны
+ //   СЂ СЃС‚  стороны
  const calculateSideStats = (sideData: SideStatsData): CalculatedSideStats => {
   const winRate = sideData.totalMatches > 0 
    ? Math.round((sideData.wins / sideData.totalMatches) * 100 * 100) / 100 
@@ -273,12 +273,12 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
   };
  };
 
- // Р Р°СЃhРµС‚ РІСЃРµС… РїРѕРєР°Р·Р°С‚РµµР№
+ //    
  const calculatedStats: CalculatedStats = React.useMemo(() => {
   const ctCalculated = calculateSideStats(formData.ctSide);
   const tCalculated = calculateSideStats(formData.tSide);
 
-  // РћР±С‰Р°СЏ СЃС‚Р°С‚РёСЃС‚єР°
+  //  СЃС‚
   const totalMatches = ctCalculated.totalMatches + tCalculated.totalMatches;
   const wins = ctCalculated.wins + tCalculated.wins;
   const losses = ctCalculated.losses + tCalculated.losses;
@@ -370,7 +370,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
 
   if (Object.keys(validationErrors).length > 0) {
    toast({
-    title: "Error валидации",
+    title: "Validation error",
     description: "Please fix the form errors",
     variant: "destructive"
    });
@@ -378,13 +378,13 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
   }
 
   try {
-   // РџРѕРґРіРѕС‚Р°РІёРІР°РµРј РґР°РЅРЅС‹Рµ РґЏ РѕС‚РїСЂР°вки
+   //    
    const submitData = {
     ...formData,
     userId: analysisMode === 'individual' ? selectedPlayerId : undefined
    };
    
-   console.log('РћС‚РїСЂР°РІЏРµРј РґР°РЅРЅС‹Рµ іСЂРѕРІС‹С… РїРѕРєР°Р·Р°С‚РµµР№:', submitData);
+   console.log('  іСЂ :', submitData);
    
    await onSubmit(submitData);
    
@@ -394,7 +394,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
    });
    setHasAttemptedSubmit(false);
    
-   // РЎР±СЂР°СЃС‹РІР°РµРј С„РѕСЂРјСѓ РїРѕСЃµ СѓСЃРїРµС€РЅРѕРіРѕ СЃРѕС…СЂР°РЅРµния
+   //  С„  СѓСЃ СЃ
    if (analysisMode === 'individual') {
     onSelectedPlayerChange('');
     setFormData(prev => ({ 
@@ -422,7 +422,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
     }));
    }
   } catch (error: any) {
-   console.error('Save error игровых показателей:', error);
+   console.error('Game metrics save error:', error);
    toast({
     title: "Error",
     description: error.message || "Failed to save data",
@@ -435,7 +435,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
 
  return (
   <form onSubmit={handleSubmit} className="space-y-6 rounded-[28px] p-4 md:p-5">
-   {/* Р’С‹Р±РѕСЂ СЂРµР¶јР° Рё іСЂРѕРєР° */}
+   {/*  СЂ  іСЂ */}
    <Card style={sectionCardStyle}>
     <CardHeader className="pb-3">
      <CardTitle className="flex items-center gap-2" style={titleStyle}>
@@ -484,7 +484,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
        )}
        {players.length === 0 && !loadingPlayers && (
         <p className="text-sm" style={descriptionStyle}>
-         Playerи не найдены
+         Players не найдены
         </p>
        )}
       </div>
@@ -506,7 +506,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
     </CardContent>
    </Card>
 
-   {/* РћСЃРЅРѕРІРЅС‹Рµ РґР°РЅРЅС‹Рµ */}
+   {/*   */}
    <Card style={sectionCardStyle}>
     <CardHeader className="pb-3">
      <CardTitle className="flex items-center gap-2" style={titleStyle}>
@@ -535,7 +535,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
     </CardContent>
    </Card>
 
-   {/* K/D РЎС‚Р°С‚РёСЃС‚єР° */}
+   {/* K/D  */}
    <Card style={sectionCardStyle}>
     <CardHeader className="pb-3">
      <CardTitle className="flex items-center gap-2" style={titleStyle}>
@@ -580,7 +580,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
       </div>
      </div>
      
-     {/* Р Р°СЃhРµС‚РЅС‹Рµ РїРѕРєР°Р·Р°С‚Рµё K/D */}
+     {/*    K/D */}
      <div className="mt-4 rounded-[20px] border p-4" style={calcPanelStyle}>
       <div className="text-sm font-medium mb-2" style={titleStyle}>Calculated automatically:</div>
       <div className="grid grid-cols-1 gap-2">
@@ -593,7 +593,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
     </CardContent>
    </Card>
 
-   {/* CT Side РЎС‚Р°С‚РёСЃС‚єР° */}
+   {/* CT Side  */}
    <Card style={sectionCardStyle}>
     <CardHeader className="pb-3">
      <CardTitle className="flex items-center gap-2" style={titleStyle}>
@@ -607,11 +607,11 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
     <CardContent>
      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
-       <Label htmlFor="adr" style={titleStyle}>ADR (урон/раунд)</Label>
+       <Label htmlFor="adr" style={titleStyle}>ADR (damage/round)</Label>
        <Input id="adr" value={formData.adr ?? ''} onChange={(e) => handleOptionalMetricChange('adr', e.target.value)} inputMode="decimal" style={inputStyle} />
       </div>
       <div>
-       <Label htmlFor="kpr" style={titleStyle}>KPR (киллы/раунд)</Label>
+       <Label htmlFor="kpr" style={titleStyle}>KPR (kills/round)</Label>
        <Input id="kpr" value={formData.kpr ?? ''} onChange={(e) => handleOptionalMetricChange('kpr', e.target.value)} inputMode="decimal" style={inputStyle} />
       </div>
       <div>
@@ -647,7 +647,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
        <Input id="udr" value={formData.udr ?? ''} onChange={(e) => handleOptionalMetricChange('udr', e.target.value)} inputMode="decimal" style={inputStyle} />
       </div>
       <div>
-       <Label htmlFor="multi" style={titleStyle}>Wed. мультикилы</Label>
+       <Label htmlFor="multi" style={titleStyle}>Avg. multikills</Label>
        <Input id="multi" value={formData.avgMultikills ?? ''} onChange={(e) => handleOptionalMetricChange('avgMultikills', e.target.value)} inputMode="decimal" style={inputStyle} />
       </div>
       <div>
@@ -655,14 +655,14 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
        <Input id="clutch" value={formData.clutchesWon ?? ''} onChange={(e) => handleOptionalMetricChange('clutchesWon', e.target.value)} inputMode="decimal" style={inputStyle} />
       </div>
       <div>
-       <Label htmlFor="flash" style={titleStyle}>Wed. время ослепления</Label>
+       <Label htmlFor="flash" style={titleStyle}>Avg. flash time</Label>
        <Input id="flash" value={formData.avgFlashTime ?? ''} onChange={(e) => handleOptionalMetricChange('avgFlashTime', e.target.value)} inputMode="decimal" style={inputStyle} />
       </div>
      </div>
     </CardContent>
    </Card>
 
-   {/* CT Side РЎС‚Р°С‚РёСЃС‚єР° */}
+   {/* CT Side  */}
    <Card style={sectionCardStyle}>
     <CardHeader className="pb-3">
      <CardTitle className="flex items-center gap-2" style={titleStyle}>
@@ -671,9 +671,9 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
      </CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
-     {/* РњР°тчи CT */}
+     {/*  CT */}
      <div>
-      <h4 className="font-semibold mb-3" style={titleStyle}>Matchи</h4>
+      <h4 className="font-semibold mb-3" style={titleStyle}>Matches</h4>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
        <div>
         <Label htmlFor="ct-total-matches" style={titleStyle}>Total matches</Label>
@@ -731,7 +731,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
 
      <Separator style={{ backgroundColor: 'rgba(255,255,255,0.08)' }} />
 
-     {/* Р Р°СѓРЅРґС‹ CT */}
+     {/*   CT */}
      <div>
       <h4 className="font-semibold mb-3" style={titleStyle}>Rounds</h4>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -779,7 +779,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
 
      <Separator style={{ backgroundColor: 'rgba(255,255,255,0.08)' }} />
 
-     {/* РџРёСЃС‚РѕµС‚РЅС‹Рµ СЂР°СѓРЅРґС‹ CT */}
+     {/*  СЂ CT */}
      <div>
       <h4 className="font-semibold mb-3" style={titleStyle}>Pistol rounds</h4>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -813,7 +813,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
       )}
      </div>
 
-     {/* Р Р°СЃhРµС‚РЅС‹Рµ РїРѕРєР°Р·Р°С‚Рµё CT */}
+     {/*    CT */}
      <div className="rounded-[20px] border p-4" style={calcPanelStyle}>
       <div className="text-sm font-medium mb-2" style={titleStyle}>Calculated automatically:</div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
@@ -842,7 +842,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
     </CardContent>
    </Card>
 
-   {/* T Side РЎС‚Р°С‚РёСЃС‚єР° */}
+   {/* T Side  */}
    <Card style={sectionCardStyle}>
     <CardHeader className="pb-3">
      <CardTitle className="flex items-center gap-2" style={titleStyle}>
@@ -851,9 +851,9 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
      </CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
-     {/* РњР°тчи T */}
+     {/*  T */}
      <div>
-      <h4 className="font-semibold mb-3" style={titleStyle}>Matchи</h4>
+      <h4 className="font-semibold mb-3" style={titleStyle}>Matches</h4>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
        <div>
         <Label htmlFor="t-total-matches" style={titleStyle}>Total matches</Label>
@@ -911,7 +911,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
 
      <Separator style={{ backgroundColor: 'rgba(255,255,255,0.08)' }} />
 
-     {/* Р Р°СѓРЅРґС‹ T */}
+     {/*   T */}
      <div>
       <h4 className="font-semibold mb-3" style={titleStyle}>Rounds</h4>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -959,7 +959,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
 
      <Separator style={{ backgroundColor: 'rgba(255,255,255,0.08)' }} />
 
-     {/* РџРёСЃС‚РѕµС‚РЅС‹Рµ СЂР°СѓРЅРґС‹ T */}
+     {/*  СЂ T */}
      <div>
       <h4 className="font-semibold mb-3" style={titleStyle}>Pistol rounds</h4>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -993,7 +993,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
       )}
      </div>
 
-     {/* Р Р°СЃhРµС‚РЅС‹Рµ РїРѕРєР°Р·Р°С‚Рµё T */}
+     {/*    T */}
      <div className="rounded-[20px] border p-4" style={calcPanelStyle}>
       <div className="text-sm font-medium mb-2" style={titleStyle}>Calculated automatically:</div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
@@ -1022,7 +1022,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
     </CardContent>
    </Card>
 
-   {/* РћР±С‰Р°СЏ СЃС‚Р°С‚РёСЃС‚єР° */}
+   {/*  СЃС‚ */}
    <Card style={sectionCardStyle}>
     <CardHeader className="pb-3">
      <CardTitle className="flex items-center gap-2" style={titleStyle}>
@@ -1035,7 +1035,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
       <div className="text-sm font-medium mb-3" style={titleStyle}>Calculated automatically:</div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
        <div>
-        <div className="font-medium text-center mb-2" style={titleStyle}>Matchи</div>
+        <div className="font-medium text-center mb-2" style={titleStyle}>Matches</div>
         <div className="space-y-1">
          <div className="flex justify-between">
           <span style={descriptionStyle}>Total:</span>
@@ -1102,7 +1102,7 @@ const GameStatsForm: React.FC<GameStatsFormProps> = ({
     </CardContent>
    </Card>
 
-   {/* РљРЅРѕРїРєР° РѕС‚РїСЂР°вки */}
+   {/*   */}
    <div className="flex justify-end">
     <Button 
      type="submit" 

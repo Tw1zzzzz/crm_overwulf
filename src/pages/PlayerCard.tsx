@@ -99,11 +99,11 @@ const SafeImage = ({ src, alt, className, fallback = "Image unavailable" }: { sr
  * 
  * Modeы отображения:
  * - Сетка (Grid): список всех players с раскрывающимися карточками
- * - Детальное представление (Detail): детальная информация о выбранном игроке
+ * - Детальное представление (Detail): детальная информация о выбранном playerе
  * 
  * Обновления в версии 2.0:
  * - Добавлены анимации и вofуальные эффекты
- * - Расширенная статистика по карточкам
+ * -  статистика по карточкам
  * - Улучшенное отображение контактов и профилей
  * - Индикаторы наличия Roadmap и Mindmap
  * - Оптимofирована загрузка данных по требованию при раскрытии карточек
@@ -231,7 +231,7 @@ const animationStyles = `
  }
 `;
 
-// Typeы для данных карточки игрока
+// Typeы для данных карточки player
 interface PlayerCardData {
  playerCard: {
   userId: string;
@@ -291,7 +291,7 @@ const PlayerCardPage: React.FC = () => {
  const navigate = useNavigate();
  const { playerId } = useParams<{ playerId: string }>();
  
- // Состояния для списка players и выбранного игрока
+ // Состояния для списка players и выбранного player
  const [players, setPlayers] = useState<User[]>([]);
  const [loadingPlayers, setLoadingPlayers] = useState<boolean>(true);
  const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
@@ -343,21 +343,21 @@ const PlayerCardPage: React.FC = () => {
  // Состояние для режима отображения (сетка или детали)
  const [displayMode, setDisplayMode] = useState<DisplayMode>(DisplayMode.GRID);
  
- // Состояние для отображения диалога добавления игрока
+ // Состояние для отображения диалога добавления player
  const [showAddPlayerDialog, setShowAddPlayerDialog] = useState<boolean>(false);
  
  // Состояние для диалога подтверждения удаления
  const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
  // Состояние для отслеживания процесса удаления
  const [deleting, setDeleting] = useState(false);
- // ID игрока, карточку которого нужно удалить
+ // ID player, карточку которого нужно удалить
  const [playerToDeleteId, setPlayerToDeleteId] = useState<string>("");
- // Name текущего игрока для отображения в диалоге
+ // Name текущего player для отображения в диалоге
  const [currentPlayerName, setCurrentPlayerName] = useState<string>("");
  
  const [isDialogSubmitting, setIsDialogSubmitting] = useState<boolean>(false);
  
- // Состояние для нового игрока в диалоге добавления
+ // Состояние для нового player в диалоге добавления
  const [newPlayerData, setNewPlayerData] = useState({
   name: "",
   contacts: {
@@ -391,15 +391,15 @@ const PlayerCardPage: React.FC = () => {
   lastUpdated: ''
  });
  
- // Состояния для дашборда игрока (v1)
+ // Состояния для дашборда player (v1)
  const [dashboardData, setDashboardData] = useState<PlayerDashboardData | null>(null);
  const [dashboardLoading, setDashboardLoading] = useState<boolean>(false);
  const [dashboardError, setDashboardError] = useState<string | null>(null);
  const isSoloPlayer = user?.role === "player" && user?.playerType === "solo";
  
- // Функция сброса всех состояний для нового игрока
+ // Функция сброса всех состояний для нового player
  const resetAllPlayerStates = () => {
-  // Satрасываем данные для формы нового игрока
+  // Satрасываем данные для формы нового player
   setNewPlayerData({
    name: "",
    contacts: {
@@ -438,7 +438,7 @@ const PlayerCardPage: React.FC = () => {
   if (dialogRoadmapRef.current) dialogRoadmapRef.current.value = "";
   if (dialogMindmapRef.current) dialogMindmapRef.current.value = "";
   
-  // Важно: сбрасываем выбранного игрока перед созданием нового
+  // Важно: сбрасываем выбранного player перед созданием нового
   setSelectedPlayerId(null);
  };
  
@@ -448,7 +448,7 @@ const PlayerCardPage: React.FC = () => {
  // Состояние для принудительного обновления списка players
  const [forceUpdateCounter, setForceUpdateCounter] = useState(0);
  
- // Состояния для диалога привязки игрока к карточке
+ // Состояния для диалога привязки player к карточке
  const [showAttachPlayerDialog, setShowAttachPlayerDialog] = useState(false);
  const [attachingPlayer, setAttachingPlayer] = useState(false);
  const [loadingAttachDialog, setLoadingAttachDialog] = useState(false);
@@ -494,10 +494,10 @@ const PlayerCardPage: React.FC = () => {
      const cards = result.data.data;
      const playerCardsObj: Record<string, PlayerCardData | null> = {};
      
-           // Создаем объект с карточками по идентификатору пользователя
+           // Создаем объект с карточками по идентификатору user
       cards.forEach(card => {
        if (card && card.userId) {
-        // Используем как userId, так и user.id для гарантии связи с игроками
+        // Используем как userId, так и user.id для гарантии связи с playerми
         playerCardsObj[card.userId] = {
          playerCard: card,
          user: card.user || { id: card.userId, name: 'Unknown player', avatar: '' }
@@ -534,7 +534,7 @@ const PlayerCardPage: React.FC = () => {
       cards.forEach(card => {
        if (card.user && card.user.id) {
         const userId = card.user.id;
-        // Если игрока еще нет в списке
+        // Если player еще нет в списке
         if (!existingPlayersMap.has(userId)) {
          existingPlayersMap.set(userId, {
           id: userId,
@@ -569,7 +569,7 @@ const PlayerCardPage: React.FC = () => {
   loadAllPlayerCards();
  }, [forceUpdateCounter]); // Зависимость от forceUpdateCounter позволяет принудительно обновлять карточки
  
- // Loading дашборда игрока при выборе
+ // Loading дашборда player при выборе
  useEffect(() => {
   const loadDashboard = async () => {
    if (!selectedPlayerId) {
@@ -590,7 +590,7 @@ const PlayerCardPage: React.FC = () => {
 
     setDashboardData(null);
 
-    // Для solo-игрока скрываем системное сообщение 403 в "My card".
+    // Для solo-player скрываем системное сообщение 403 в "My card".
     setDashboardError(
      isSoloPlayer && isDashboardAccessDenied
       ? null
@@ -604,7 +604,7 @@ const PlayerCardPage: React.FC = () => {
   loadDashboard();
  }, [selectedPlayerId, forceUpdateCounter, isSoloPlayer]);
  
- // Обработчик changes полей ввода в диалоге добавления игрока
+ // Обработчик changes полей ввода в диалоге добавления player
  const handleDialogInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const { name, value } = e.target;
   
@@ -724,7 +724,7 @@ const PlayerCardPage: React.FC = () => {
   }
  };
 
- // Обработчик создания карточки для выбранного игрока
+ // Обработчик создания карточки для выбранного player
  const handlePlayerAdded = async () => {
   if (!selectedPlayerId) {
    toast.error("Choose a player to create a card");
@@ -744,7 +744,7 @@ const PlayerCardPage: React.FC = () => {
    
    toast.loading("Creating player card...");
    
-   // Создаем карточку для выбранного игрока
+   // Создаем карточку для выбранного player
    let cardResponse;
    try {
     cardResponse = await axios.post(
@@ -781,7 +781,7 @@ const PlayerCardPage: React.FC = () => {
    
    toast.loading("Updating contacts...", { id: "contacts-update" });
    
-   // Обновляем контакты игрока
+   // Обновляем контакты player
    await axios.put(
     `${baseUrl}/api/player-cards/${selectedPlayerId}/contacts`,
     { contacts: newPlayerData.contacts },
@@ -871,7 +871,7 @@ const PlayerCardPage: React.FC = () => {
    toast.dismiss();
    toast.success("Player card created successfully");
    
-   // Скрываем диалог добавления игрока
+   // Скрываем диалог добавления player
    setShowAddPlayerDialog(false);
    
    // Satрасываем форму
@@ -961,7 +961,7 @@ const PlayerCardPage: React.FC = () => {
    // Staff: загружаем всех players
    fetchPlayers();
   } else if (user && isSoloPlayer) {
-   // Solo-игрок: сразу показываем свою карточку без загрузки общего списка
+   // Solo-player: сразу показываем свою карточку без загрузки общего списка
    setSelectedPlayerId(user.id || null);
    setDisplayMode(DisplayMode.DETAIL);
    setLoadingPlayers(false);
@@ -1037,7 +1037,7 @@ const PlayerCardPage: React.FC = () => {
   }
  };
  
- // Улучшенная функция загрузки данных карточки игрока с предотвращением гонки состояний
+ // Улучшенная функция загрузки данных карточки player с предотвращением гонки состояний
  const fetchPlayerCard = useCallback(async (userId: string, forceRefresh = false) => {
   // Если запрос уже выполняется, не дублируем
   if (pendingRequests.current[userId]) {
@@ -1059,7 +1059,7 @@ const PlayerCardPage: React.FC = () => {
   try {
    pendingRequests.current[userId] = true;
    
-   // Если загружаем для текущего выбранного игрока, показываем индикатор загрузки
+   // Если загружаем для текущего выбранного player, показываем индикатор загрузки
    if (userId === selectedPlayerId) {
     setLoading(true);
    }
@@ -1082,7 +1082,7 @@ const PlayerCardPage: React.FC = () => {
      [userId]: result.data
      }));
     
-    // Если это выбранный игрок, обновляем локальные состояния
+    // Если это выбранный player, обновляем локальные состояния
     if (userId === selectedPlayerId) {
      setPlayerHasCard(true);
      
@@ -1104,7 +1104,7 @@ const PlayerCardPage: React.FC = () => {
      [userId]: null
      }));
     
-    // Если это выбранный игрок, обновляем локальные состояния
+    // Если это выбранный player, обновляем локальные состояния
     if (userId === selectedPlayerId) {
      setPlayerHasCard(false);
      
@@ -1122,7 +1122,7 @@ const PlayerCardPage: React.FC = () => {
    } catch (error) {
     console.error("Failed to load player card:", error);
    
-   // Показываем ошибку только если это выбранный игрок
+   // Показываем ошибку только если это выбранный player
    if (userId === selectedPlayerId) {
     toast.error("Failed to load player card");
    }
@@ -1147,24 +1147,24 @@ const PlayerCardPage: React.FC = () => {
    // Снимаем флаг загрузки
    pendingRequests.current[userId] = false;
    
-   // Снимаем индикатор загрузки только для выбранного игрока
+   // Снимаем индикатор загрузки только для выбранного player
    if (userId === selectedPlayerId) {
     setLoading(false);
    }
   }
  }, [selectedPlayerId, playerCardsData]);
  
- // Loading данных карточки игрока при выборе игрока
+ // Loading данных карточки player при выборе player
  useEffect(() => {
   if (!selectedPlayerId) return;
   
   fetchPlayerCard(selectedPlayerId);
  }, [selectedPlayerId, fetchPlayerCard]);
 
- // Автоматический выбор игрока of URL при загрузке страницы
+ // Автоматический выбор player of URL при загрузке страницы
  useEffect(() => {
   if (playerId && players.length > 0 && !selectedPlayerId) {
-   // Проверяем, существует ли игрок с таким ID
+   // Проверяем, существует ли player с таким ID
    const playerExists = players.some(player => player.id === playerId);
    if (playerExists) {
     setSelectedPlayerId(playerId);
@@ -1179,17 +1179,17 @@ const PlayerCardPage: React.FC = () => {
   }
  }, [playerId, players, selectedPlayerId]);
  
- // Обработчик changes выбранного игрока
+ // Обработчик changes выбранного player
  const handlePlayerChange = (value: string) => {
   setSelectedPlayerId(value);
   setDisplayMode(DisplayMode.DETAIL);
  };
 
  /**
- * Универсальная функция для удаления карточки игрока
- * @param userId ID пользователя для удаления
- * @param playerName Name игрока для отображения в уведомлениях
- * @param playerId ID игрока в локальном состоянии
+ * Универсальная функция для удаления карточки player
+ * @param userId ID user для удаления
+ * @param playerName Name player для отображения в уведомлениях
+ * @param playerId ID player в локальном состоянии
  * @param callback Опциональный колбэк после успешного удаления
  */
 const safeDeletePlayerCard = async (
@@ -1300,7 +1300,7 @@ const safeDeletePlayerCard = async (
   setShowDeleteConfirmDialog(true);
  };
 
- // Обработчик удаления карточки игрока
+ // Обработчик удаления карточки player
  const handleDeletePlayerCard = async () => {
   if (!playerToDeleteId) {
    toast.error('Failed to delete card: ID is missing');
@@ -1378,7 +1378,7 @@ const safeDeletePlayerCard = async (
  // поиском по контактам (если контакты уже загружены)
  const filteredPlayers = useMemo(() => {
   const query = searchQuery.toLowerCase().trim();
-  // Проверяем, есть ли вообще игроки
+  // Проверяем, есть ли вообще playerи
   if (!players || players.length === 0) return [];
   
   // Создаем глубокую копию для защиты от мутаций
@@ -1388,7 +1388,7 @@ const safeDeletePlayerCard = async (
   if (!query) return visiblePlayers;
   
   return visiblePlayers.filter(player => {
-   // Проверка на валидность объекта игрока
+   // Проверка на валидность объекта player
    if (!player || !player.id) return false;
    
    const nameMatch = player.name?.toLowerCase()?.includes(query) || false;
@@ -1617,7 +1617,7 @@ const safeDeletePlayerCard = async (
   }
  };
  
- // Открытие детальной информации об игроке
+ // Открытие детальной информации об playerе
  const handleViewPlayerDetails = async (playerId: string) => {
   // Добавляем логирование для отладки
   console.log(`Switching to player edit mode ${playerId}`);
@@ -1945,7 +1945,7 @@ const safeDeletePlayerCard = async (
    // Перезагружаем список players
    await fetchPlayers();
    
-   // Если выбран игрок, обновляем его данные
+   // Если выбран player, обновляем его данные
    if (selectedPlayerId) {
     await fetchPlayerCard(selectedPlayerId, true);
    }
@@ -1968,7 +1968,7 @@ const safeDeletePlayerCard = async (
   }
  };
 
- // Функция открытия диалога привязки игрока
+ // Функция открытия диалога привязки player
  // Функция для открытия диалога создания карточки
  const handleOpenCreatePlayerCardDialog = async () => {
   try {
@@ -2067,7 +2067,7 @@ const safeDeletePlayerCard = async (
     cardsResult.data.data.forEach(card => {
      if (card && card.userId) {
       existingCardUserIds.add(card.userId.toString());
-      console.log(`Card найдена для игрока: ${card.userId} (${card.user?.name || 'Unnamed'})`);
+      console.log(`Card найдена для player: ${card.userId} (${card.user?.name || 'Unnamed'})`);
      }
     });
     
@@ -2101,7 +2101,7 @@ const safeDeletePlayerCard = async (
   }
  };
 
- // Функция привязки игрока к карточке
+ // Функция привязки player к карточке
  const handleAttachPlayer = async () => {
   if (!selectedCardForAttach || !selectedPlayerForAttach) {
    toast.error("Choose a card and player to link");
@@ -2141,7 +2141,7 @@ const safeDeletePlayerCard = async (
   }
  };
  
- // Для solo-игрока используем данные of useAuth как данные текущего игрока
+ // Для solo-player используем данные of useAuth как данные текущего player
  const currentPlayerForDetail = selectedPlayerId
   ? (players.find(p => p.id === selectedPlayerId) || (isSoloPlayer ? { id: user?.id || '', name: user?.name || 'Unnamed', email: user?.email || '' } : null))
   : null;
@@ -2306,7 +2306,7 @@ const safeDeletePlayerCard = async (
        className="mt-4" 
        onClick={handleOpenCreatePlayerCardDialog}
       >
-       Create карточку игрока
+       Create карточку player
       </Button>
      </div>
     )}
@@ -2430,7 +2430,7 @@ const safeDeletePlayerCard = async (
                // Дополнительные действия после успешного удаления, если нужны
               });
              } finally {
-              // Разблокируем кнопку в любом случае
+              //  кнопку в любом случае
               deleteBtn.disabled = false;
              }
             }}
@@ -2467,14 +2467,14 @@ const safeDeletePlayerCard = async (
        </Card>
       );
      } catch (error) {
-      console.error(`Error while рендеринге карточки игрока ${player?.id}:`, error);
+      console.error(`Error while рендеринге карточки player ${player?.id}:`, error);
       return (
        <Card key={player.id || `error-${Date.now()}`} className="overflow-hidden bg-destructive/10">
         <CardHeader>
          <CardTitle>Error отображения</CardTitle>
         </CardHeader>
         <CardContent>
-         <p>An error occurred при отображении карточки игрока.</p>
+         <p>An error occurred при отображении карточки player.</p>
         </CardContent>
        </Card>
       );
@@ -2482,7 +2482,7 @@ const safeDeletePlayerCard = async (
     })}
     </div>
    ) : (
-    // Детальный режим просмотра карточки игрока
+    // Детальный режим просмотра карточки player
     <div className="space-y-6 animate-fadeIn">
      {/* Кнопки навигации и действий — скрыты для solo-players */}
      {!isSoloPlayer && (
@@ -2502,7 +2502,7 @@ const safeDeletePlayerCard = async (
         variant="destructive" 
         size="sm"
         onClick={async () => {
-         // Получаем данные выбранного игрока
+         // Получаем данные выбранного player
          const player = players.find(p => p.id === selectedPlayerId);
          if (!player) {
           toast.error('Player not found');
@@ -2575,7 +2575,7 @@ const safeDeletePlayerCard = async (
      </div>
      )}
 
-     {/* Basic information об игроке — для solo-игрока используем данные of useAuth */}
+     {/* Basic information об playerе — для solo-player используем данные of useAuth */}
      {selectedPlayerId && currentPlayerForDetail && (
       <Card className="shadow-md">
        <CardHeader className="bg-muted/30">
@@ -3200,7 +3200,7 @@ const safeDeletePlayerCard = async (
     </DialogContent>
    </Dialog>
    
-   {/* Диалог добавления нового игрока */}
+   {/* Диалог добавления нового player */}
    <Dialog open={showAddPlayerDialog} onOpenChange={setShowAddPlayerDialog}>
     <DialogContent className="sm:max-w-lg">
      <DialogHeader>
@@ -3405,7 +3405,7 @@ const safeDeletePlayerCard = async (
        ) : (
         <>
          <Plus className="h-4 w-4 mr-2" />
-         Create карточку игрока
+         Create карточку player
         </>
        )}
       </Button>
@@ -3445,7 +3445,7 @@ const safeDeletePlayerCard = async (
     </DialogContent>
    </Dialog>
 
-   {/* Диалог привязки игрока к карточке */}
+   {/* Диалог привязки player к карточке */}
    <Dialog open={showAttachPlayerDialog} onOpenChange={setShowAttachPlayerDialog}>
     <DialogContent className="sm:max-w-lg">
      <DialogHeader>

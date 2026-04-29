@@ -19,7 +19,7 @@ const isValidId = (id: any): boolean => {
  return true;
 };
 
-// Normalлofация данных игрока для исправления проблем с ID
+// Normalлofация данных player для исправления проблем с ID
 const normalizePlayer = (player: any): User => {
  if (!player) return null;
  
@@ -134,7 +134,7 @@ const PlayersManagement = () => {
   
   // Проверка подтверждения
   if (confirmText !== selectedPlayer.name) {
-   toast.error("Name игрока введено неверно. Удаление отменено.");
+   toast.error("Name player введено неверно. Delete отменено.");
    setIsDialogOpen(false);
    return;
   }
@@ -161,7 +161,7 @@ const PlayersManagement = () => {
    toast.info("Deleting player data...");
    setDeleteProgress(30);
    
-   // Выполняем запрос на каскадное удаление всех данных игрока
+   // Выполняем запрос на каскадное удаление всех данных player
    await apiDeletePlayer(playerId);
    
    setDeleteProgress(90);
@@ -174,8 +174,8 @@ const PlayersManagement = () => {
    setDeleteProgress(100);
    toast.success(`Player ${playerName} и все его данные успешно удалены`);
   } catch (error) {
-   console.error('Error while удалении игрока:', error);
-   toast.error(`Error while удалении игрока: ${error.message || 'Unknown error'}`);
+   console.error('Error while удалении player:', error);
+   toast.error(`Error while удалении player: ${error.message || 'Unknown error'}`);
   } finally {
    setIsDeleting(false);
    setSelectedPlayer(null);
@@ -434,7 +434,7 @@ const PlayersManagement = () => {
      
      {isValidId(selectedPlayer?.id) && (
       <div className="mb-4 p-2 rounded" style={{ backgroundColor: COLORS.backgroundColor, fontSize: '0.8rem' }}>
-       <p style={{ color: COLORS.textColorSecondary }}>ID игрока: <span style={{ color: COLORS.primary }}>{selectedPlayer?.id}</span></p>
+       <p style={{ color: COLORS.textColorSecondary }}>ID player: <span style={{ color: COLORS.primary }}>{selectedPlayer?.id}</span></p>
       </div>
      )}
      

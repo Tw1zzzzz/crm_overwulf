@@ -122,11 +122,11 @@ export const getMoodByDayOfWeek = (entries: MoodEntry[]): ChartDataPoint[] => {
     result[dayIndex].count += 1;
    }
   } catch (error) {
-   console.warn('Invalid date в entries настроения:', entry.date);
+   console.warn('Invalid date in mood entry:', entry.date);
   }
  });
  
- // Рассчитываем средние значения
+ //  средние значения
  return result.map(item => ({
   name: item.name,
   mood: item.count ? Number((item.mood / item.count).toFixed(1)) : 0,
@@ -168,7 +168,7 @@ export const getTestsByDayOfWeek = (entries: TestEntry[]): ChartDataPoint[] => {
     dayData.byType[entryTestType].total += (entry.scoreNormalized ?? 0);
    }
   } catch (error) {
-   console.warn('Invalid date в entries теста:', entry.date);
+   console.warn('Invalid date in test entry:', entry.date);
   }
  });
  
@@ -201,7 +201,7 @@ export const getChartData = (entries: MoodEntry[]): ChartDataPoint[] => {
      energy: entry.energy
     };
    } catch (error) {
-    console.warn('Invalid date в entries:', entry.date);
+    console.warn('Invalid date in entry:', entry.date);
     return {
      name: 'N/A',
      date: entry.date,
@@ -213,7 +213,7 @@ export const getChartData = (entries: MoodEntry[]): ChartDataPoint[] => {
 };
 
 /**
- * Возвращает данные об активности игрока для графика
+ * Возвращает данные об активности player для графика
  */
 export const getPlayerActivityChartData = (playerData: any): ChartDataPoint[] => {
  if (!playerData?.weeklyStats?.length) return [];
@@ -272,7 +272,7 @@ export const prepareMoodDataByTimeRange = (
     initialData[dataIndex].count += 1;
    }
   } catch (error) {
-   console.warn('Error обработки entries настроения:', entry);
+   console.warn('Error processing mood entry:', entry);
   }
  });
 
@@ -291,11 +291,11 @@ export const prepareMoodDataByTimeRange = (
     initialData[dataIndex].sleepCount += 1;
    }
   } catch (error) {
-   console.warn('Error обработки entries сна:', entry);
+   console.warn('Error processing sleep entry:', entry);
   }
  });
  
- // Рассчитываем средние значения
+ //  средние значения
  return initialData.map(item => ({
   date: item.date,
   mood: item.count ? Number((item.mood / item.count).toFixed(1)) : 0,
@@ -342,7 +342,7 @@ export const prepareTestDataByTimeRange = (
    groupedTests[dateString][testTypeKey].total += (entry.scoreNormalized ?? 0);
    groupedTests[dateString][testTypeKey].count += 1;
   } catch (error) {
-   console.warn('Error обработки entries теста:', entry);
+   console.warn('Error processing test entry:', entry);
   }
  });
  
@@ -438,7 +438,7 @@ export const calculateAggregatedStats = (
  const worstDay = sortedByMood[sortedByMood.length - 1] ? 
   format(new Date(sortedByMood[sortedByMood.length - 1].date), 'dd.MM.yyyy') : 'N/A';
 
- // Расчет трендов (требует минимум 3 entries)
+ //  трендов (требует минимум 3 entries)
  let moodTrend: 'up' | 'down' | 'stable' = 'stable';
  let energyTrend: 'up' | 'down' | 'stable' = 'stable';
 
@@ -461,7 +461,7 @@ export const calculateAggregatedStats = (
          lastEnergyAvg < firstEnergyAvg - 0.5 ? 'down' : 'stable';
  }
 
- // Расчет консистентности (percent дней с записями)
+ //  консистентности (percent дней с записями)
  const uniqueDays = new Set(filteredEntries.map(entry => 
   format(new Date(entry.date), 'yyyy-MM-dd')
  )).size;

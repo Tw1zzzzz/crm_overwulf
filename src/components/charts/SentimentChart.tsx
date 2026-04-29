@@ -93,13 +93,13 @@ const SentimentChart: React.FC<SentimentChartProps> = ({
   }, { positive: 0, neutral: 0, negative: 0 });
 
   return [
-   { name: 'Позитивные', value: categories.positive, color: '#22c55e' },
-   { name: 'Нейтральные', value: categories.neutral, color: '#6b7280' },
-   { name: 'Негативные', value: categories.negative, color: '#ef4444' }
+   { name: 'Positive', value: categories.positive, color: '#22c55e' },
+   { name: 'Neutral', value: categories.neutral, color: '#6b7280' },
+   { name: 'Negative', value: categories.negative, color: '#ef4444' }
   ];
  })();
 
- // Расчет тренда
+ //  тренда
  const sentimentTrend = showTrends ? (() => {
   if (sentimentTimeData.length < 2) return null;
   
@@ -334,7 +334,7 @@ const SentimentChart: React.FC<SentimentChartProps> = ({
          <th className="text-left p-2">Date</th>
          <th className="text-left p-2">Sentiment</th>
          <th className="text-left p-2">Dominant emotion</th>
-         <th className="text-left p-2">Ключевые фразы</th>
+         <th className="text-left p-2">Key phrases</th>
         </tr>
        </thead>
        <tbody>
@@ -397,7 +397,7 @@ function getEmotionName(emotion: string): string {
   anger: 'Anger',
   fear: 'Fear',
   confidence: 'Confidence',
-  surprise: 'Удивление'
+  surprise: 'Surprise'
  };
  return emotionNames[emotion] || emotion;
 }

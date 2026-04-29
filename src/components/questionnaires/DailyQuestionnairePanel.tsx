@@ -344,14 +344,14 @@ export default function DailyQuestionnairePanel({
         <li>Date среза: {qDateLabel}</li>
         <li>Sleep: {qSleep || "not specified"}</li>
         <li>
-         Screen time: {qScreen || (questionnaireBreakdownSum > 0 ? `${questionnaireBreakdownSum.toFixed(1)} h by breakdown` : "not specifiedо")}
+         Screen time: {qScreen || (questionnaireBreakdownSum > 0 ? `${questionnaireBreakdownSum.toFixed(1)} h by breakdown` : "not specified")}
         </li>
        </ul>
       </div>
      </CardContent>
      <CardFooter className="pt-0">
       <Button onClick={handleSubmit} disabled={submitting || isQuestionnaireExceeded} className="h-12 w-full rounded-2xl" style={{ backgroundColor: COLORS.primary, color: "white" }}>
-       {submitting ? "Saving..." : "Save опросник"}
+       {submitting ? "Saving..." : "Save questionnaire"}
       </Button>
      </CardFooter>
     </Card>

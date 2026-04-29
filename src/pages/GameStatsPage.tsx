@@ -399,7 +399,7 @@ const GameStatsPage: React.FC = () => {
     values: entries.map((e) => formatNullable(e.udr ?? null, 2))
    },
    {
-    label: 'Wed. мультикиллы',
+    label: 'Avg. multikills',
     summary: formatNullable(avgMultikills, 2),
     values: entries.map((e) => formatNullable(e.avgMultikills ?? null, 2))
    },
@@ -409,7 +409,7 @@ const GameStatsPage: React.FC = () => {
     values: entries.map((e) => formatNullable(e.clutchesWon ?? null, 2))
    },
    {
-    label: 'Wed. время ослепления',
+    label: 'Avg. flash time',
     summary: formatNullable(avgFlashTime, 2),
     values: entries.map((e) => formatNullable(e.avgFlashTime ?? null, 2))
    },
@@ -450,12 +450,12 @@ const GameStatsPage: React.FC = () => {
 
  const fetchGameStatsTemplate = async () => {
   if (!gameStatsDateFrom || !gameStatsDateTo) {
-   toast.error('Choose period для таблицы игровых показателей');
+   toast.error('Choose a period for the game metrics table');
    return;
   }
 
   if (gameStatsMode === 'individual' && isStaff && !gameStatsPlayerId) {
-   toast.error('Select player для индивидуальной таблицы');
+   toast.error('Select a player for the individual table');
    return;
   }
 
@@ -503,10 +503,10 @@ const GameStatsPage: React.FC = () => {
    const targetLabel =
     gameStatsMode === 'team'
      ? 'team'
-     : players.find((p) => p._id === gameStatsPlayerId)?.name || 'игрока';
+     : players.find((p) => p._id === gameStatsPlayerId)?.name || 'player';
    toast.success(`Game metrics table for ${targetLabel} обновлена`);
   } catch (error: any) {
-   console.error('[GameStatsPage] Loading error таблицы игровых показателей:', error);
+   console.error('[GameStatsPage] Game metrics table loading error:', error);
    toast.error(error?.message || 'Failed to load game metrics table');
   } finally {
    setGameStatsLoading(false);
@@ -535,7 +535,7 @@ const GameStatsPage: React.FC = () => {
 
    await fetchGameStatsTemplate();
   } catch (error: any) {
-   console.error('[GameStatsPage] Save error игровых показателей:', error);
+   console.error('[GameStatsPage] Game metrics save error:', error);
    throw error;
   }
  };
@@ -578,7 +578,7 @@ const GameStatsPage: React.FC = () => {
       </div>
       <div className="space-y-2">
        <h1 className="text-3xl font-semibold md:text-4xl" style={{ color: COLORS.textColor }}>
-        Game statistics, связанная с общей формой игрока
+        Game statistics, связанная с общей формой player
        </h1>
        <p className="max-w-2xl text-sm leading-7 md:text-base" style={{ color: 'rgba(226, 232, 240, 0.82)' }}>
         Section нужен не как отдельный продукт, а как часть CRM: здесь вы видите матчевые метрики по периоду и связываете игровой профиль с состоянием, ритмом и качеством формы.
@@ -613,7 +613,7 @@ const GameStatsPage: React.FC = () => {
 
    <SubscriptionFeatureGate
     hasAccess={hasGameStatsAccess}
-    title="Game statistics доступна после покупки"
+    title="Game statistics are available after purchase"
     description={`After purchase тарифа ${PRODUCT_NAME} откроются сводная витрина матчевых метрик, фильтры по периоду и форма для занесения игровых показателей.`}
     minHeightClassName="min-h-[980px]"
    >
@@ -692,7 +692,7 @@ const GameStatsPage: React.FC = () => {
        <div className="space-y-2">
         <Label style={{ color: COLORS.textColor }}>Action</Label>
         <Button className="h-10 w-full rounded-2xl" onClick={fetchGameStatsTemplate} disabled={gameStatsLoading} style={{ backgroundColor: COLORS.primary, color: 'white' }}>
-         {gameStatsLoading ? 'Loading...' : 'Update таблицу'}
+         {gameStatsLoading ? 'Loading...' : 'Update table'}
         </Button>
        </div>
       </div>
@@ -747,7 +747,7 @@ const GameStatsPage: React.FC = () => {
            className="px-4 py-10 text-center text-sm"
            style={{ color: COLORS.textColorSecondary }}
           >
-           Click "Update таблицу", чтобы загрузить игровые показатели.
+           Click "Update table", чтобы загрузить игровые показатели.
           </td>
          </tr>
         )}

@@ -1,11 +1,11 @@
 import { MoodEntry, TestEntry } from "@/types";
 
-// Генерируем уникальные ключи для каждого пользователя
+// Генерируем уникальные ключи для каждого user
 const getUserStorageKey = (baseKey: string) => {
  const user = localStorage.getItem('token');
  if (!user) return baseKey;
  
- // Используем ID пользователя как часть ключа
+ // Используем ID user как часть ключа
  const token = user;
  return `${baseKey}-${token}`;
 };

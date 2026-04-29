@@ -209,7 +209,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
     description: "PDF report analysis тональности сохранен",
    });
   } catch (error) {
-   console.error('Error экспорта PDF:', error);
+   console.error('PDF export error:', error);
    toast({
     title: "Error экспорта",
     description: "Failed to create PDF report",
@@ -228,7 +228,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
     description: "Excel файл analysis тональности сохранен",
    });
   } catch (error) {
-   console.error('Error экспорта Excel:', error);
+   console.error('Excel export error:', error);
    toast({
     title: "Error экспорта",
     description: "Failed to create Excel file",
@@ -247,7 +247,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
     description: "Excel файл кластерofации сохранен",
    });
   } catch (error) {
-   console.error('Error экспорта Excel:', error);
+   console.error('Excel export error:', error);
    toast({
     title: "Error экспорта",
     description: "Failed to create Excel file",
@@ -266,7 +266,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
     description: "Excel файл временных рядов сохранен",
    });
   } catch (error) {
-   console.error('Error экспорта Excel:', error);
+   console.error('Excel export error:', error);
    toast({
     title: "Error экспорта",
     description: "Failed to create Excel file",
@@ -336,7 +336,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
     <CardContent className="pt-6">
      <div className="flex items-center justify-between">
       <div>
-       <p className="text-sm font-medium text-gray-600">Forecastы</p>
+       <p className="text-sm font-medium text-gray-600">Forecasts</p>
        <p className="text-2xl font-bold">{predictiveData.length}</p>
       </div>
       <Brain className="w-8 h-8 text-green-500" />
@@ -436,7 +436,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
      <TabsTrigger value="sentiment">Сентимент</TabsTrigger>
      <TabsTrigger value="clustering">Clusterы</TabsTrigger>
      <TabsTrigger value="timeseries">Временные ряды</TabsTrigger>
-     <TabsTrigger value="predictions">Forecastы</TabsTrigger>
+     <TabsTrigger value="predictions">Forecasts</TabsTrigger>
      <TabsTrigger value="comprehensive">Report</TabsTrigger>
     </TabsList>
 
@@ -599,7 +599,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
      </Card>
     </TabsContent>
 
-    {/* Clusterный analysis */}
+    {/* Cluster analysis */}
     <TabsContent value="clustering" className="space-y-4">
      <Card>
       <CardHeader>
@@ -610,7 +610,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
       </CardHeader>
       <CardContent>
        <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Clusterный analysis</h3>
+        <h3 className="text-lg font-semibold">Cluster analysis</h3>
         <div className="flex gap-2">
          <Button 
           variant="outline" 
@@ -635,7 +635,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
 
             <div className="space-y-2">
              <div className="flex items-center justify-between">
-              <span className="text-sm">Averageний mood</span>
+              <span className="text-sm">Average mood</span>
               <Badge variant="outline">{cluster.characteristics.avgMoodScore}</Badge>
              </div>
              <div className="flex items-center justify-between">
@@ -710,7 +710,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
          <Card>
           <CardContent className="pt-4">
            <div className="text-center">
-            <p className="text-sm text-gray-600">Тренд</p>
+            <p className="text-sm text-gray-600">Trend</p>
             <div className="flex items-center justify-center gap-2">
              {getTrendIcon(timeSeriesData[0]?.trend.direction)}
              <span className="font-semibold capitalize">{timeSeriesData[0]?.trend.direction}</span>
@@ -761,7 +761,7 @@ const AdvancedAnalytics: React.FC<AdvancedAnalyticsProps> = ({ className }) => {
      </Card>
     </TabsContent>
 
-    {/* Forecastы */}
+    {/* Forecasts */}
     <TabsContent value="predictions" className="space-y-4">
      <Card>
       <CardHeader>

@@ -268,7 +268,7 @@ const writePersistedCorrelationSession = (session: PersistedCorrelationSession) 
 
 
 /**
- * РљРѕРјРїРѕРЅРµРЅС‚ СЃС‚СЂР°РЅРёС†С‹ РєРѕСЂСЂРµЏС†ѕРЅРЅРѕРіРѕ Р°РЅР°ёР·Р°
+ *  СЃС‚СЂ  
  */
 const CorrelationAnalysisPage: React.FC = () => {
  const { user } = useAuth();
@@ -301,7 +301,7 @@ const CorrelationAnalysisPage: React.FC = () => {
  const [resultTab, setResultTab] = useState<CorrelationResultTab>(restoredSession?.activeTab ?? 'overview');
  const [lastLoadedAt, setLastLoadedAt] = useState<string | null>(restoredSession?.updatedAt ?? null);
  
- // РќРѕРІС‹Рµ СЃРѕСЃС‚РѕСЏРЅРёСЏ РґЏ РІС‹Р±РѕСЂР° players
+ //  СЃ   players
  const [analysisMode, setAnalysisMode] = useState<'team' | 'individual'>(
   isSoloPlayer ? 'individual' : restoredSession?.analysisMode ?? 'team'
  );
@@ -444,7 +444,7 @@ const CorrelationAnalysisPage: React.FC = () => {
  };
 
  /**
-  * Р—Р°РіСЂСѓР·РєР° СЃРїРёСЃРєР° players
+  *  СЃ players
   */
  const fetchPlayers = async () => {
   if (!hasCorrelationAnalysisAccess) {
@@ -454,7 +454,7 @@ const CorrelationAnalysisPage: React.FC = () => {
 
   setLoadingPlayers(true);
   try {
-   // РСЃРїРѕЊР·СѓРµРј РїСЂР°РІРёЊРЅС‹Р№ API endpoint
+   //   API endpoint
    const response = await fetch('/api/users/players', {
     headers: {
      'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -476,7 +476,7 @@ const CorrelationAnalysisPage: React.FC = () => {
  };
 
  /**
-  * Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С… РґЏ Р°РЅР°ёР·Р°
+  *    
   */
  const fetchAnalysisData = async ({ resetAssistant = true, silent = false }: { resetAssistant?: boolean; silent?: boolean } = {}) => {
   if (!hasCorrelationAnalysisAccess) {
@@ -505,7 +505,7 @@ const CorrelationAnalysisPage: React.FC = () => {
    setAssistantInsight(null);
   }
   try {
-   // РџРѕРґРіРѕС‚Р°РІёРІР°РµРј РїР°СЂР°РјРµС‚СЂС‹ Р·Р°РїСЂРѕСЃР°
+   //   
    const params = new URLSearchParams({
     dateFrom,
     dateTo,
@@ -535,7 +535,7 @@ const CorrelationAnalysisPage: React.FC = () => {
     playerId: selectedPlayerId
    });
 
-   // Р'С‹РїРѕЅСЏРµРј Р·Р°РїСЂРѕСЃС‹ Рє API РїР°СЂР°»РµР»ьно
+   // 'С‹   API 
    const [response, gameStatsResponse] = await Promise.all([
     fetch(`/api/correlations/multi-metrics?${params.toString()}`, {
      headers: {
@@ -620,7 +620,7 @@ const CorrelationAnalysisPage: React.FC = () => {
    return [];
   }
 
-  // Р'С‹hРёСЃЏРµРј СЃСЂРµРґРЅµ Р·РЅР°hРµния
+  // 'С‹h СЃСЂ 
   const validData = data.filter(d =>
    d.mood !== null ||
    d.energy !== null ||
@@ -659,7 +659,7 @@ const CorrelationAnalysisPage: React.FC = () => {
    stats.push({
     title: `${prefix} настроение ${suffix}`,
     value: avgMood.toFixed(1),
-    change: '+0%', // TODO: РІС‹hРёСЃёС‚СЊ ·РјРµРЅРµРЅµ РїРѕ СЃСЂР°РІРЅРµРЅРёСЋ СЃ РїСЂРµРґС‹РґСѓС‰ј РїРµСЂѕРґом
+    change: '+0%', // TODO:  ·  СЃСЂ СЃ  
     icon: <Calendar className="h-4 w-4 text-white" />,
     color: 'text-blue-600'
    });
@@ -759,7 +759,7 @@ const CorrelationAnalysisPage: React.FC = () => {
  };
 
  /**
-  * РљРѕРЅС„іСѓСЂР°С†РёСЏ РјРµС‚СЂє РґЏ РѕС‚РѕР±СЂР°Р¶Рµния
+  *    
   */
  const metricsConfig = {
   // Game metrics map: adr: kpr: deathPerRound: avgKr: avgKd: kast: firstKills:
@@ -929,7 +929,7 @@ const CorrelationAnalysisPage: React.FC = () => {
  };
 
  /**
-  * РћР±СЂР°Р±РѕС‚hє ·РјРµРЅРµРЅРёСЏ РІС‹Р±СЂР°РЅРЅС‹С… РјРµтрик
+  *  ·  
   */
  const handleMetricToggle = (metric: string) => {
   setSelectedMetrics(prev => 
@@ -940,17 +940,17 @@ const CorrelationAnalysisPage: React.FC = () => {
  };
 
  /**
-  * РћР±СЂР°Р±РѕС‚hє ·РјРµРЅРµРЅРёСЏ СЂРµР¶јР° Р°РЅР°ёР·Р°
+  *  · СЂ 
   */
  const handleAnalysisModeChange = (mode: 'team' | 'individual') => {
   setAnalysisMode(mode);
   
-  // РЎР±СЂР°СЃС‹РІР°РµРј РІС‹Р±СЂР°РЅРЅРѕРіРѕ іСЂРѕРєР° РїСЂРё РїРµСЂРµРєЋhРµРЅё РІ РєРѕРјР°РЅРґРЅС‹Р№ СЂРµР¶им
+  //   іСЂ     СЂ
   if (mode === 'team') {
    setSelectedPlayerId('');
   }
   
-  // РЎР±СЂР°СЃС‹РІР°РµРј РґР°РЅРЅС‹Рµ РіСЂР°С„єР°, hС‚РѕР±С‹ РїРѕЊР·РѕРІР°С‚РµЊ Р·Р°РЅРѕРІРѕ РЅР°Р¶Р°Р» "РџСЂјРµнить"
+  //   , hС‚    ""
   setChartData([]);
   setStats([]);
   setAnalysisGameStatsDaily([]);
@@ -1014,7 +1014,7 @@ const CorrelationAnalysisPage: React.FC = () => {
  }, [analysisMode, autoRefreshDone, dateFrom, dateTo, hasCorrelationAnalysisAccess, hasRestoredResults, selectedPlayerId]);
 
  /**
-  * РћР±СЂР°Р±РѕС‚РєР° СЃРѕС…СЂР°РЅРµРЅРёСЏ іСЂРѕРІС‹С… РїРѕРєР°Р·Р°С‚РµµР№
+  *  СЃ іСЂ 
   */
  const comparisonRows = buildCorrelationComparisonRows(chartData, analysisGameStatsDaily);
  const avgKills = analysisGameStatsDaily.length
@@ -1094,7 +1094,7 @@ const CorrelationAnalysisPage: React.FC = () => {
           </Select>
          </div>
 
-         {/* Выбор игрока (показывается только в индивидуальном режиме) */}
+         {/* Выбор player (показывается только в индивидуальном режиме) */}
          {analysisMode === 'individual' && (
           <div className="space-y-2">
            <Label htmlFor="playerSelect">Player</Label>
@@ -1115,7 +1115,7 @@ const CorrelationAnalysisPage: React.FC = () => {
         </div>
        )}
 
-       {/* Р'С‹Р±РѕСЂ РїРµСЂѕРґР° */}
+       {/* 'С‹  */}
        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="space-y-2">
          <Label htmlFor="dateFrom">From date</Label>
@@ -1711,7 +1711,7 @@ const CorrelationAnalysisPage: React.FC = () => {
         {faceitRows.length > 0 && (
          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <div className="rounded-2xl border border-cyan-200/10 bg-cyan-200/5 p-4">
-           <p className="text-xs uppercase tracking-[0.16em] text-cyan-100/80">FACEIT matches за период</p>
+           <p className="text-xs uppercase tracking-[0.16em] text-cyan-100/80">FACEIT matches for period</p>
            <p className="mt-2 text-3xl font-semibold text-white">{formatNumber(totalFaceitMatches, 0)}</p>
           </div>
           <div className="rounded-2xl border border-cyan-200/10 bg-cyan-200/5 p-4">

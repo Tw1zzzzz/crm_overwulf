@@ -58,7 +58,7 @@ const ActivityHistory = () => {
  
  // Загрузка данных при монтировании и при changении фильтров/пагинации
  useEffect(() => {
-  console.log('Запуск эффекта загрузки, activeTab:', activeTab);
+  console.log('Starting loading effect, activeTab:', activeTab);
   if (activeTab === 'all') {
    fetchActivities();
   } else if (activeTab === 'monthly' && isStaff) {
@@ -68,7 +68,7 @@ const ActivityHistory = () => {
  
  // Установка начального таба при загрузке компонента - запускается только один раз при монтировании
  useEffect(() => {
-  console.log('Компонент активности загружен. User персонал:', isStaff);
+  console.log('Activity component loaded. Staff user:', isStaff);
   
   // Устанавливаем активный таб при первой загрузке
   if (isStaff) {
@@ -104,7 +104,7 @@ const ActivityHistory = () => {
     setPagination(response.pagination);
     setUsers(response.users);
    } else {
-    // Загрузка для обычного пользователя
+    // Загрузка для обычного user
     const response = await activityHistoryService.getUserActivity(
      pagination.page,
      pagination.limit
@@ -114,12 +114,12 @@ const ActivityHistory = () => {
     setPagination(response.pagination);
    }
   } catch (error: any) {
-   console.error('Error while загрузке истории активности:', error);
+   console.error('Error while loading activity history:', error);
    setError(error.response?.data?.message || 'Failed to load activity history');
    
    toast({
     title: 'Error',
-    description: 'Failed to load activity history. Пожалуйста, попробуйте позже.',
+    description: 'Failed to load activity history. Please try again later.',
     variant: 'destructive'
    });
   } finally {
@@ -137,11 +137,11 @@ const ActivityHistory = () => {
    setMonthlyLoading(true);
    setMonthlyError(null);
    
-   console.log('[ActivityHistory] Запрос месячной активности...');
+   console.log('[ActivityHistory] Requesting monthly activity...');
    const response = await activityHistoryService.getMonthlyActivity();
    
    // Проверка содержимого ответа для диагностики
-   console.log('[ActivityHistory] Ответ API:', {
+   console.log('[ActivityHistory] API response:', {
     received: !!response,
     hasActivities: !!response?.activities,
     activitiesCount: response?.activities?.length || 0,
@@ -152,13 +152,13 @@ const ActivityHistory = () => {
        entityType: response.activities[0].entityType,
        userIdType: typeof response.activities[0].userId
       } 
-     : 'нет entries'
+     : 'no entries'
    });
    
    // Проверяем структуру данных
    if (!response || !response.activities) {
-    console.error('[ActivityHistory] Отсутствуют данные об активности в ответе', response);
-    throw new Error('Data об активности не получены');
+    console.error('[ActivityHistory] No activity data in response', response);
+    throw new Error('Activity data was not received');
    }
    
    console.log(`[ActivityHistory] Loaded ${response.activities.length} entries активности`);
@@ -172,10 +172,10 @@ const ActivityHistory = () => {
      // Проверка на наличие mood_track entries
      if (activity.action === 'mood_track') {
       moodTrackRecords++;
-      console.log('[ActivityHistory] Найдена entry mood_track:', {
+      console.log('[ActivityHistory] Found mood_track entry:', {
        id: activity._id,
        userId: typeof activity.userId === 'object' ? 
-        (activity.userId?._id || 'Объект без _id') : 
+        (activity.userId?._id || 'Object without _id') : 
         activity.userId,
        details: activity.details,
        timestamp: activity.timestamp
@@ -192,7 +192,7 @@ const ActivityHistory = () => {
        ...activity,
        userId: {
         _id: 'unknown',
-        name: 'User без ID',
+        name: 'User without ID',
         email: 'no data',
         role: 'user'
        }
@@ -243,7 +243,7 @@ const ActivityHistory = () => {
     setMonthlyPeriod(response.period);
    }
   } catch (error: any) {
-   console.error('[ActivityHistory] Error while загрузке месячной активности:', error);
+   console.error('[ActivityHistory] Error while loading monthly activity:', error);
    setMonthlyError(error.response?.data?.message || 'Failed to load monthly activity');
    
    // Гарантируем, что у нас есть пустой массив активностей вместо undefined
@@ -251,7 +251,7 @@ const ActivityHistory = () => {
    
    toast({
     title: 'Error',
-    description: 'Failed to load monthly activity. Пожалуйста, попробуйте позже.',
+    description: 'Failed to load monthly activity. Please try again later.',
     variant: 'destructive'
    });
   } finally {
@@ -302,24 +302,24 @@ const ActivityHistory = () => {
     year: 'numeric'
    });
   } catch (error) {
-   console.error('Error while форматировании даты:', error);
-   return 'Error формата даты';
+   console.error('Error while formatting date:', error);
+   return 'Format error даты';
   }
  };
 
  /**
-  * Рендеринг элемента активности
+  *  элемента активности
   */
  const renderActivityItem = (activity: ActivityHistoryItem) => {
   // Проверяем наличие всех необходимых полей
   if (!activity || !activity._id) {
-   console.warn('[ActivityHistory] Пропущен элемент активности of-за отсутствия _id', activity);
+   console.warn('[ActivityHistory] Skipped activity item because _id is missing', activity);
    return null;
   }
   
   // Проверяем структуру userId
   if (!activity.userId || typeof activity.userId !== 'object') {
-   console.warn('[ActivityHistory] Некорректная структура userId в активности:', activity);
+   console.warn('[ActivityHistory] Invalid userId structure in activity:', activity);
    
    // Пытаемся восстановить элемент активности с заглушкой для userId
    const fallbackActivity = {
@@ -361,7 +361,7 @@ const ActivityHistory = () => {
       
      contextInfo = `Время суток: ${timeOfDayText}`;
     } else if (activity.action === 'test_complete' && activity.details.testName) {
-     contextInfo = `Тест: ${activity.details.testName}`;
+     contextInfo = `Test: ${activity.details.testName}`;
     } else if (activity.action === 'balance_wheel' && activity.details) {
      const wheelValues = Object.entries(activity.details)
       .filter(([key]) => !['date', 'userId', '_id'].includes(key))
@@ -372,7 +372,7 @@ const ActivityHistory = () => {
     }
    }
   } catch (error) {
-   console.error('[ActivityHistory] Error while обработке details активности:', error);
+   console.error('[ActivityHistory] Error while processing activity details:', error);
   }
   
   return (
@@ -424,7 +424,7 @@ const ActivityHistory = () => {
   return (
    <div className="space-y-4 p-4">
     <div className="flex items-center justify-between">
-     <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>History активности</h2>
+     <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>Activity history</h2>
     </div>
     <Card style={COMPONENT_STYLES.card}>
      <CardHeader>
@@ -455,7 +455,7 @@ const ActivityHistory = () => {
   return (
    <div className="space-y-4 p-4">
     <div className="flex items-center justify-between">
-     <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>History активности</h2>
+     <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>Activity history</h2>
     </div>
     <Card style={COMPONENT_STYLES.card}>
      <CardContent className="flex flex-col items-center justify-center p-6">
@@ -478,7 +478,7 @@ const ActivityHistory = () => {
  return (
   <div className="space-y-4 p-4">
    <div className="flex items-center justify-between">
-    <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>History активности</h2>
+    <h2 className="text-3xl font-bold tracking-tight" style={{ color: COLORS.textColor }}>Activity history</h2>
    </div>
    
    <Card style={COMPONENT_STYLES.card}>
@@ -502,7 +502,7 @@ const ActivityHistory = () => {
       
       <TabsContent value="all">
        <CardDescription style={{ color: COLORS.textColorSecondary, marginBottom: '12px' }}>
-        History активности players с возможностью фильтрации
+        Activity history players с возможностью фильтрации
        </CardDescription>
        
        {/* Фильтры (только для персонала) */}
@@ -512,10 +512,10 @@ const ActivityHistory = () => {
           <Select value={userFilter} onValueChange={setUserFilter}>
            <SelectTrigger>
             <User className="mr-2 h-4 w-4" />
-            <SelectValue placeholder="All пользователи" />
+            <SelectValue placeholder="All users" />
            </SelectTrigger>
            <SelectContent>
-            <SelectItem value="all">All пользователи</SelectItem>
+            <SelectItem value="all">All users</SelectItem>
             {users && users.length > 0 && users.map(user => (
              user._id ? (
               <SelectItem key={user._id} value={user._id}>
@@ -531,10 +531,10 @@ const ActivityHistory = () => {
           <Select value={actionFilter} onValueChange={setActionFilter}>
            <SelectTrigger>
             <Activity className="mr-2 h-4 w-4" />
-            <SelectValue placeholder="All действия" />
+            <SelectValue placeholder="All actions" />
            </SelectTrigger>
            <SelectContent>
-            <SelectItem value="all">All действия</SelectItem>
+            <SelectItem value="all">All actions</SelectItem>
             {Object.entries(ACTIVITY_TYPES).map(([key, value]) => (
              value ? (
               <SelectItem key={key} value={value}>
@@ -550,10 +550,10 @@ const ActivityHistory = () => {
           <Select value={entityTypeFilter} onValueChange={setEntityTypeFilter}>
            <SelectTrigger>
             <Package className="mr-2 h-4 w-4" />
-            <SelectValue placeholder="All типы" />
+            <SelectValue placeholder="All types" />
            </SelectTrigger>
            <SelectContent>
-            <SelectItem value="all">All типы</SelectItem>
+            <SelectItem value="all">All types</SelectItem>
             {Object.entries(ENTITY_TYPES).map(([key, value]) => (
              value ? (
               <SelectItem key={key} value={value}>
@@ -598,7 +598,7 @@ const ActivityHistory = () => {
         ) : (
          <div className="py-8 text-center" style={{ color: COLORS.textColorSecondary }}>
           <Search className="mx-auto h-8 w-8 opacity-50 mb-2" />
-          <p>History активности не найдена</p>
+          <p>Activity history не найдена</p>
           {error && (
            <p className="mt-2 text-sm" style={{ color: COLORS.danger }}>
             {error}
@@ -727,7 +727,7 @@ const ActivityHistory = () => {
        ) : (
         <div className="py-8 text-center" style={{ color: COLORS.textColorSecondary }}>
          <Search className="mx-auto h-8 w-8 opacity-50 mb-2" />
-         <p>History активности не найдена</p>
+         <p>Activity history не найдена</p>
          {error && (
           <p className="mt-2 text-sm" style={{ color: COLORS.danger }}>
            {error}

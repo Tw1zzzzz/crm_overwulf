@@ -27,7 +27,7 @@ export const ROUTES = {
  CS2_EXCEL_IMPORT: '/cs2-excel-import',
  ACTIVITY_HISTORY: '/history',
  
- // Состояние игрока
+ // Состояние player
  PLAYER_STATE: '/state',
 
  // Маршруты для players

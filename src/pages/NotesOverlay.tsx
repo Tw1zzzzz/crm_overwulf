@@ -240,7 +240,7 @@ const NotesOverlay = () => {
       <StickyNote className="h-4 w-4 text-cyan-300" />
       Notes
      </div>
-     <Button size="icon" className="h-8 w-8" onClick={handleCreateNote} title="Create заметку">
+     <Button size="icon" className="h-8 w-8" onClick={handleCreateNote} title="Create note">
       <Plus className="h-4 w-4" />
      </Button>
     </div>

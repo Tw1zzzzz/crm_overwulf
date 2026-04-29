@@ -69,7 +69,7 @@ export default function PlayerTestsPanel({
       style={{ borderColor: COLORS.borderColor, color: COLORS.textColor }}
       onClick={onOpenWeeklyTests}
      >
-      Open тесты
+      Open testы
       <ExternalLink className="ml-2 h-4 w-4" />
      </Button>
     </CardContent>

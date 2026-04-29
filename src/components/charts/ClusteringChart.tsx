@@ -60,7 +60,7 @@ interface ClusteringChartProps {
 const ClusteringChart: React.FC<ClusteringChartProps> = ({
  playerData,
  clusters,
- title = 'Clusterный analysis players',
+ title = 'Player cluster analysis',
  showStrategies = true,
  height = 400
 }) => {
@@ -168,7 +168,7 @@ const ClusteringChart: React.FC<ClusteringChartProps> = ({
      <CardContent className="p-4">
       <div className="flex items-center justify-between">
        <div>
-        <p className="text-sm text-gray-600">Clusterов</p>
+        <p className="text-sm text-gray-600">Clusters</p>
         <p className="text-2xl font-bold">{clusterStats.clustersCount}</p>
        </div>
        <Target className="h-8 w-8 text-green-500" />
@@ -441,7 +441,7 @@ const ClusteringChart: React.FC<ClusteringChartProps> = ({
          </div>
         )}
 
-        {/* Playerи кластера */}
+        {/* Players кластера */}
         <div>
          <h4 className="font-medium text-sm mb-2">Players:</h4>
          <div className="space-y-1 max-h-32 overflow-y-auto">

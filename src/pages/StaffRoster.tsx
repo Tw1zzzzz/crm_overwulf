@@ -484,7 +484,7 @@ const StaffRoster = () => {
            style={{ color: COLORS.textColorSecondary }}
           >
            <Info className="h-3 w-3" />
-           User сможет changить пароль после первого входа
+           User сможет change пароль после первого входа
           </p>
          </div>
         </div>
@@ -677,7 +677,7 @@ const StaffRoster = () => {
       </h3>
       <p className="text-sm" style={{ color: COLORS.textColorSecondary }}>
        Staff memberи с предоставленными привилегиями имеют доступ к управлению составом участников team и персонала.
-       Для получения привилегий необходимо ввести специальный ключ доступа в профиле пользователя.
+       Для получения привилегий необходимо ввести специальный ключ доступа в профиле user.
       </p>
      </div>
     </CardContent>

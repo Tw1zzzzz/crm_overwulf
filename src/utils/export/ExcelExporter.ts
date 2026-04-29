@@ -193,9 +193,9 @@ class ExcelExporter {
      data: [
       ['Total reports', correlationData.totalReports],
       ['Analyzed period', correlationData.period],
-      ['Averageний эффект на настроение (%)', correlationData.avgMoodImpact?.toFixed(1) || 'N/A'],
-      ['Count положительных корреляций', correlationData.positiveCorrelations],
-      ['Count отрицательных корреляций', correlationData.negativeCorrelations],
+      ['Average mood impact (%)', correlationData.avgMoodImpact?.toFixed(1) || 'N/A'],
+      ['Positive correlations count', correlationData.positiveCorrelations],
+      ['Negative correlations count', correlationData.negativeCorrelations],
       ['Strong correlations (|r| > 0.7)', correlationData.strongCorrelations],
       ['Most effective report type', correlationData.mostEffectiveType],
       ['Overall team trend', correlationData.trend]
@@ -214,7 +214,7 @@ class ExcelExporter {
     },
     {
      name: 'Impact by report type',
-     headers: ['Report type', 'Count', 'Averageний эффект (%)', 'Standard deviation'],
+     headers: ['Report type', 'Count', 'Average effect (%)', 'Standard deviation'],
      data: correlationData.impactByType?.map((type: any) => [
       this.getReportTypeText(type.type),
       type.count,
@@ -236,7 +236,7 @@ class ExcelExporter {
    filename: 'Sentiment_analysis',
    sheets: [
     {
-     name: 'Overview тональности',
+     name: 'Sentiment overview',
      headers: ['Category', 'Count', 'Percent'],
      data: [
       ['Positive reports', sentimentData.positiveCount, `${sentimentData.positivePercentage}%`],
@@ -246,7 +246,7 @@ class ExcelExporter {
     },
     {
      name: 'Emotional analysis',
-     headers: ['Emotion', 'Averageний уровень', 'Maximum', 'Minimum', 'Mention frequency'],
+     headers: ['Emotion', 'Average level', 'Maximum', 'Minimum', 'Mention frequency'],
      data: sentimentData.emotions?.map((emotion: any) => [
       emotion.name,
       emotion.avgLevel?.toFixed(2),
@@ -283,7 +283,7 @@ class ExcelExporter {
    filename: 'Player_clustering',
    sheets: [
     {
-     name: 'Overview кластеров',
+     name: 'Cluster overview',
      headers: ['Cluster', 'Count players', 'Description', 'Characteristics'],
      data: clusteringData.clusters?.map((cluster: any) => [
       cluster.name,
@@ -328,7 +328,7 @@ class ExcelExporter {
    sheets: [
     {
      name: 'Historical data',
-     headers: ['Date', 'Team mood', 'Report count', 'Activity', 'Тренд'],
+     headers: ['Date', 'Team mood', 'Report count', 'Activity', 'Trend'],
      data: timeSeriesData.historicalData?.map((point: any) => [
       new Date(point.date).toLocaleDateString('en-US'),
       point.teamMood?.toFixed(2),
@@ -338,8 +338,8 @@ class ExcelExporter {
      ]) || []
     },
     {
-     name: 'Forecastы',
-     headers: ['Date', 'Forecast настроения', 'Confidence interval (low)', 'Confidence interval (high)', 'Method'],
+     name: 'Forecasts',
+     headers: ['Date', 'Mood forecast', 'Confidence interval (low)', 'Confidence interval (high)', 'Method'],
      data: timeSeriesData.forecasts?.map((forecast: any) => [
       new Date(forecast.date).toLocaleDateString('en-US'),
       forecast.prediction?.toFixed(2),
@@ -355,9 +355,9 @@ class ExcelExporter {
       ['R² (coefficient of determination)', timeSeriesData.modelStats?.rSquared?.toFixed(4)],
       ['RMSE (root mean square error)', timeSeriesData.modelStats?.rmse?.toFixed(4)],
       ['MAE (mean absolute error)', timeSeriesData.modelStats?.mae?.toFixed(4)],
-      ['Type тренда', timeSeriesData.modelStats?.trendType],
-      ['Seasonality detected', timeSeriesData.modelStats?.seasonalityDetected ? 'Да' : 'No'],
-      ['Period analysis (дней)', timeSeriesData.modelStats?.analysisPeriod]
+      ['Trend type', timeSeriesData.modelStats?.trendType],
+      ['Seasonality detected', timeSeriesData.modelStats?.seasonalityDetected ? 'Yes' : 'No'],
+      ['Analysis period (days)', timeSeriesData.modelStats?.analysisPeriod]
      ]
     }
    ]
@@ -378,9 +378,9 @@ class ExcelExporter {
      headers: ['Section', 'Key metric', 'Value', 'Interpretation'],
      data: [
       ['Reports', 'Total count', analyticsData.summary?.totalReports, 'Team activity'],
-      ['Sentiment', 'Averageний настрой (%)', analyticsData.summary?.avgSentiment?.toFixed(1), this.interpretSentiment(analyticsData.summary?.avgSentiment)],
+      ['Sentiment', 'Average mood (%)', analyticsData.summary?.avgSentiment?.toFixed(1), this.interpretSentiment(analyticsData.summary?.avgSentiment)],
       ['Correlation', 'Strong links', analyticsData.summary?.strongCorrelations, 'Identified patterns'],
-      ['Clusterofация', 'Main cluster', analyticsData.summary?.dominantCluster, 'Team profile'],
+      ['Clustering', 'Main cluster', analyticsData.summary?.dominantCluster, 'Team profile'],
       ['Forecast', 'Weekly trend', analyticsData.summary?.weeklyTrend, 'Expected dynamics']
      ]
     }
@@ -422,9 +422,9 @@ class ExcelExporter {
  private getReportTypeText(type: string): string {
   const typeMap: { [key: string]: string } = {
    'team_meeting': 'Team meeting',
-   'performance_review': 'Overview проofводительности',
+   'performance_review': 'Performance overview',
    'mood_check': 'Mood check',
-   'feedback_session': 'Session обратной связи',
+   'feedback_session': 'Feedback session',
    'training_session': 'Training session',
    'match_analysis': 'Match analysis',
    'strategy_discussion': 'Strategy discussion',

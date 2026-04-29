@@ -177,7 +177,7 @@ class SyncManager {
    this.saveSyncQueue(queue);
 
    // Здесь вызываем API для sync данных
-   // Реалofация будет зависеть от типа операции и сущности
+   //  будет зависеть от типа операции и сущности
    const success = await this.syncOperation(operation);
 
    if (success) {
@@ -264,7 +264,7 @@ class SyncManager {
  }
 
  /**
-  * Генерирует ключ для localStorage с учетом пользователя
+  * Генерирует ключ для localStorage с учетом user
   */
  private getKey(key: string): string {
   const userToken = localStorage.getItem('token');
@@ -289,7 +289,7 @@ class SyncManager {
    try {
     listener();
    } catch (e) {
-    console.error('[SyncManager] Error в слушателе:', e);
+    console.error('[SyncManager] Error in listener:', e);
    }
   });
  }

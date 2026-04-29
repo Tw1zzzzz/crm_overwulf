@@ -12,8 +12,8 @@ interface ZoneDetailCardProps {
 }
 
 const ZONE_LABELS: Record<BodyZone, string> = {
- head: 'Cognitive потенциал',
- eyes: 'Focus и концентрация',
+ head: 'Cognitive potential',
+ eyes: 'Focus and concentration',
  chest: 'Psychological core',
  arms: 'Game performance',
  back: 'Recovery',

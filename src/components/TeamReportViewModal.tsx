@@ -179,7 +179,7 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex items-center gap-2">
          <Calendar className="h-4 w-4" style={{ color: COLORS.textColorSecondary }} />
-         <span className="text-sm" style={{ color: COLORS.textColorSecondary }}>Создано:</span>
+         <span className="text-sm" style={{ color: COLORS.textColorSecondary }}>Created:</span>
          <span className="text-sm font-medium" style={{ color: COLORS.textColor }}>
           {formatDate(report.createdAt)}
          </span>
@@ -189,14 +189,14 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
          <User className="h-4 w-4" style={{ color: COLORS.textColorSecondary }} />
          <span className="text-sm" style={{ color: COLORS.textColorSecondary }}>Author:</span>
          <span className="text-sm font-medium" style={{ color: COLORS.textColor }}>
-          {report.createdBy?.name || 'Неofвестный автор'}
+          {report.createdBy?.name || 'Unknown author'}
          </span>
         </div>
 
         {report.updatedAt && report.createdAt && report.updatedAt !== report.createdAt && (
          <div className="flex items-center gap-2">
           <Clock className="h-4 w-4" style={{ color: COLORS.textColorSecondary }} />
-          <span className="text-sm" style={{ color: COLORS.textColorSecondary }}>Обновлено:</span>
+          <span className="text-sm" style={{ color: COLORS.textColorSecondary }}>Updated:</span>
           <span className="text-sm font-medium" style={{ color: COLORS.textColor }}>
            {formatDate(report.updatedAt)}
           </span>
@@ -223,7 +223,7 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
       </CardHeader>
       <CardContent>
        <p style={{ color: COLORS.textColor, lineHeight: '1.6' }}>
-        {report.content?.summary || 'Summary not specifiedо'}
+        {report.content?.summary || 'Summary not specified'}
        </p>
       </CardContent>
      </Card>
@@ -237,7 +237,7 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
       </CardHeader>
       <CardContent>
        <div style={{ color: COLORS.textColor, lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
-        {report.content?.details || 'Detailed description not specifiedо'}
+        {report.content?.details || 'Detailed description not specified'}
        </div>
       </CardContent>
      </Card>
@@ -280,7 +280,7 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
          </CardHeader>
          <CardContent>
           <div style={{ color: COLORS.textColor, lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
-           {section?.content || 'Содержимое секции not specifiedо'}
+           {section?.content || 'Section content not specified'}
           </div>
          </CardContent>
         </Card>
@@ -314,7 +314,7 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
             </span>
             <div>
              <p className="font-medium" style={{ color: COLORS.textColor }}>
-              {attachment?.filename || 'Файл без имени'}
+              {attachment?.filename || 'File без имени'}
              </p>
              <p className="text-sm" style={{ color: COLORS.textColorSecondary }}>
               Loaded: {attachment.uploadedAt ? formatDate(attachment.uploadedAt.toString()) : 'Date unknown'}
@@ -371,7 +371,7 @@ const TeamReportViewModal: React.FC<TeamReportViewModalProps> = ({
         <Card style={{ backgroundColor: COLORS.backgroundColor, borderColor: COLORS.borderColor }}>
          <CardHeader className="pb-3">
           <CardTitle className="text-base" style={{ color: COLORS.textColor }}>
-           Назначено игрокам
+           Назначено playerм
           </CardTitle>
          </CardHeader>
          <CardContent>

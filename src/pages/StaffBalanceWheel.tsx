@@ -57,7 +57,7 @@ const StaffBalanceWheel = () => {
       setPlayers(processedPlayers);
       setPlayersDataError(false); // Явно устанавливаем флаг в false при успешной загрузке
       
-      // Выбираем первого игрока по умолчанию
+      // Выбираем первого player по умолчанию
       if (processedPlayers.length > 0) {
        setSelectedPlayerId(processedPlayers[0].id);
       }
@@ -160,7 +160,7 @@ const StaffBalanceWheel = () => {
    }
   };
 
-  // Загружаем данные только если есть игроки
+  // Загружаем данные только если есть playerи
   if (players.length > 0) {
    fetchAllPlayersWheelData();
   } else {
@@ -169,12 +169,12 @@ const StaffBalanceWheel = () => {
   }
  }, [players, refreshTrigger]);
 
- // Обработка выбора игрока и отображение его колеса баланса
+ // Обработка выбора player и отображение его колеса баланса
  useEffect(() => {
   if (selectedPlayerId && allPlayersWheelData.length > 0) {
    setLoading(true);
    
-   // Варианты поиска данных для выбранного игрока (проверяем разные возможные поля)
+   // Варианты поиска данных для выбранного player (проверяем разные возможные поля)
    const playerData = allPlayersWheelData.find(data => 
     (data.userId && (data.userId === selectedPlayerId || data.userId.toString() === selectedPlayerId)) || 
     (data._id && (data._id === selectedPlayerId || data._id.toString() === selectedPlayerId)) || 
@@ -194,7 +194,7 @@ const StaffBalanceWheel = () => {
      financial: latestWheel.financial || 0,
     });
     
-    // Сохраняем все колеса баланса игрока
+    // Сохраняем все колеса баланса player
     setBalanceWheels(playerData.wheels);
     setLoading(false);
    } else {
@@ -206,7 +206,7 @@ const StaffBalanceWheel = () => {
   }
  }, [selectedPlayerId, allPlayersWheelData]);
 
- // Принудительная загрузка данных колеса баланса для выбранного игрока
+ // Принудительная загрузка данных колеса баланса для выбранного player
  const forceFetchBalanceWheelForPlayer = async (playerId: string) => {
   try {
    setLoading(true);
@@ -256,7 +256,7 @@ const StaffBalanceWheel = () => {
       // Создаем копию, чтобы не мутировать state напрямую
       const updatedData = [...prevData];
       
-      // Ищем индекс игрока в массиве
+      // Ищем индекс player в массиве
       const playerIndex = updatedData.findIndex(player => 
        (player.userId && (player.userId === playerId || String(player.userId) === playerId)) || 
        (player._id && (player._id === playerId || String(player._id) === playerId)) || 
@@ -264,13 +264,13 @@ const StaffBalanceWheel = () => {
       );
       
       if (playerIndex !== -1) {
-       // Обновляем данные существующего игрока
+       // Обновляем данные существующего player
        updatedData[playerIndex] = {
         ...updatedData[playerIndex],
         wheels: sortedWheels
        };
       } else {
-       // Если игрока нет в списке, добавляем его
+       // Если player нет в списке, добавляем его
        const player = players.find(p => p.id === playerId);
        if (player) {
         updatedData.push({
@@ -295,7 +295,7 @@ const StaffBalanceWheel = () => {
    setPlayersDataError(true);
    
   } catch (error) {
-   console.error(`Error while загрузке колеса баланса игрока ${playerId}:`, error);
+   console.error(`Error while загрузке колеса баланса player ${playerId}:`, error);
    setApiError('Failed to load balance wheel data. Please try again later.');
    setPlayersDataError(true);
   } finally {
@@ -303,7 +303,7 @@ const StaffBalanceWheel = () => {
   }
  };
 
- // Функция для обновления данных конкретного игрока
+ // Функция для обновления данных конкретного player
  const refreshPlayerData = async (playerId: string) => {
   try {
    setLoading(true);
@@ -331,7 +331,7 @@ const StaffBalanceWheel = () => {
       return 0;
      });
      
-     // Обновляем список колес баланса игрока
+     // Обновляем список колес баланса player
      setBalanceWheels(sortedWheels);
     
      // Обновляем текущие данные колеса баланса на основе последнего колеса
@@ -349,12 +349,12 @@ const StaffBalanceWheel = () => {
      
      setBalanceWheelData(updatedWheelData);
     
-     // Обновляем общие данные с новыми данными для этого игрока
+     // Обновляем общие данные с новыми данными для этого player
      setAllPlayersWheelData(prevData => {
       // Создаем копию, чтобы не мутировать state напрямую
       const updatedData = [...prevData];
       
-      // Ищем индекс игрока в массиве
+      // Ищем индекс player в массиве
       const playerIndex = updatedData.findIndex(player => 
        (player.userId && (player.userId === playerId || String(player.userId) === playerId)) || 
        (player._id && (player._id === playerId || String(player._id) === playerId)) || 
@@ -362,13 +362,13 @@ const StaffBalanceWheel = () => {
       );
       
       if (playerIndex !== -1) {
-       // Обновляем данные существующего игрока
+       // Обновляем данные существующего player
        updatedData[playerIndex] = {
         ...updatedData[playerIndex],
         wheels: sortedWheels
        };
       } else {
-       // Если игрока нет в списке, добавляем его
+       // Если player нет в списке, добавляем его
        const player = players.find(p => p.id === playerId);
        if (player) {
         updatedData.push({
@@ -427,7 +427,7 @@ const StaffBalanceWheel = () => {
     financial: latestWheel.financial || 0,
    });
    
-   // Сохраняем все колеса баланса игрока
+   // Сохраняем все колеса баланса player
    setBalanceWheels(playerData.wheels);
   } else {
    // Если данные не найдены, загружаем их единожды
@@ -435,13 +435,13 @@ const StaffBalanceWheel = () => {
   }
  };
 
- // Получение имени игрока
+ // Получение имени player
  const getPlayerName = () => {
   const player = players.find((p) => p.id === selectedPlayerId);
   return player ? player.name : "Select player";
  };
 
- // Расчет среднего значения всех параметров
+ //  среднего значения всех параметров
  const getAverageScore = () => {
   const values = [
    balanceWheelData.physical,
@@ -513,9 +513,9 @@ const StaffBalanceWheel = () => {
   // Показываем уведомление о начале обновления
   toast.info("Updating data...");
   
-  // Если выбран игрок, дополнительно обновляем его данные напрямую
+  // Если выбран player, дополнительно обновляем его данные напрямую
   if (selectedPlayerId) {
-   // Запускаем обновление выбранного игрока
+   // Запускаем обновление выбранного player
    setTimeout(() => {
     refreshPlayerData(selectedPlayerId);
    }, 500); // Небольшая задержка для уменьшения нагрузки

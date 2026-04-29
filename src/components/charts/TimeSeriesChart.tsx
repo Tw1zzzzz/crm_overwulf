@@ -95,7 +95,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
   const min = Math.min(...values);
   const max = Math.max(...values);
   
-  // Расчет тренда
+  //  тренда
   const recentValues = values.slice(-7); // Последние 7 точек
   const previousValues = values.slice(-14, -7); // Prevыдущие 7 точек
   
@@ -222,7 +222,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
        <SelectValue />
       </SelectTrigger>
       <SelectContent>
-       <SelectItem value="all">All паттерны</SelectItem>
+       <SelectItem value="all">All patterns</SelectItem>
        {patterns.map(pattern => (
         <SelectItem key={pattern.name} value={pattern.name}>
          {pattern.name}
@@ -240,7 +240,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
       <CardContent className="p-4">
        <div className="flex items-center justify-between">
         <div>
-         <p className="text-sm text-gray-600">Averageнее значение</p>
+         <p className="text-sm text-gray-600">Average value</p>
          <p className="text-2xl font-bold">{formatYAxisLabel(stats.average)}</p>
         </div>
        </div>
@@ -452,7 +452,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
      <CardContent>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
        <div>
-        <h4 className="font-medium mb-2">Characteristics паттерна</h4>
+        <h4 className="font-medium mb-2">Pattern characteristics</h4>
         <ul className="space-y-2 text-sm">
          <li><strong>Type:</strong> {getPatternTypeText(mainPattern.type)}</li>
          <li><strong>Сила паттерна:</strong> {(mainPattern.strength * 100).toFixed(1)}%</li>
@@ -463,7 +463,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
         </ul>
        </div>
        <div>
-        <h4 className="font-medium mb-2">Statistics тренда</h4>
+        <h4 className="font-medium mb-2">Trend statistics</h4>
         <ul className="space-y-2 text-sm">
          <li>
           <strong>Направление:</strong>{' '}

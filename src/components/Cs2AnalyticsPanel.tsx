@@ -55,7 +55,7 @@ export default function Cs2AnalyticsPanel() {
     else setData(null);
    } catch (e: any) {
     setData(null);
-    toast.error(e?.response?.data?.message || e?.message || "Loading error CS2 аналитики");
+    toast.error(e?.response?.data?.message || e?.message || "CS2 analytics loading error");
    } finally {
     setLoading(false);
    }

@@ -124,9 +124,9 @@ export async function getPlayerDashboard(userId: string): Promise<{ success: boo
    return { success: true, data: normalizePlayerDashboardData(rawData) };
   }
 
-  return { success: false, error: (response.data as any)?.message || "Error while загрузке дашборда" };
+  return { success: false, error: (response.data as any)?.message || "Error while loading dashboard" };
  } catch (e: any) {
-  const msg = e?.response?.data?.message || e?.message || "Error while загрузке дашборда";
+  const msg = e?.response?.data?.message || e?.message || "Error while loading dashboard";
   return { success: false, error: msg };
  }
 }

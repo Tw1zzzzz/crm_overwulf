@@ -76,11 +76,11 @@ const CorrelationAnalysis: React.FC = () => {
       </div>
       <h2 className="text-xl font-semibold text-gray-900 mb-2">Correlation analysis</h2>
       <p className="text-gray-600 mb-4">
-       Данная функция доступна только персоналу for analysis эффективности team reports
+       Yesнная функция доступна только персоналу for analysis эффективности team reports
       </p>
       <div className="text-sm text-blue-600">
        <p>✨ Analysis связей между reportsи и настроением team</p>
-       <p>📊 Выявление паттернов проofводительности</p>
+       <p>📊 Выявление паттернов performance</p>
        <p>🎯 Оптимofация стратегий управления командой</p>
       </div>
      </div>
@@ -96,7 +96,7 @@ const CorrelationAnalysis: React.FC = () => {
    setCorrelationStats(response.data);
    setIsFeatureInDevelopment(false);
   } catch (error: any) {
-   console.error('Loading error статистики корреляций:', error);
+   console.error('Correlation statistics loading error:', error);
    
    // Проверяем, если функция в разработке (501 статус)
    if (error.response?.status === 501) {
@@ -123,7 +123,7 @@ const CorrelationAnalysis: React.FC = () => {
    });
    setMoodCorrelations(response.data);
   } catch (error: any) {
-   console.error('Loading error корреляций настроения:', error);
+   console.error('Mood correlation loading error:', error);
    // Не показываем toast для 404/501 ошибок (функция может быть не реалofована)
    if (error.response?.status !== 404 && error.response?.status !== 501) {
     toast({
@@ -141,7 +141,7 @@ const CorrelationAnalysis: React.FC = () => {
    const response = await getPerformancePatterns(monthsBack);
    setPerformancePatterns(response.data);
   } catch (error: any) {
-   console.error('Loading error паттернов проofводительности:', error);
+   console.error('Performance pattern loading error:', error);
    if (error.response?.status !== 404 && error.response?.status !== 501) {
     toast({
      title: "Error",
@@ -161,7 +161,7 @@ const CorrelationAnalysis: React.FC = () => {
    });
    setBalanceCorrelations(response.data);
   } catch (error: any) {
-   console.error('Loading error корреляций баланса:', error);
+   console.error('Balance correlation loading error:', error);
    if (error.response?.status !== 404 && error.response?.status !== 501) {
     toast({
      title: "Error",
@@ -181,7 +181,7 @@ const CorrelationAnalysis: React.FC = () => {
    });
    setComprehensiveAnalysis(response.data);
   } catch (error: any) {
-   console.error('Loading error комплексного analysis:', error);
+   console.error('Comprehensive analysis loading error:', error);
    if (error.response?.status !== 404 && error.response?.status !== 501) {
     toast({
      title: "Error",
@@ -205,7 +205,7 @@ const CorrelationAnalysis: React.FC = () => {
       fetchPerformancePatterns()
      ]);
     } catch (error) {
-     console.error('Loading error данных корреляций:', error);
+     console.error('Data loading error корреляций:', error);
     } finally {
      setLoading(false);
     }
@@ -215,7 +215,7 @@ const CorrelationAnalysis: React.FC = () => {
   }
  }, [isStaff]);
 
- // Обновление данных при changении фильтров
+ // Update данных при changении фильтров
  useEffect(() => {
   if (isStaff && !loading) {
    fetchMoodCorrelations();
@@ -337,7 +337,7 @@ const CorrelationAnalysis: React.FC = () => {
     <div>
      <h1 className="text-3xl font-bold text-gray-900">Correlation analysis</h1>
      <p className="text-gray-600">
-      Analysis взаимосвязей между reportsи team и метриками проofводительности
+      Analysis of relationships between team reports and performance metrics
      </p>
     </div>
     <div className="flex items-center gap-3">
@@ -435,7 +435,7 @@ const CorrelationAnalysis: React.FC = () => {
          <BarChart3 className="h-6 w-6" style={{ color: COLORS.primary }} />
         </div>
         <div className="flex-1">
-         <p className="text-sm font-medium text-gray-600">Allго reports</p>
+         <p className="text-sm font-medium text-gray-600">Total reports</p>
          <p className="text-2xl font-bold text-gray-900">
           {correlationStats.totalReportsAnalyzed}
          </p>
@@ -518,7 +518,7 @@ const CorrelationAnalysis: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
          <div className="space-y-4">
           <div className="p-4 rounded-lg bg-blue-50">
-           <h4 className="font-semibold text-blue-900 mb-2">Averageний эффект на настроение</h4>
+           <h4 className="font-semibold text-blue-900 mb-2">Average mood impact</h4>
            <p className="text-2xl font-bold text-blue-700">
             {formatPercentage(comprehensiveAnalysis.insights.averageMoodImpact)}
            </p>
@@ -545,11 +545,11 @@ const CorrelationAnalysis: React.FC = () => {
             {comprehensiveAnalysis.insights.overallTrend === 'declining' && 'Decline'}
             {comprehensiveAnalysis.insights.overallTrend === 'stable' && 'Stability'}
            </p>
-           <p className="text-sm opacity-75">проofводительности team</p>
+           <p className="text-sm opacity-75">team performance</p>
           </div>
           
           <div className="p-4 rounded-lg bg-purple-50">
-           <h4 className="font-semibold text-purple-900 mb-2">Проanalysisировано reports</h4>
+           <h4 className="font-semibold text-purple-900 mb-2">Reports analyzed</h4>
            <p className="text-2xl font-bold text-purple-700">
             {comprehensiveAnalysis.insights.totalReportsAnalyzed}
            </p>
@@ -626,13 +626,13 @@ const CorrelationAnalysis: React.FC = () => {
      </Card>
     </TabsContent>
 
-    {/* Patterns проofводительности */}
+    {/* Patterns performance */}
     <TabsContent value="patterns" className="space-y-6">
      <Card>
       <CardHeader>
        <CardTitle className="flex items-center gap-2">
         <BarChart3 className="h-5 w-5" />
-        Patterns проofводительности по месяцам
+        Patterns performance по месяцам
        </CardTitle>
       </CardHeader>
       <CardContent>
@@ -820,7 +820,7 @@ const CorrelationAnalysis: React.FC = () => {
             <li className="flex items-start gap-2">
              <CheckCircle className="h-4 w-4 text-green-600 mt-0.5" />
              <span className="text-sm text-gray-700">
-              Averageний эффект на настроение: {formatPercentage(comprehensiveAnalysis.insights.averageMoodImpact)}
+              Average mood impact: {formatPercentage(comprehensiveAnalysis.insights.averageMoodImpact)}
              </span>
             </li>
             {comprehensiveAnalysis.insights.mostEffectiveReportType && (

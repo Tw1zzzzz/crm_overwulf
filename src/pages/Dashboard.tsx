@@ -170,7 +170,7 @@ const Dashboard = () => {
        if (Array.isArray(moodResponse.data)) {
         // Format: [{userId, name, mood, energy, ...}, ...]
         if (moodResponse.data.length > 0 && moodResponse.data[0].chartData) {
-         // Если у нас есть данные графика для одного пользователя
+         // Если у нас есть данные графика для одного user
          const playerData = moodResponse.data[0];
          // Преобразуем данные графика в формат MoodEntry
          loadedMoodEntries = playerData.chartData.map((item: any) => ({
@@ -202,7 +202,7 @@ const Dashboard = () => {
        if (Array.isArray(testResponse.data)) {
         // Аналогичная проверка для данных тестов
         if (testResponse.data.length > 0 && testResponse.data[0].tests) {
-         // Если у нас есть детальные тесты для одного пользователя
+         // Если у нас есть детальные тесты для одного user
          loadedTestEntries = testResponse.data[0].tests;
         } else {
          loadedTestEntries = testResponse.data;
@@ -241,7 +241,7 @@ const Dashboard = () => {
       setWeeklyData(weeklyChartData);
      } catch (apiError) {
       console.error("Error getting data from API:", apiError);
-      // Резервный вариант: загружаем of локального хранилища
+      //  вариант: загружаем of локального хранилища
       console.log("[Dashboard] Using data from local storage");
       const localMoodEntries = getMoodEntries();
       const localTestEntries = getTestEntries();
@@ -312,7 +312,7 @@ const Dashboard = () => {
     setWeeklyData([]);
    }
    
-   // Рассчитываем средние показатели
+   //  средние показатели
    calculateAverageStats(
     moodResponse && Array.isArray(moodResponse.data) ? moodResponse.data : [],
     testsResponse && Array.isArray(testsResponse.data) ? testsResponse.data : []
@@ -397,7 +397,7 @@ const Dashboard = () => {
    };
   });
   
-  // Рассчитываем средние значения для всех records
+  //  средние значения для всех records
   const moodSum = entries.reduce((sum, entry) => {
    const moodValue = typeof entry.mood === 'number' ? entry.mood : 
             (typeof entry.value === 'number' ? entry.value : 0);
@@ -950,7 +950,7 @@ const Dashboard = () => {
        </Card>
       </div>
      ) : (
-      // Информация для игрока
+      // Информация для player
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
        <Card style={{ backgroundColor: COLORS.cardBackground, borderColor: COLORS.borderColor, boxShadow: "0 1px 20px 0 rgba(0,0,0,.1)" }}>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

@@ -14,7 +14,7 @@ abstract class DataRepository<T> {
  }
 
  /**
-  * Генерирует ключ для localStorage с учетом пользователя
+  * Генерирует ключ для localStorage с учетом user
   */
  protected getStorageKey(): string {
   const userToken = localStorage.getItem('token');
@@ -111,7 +111,7 @@ abstract class DataRepository<T> {
 }
 
 /**
- * Репозиторий для работы с записями настроения
+ *  для работы с записями настроения
  */
 export class MoodRepository extends DataRepository<MoodEntry> {
  constructor() {
@@ -130,7 +130,7 @@ export class MoodRepository extends DataRepository<MoodEntry> {
 }
 
 /**
- * Репозиторий для работы с записями тестов
+ *  для работы с записями тестов
  */
 export class TestRepository extends DataRepository<TestEntry> {
  constructor() {
@@ -149,7 +149,7 @@ export class TestRepository extends DataRepository<TestEntry> {
 }
 
 /**
- * Репозиторий для работы с колесами баланса
+ *  для работы с колесами баланса
  */
 export class BalanceWheelRepository extends DataRepository<BalanceWheel> {
  constructor() {

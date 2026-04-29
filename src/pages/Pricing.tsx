@@ -91,7 +91,7 @@ const Pricing = () => {
   <div className="container mx-auto py-6 space-y-6">
    <div className="space-y-3">
     <span className="text-sm uppercase tracking-[0.24em] text-primary/80">{PRODUCT_NAME}</span>
-    <h1 className="text-3xl font-bold">Planы и расширение инсайта</h1>
+    <h1 className="text-3xl font-bold">Plans and expanded insight</h1>
     <p className="text-muted-foreground max-w-2xl">
      {PRODUCT_DESCRIPTOR}. The basic overview and early signals remain visible for free, while plans unlock deeper analysis, расширенную историю и рабочие витрины для решений.
     </p>
@@ -144,7 +144,7 @@ const Pricing = () => {
          </div>
          <div className="text-3xl font-bold tracking-tight">{formatPrice(plan.price)}</div>
          <div className="rounded-2xl border border-primary/10 bg-primary/5 px-4 py-3 text-sm text-muted-foreground">
-          <p className="font-medium text-foreground">What changится после покупки</p>
+          <p className="font-medium text-foreground">What changes after purchase</p>
           <p className="mt-2 leading-6">{presentation.outcome}</p>
          </div>
         </CardHeader>

@@ -28,7 +28,7 @@ interface PlayersStatsProps {
 }
 
 /**
- * Компонент для отображения статистики по игрокам (режим тренера)
+ * Компонент для отображения статистики по playerм (режим тренера)
  */
 const PlayersStats = ({
  playersMoodStats,
@@ -110,7 +110,7 @@ const PlayersStats = ({
    ) : statsView === "mood" ? (
     <Card className="bg-[#1C1F3B] border-[#293056] shadow-none">
      <CardHeader>
-      <CardTitle className="text-white">Statistics настроения players</CardTitle>
+      <CardTitle className="text-white">Player mood statistics</CardTitle>
       <CardDescription className="text-gray-400">Average mood, energy, and sleep metrics across all players</CardDescription>
      </CardHeader>
      <CardContent>
@@ -120,7 +120,7 @@ const PlayersStats = ({
    ) : (
     <Card className="bg-[#1C1F3B] border-[#293056] shadow-none">
      <CardHeader>
-      <CardTitle className="text-white">Statistics тестов players</CardTitle>
+      <CardTitle className="text-white">Player test statistics</CardTitle>
       <CardDescription className="text-gray-400">Player test results by type</CardDescription>
      </CardHeader>
      <CardContent>

@@ -36,7 +36,7 @@ interface AddPlayerFormProps {
 }
 
 /**
- * Компонент формы добавления карточки игрока
+ * Компонент формы добавления карточки player
  */
 const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
  // Состояние формы
@@ -138,7 +138,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
   }
  };
  
- // Loading файла Roadmap на сервер
+ // File upload Roadmap на сервер
  const uploadRoadmap = async (userId: string): Promise<string> => {
   if (!roadmapFile) return "";
   
@@ -176,7 +176,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
   }
  };
  
- // Loading файла Mindmap на сервер
+ // File upload Mindmap на сервер
  const uploadMindmap = async (userId: string): Promise<string> => {
   if (!mindmapFile) return "";
   
@@ -214,7 +214,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
   }
  };
  
- // Обновление коммуникативной линии
+ // Update коммуникативной линии
  const updateCommunicationLine = async (userId: string): Promise<boolean> => {
   if (!formData.communicationLine) return true;
   
@@ -268,11 +268,11 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
    
    console.log("[AddPlayerForm] Creating player and card:", formData);
    
-   // 1. Создаем игрока
+   // 1. Создаем player
    let userId = '';
    
    try {
-    // Генерируем случайный пароль и email для игрока
+    // Генерируем случайный пароль и email для player
     const randomPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
     const email = `${formData.name.toLowerCase().replace(/\s+/g, '.')}${Date.now()}@team.com`;
     
@@ -314,9 +314,9 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
     }
    }
    
-   // 2. Обновляем контакты в автоматически созданной карточке игрока
+   // 2. Обновляем контакты в автоматически созданной карточке player
    try {
-    // Обновляем контакты игрока
+    // Обновляем контакты player
     const contactsResponse = await axios.put(
      `${baseUrl}/api/player-cards/${userId}/contacts`,
      { contacts: formData.contacts },
@@ -439,7 +439,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
  </div>
 
  <div className="space-y-2">
-  <Label>Type игрока</Label>
+  <Label>Type player</Label>
   <div className="flex items-center space-x-4">
    <label className="flex items-center space-x-2">
     <input
@@ -459,7 +459,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
      className="h-4 w-4"
      disabled={isLoading}
     />
-    <span>Одиночный игрок</span>
+    <span>Одиночный player</span>
    </label>
   </div>
  </div>
@@ -656,7 +656,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onPlayerAdded }) => {
       ) : (
        <>
         <Plus className="h-6 w-6" />
-        Create карточку игрока
+        Create карточку player
        </>
       )}
      </Button>

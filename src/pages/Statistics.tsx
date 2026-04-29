@@ -263,7 +263,7 @@ const Statistics = () => {
      setTestEntries([]);
     }
     
-    // Сохраняем дополнительные данные игрока
+    // Сохраняем дополнительные данные player
     setPlayerStatsData(response.data);
    } else {
     console.warn('No data received for player');
@@ -274,7 +274,7 @@ const Statistics = () => {
    }
   } catch (error) {
    console.error('Error fetching player stats:', error);
-   setLoadingError(`Loading error данных игрока: ${(error as Error).message}`);
+   setLoadingError(`Data loading error player: ${(error as Error).message}`);
    setMoodEntries([]);
    setSleepEntries([]);
    setTestEntries([]);
@@ -390,7 +390,7 @@ const Statistics = () => {
  const handlePlayerChange = (playerId: string | any) => {
   setSelectedPlayerId(playerId);
   
-  // Обновляем URL с выбранным игроком
+  // Обновляем URL с выбранным playerом
   const params = new URLSearchParams(location.search);
   params.set('playerId', playerId);
   navigate({
@@ -440,7 +440,7 @@ const Statistics = () => {
    </div>
    
    {activeTab === "personal" ? (
-    // Показываем статистику выбранного игрока
+    // Показываем статистику выбранного player
     <div className="space-y-6">
      <div className="mb-4">
       <Select value={selectedPlayerId} onValueChange={handlePlayerChange}>

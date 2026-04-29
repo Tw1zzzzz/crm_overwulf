@@ -81,15 +81,15 @@ const TeamReports: React.FC = () => {
  const isStaff = user?.role === 'staff';
 
  // Отладочная информация для понимания проблемы
- console.log('🔍 [TeamReports] Debug аутентификации:', {
+ console.log('🔍 [TeamReports] Authentication debug:', {
   user: user,
   userRole: user?.role,
   isStaff: isStaff,
-  userCheck: user ? 'авторofован' : 'не авторofован',
-  roleCheck: user?.role === 'staff' ? 'staff' : (user?.role || 'роль не определена')
+  userCheck: user ? 'authorized' : 'не authorized',
+  roleCheck: user?.role === 'staff' ? 'staff' : (user?.role || 'role not defined')
  });
 
- // Проверяем загрузку пользователя
+ // Проверяем загрузку user
  useEffect(() => {
   const checkUserLoad = () => {
    // Добавляем небольшую задержку для загрузки аутентификации
@@ -103,7 +103,7 @@ const TeamReports: React.FC = () => {
 
  const fetchReports = async () => {
   if (!user) {
-   console.log('User не загружен, пропускаем загрузку reports');
+   console.log('User not loaded, skipping report loading');
    setReports([]);
    setLoading(false);
    return;
@@ -118,7 +118,7 @@ const TeamReports: React.FC = () => {
    if (Array.isArray(reportsData)) {
     setReports(reportsData);
    } else {
-    console.warn('Получены некорректные данные reports:', reportsData);
+    console.warn('Invalid report data received:', reportsData);
     setReports([]);
    }
   } catch (error: any) {
@@ -171,7 +171,7 @@ const TeamReports: React.FC = () => {
     setStats(null);
    }
   } catch (error: any) {
-   console.error('Loading error статистики reports:', error);
+   console.error('Report statistics loading error:', error);
    setStats(null); // Устанавливаем null при ошибке
   }
  };
@@ -200,7 +200,7 @@ const TeamReports: React.FC = () => {
  };
 
  const handleCreateReport = () => {
-  console.log('Создание report - клик по кнопке');
+  console.log('Create report - клик по кнопке');
   
   // Проверяем авторofацию
   if (!user) {
@@ -214,7 +214,7 @@ const TeamReports: React.FC = () => {
   
   setSelectedReport(null);
   setShowCreateModal(true);
-  console.log('showCreateModal установлен в true');
+  console.log('showCreateModal set to true');
  };
 
  const handleEditReport = (report: TeamReportResponse) => {
@@ -248,7 +248,7 @@ const TeamReports: React.FC = () => {
  };
 
  const handleDeleteReport = async (reportId: string) => {
-  if (!window.confirm('Вы уверены, что хотите удалить этот report?')) {
+  if (!window.confirm('Are you sure you want to delete this report?')) {
    return;
   }
 
@@ -259,7 +259,7 @@ const TeamReports: React.FC = () => {
    await fetchStats();
    toast({
     title: "Success",
-    description: "Report удален",
+    description: "Report deleted",
    });
   } catch (error: any) {
    toast({
@@ -284,30 +284,30 @@ const TeamReports: React.FC = () => {
    const pdfExporter = new PDFExporter();
    await pdfExporter.exportTeamReport({
     title: 'Reports team',
-    subtitle: 'Summary всех team reports',
+    subtitle: 'Summary of all team reports',
     createdAt: new Date().toISOString(),
-    summary: `Allго reports: ${stats?.total || 0}. Published: ${stats?.byStatus.published || 0}. Archived: ${stats?.byStatus.archived || 0}.`,
+    summary: `Total reports: ${stats?.total || 0}. Published: ${stats?.byStatus.published || 0}. Archived: ${stats?.byStatus.archived || 0}.`,
     keyMetrics: [
-     { label: 'Allго reports', value: stats?.total || 0 },
+     { label: 'Total reports', value: stats?.total || 0 },
      { label: 'Published', value: stats?.byStatus.published || 0 },
      { label: 'Drafts', value: stats?.byStatus.draft || 0 },
      { label: 'Archived', value: stats?.byStatus.archived || 0 }
     ],
     details: `Team activity за последний период показывает ${stats?.total || 0} reports. Большинство reports находятся в активном статусе.`,
     recommendations: [
-     'Регулярно обновляйте reportы для поддержания актуальности',
-     'Переводите черновики в статус "опубликован" после завершения',
-     'Архивируйте устаревшие reportы для улучшения органofации'
+     'Update reports regularly to keep them current',
+     'Move drafts to published after completion',
+     'Archive outdated reports to improve organization'
     ],
     attachments: []
    });
    
    toast({
     title: "Export complete",
-    description: "PDF report успешно сохранен",
+    description: "PDF report saved successfully",
    });
   } catch (error) {
-   console.error('Error экспорта PDF:', error);
+   console.error('PDF export error:', error);
    toast({
     title: "Error экспорта",
     description: "Failed to create PDF report",
@@ -323,10 +323,10 @@ const TeamReports: React.FC = () => {
    
    toast({
     title: "Export complete",
-    description: "Excel файл успешно сохранен",
+    description: "Excel file saved successfully",
    });
   } catch (error) {
-   console.error('Error экспорта Excel:', error);
+   console.error('Excel export error:', error);
    toast({
     title: "Error экспорта",
     description: "Failed to create Excel file",
@@ -429,7 +429,7 @@ const TeamReports: React.FC = () => {
        <div className="flex items-center justify-between">
         <div>
          <p className="text-2xl font-bold text-white">{stats?.total || 0}</p>
-         <p className="text-sm text-gray-300">Allго reports</p>
+         <p className="text-sm text-gray-300">Total reports</p>
         </div>
         <FileText className="h-8 w-8 text-blue-400" />
        </div>
@@ -495,7 +495,7 @@ const TeamReports: React.FC = () => {
         className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium border-0 shadow-md"
        >
         <FileText className="h-4 w-4" />
-        <span className="text-white font-medium">Экспорт PDF</span>
+        <span className="text-white font-medium">Export PDF</span>
        </Button>
        <Button 
         size="sm" 
@@ -503,12 +503,12 @@ const TeamReports: React.FC = () => {
         className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium border-0 shadow-md"
        >
         <FileSpreadsheet className="h-4 w-4" />
-        <span className="text-white font-medium">Экспорт Excel</span>
+        <span className="text-white font-medium">Export Excel</span>
        </Button>
       </>
      )}
      
-     {/* Кнопка создания report доступна всем авторofованным пользователям */}
+     {/* Кнопка создания report доступна всем authorizedным userм */}
      {user && (
       <Button 
        onClick={handleCreateReport} 
@@ -529,7 +529,7 @@ const TeamReports: React.FC = () => {
       <div className="relative">
        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
        <Input
-        placeholder="Поиск reports..."
+        placeholder="Search reports..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
@@ -542,7 +542,7 @@ const TeamReports: React.FC = () => {
         <SelectValue placeholder="Report type" />
        </SelectTrigger>
        <SelectContent className="bg-gray-700 border-gray-600">
-        <SelectItem value="all" className="text-white hover:bg-gray-600">All типы</SelectItem>
+        <SelectItem value="all" className="text-white hover:bg-gray-600">All types</SelectItem>
         <SelectItem value="weekly" className="text-white hover:bg-gray-600">Weekly</SelectItem>
         <SelectItem value="monthly" className="text-white hover:bg-gray-600">Monthly</SelectItem>
         <SelectItem value="match_analysis" className="text-white hover:bg-gray-600">Match analysis</SelectItem>
@@ -674,14 +674,14 @@ const TeamReports: React.FC = () => {
       <div className="text-center py-8">
        <FileText className="h-12 w-12 mx-auto mb-4 text-gray-400" />
        <h3 className="text-lg font-semibold mb-2 text-white">
-        {user ? 'Reportов не найдено' : 'Войдите в систему для просмотра reports'}
+        {user ? 'No reports found' : 'Sign in to view reports'}
        </h3>
        <p className="text-gray-300">
         {user ? (
          searchQuery || filters.type || filters.status 
-          ? 'Попробуйте changить параметры поиска'
-          : 'Создайте первый report team'
-        ) : 'Необходима авторofация для доступа к reports'}
+          ? 'Try changing search parameters'
+          : 'Create the first team report'
+        ) : 'Authorization is required to access reports'}
        </p>
       </div>
      </CardContent>
@@ -693,7 +693,7 @@ const TeamReports: React.FC = () => {
     <TeamReportModal
      report={selectedReport}
      onClose={() => {
-      console.log('Закрытие модального окна создания report');
+      console.log('Closing report creation modal');
       setShowCreateModal(false);
      }}
      onSave={onReportSaved}

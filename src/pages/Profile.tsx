@@ -38,7 +38,7 @@ interface PendingTeamRelink {
 }
 
 /**
- * Компонент страницы profiles пользователя
+ * Компонент страницы profiles user
  * Отображает данные profiles и предоставляет возможность удаления аккаунта
  */
 const Profile: React.FC = () => {
@@ -302,7 +302,7 @@ const Profile: React.FC = () => {
  };
 
  /**
-  * Обработчик удаления аккаунта пользователя
+  * Обработчик удаления аккаунта user
   */
  const handleDeleteAccount = async (): Promise<void> => {
   // Устанавливаем состояние удаления
@@ -423,7 +423,7 @@ const Profile: React.FC = () => {
 
 
  /**
-  * Компонент для неавторofованных пользователей
+  * Компонент для неauthorizedных пользователей
   */
  const UnauthenticatedView = () => (
   <div className="flex items-center justify-center h-full performance-page">
@@ -443,7 +443,7 @@ const Profile: React.FC = () => {
   </div>
  );
 
- // Если пользователь не авторofован, показываем соответствующий компонент
+ // Если пользователь не authorized, показываем соответствующий компонент
  if (!user) {
   return <UnauthenticatedView />;
  }
@@ -467,7 +467,7 @@ const Profile: React.FC = () => {
   user.playerType === "team" && teamName
    ? `Now активный team profile привязан к команде «${teamName}». You can relink it here with a new ${teamLinkTargetLabel}.`
    : hasLinkedTeamProfileForActiveRole
-    ? `You already have a Team profile for role «${user.role === "staff" ? "staff" : "player"}». Enter a new ${teamLinkTargetLabel}, чтобы обновить привязку team.`
+    ? `You already have a Team profile for role «${user.role === "staff" ? "staff" : "player"}». Enter a new ${teamLinkTargetLabel}, to update the team link.`
     : user.role === "staff"
      ? "Enter a staff code to add a separate Staff / Team profile and switch between contexts."
      : "Enter a player code to add a separate Player / Team profile and switch between Solo and Team.";
@@ -497,7 +497,7 @@ const Profile: React.FC = () => {
       </CardDescription>
      </CardHeader>
      <CardContent className="space-y-6">
-      {/* Avatar пользователя */}
+      {/* Avatar user */}
       <div className="flex flex-col items-center mb-6">
        <div className="relative group">
         <UserAvatar 
@@ -1040,7 +1040,7 @@ const Profile: React.FC = () => {
           <UserPlus2 className="h-4 w-4" />
           <AlertTitle>Connect a team first</AlertTitle>
           <AlertDescription>
-           Team profile игрока станет доступен после привязки staff/team к конкретной команде.
+           Team profile player станет доступен после привязки staff/team к конкретной команде.
           </AlertDescription>
          </Alert>
         )}

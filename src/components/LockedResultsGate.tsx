@@ -32,7 +32,7 @@ const LockedResultsGate = ({
  className,
  contentClassName,
  minHeightClassName = "min-h-[320px]",
- ctaText = "Open результаты",
+ ctaText = "Open results",
  compact = false,
 }: LockedResultsGateProps) => {
  if (hasAccess) {
@@ -55,7 +55,7 @@ const LockedResultsGate = ({
     }
    : hasData
     ? {
-      badge: "Result сохранён",
+      badge: "Result saved",
       icon: <Lock className="h-3.5 w-3.5" />,
       accentColor: "#86EFAC",
       helper: "The attempt is already saved. After purchase, score, history, analytics, and interpretation open."

@@ -31,7 +31,7 @@ const ScreenTimeForm: React.FC = () => {
     setUsers(response.data || []);
    }
   } catch (error) {
-   console.error('Loading error пользователей:', error);
+   console.error('User loading error:', error);
    toast.error('Error while loading player list');
   }
  };
@@ -73,7 +73,7 @@ const ScreenTimeForm: React.FC = () => {
    });
 
    if (response.data.success) {
-    toast.success('Data экранного времени успешно сохранены');
+    toast.success('Screen time data saved successfully');
     setSelectedUserId('');
     setTotalTime('');
     setEntertainment('');
@@ -108,7 +108,7 @@ const ScreenTimeForm: React.FC = () => {
      <CardTitle>Input экранного времени</CardTitle>
     </div>
     <CardDescription>
-     Введите данные экранного времени для игрока за выбранную дату
+     Введите данные экранного времени для player за выбранную дату
     </CardDescription>
    </CardHeader>
    <CardContent>

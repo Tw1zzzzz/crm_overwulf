@@ -50,7 +50,7 @@ const getMemberInitials = (member: User): string => {
   .join("");
 };
 
-const getRoleLabel = (member: User): string => (member.role === "staff" ? "staff" : "игрок");
+const getRoleLabel = (member: User): string => (member.role === "staff" ? "staff" : "player");
 const getPlayerTypeLabel = (member: User): string | null => {
  if (!member.playerType) {
   return null;
@@ -303,7 +303,7 @@ const TeamManagement: React.FC = () => {
       {hasExistingTeam && (
        <Alert className="border-amber-500/30 bg-amber-500/10 text-amber-50">
         <Shield className="h-4 w-4 text-amber-300" />
-        <AlertTitle className="text-amber-100">Team уже привязана</AlertTitle>
+        <AlertTitle className="text-amber-100">Team already linked</AlertTitle>
         <AlertDescription className="text-amber-100/85">
          This profile already has a created or assigned team. Below you can manage only the current team, its invite codes, and branding.
         </AlertDescription>
@@ -322,7 +322,7 @@ const TeamManagement: React.FC = () => {
           aria-describedby="team-name-hint"
          />
          <p id="team-name-hint" className="text-sm text-muted-foreground">
-          Name увидят игроки и staff при привязке кода. Его можно будет обновить позже в блоке брендинга.
+          Name увидят playerи и staff при привязке кода. Его можно будет обновить позже в блоке брендинга.
          </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -333,9 +333,9 @@ const TeamManagement: React.FC = () => {
             Creating team...
            </>
           ) : hasExistingTeam ? (
-           "Team уже привязана"
+           "Team already linked"
           ) : (
-           "Create команду"
+           "Create team"
           )}
          </Button>
          <p className="text-sm text-muted-foreground">
@@ -345,7 +345,7 @@ const TeamManagement: React.FC = () => {
        </div>
 
        <div className="rounded-2xl border border-border/80 bg-muted/20 p-4">
-        <p className="text-sm font-semibold">What будет дальше</p>
+        <p className="text-sm font-semibold">What happens next</p>
         <div className="mt-4 space-y-4 text-sm text-muted-foreground">
          <div className="flex gap-3">
           <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/15 text-xs font-semibold text-primary">
@@ -630,7 +630,7 @@ const TeamManagement: React.FC = () => {
              Saving branding...
             </>
            ) : (
-            "Save брендинг"
+            "Save branding"
            )}
           </Button>
           {!isBrandingDirty && (

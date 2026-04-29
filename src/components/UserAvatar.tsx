@@ -12,7 +12,7 @@ interface UserAvatarProps {
 }
 
 /**
- * Компонент для отображения аватара пользователя
+ * Компонент для отображения аватара user
  */
 const UserAvatar: React.FC<UserAvatarProps> = ({ 
  user, 
@@ -26,7 +26,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
  const [imageError, setImageError] = useState(false);
  const [retryCount, setRetryCount] = useState(0);
  
- // Satрасываем состояние при changении пользователя или аватара
+ // Satрасываем состояние при changении user или аватара
  useEffect(() => {
   setImageLoaded(false);
   setImageError(false);
@@ -46,7 +46,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
   }
  }, [imageError, retryCount]);
  
- // Размеры аватара
+ //  аватара
  const sizes = {
   sm: 'w-8 h-8',
   md: 'w-10 h-10',
@@ -54,7 +54,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
   xl: 'w-24 h-24'
  };
 
- // Размеры текста
+ //  текста
  const textSizes = {
   sm: 'text-xs',
   md: 'text-sm',
@@ -77,7 +77,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
  }
  
  // Генерируем уникальный ключ для компонента и получаем URL аватара
- // Используем timestamp of пользователя если есть, или создаем новый
+ // Используем timestamp of user если есть, или создаем новый
  // При принудительном обновлении также добавляем текущий timestamp
  const timestamp = forceUpdate 
   ? Date.now() 
@@ -89,7 +89,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
  // Получаем URL аватара с помощью нашей утилиты
  const avatarUrl = getUserAvatarUrl(user.avatar);
 
- // Получаем инициалы пользователя для аватара
+ // Получаем инициалы user для аватара
  const getInitials = (name: string): string => {
   return name
    .split(' ')

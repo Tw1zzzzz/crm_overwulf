@@ -65,7 +65,7 @@ const defaultContextValue: AuthContextType = {
  refreshUser: async () => {}
 };
 
-// Создание контекста
+// Create контекста
 const AuthContext = createContext<AuthContextType>(defaultContextValue);
 
 /**
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
  });
 
  /**
-  * Инициалofация сессии пользователя при загрузке
+  * Инициалofация сессии user при загрузке
   */
  const initializeAuth = useCallback(async () => {
   try {
@@ -124,7 +124,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
  }, [navigate]);
 
  /**
-  * Обновление данных пользователя
+  * Update данных user
   */
  const refreshUser = useCallback(async () => {
   if (!authState.data) return;
@@ -141,7 +141,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
  }, [authState.data]);
 
  /**
-  * Вход в систему
+  * Login в систему
   */
  const login = useCallback(async (credentials: LoginDto): Promise<AuthResult> => {
   setAuthState(prev => ({ ...prev, loading: true, error: null }));
@@ -187,7 +187,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
  }, [navigate]);
 
  /**
-  * Регистрация нового пользователя
+  *  нового user
   */
  const register = useCallback(async (userData: CreateUserDto): Promise<AuthResult> => {
   setAuthState(prev => ({ ...prev, loading: true, error: null }));
@@ -427,7 +427,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
  }, []);
 
  /**
-  * Выход of системы
+  * Logout of системы
   */
  const logout = useCallback(() => {
   sessionStorage.removeItem(BASELINE_REGISTER_MODAL_FLAG);
@@ -444,7 +444,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
  }, [navigate]);
 
  /**
-  * Удаление аккаунта
+  * Delete аккаунта
   */
  const deleteAccount = useCallback(async () => {
   setAuthState(prev => ({ ...prev, loading: true }));
@@ -473,7 +473,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
  }, [navigate]);
 
  /**
-  * Обновление аватара пользователя
+  * Update аватара user
   */
  const updateAvatar = useCallback(async (file: File): Promise<AuthResult> => {
   if (!authState.data) {
@@ -486,7 +486,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    const result = await authService.updateAvatar(file);
    
    if (result.success) {
-    // Обновляем данные пользователя
+    // Обновляем данные user
     if (result.user) {
      setAuthState({
       data: {
@@ -497,7 +497,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       error: null
      });
     } else {
-     // Если сервер не вернул обновленного пользователя, запрашиваем его
+     // Если сервер не вернул обновленного user, запрашиваем его
      await refreshUser();
     }
     

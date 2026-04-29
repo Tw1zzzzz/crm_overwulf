@@ -28,7 +28,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as TooltipRechart
 import { COLORS } from "@/styles/theme";
 import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
-// Расширяем интерфейс MoodEntry
+//  интерфейс MoodEntry
 interface MoodEntryWithTimeOfDay extends MoodEntry {
  id: string;
  _id?: string; // Добавляем поле _id, так как оно может приходить с сервера
@@ -83,12 +83,12 @@ interface CustomTooltipProps {
 
 type TimeOfDayKey = "morning" | "afternoon" | "evening";
 
-// Добавляем вспомогательную функцию для ofвлечения ID of объекта игрока
+// Добавляем вспомогательную функцию для ofвлечения ID of объекта player
 const extractPlayerId = (playerId: any): string => {
  // Логгируем входные данные для отладки
  console.log('extractPlayerId received:', typeof playerId, playerId);
  
- // Случай 1: Объект игрока
+ // Случай 1: Объект player
  if (typeof playerId === 'object' && playerId !== null) {
   // Если объект содержит ObjectId, ofвлекаем of него строку
   if (playerId._id && typeof playerId._id === 'object' && playerId._id.toString) {
@@ -208,7 +208,7 @@ const MoodTracker = () => {
  
  const tabsTriggerStyle = "text-sm px-4 py-2 rounded-md data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:font-medium hover:bg-gray-800";
  
- // Добавляем ref для секции с записями игрока
+ // Добавляем ref для секции с записями player
  const playerEntriesRef = useRef<HTMLDivElement>(null);
 
  const resolveTimeOfDay = (date: Date, explicit?: string) => {
@@ -244,7 +244,7 @@ const MoodTracker = () => {
    loadPlayerStats();
    loadRecentEntries();
    
-   // Восстанавливаем выбранного игрока of sessionStorage
+   // Восстанавливаем выбранного player of sessionStorage
    try {
     const savedPlayerId = sessionStorage.getItem('selectedPlayerId');
     if (savedPlayerId) {
@@ -264,14 +264,14 @@ const MoodTracker = () => {
   generateWeekDates(currentWeek);
  }, [currentWeek, user?.role]);
  
- // Подготовка данных для графиков при changении entries игрока
+ // Подготовка данных для графиков при changении entries player
  useEffect(() => {
   if (playerEntries.length > 0) {
    prepareChartData();
   }
  }, [playerEntries]);
  
- // Loading статистики по всем игрокам (для персонала)
+ // Loading статистики по всем playerм (для персонала)
  const loadPlayerStats = async (dateOverride?: Date) => {
   if (user?.role !== "staff") return;
   
@@ -330,13 +330,13 @@ const MoodTracker = () => {
   // Перезагружаем статистику players с новой датой
   loadPlayerStats(date);
   
-  // Если выбран игрок - перезагружаем его данные с новой датой
+  // Если выбран player - перезагружаем его данные с новой датой
   if (selectedPlayerId) {
    loadPlayerEntriesForDate(selectedPlayerId, date);
   }
  };
  
- // Loading entries игрока для конкретной даты
+ // Loading entries player для конкретной даты
  const loadPlayerEntriesForDate = async (playerId: string | any, date: Date) => {
   if (user?.role !== "staff") return;
   
@@ -378,7 +378,7 @@ const MoodTracker = () => {
      const chartResponse = await getPlayerMoodChartDataByDate(actualPlayerId, apiDateFormat);
      setChartData(chartResponse.data);
     } catch (chartError) {
-     console.error(`Error while loading data для графика игрока ${actualPlayerId}:`, chartError);
+     console.error(`Error while loading data для графика player ${actualPlayerId}:`, chartError);
      
      // Fallback: используем обычный API без фильтрации если API с фильтрацией недоступно
      try {
@@ -393,14 +393,14 @@ const MoodTracker = () => {
       
       setChartData(filteredChartData);
      } catch (fallbackError) {
-      console.error(`Error while loading data для графика игрока (резервный метод) ${actualPlayerId}:`, fallbackError);
+      console.error(`Error while loading data для графика player (резервный метод) ${actualPlayerId}:`, fallbackError);
       
       // Если все API недоступны, создаем график of доступных данных
       if (playerEntries.length > 0) {
        prepareChartData(playerEntries);
       } else {
        toast({
-        title: "Loading error графика",
+        title: "Chart loading error",
         description: "Failed to load chart data.",
         variant: "destructive"
        });
@@ -408,7 +408,7 @@ const MoodTracker = () => {
      }
     }
    } catch (error: any) {
-    console.error(`Error while загрузке entries игрока ${actualPlayerId}:`, error);
+    console.error(`Error while загрузке entries player ${actualPlayerId}:`, error);
     
     // Fallback: используем обычный API если API с фильтрацией недоступно
     try {
@@ -434,12 +434,12 @@ const MoodTracker = () => {
       // Если no data для выбранной даты
       toast({
        title: "No data",
-       description: `No records на ${formatDate(date)} для данного игрока.`,
+       description: `No records на ${formatDate(date)} для данного player.`,
        variant: "default"
       });
      }
     } catch (fallbackError) {
-     console.error(`Error while загрузке entries игрока (резервный метод) ${actualPlayerId}:`, fallbackError);
+     console.error(`Error while загрузке entries player (резервный метод) ${actualPlayerId}:`, fallbackError);
      
      let errorMessage = "Failed to load player entries.";
      if (error.response) {
@@ -460,7 +460,7 @@ const MoodTracker = () => {
     }
    }
 
-   // Сохраняем ID игрока в sessionStorage для восстановления при перезагрузке
+   // Сохраняем ID player в sessionStorage для восстановления при перезагрузке
    try {
     // Проверяем, что это строковое значение ID
     if (typeof actualPlayerId === 'string' && /^[0-9a-fA-F]{24}$/.test(actualPlayerId)) {
@@ -585,7 +585,7 @@ const MoodTracker = () => {
      
      console.log('Mood entries loaded from server successfully');
     } catch (error) {
-     console.error('Loading error настроений с сервера:', error);
+     console.error('Mood entries loading error from server:', error);
      
      // Если не удалось загрузить с сервера, используем локальные данные
      const localEntries = moodRepository.getAll().map(normalizeEntry);
@@ -599,13 +599,13 @@ const MoodTracker = () => {
      });
     }
    } else {
-    // Если пользователь не авторofован, используем локальные данные
+    // Если пользователь не authorized, используем локальные данные
     const localEntries = moodRepository.getAll().map(normalizeEntry);
     const uniqueLocalEntries = removeDuplicateEntries(localEntries);
     setEntries(uniqueLocalEntries as MoodEntryWithTimeOfDay[]);
    }
   } catch (error) {
-   console.error('Loading error entries о настроении:', error);
+   console.error('Mood entries loading error:', error);
    
    toast({
     title: "Loading error",
@@ -712,7 +712,7 @@ const MoodTracker = () => {
     return entryDate === formattedDate && entry.timeOfDay === timeOfDay;
    });
    
-   // Если есть существующие entries, предупреждаем пользователя
+   // Если есть существующие entries, предупреждаем user
    if (existingEntries.length > 0) {
     toast({
      title: "Attention",
@@ -746,7 +746,7 @@ const MoodTracker = () => {
    
    console.log("Local entry created with ID:", savedEntry.id);
    
-   // Если пользователь авторofован, пытаемся сразу сохранить на сервере
+   // Если пользователь authorized, пытаемся сразу сохранить на сервере
    if (user) {
     try {
      // Отправляем данные на сервер
@@ -812,7 +812,7 @@ const MoodTracker = () => {
    return;
   }
   
-  // Проверяем роль пользователя
+  // Проверяем роль user
   if (user?.role === "staff") {
    console.error("Error: staff user cannot delete entries");
    toast({
@@ -957,7 +957,7 @@ const MoodTracker = () => {
   return null;
  };
 
- // Обновляем компонент для отображения мини-графика в карточке игрока, чтобы он использовал реальные данные
+ // Обновляем компонент для отображения мини-графика в карточке player, чтобы он использовал реальные данные
  const PlayerActivityMiniChart = ({ playerId }: { playerId: string | any }) => {
   const [activityData, setActivityData] = useState<{ date: string; time: string; mood: number; energy: number; timeOfDay?: string }[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -1000,7 +1000,7 @@ const MoodTracker = () => {
      setActivityData([]);
      
      toast({
-      title: "Loading error данных",
+      title: "Data loading error",
       description: "Failed to load player activity data",
       variant: "destructive"
      });
@@ -1066,7 +1066,7 @@ const MoodTracker = () => {
   );
  };
 
- // Изменяем компонент отображения графиков для игрока
+ // Изменяем компонент отображения графиков для player
  const PlayerMoodCharts = () => {
   if (!selectedPlayerId || chartData.length === 0) return null;
   
@@ -1691,9 +1691,9 @@ const MoodTracker = () => {
             variant="default"
             style={{ backgroundColor: COLORS.primary, color: "white" }}
             onClick={() => {
-             // Гарантируем, что передаём только ID игрока, а не весь объект
+             // Гарантируем, что передаём только ID player, а не весь объект
              const playerId = extractPlayerId(player.userId);
-             console.log('Click on "View entries", передаём ID:', playerId);
+             console.log('Click on "View entries", passing ID:', playerId);
              loadPlayerEntries(playerId);
             }}
             className="w-full"
@@ -1715,7 +1715,7 @@ const MoodTracker = () => {
       </Card>
      )}
      
-     {/* Детальные entries выбранного игрока */}
+     {/* Детальные entries выбранного player */}
      {selectedPlayerId && (
       <div className="space-y-4 mt-8" ref={playerEntriesRef}>
        <div className="flex justify-between items-center">
@@ -1736,7 +1736,7 @@ const MoodTracker = () => {
           setSelectedPlayerId(null);
           setPlayerEntries([]);
           setChartData([]);
-          // Удаляем ID игрока of sessionStorage
+          // Удаляем ID player of sessionStorage
           try {
            sessionStorage.removeItem('selectedPlayerId');
            console.log('Player ID removed from sessionStorage');
@@ -1756,7 +1756,7 @@ const MoodTracker = () => {
          <CardContent className="p-6">
           <div className="flex flex-col items-center justify-center py-8">
            <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-primary mb-2"></div>
-           <p style={descriptionStyle}>Loading entries игрока...</p>
+           <p style={descriptionStyle}>Loading entries player...</p>
           </div>
          </CardContent>
         </Card>
@@ -1809,7 +1809,7 @@ const MoodTracker = () => {
           </CardContent>
          </Card>
          
-         {/* Детальные entries игрока по времени суток */}
+         {/* Детальные entries player по времени суток */}
          <Card style={cardStyle} className="mt-4">
           <CardHeader>
            <CardTitle style={titleStyle}>
@@ -2748,7 +2748,7 @@ const MoodTracker = () => {
             style={{ backgroundColor: "rgba(255,255,255,0.04)", borderColor: "rgba(255,255,255,0.08)", color: COLORS.textColor }}
            />
            <p className="text-xs leading-5" style={{ color: COLORS.textColorSecondary }}>
-            Optional писать много. Даже короткая причина поможет потом точнее читать динамику.
+            Optional писать много. Yesже короткая причина поможет потом точнее читать динамику.
            </p>
           </div>
          </div>

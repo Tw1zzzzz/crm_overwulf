@@ -84,7 +84,7 @@ export const BalanceWheelChart: React.FC<BalanceWheelChartProps> = ({
   const line1 = words.slice(0, midpoint).join(' ');
   const line2 = words.slice(midpoint).join(' ');
   
-  // Расчет оптимальных отступов в зависимости от позиции метки
+  //  оптимальных отступов в зависимости от позиции метки
   const clockPos = (Math.atan2(y - 450, x - 450) * 180 / Math.PI + 360) % 360;
   const isTop = clockPos > 45 && clockPos < 135;
   

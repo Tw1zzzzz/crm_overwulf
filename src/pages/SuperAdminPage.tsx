@@ -280,8 +280,8 @@ const SuperAdminPage = () => {
  const handleStatusChange = async (user: AdminUserRow, nextIsActive: boolean) => {
   const confirmation = window.confirm(
    nextIsActive
-    ? `Unblock пользователя ${user.name}?`
-    : `Block пользователя ${user.name}?`
+    ? `Unblock user ${user.name}?`
+    : `Block user ${user.name}?`
   );
 
   if (!confirmation) {
@@ -346,9 +346,9 @@ const SuperAdminPage = () => {
     <TabsContent value="overview" className="space-y-4">
      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       <OverviewCard title="Total users" value={dashboard?.totals.users || 0} />
-      <OverviewCard title="Playerи" value={dashboard?.totals.players || 0} />
+      <OverviewCard title="Players" value={dashboard?.totals.players || 0} />
       <OverviewCard title="Staff" value={dashboard?.totals.staff || 0} />
-      <OverviewCard title="Active аккаунты" value={dashboard?.totals.active || 0} hint={`Blockedо: ${dashboard?.totals.blocked || 0}`} />
+      <OverviewCard title="Active accounts" value={dashboard?.totals.active || 0} hint={`Blocked: ${dashboard?.totals.blocked || 0}`} />
       <OverviewCard title="New in 7 days" value={dashboard?.totals.newUsers7d || 0} />
       <OverviewCard title="New in 30 days" value={dashboard?.totals.newUsers30d || 0} />
       <OverviewCard title="Player / Solo" value={dashboard?.playerTypeBreakdown.solo || 0} />
@@ -456,7 +456,7 @@ const SuperAdminPage = () => {
          <SelectContent>
           <SelectItem value="all">All statuses</SelectItem>
           <SelectItem value="true">Active</SelectItem>
-          <SelectItem value="false">Blockedные</SelectItem>
+          <SelectItem value="false">Blocked</SelectItem>
          </SelectContent>
         </Select>
         <Button onClick={() => void loadUsers()} disabled={usersLoading}>
@@ -662,7 +662,7 @@ const SuperAdminPage = () => {
       <DialogTitle>Plan grant</DialogTitle>
       <DialogDescription>
        {grantTarget
-        ? `Choose plan для ${grantTarget.type === "user" ? "пользователя" : "team"} ${grantTarget.name}.`
+        ? `Choose plan for ${grantTarget.type === "user" ? "user" : "team"} ${grantTarget.name}.`
         : "Choose plan."}
       </DialogDescription>
      </DialogHeader>

@@ -6,7 +6,7 @@ import { buildApiUrl } from '@/lib/runtimeConfig';
 /**
  * Генерирует URL images с защитой от кеширования
  * @param path Путь к ofображению
- * @param size Размер images для оптимofации
+ * @param size  images для оптимofации
  * @returns URL с параметрами против кеширования
  */
 export function getImageUrl(path: string | undefined, size: string = ''): string | undefined {
@@ -41,8 +41,8 @@ export function getImageUrl(path: string | undefined, size: string = ''): string
 }
 
 /**
- * Создает URL аватара для пользователя
- * @param avatarPath Путь к аватару пользователя
+ * Создает URL аватара для user
+ * @param avatarPath Путь к аватару user
  * @returns URL с настройками против кеширования
  */
 export function getUserAvatarUrl(avatarPath: string | undefined): string | undefined {

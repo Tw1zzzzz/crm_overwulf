@@ -71,7 +71,7 @@ const activityHistoryService = {
  },
  
  /**
-  * Получить историю активности пользователя
+  * Получить историю активности user
   */
  getUserActivity: async (page = 1, limit = 20): Promise<{
   activities: ActivityHistoryItem[];
@@ -201,7 +201,7 @@ const activityHistoryService = {
     dataStructure: response.data ? Object.keys(response.data) : 'no data'
    });
    
-   // Детальный analysis ответа API
+   // Detailed analysis ответа API
    if (response.data) {
     console.log('[History Service] Data structure:', {
      status: response.data.status,
@@ -213,7 +213,7 @@ const activityHistoryService = {
    
    // Проверяем, есть ли данные в ответе
    if (!response.data || !response.data.data) {
-    console.warn('[History Service] API не вернул данные в ожидаемом формате:', response);
+    console.warn('[History Service] API did not return data in the expected format:', response);
     
     // Создаем текущий период как запасной вариант
     const now = new Date();
@@ -240,10 +240,10 @@ const activityHistoryService = {
    // Summarize первую entry для диагностики, если она есть
    if (activities.length > 0) {
     const firstActivity = activities[0];
-    console.log('[History Service] Пример entries активности:', {
+    console.log('[History Service] Activity entry example:', {
      id: firstActivity._id,
      user: typeof firstActivity.userId === 'object' 
-      ? `${(firstActivity.userId as any)?.name || 'No имени'} (ID: ${(firstActivity.userId as any)?._id || 'No ID'})` 
+      ? `${(firstActivity.userId as any)?.name || 'No name'} (ID: ${(firstActivity.userId as any)?._id || 'No ID'})` 
       : `ID: ${String(firstActivity.userId)}`,
      action: firstActivity.action,
      entityType: firstActivity.entityType,
@@ -251,7 +251,7 @@ const activityHistoryService = {
      details: firstActivity.details
     });
    } else {
-    console.log('[History Service] Записи активности не найдены');
+    console.log('[History Service] No activity entries found');
    }
    
    // Проверяем наличие данных о периоде или создаем их
@@ -268,8 +268,8 @@ const activityHistoryService = {
      
      // Проверяем, что даты валидны
      if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      console.warn('[History Service] Получены некорректные даты периода:', start, end);
-      throw new Error('Некорректные даты периода');
+      console.warn('[History Service] Invalid period dates received:', start, end);
+      throw new Error('Invalid period dates');
      }
      
      period = {
@@ -277,7 +277,7 @@ const activityHistoryService = {
       end: endDate.toISOString()
      };
     } catch (e) {
-     console.error('[History Service] Error while обработке дат периода:', e);
+     console.error('[History Service] Error while processing period dates:', e);
      
      // Если даты некорректны, используем текущий месяц
      const now = new Date();
@@ -300,7 +300,7 @@ const activityHistoryService = {
     period
    };
   } catch (error) {
-   console.error('[History Service] Error while получении месячной активности:', error);
+   console.error('[History Service] Error while getting monthly activity:', error);
    
    // Возвращаем пустой массив и период текущего месяца в случае ошибки
    const now = new Date();
@@ -333,15 +333,15 @@ const activityHistoryService = {
   */
  getActionName: (action: ActivityHistoryItem['action']): string => {
   const actionNames: Record<ActivityHistoryItem['action'], string> = {
-   create: 'Создание',
-   update: 'Обновление',
-   delete: 'Удаление',
-   login: 'Вход',
-   logout: 'Выход',
-   test_complete: 'Завершение теста',
-   mood_track: 'Запись настроения',
-   file_upload: 'Loading файла',
-   balance_wheel: 'Обновление колеса баланса'
+   create: 'Create',
+   update: 'Update',
+   delete: 'Delete',
+   login: 'Login',
+   logout: 'Logout',
+   test_complete: 'Test completion',
+   mood_track: 'Mood entry',
+   file_upload: 'File upload',
+   balance_wheel: 'Update колеса баланса'
   };
   
   return actionNames[action] || action;
@@ -354,10 +354,10 @@ const activityHistoryService = {
   const entityTypeNames: Record<ActivityHistoryItem['entityType'], string> = {
    user: 'User',
    mood: 'Mood',
-   test: 'Тест',
-   file: 'Файл',
+   test: 'Test',
+   file: 'File',
    balance_wheel: 'Balance wheel',
-   system: 'Система'
+   system: 'System'
   };
   
   return entityTypeNames[entityType] || entityType;
@@ -382,7 +382,7 @@ const activityHistoryService = {
     year: 'numeric'
    });
   } catch (e) {
-   return 'Error формата';
+   return 'Format error';
   }
  },
  

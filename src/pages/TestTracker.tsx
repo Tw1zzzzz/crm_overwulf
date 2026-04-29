@@ -106,7 +106,7 @@ const TestTracker = () => {
  const [isStateImpactLoading, setIsStateImpactLoading] = useState<boolean>(false);
  const [isTeamSummaryLoading, setIsTeamSummaryLoading] = useState<boolean>(false);
 
- // РћРїСЂРѕСЃРЅє (РЅРѕРІР°СЏ ѕРієР° С‚Рµстов)
+ //  ( ѕ С‚)
  const [qDate, setQDate] = useState<string>(new Date().toISOString().split('T')[0]);
  const [qSleepStart, setQSleepStart] = useState<string>("");
  const [qSleepEnd, setQSleepEnd] = useState<string>("");
@@ -344,7 +344,7 @@ const TestTracker = () => {
    }
    
    if (user) {
-    // Р—Р°РіСЂСѓР¶Р°РµРј РґР°РЅРЅС‹Рµ СЃ СЃРµСЂРІРµСЂР°
+    //   СЃ СЃ
     try {
      const response = await getMyTestEntries();
      const serverEntries = (Array.isArray(response.data) ? response.data : []).map((entry) => {
@@ -357,14 +357,14 @@ const TestTracker = () => {
      });
      setEntries(serverEntries);
      
-     // РћР±РЅРѕРІЏРµРј ѕРєР°ЊРЅРѕРµ С…СЂР°РЅРёёС‰Рµ СЃ РґР°РЅРЅС‹РјРё СЃ СЃРµСЂРІРµСЂР°
+     //  ѕ С…СЂ СЃ  СЃ СЃ
      testRepository.updateFromServer(serverEntries);
      
      console.log('Test entries loaded from server');
     } catch (error) {
      console.error('Error loading test entries from server:', error);
      
-     // Р•СЃё РЅРµ СѓРґР°ѕСЃСЊ Р·Р°РіСЂСѓР·РёС‚СЊ СЃ СЃРµСЂРІРµСЂР°, РёСЃРїРѕЊР·СѓРµРј ѕРєР°ЊРЅС‹Рµ РґР°РЅРЅС‹Рµ
+     //   Сѓ  СЃ СЃ,  ѕ 
      const localEntries = testRepository.getAll();
      setEntries(localEntries);
      setEntriesLoadError("The server is unavailable, so locally saved records are shown now.");
@@ -376,7 +376,7 @@ const TestTracker = () => {
      });
     }
    } else {
-    // Р•СЃё РїРѕЊР·РѕРІР°С‚РµЊ РЅРµ Р°РІС‚РѕСЂ·РѕРІР°РЅ, РёСЃРїРѕЊР·СѓРµРј ѕРєР°ЊРЅС‹Рµ РґР°РЅРЅС‹Рµ
+    //    ,  ѕ 
     const localEntries = testRepository.getAll();
     setEntries(localEntries);
    }
@@ -467,10 +467,10 @@ const TestTracker = () => {
     measuredAt: new Date(date).toISOString()
    };
    
-   // РСЃРїРѕЊР·СѓРµРј СЂРµРїРѕР·РёС‚РѕСЂ№ РґЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ РґР°РЅРЅС‹С…
+   //  СЂ  СЃ 
    const savedEntry = testRepository.create(newEntry);
    
-   // Р•СЃё РїРѕЊР·РѕРІР°С‚РµЊ Р°РІС‚РѕСЂ·РѕРІР°РЅ, РїС‹С‚Р°РµРјСЃСЏ СЃСЂР°Р·Сѓ СЃРѕС…СЂР°РЅРёС‚СЊ РЅР° СЃРµСЂРІРµСЂРµ
+   //   ,  СЃСЂ СЃ  СЃ
    if (user) {
     try {
      const response = await createTestEntry(newEntry);
@@ -480,7 +480,7 @@ const TestTracker = () => {
     }
    }
    
-   // РћР±РЅРѕРІЏРµРј СЃРїРёСЃРѕРє Р·Р°РїРёСЃРµР№
+   //  СЃ 
    await loadEntries();
    resetForm();
    
@@ -537,10 +537,10 @@ const TestTracker = () => {
     }
    }
    
-   // РЈРґР°ЏРµРј Р·Р°РїРёСЃСЊ hРµСЂРµР· СЂРµРїРѕР·РёС‚РѕСЂ№
+   //   h СЂ
    testRepository.delete(id);
    
-   // РћР±РЅРѕРІЏРµРј СЃРїРёСЃРѕРє Р·Р°РїРёСЃРµР№
+   //  СЃ 
    await loadEntries();
    
    toast({
@@ -551,7 +551,7 @@ const TestTracker = () => {
    console.error('Error deleting test entry:', error);
   
   toast({
-    title: "Error удаления",
+    title: "Deletion error",
     description: "Failed to delete test record.",
     variant: "destructive"
   });
@@ -1340,7 +1340,7 @@ const TestTracker = () => {
        error={entriesLoadError}
        title="Weekly summary already saved"
        description="Weekly tests can be recorded for free. The full result list, score, and weekly history unlock after purchase."
-       ctaText="Open weekly-результаты"
+       ctaText="Open weekly results"
        minHeightClassName="min-h-[520px]"
       >
       {isEntriesInitialLoading ? (
@@ -1409,7 +1409,7 @@ const TestTracker = () => {
             <h3 className="mt-3 text-lg font-semibold" style={{ color: COLORS.textColor }}>{test.name || "Untitled"}</h3>
             <p className="mt-2 text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
              {typeof test.scoreNormalized === "number"
-              ? "Result уже зафиксирован и участвует в аналитике."
+              ? "The result has already been recorded and is included in analytics."
               : "The card was saved without a score; you can add the result later."}
             </p>
            </div>
@@ -1457,8 +1457,8 @@ const TestTracker = () => {
                variant="ghost"
                size="icon"
                className="rounded-2xl"
-               title="Open тест"
-               aria-label={`Open тест ${test.name || "без названия"}`}
+               title="Open test"
+               aria-label={`Open test ${test.name || "без названия"}`}
                style={{ color: COLORS.primary, border: `1px solid ${COLORS.borderColor}`, backgroundColor: "rgba(255,255,255,0.03)" }}
               >
                <ExternalLink className="h-4 w-4" />
@@ -1472,8 +1472,8 @@ const TestTracker = () => {
                 variant="ghost"
                 size="icon"
                 className="rounded-2xl"
-                title="Open скриншот"
-                aria-label={`Open скриншот теста ${test.name || "без названия"}`}
+                title="Open screenshot"
+                aria-label={`Open screenshot теста ${test.name || "без названия"}`}
                 style={{ color: COLORS.primary, border: `1px solid ${COLORS.borderColor}`, backgroundColor: "rgba(255,255,255,0.03)" }}
                >
                 <Image className="h-4 w-4" />
@@ -1612,7 +1612,7 @@ const TestTracker = () => {
             <Gauge className="h-5 w-5" />
            </div>
            <div>
-            <div className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Result теста</div>
+            <div className="text-lg font-semibold" style={{ color: COLORS.textColor }}>Test result</div>
             <p className="mt-1 text-sm leading-6" style={{ color: COLORS.textColorSecondary }}>
              Core metrics used later for comparison and analytics.
             </p>
@@ -1670,7 +1670,7 @@ const TestTracker = () => {
             <Input id="stress" placeholder="0-10" value={stress} onChange={(e) => setStress(e.target.value)} inputMode="decimal" className="rounded-2xl" style={fieldStyle} />
            </div>
            <div className="space-y-2">
-            <Label htmlFor="sleepHours" style={{ color: COLORS.textColor }}>Sleep, часы</Label>
+            <Label htmlFor="sleepHours" style={{ color: COLORS.textColor }}>Sleep, hours</Label>
             <Input id="sleepHours" placeholder="For example, 7.5" value={sleepHours} onChange={(e) => setSleepHours(e.target.value)} inputMode="decimal" className="rounded-2xl" style={fieldStyle} />
            </div>
            <div className="space-y-2">
@@ -1699,7 +1699,7 @@ const TestTracker = () => {
           <div className="mt-5 grid gap-4">
            <div className="space-y-2">
             <Label htmlFor="matchType" style={{ color: COLORS.textColor }}>Match type</Label>
-            <Input id="matchType" placeholder="For example, scrim или officials" value={matchType} onChange={(e) => setMatchType(e.target.value)} className="rounded-2xl" style={fieldStyle} />
+            <Input id="matchType" placeholder="For example, scrim or officials" value={matchType} onChange={(e) => setMatchType(e.target.value)} className="rounded-2xl" style={fieldStyle} />
            </div>
            <div className="space-y-2">
             <Label htmlFor="contextMap" style={{ color: COLORS.textColor }}>Map</Label>

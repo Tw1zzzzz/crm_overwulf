@@ -34,7 +34,7 @@ export const handleApiError = (error: any, defaultMessage: string): string => {
 };
 
 /**
- * Функция для выполнения авторofованных запросов к API
+ * Функция для выполнения authorizedных запросов к API
  * @param method - HTTP метод запроса
  * @param endpoint - Конечная точка API (без базового URL и /api)
  * @param data - Data для отправки (для POST, PUT)

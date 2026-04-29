@@ -21,7 +21,7 @@ interface PersonalStatsProps {
 }
 
 /**
- * Компонент для отображения личной статистики пользователя
+ * Компонент для отображения личной статистики user
  */
 const PersonalStats = ({
  moodData,
@@ -39,7 +39,7 @@ const PersonalStats = ({
  // Получаем данные о тестах по дням недели
  const testsByDayOfWeek = getTestsByDayOfWeek(testEntries);
  
- // Расчет общих показателей
+ //  общих показателей
  const getAverageStats = () => {
   let totalMood = 0;
   let totalEnergy = 0;
@@ -190,7 +190,7 @@ const PersonalStats = ({
        <CardHeader>
         <CardTitle className="text-white">Test results {timeRangeLabel(timeRange)}</CardTitle>
         <CardDescription className="text-gray-400">
-         Averageний score по каждому типу тестов, включая Brain Lab и ручные entries.
+         Average score по каждому типу тестов, включая Brain Lab и ручные entries.
         </CardDescription>
        </CardHeader>
        <CardContent>
@@ -285,7 +285,7 @@ const PersonalStats = ({
         </div>
           ) : (
            <div className="p-6 text-center">
-            <p className="text-gray-400">No data о настроении for analysis</p>
+            <p className="text-gray-400">No mood data for analysis</p>
            </div>
           )}
        </CardContent>

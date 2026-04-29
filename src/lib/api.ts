@@ -190,7 +190,7 @@ interface AnalyticsMetricsData {
 }
 
 // Sunпомогательная функция для ofвлечения ID of объекта или строки
-// API для работы с игроками (для staff)
+// API для работы с playerми (для staff)
 export const submitSupportRequest = (payload: SupportRequestPayload) =>
  retryRequest(() => api.post('/support/request', payload));
 
@@ -276,7 +276,7 @@ export const getPlayerMoodByDate = (playerId: string | any, date: string) =>
 export const getPlayerMoodChartDataByDate = (playerId: string | any, date: string) => 
  retryRequest(() => api.get(`/stats/players/${extractPlayerId(playerId)}/mood/chart?date=${date}`));
 
-// API для получения данных активности игрока (для мини-графика)
+// API для получения данных активности player (для мини-графика)
 export const getPlayerActivityData = (playerId: string | any, days: number = 14) => 
  retryRequest(() => api.get(`/stats/players/${extractPlayerId(playerId)}/activity?days=${days}`));
 
@@ -681,7 +681,7 @@ export const updateTeamReportStatus = (reportId: string, status: 'draft' | 'publ
 export const deleteTeamReport = (reportId: string) =>
  retryRequest(() => api.delete(`/team-reports/${reportId}`));
 
-// ============ КОРРЕЛЯЦИОННЫЙ АНАЛИЗ ============
+// ============ КО АНАЛИЗ ============
 
 // Интерфейсы для корреляционного analysis
 export interface CorrelationResult {
@@ -846,7 +846,7 @@ export const getMoodReportsCorrelations = async (params?: {
 };
 
 /**
- * Получить паттерны проofводительности team
+ * Получить паттерны team performance
  */
 export const getPerformancePatterns = async (monthsBack: number = 6): Promise<{ data: TeamPerformancePattern[]; meta: any }> => {
  const response = await retryRequest(() => api.get(`/correlations/performance-patterns?monthsBack=${monthsBack}`));
@@ -904,7 +904,7 @@ export const getCorrelationAssistantInsight = async (
  return response.data;
 };
 
-// ============ РАСШИРЕННАЯ АНАЛИТИКА ============
+// ============  АНАЛИТИКА ============
 
 // Интерфейсы для расширенной аналитики
 export interface SentimentAnalysis {
@@ -1061,7 +1061,7 @@ export const getPredictiveInsights = async (): Promise<{ data: PredictiveInsight
 };
 
 /**
- * Получить профиль проofводительности team
+ * Получить профиль team performance
  */
 export const getTeamPerformanceProfile = async (): Promise<{ data: TeamPerformanceProfile; meta: any }> => {
  const response = await retryRequest(() => api.get('/advanced-analytics/team-profile'));
@@ -1094,12 +1094,12 @@ export const getAdvancedAnalyticsStats = async (): Promise<{ data: any; meta: an
  return response.data;
 };
 
-// ============ СОСТОЯНИЕ ИГРОКА ============
+// ============ СОСТОЯНИЕ ИГ ============
 
 import type { PlayerStateReport } from '@/types/playerState.types';
 
 /**
- * Получить AI-analysis состояния текущего пользователя
+ * Получить AI-analysis состояния текущего user
  */
 const validatePlayerStateReport = (data: unknown): PlayerStateReport => {
  if (
@@ -1120,7 +1120,7 @@ export const getPlayerStateAnalysis = async (): Promise<PlayerStateReport> => {
 };
 
 /**
- * Получить AI-analysis состояния конкретного игрока (только для staff)
+ * Получить AI-analysis состояния конкретного player (только для staff)
  */
 export const getPlayerStateAnalysisForPlayer = async (
  playerId: string,

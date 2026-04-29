@@ -62,7 +62,7 @@ interface Stats {
  monthlyTournaments: number;
 }
 
-// Создаем тип пользователя для UserAvatar, чтобы ofбежать ошибок типofации
+// Создаем тип user для UserAvatar, чтобы ofбежать ошибок типofации
 interface PlayerUser {
  id: string;
  name: string;
@@ -205,7 +205,7 @@ const TopPlayers: React.FC = () => {
   }
  };
  
- // Обработчик сброса рейтинга игрока
+ // Обработчик сброса рейтинга player
  const handleResetRating = async () => {
   if (!selectedPlayer) return;
   
@@ -298,7 +298,7 @@ const TopPlayers: React.FC = () => {
        <TextField
         fullWidth
         type="number"
-        label="Count очков"
+        label="Point count"
         name="points"
         value={pointsForm.points}
         onChange={handleTextFieldChange}
@@ -307,12 +307,12 @@ const TopPlayers: React.FC = () => {
        />
        
        <FormControl fullWidth margin="normal">
-        <InputLabel>Type очков</InputLabel>
+        <InputLabel>Point type</InputLabel>
         <Select
          name="pointType"
          value={pointsForm.pointType}
          onChange={handleSelectChange}
-         label="Type очков"
+         label="Point type"
         >
          <MenuItem value="gamePoints">Game points</MenuItem>
          <MenuItem value="nonGamePoints">Out-of-game points</MenuItem>
@@ -398,7 +398,7 @@ const StatsCards: React.FC<{ stats: Stats }> = ({ stats }) => {
     <Card variant="outlined" sx={{ height: '100%' }}>
      <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
       <Typography variant="body2" color="text.secondary" gutterBottom>
-       Averageний рейтинг
+       Average рейтинг
       </Typography>
       <Typography variant="h6" component="div" color="primary" sx={{ color: '#3c83f6' }}>
        {stats.averageRating}
@@ -431,7 +431,7 @@ interface PlayersTableProps {
 }
 
 const PlayersTable: React.FC<PlayersTableProps> = ({ players, isStaff, onEditClick }) => {
- // Преобразуем игрока в пользователя для UserAvatar
+ // Преобразуем player в user для UserAvatar
  const playerToUser = (player: Player): PlayerUser => ({
   id: player.id,
   name: player.name,
@@ -577,7 +577,7 @@ const PlayersTable: React.FC<PlayersTableProps> = ({ players, isStaff, onEditCli
             e.stopPropagation();
             onEditClick(player);
            }}
-           aria-label="changить"
+           aria-label="change"
            sx={{ 
             color: '#3c83f6',
             '&:hover': {

@@ -20,7 +20,7 @@ const VerifyEmail: React.FC = () => {
   const runVerification = async () => {
    if (!token) {
     setStatus("error");
-    setMessage("Link подтверждения неполная.");
+    setMessage("Confirmation link is incomplete.");
     return;
    }
 

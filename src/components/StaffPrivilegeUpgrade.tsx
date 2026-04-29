@@ -15,7 +15,7 @@ interface StaffPrivilegeUpgradeProps {
 }
 
 /**
- * Компонент для повышения привилегий staff пользователя
+ * Компонент для повышения привилегий staff user
  * Позволяет вводить код доступа и получать расширенные права
  */
 const StaffPrivilegeUpgrade: React.FC<StaffPrivilegeUpgradeProps> = ({
@@ -52,7 +52,7 @@ const StaffPrivilegeUpgrade: React.FC<StaffPrivilegeUpgradeProps> = ({
     setAccessCode('');
     toast.success('Privileges activated. You can now manage staff and players.');
     
-    // Обновляем данные пользователя
+    // Обновляем данные user
     await refreshUser();
     
     // Вызываем callback если передан
@@ -64,9 +64,9 @@ const StaffPrivilegeUpgrade: React.FC<StaffPrivilegeUpgradeProps> = ({
     toast.error('Invalid access code');
    }
   } catch (err: any) {
-   console.error('Error while повышении привилегий:', err);
+   console.error('Error while upgrading privileges:', err);
    setError(err.message || 'An error occurred while checking the code');
-   toast.error('Error while проверке кода доступа');
+   toast.error('Error while checking access code');
   } finally {
    setIsSubmitting(false);
   }

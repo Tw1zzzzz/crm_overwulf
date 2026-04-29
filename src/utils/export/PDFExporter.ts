@@ -162,7 +162,7 @@ class PDFExporter {
   this.pdf.setFontSize(11);
   this.pdf.setTextColor(0, 0, 0);
 
-  // Разбиваем текст на строки
+  //  текст на строки
   const lines = this.pdf.splitTextToSize(content, maxWidth);
   
   for (const line of lines) {
@@ -295,7 +295,7 @@ class PDFExporter {
    this.pdf.setFillColor(248, 249, 250);
    this.pdf.rect(x, y, cardWidth, cardHeight, 'F');
 
-   // Рамка карточки
+   //  карточки
    this.pdf.setDrawColor(229, 231, 235);
    this.pdf.rect(x, y, cardWidth, cardHeight);
 
@@ -361,16 +361,16 @@ class PDFExporter {
   */
  async exportCorrelationAnalysis(correlationData: any): Promise<void> {
   const exportData: ExportData = {
-   title: 'Report корреляционного analysis',
-   subtitle: 'Analysis взаимосвязей между reportsи team и метриками проofводительности',
+   title: 'Correlation analysis report',
+   subtitle: 'Analysis of relationships between team reports and performance metrics',
    generatedAt: new Date().toISOString(),
    sections: [
     {
      title: 'Overall statistics',
      type: 'metrics',
      metrics: [
-      { label: 'Проanalysisировано reports', value: correlationData.totalReports },
-      { label: 'Averageний эффект на настроение', value: `${correlationData.avgMoodImpact.toFixed(1)}%` },
+      { label: 'Reports analyzed', value: correlationData.totalReports },
+      { label: 'Average mood impact', value: `${correlationData.avgMoodImpact.toFixed(1)}%` },
       { label: 'Positive correlations', value: correlationData.positiveCorrelations },
       { label: 'Strong correlations', value: correlationData.strongCorrelations }
      ]
@@ -391,7 +391,7 @@ class PDFExporter {
   */
  async exportSentimentAnalysis(sentimentData: any): Promise<void> {
   const exportData: ExportData = {
-   title: 'Report analysis тональности',
+   title: 'Sentiment analysis report',
    subtitle: 'Emotional analysis team reports',
    generatedAt: new Date().toISOString(),
    sections: [
@@ -407,7 +407,7 @@ class PDFExporter {
     {
      title: 'Emotional tone analysis',
      type: 'text',
-     content: `Доминирующие эмоции в reports: ${sentimentData.dominantEmotions.join(', ')}. Average rating тональности: ${sentimentData.averageSentiment}%. Recommendations: ${sentimentData.recommendations.join(' ')}`
+     content: `Dominant emotions in reports: ${sentimentData.dominantEmotions.join(', ')}. Average sentiment rating: ${sentimentData.averageSentiment}%. Recommendations: ${sentimentData.recommendations.join(' ')}`
     }
    ]
   };
@@ -435,7 +435,7 @@ class PDFExporter {
      metrics: teamData.keyMetrics
     },
     {
-     title: 'Детальный analysis',
+     title: 'Detailed analysis',
      type: 'text',
      content: teamData.details
     },

@@ -44,7 +44,7 @@ const navIcons: Record<SidebarIconKey, React.ReactNode> = {
 };
 
 /**
- * Компонент боковой панели навигации с учетом роли пользователя
+ * Компонент боковой панели навигации с учетом роли user
 
  */
 const Sidebar: React.FC = () => {
@@ -133,7 +133,7 @@ const Sidebar: React.FC = () => {
  };
 
  /**
-  * Рендерит элемент навигации с поддержкой подсказок
+  *  элемент навигации с поддержкой подсказок
 
   */
  const renderNavItem = (item: SidebarNavItem) => {
@@ -235,7 +235,7 @@ const Sidebar: React.FC = () => {
     </nav>
    </ScrollArea>
    
-   {/* Кнопка выхода для авторofованных пользователей */}
+   {/* Кнопка выхода для authorizedных пользователей */}
    {user && (
     <>
      <Separator className="my-2" style={{ backgroundColor: COLORS.borderColor }} />

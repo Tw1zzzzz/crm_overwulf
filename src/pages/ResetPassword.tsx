@@ -21,7 +21,7 @@ const ResetPassword: React.FC = () => {
   event.preventDefault();
 
   if (!token) {
-   setError("Link для сброса пароля неполная.");
+   setError("Password reset link is incomplete.");
    return;
   }
 

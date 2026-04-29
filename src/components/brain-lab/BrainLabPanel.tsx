@@ -1035,7 +1035,7 @@ function BrainTestRunner({
     <div className="space-y-1">
      <div className="text-[11px] uppercase tracking-[0.24em] text-slate-400">Battery flow</div>
      <div className="text-lg font-semibold text-slate-50">
-      Тест {index + 1} of {total}: {runtime.entry.shortDescription}
+      Test {index + 1} of {total}: {runtime.entry.shortDescription}
      </div>
     </div>
     <div className="min-w-[220px]">
@@ -1829,7 +1829,7 @@ const BrainLabPanel = ({ hasResultsAccess = true }: BrainLabPanelProps) => {
 
    {briefing && catalog ? (
     <BrainOverlayWindow
-     eyebrow={`Тест ${briefing.index + 1} of ${catalog.order.length}`}
+     eyebrow={`Test ${briefing.index + 1} of ${catalog.order.length}`}
      title={performanceFormulaMap[briefing.testKey].title}
      accent={testAccent[briefing.testKey].accent}
      onClose={closeBatteryFlow}
@@ -1897,7 +1897,7 @@ const BrainLabPanel = ({ hasResultsAccess = true }: BrainLabPanelProps) => {
 
    {countdown && catalog ? (
     <BrainOverlayWindow
-     eyebrow={`Тест ${countdown.index + 1} of ${catalog.order.length}`}
+     eyebrow={`Test ${countdown.index + 1} of ${catalog.order.length}`}
      title={`${performanceFormulaMap[countdown.testKey].title} стартует через ${countdown.remaining} сек`}
      accent={testAccent[countdown.testKey].accent}
      onClose={closeBatteryFlow}
@@ -1949,7 +1949,7 @@ const BrainLabPanel = ({ hasResultsAccess = true }: BrainLabPanelProps) => {
 
    {runner && catalog ? (
     <BrainOverlayWindow
-     eyebrow={`Тест ${batteryIndex + 1} of ${catalog.order.length}`}
+     eyebrow={`Test ${batteryIndex + 1} of ${catalog.order.length}`}
      title={runner.entry.title}
      accent={testAccent[runner.entry.testKey].accent}
      onClose={closeBatteryFlow}

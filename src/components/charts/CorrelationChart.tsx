@@ -37,8 +37,8 @@ interface CorrelationChartProps {
 const CorrelationChart: React.FC<CorrelationChartProps> = ({
  data,
  title = "Correlation analysis",
- xAxisLabel = "Mood до report",
- yAxisLabel = "Mood после report",
+ xAxisLabel = "Mood before report",
+ yAxisLabel = "Mood after report",
  showHeatmap = false,
  className = ""
 }) => {
@@ -52,7 +52,7 @@ const CorrelationChart: React.FC<CorrelationChartProps> = ({
   }
  };
 
- // Размер точки в зависимости от значимости
+ //  точки в зависимости от значимости
  const getPointSize = (significance: string): number => {
   switch (significance) {
    case 'high': return 80;
@@ -120,11 +120,11 @@ const CorrelationChart: React.FC<CorrelationChartProps> = ({
  // Data для гистограммы корреляций
  const correlationHistogram = React.useMemo(() => {
   const bins = [
-   { range: '[-1, -0.7)', count: 0, label: 'Сильная отрицательная' },
-   { range: '[-0.7, -0.3)', count: 0, label: 'Умеренная отрицательная' },
-   { range: '[-0.3, 0.3)', count: 0, label: 'Слабая/отсутствует' },
-   { range: '[0.3, 0.7)', count: 0, label: 'Умеренная положительная' },
-   { range: '[0.7, 1]', count: 0, label: 'Сильная положительная' }
+   { range: '[-1, -0.7)', count: 0, label: 'Strong negative' },
+   { range: '[-0.7, -0.3)', count: 0, label: 'Moderate negative' },
+   { range: '[-0.3, 0.3)', count: 0, label: 'Weak/none' },
+   { range: '[0.3, 0.7)', count: 0, label: 'Moderate positive' },
+   { range: '[0.7, 1]', count: 0, label: 'Strong positive' }
   ];
 
   data.forEach(point => {
@@ -170,7 +170,7 @@ const CorrelationChart: React.FC<CorrelationChartProps> = ({
       {title}
      </CardTitle>
      <p className="text-sm text-gray-600">
-      Интерактивный график корреляций. Размер точки отражает значимость корреляции.
+      Интерактивный график корреляций.  точки отражает значимость корреляции.
      </p>
     </CardHeader>
     <CardContent>
@@ -288,7 +288,7 @@ const CorrelationChart: React.FC<CorrelationChartProps> = ({
    {/* Легенда значимости */}
    <Card>
     <CardHeader>
-     <CardTitle className="text-lg">Легенда значимости корреляций</CardTitle>
+     <CardTitle className="text-lg">Correlation significance legend</CardTitle>
     </CardHeader>
     <CardContent>
      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

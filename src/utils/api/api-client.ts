@@ -253,7 +253,7 @@ export class ApiClient {
 }
 
 /**
- * Создание и экспорт экземпляра API клиента
+ * Create и экспорт экземпляра API клиента
  */
 const baseURL = buildApiUrl('/api');
 
