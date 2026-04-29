@@ -8,28 +8,28 @@ import { getApiBaseUrl } from './runtimeConfig';
 export const API_URL = getApiBaseUrl();
 
 /**
- * Типы активности для истории 
+ * Typeы активности для истории 
  */
 export const ACTIVITY_TYPES = {
-  CREATE: 'create',
-  UPDATE: 'update',
-  DELETE: 'delete',
-  LOGIN: 'login',
-  LOGOUT: 'logout',
-  TEST_COMPLETE: 'test_complete',
-  MOOD_TRACK: 'mood_track',
-  FILE_UPLOAD: 'file_upload',
-  BALANCE_WHEEL: 'balance_wheel'
+ CREATE: 'create',
+ UPDATE: 'update',
+ DELETE: 'delete',
+ LOGIN: 'login',
+ LOGOUT: 'logout',
+ TEST_COMPLETE: 'test_complete',
+ MOOD_TRACK: 'mood_track',
+ FILE_UPLOAD: 'file_upload',
+ BALANCE_WHEEL: 'balance_wheel'
 };
 
 /**
- * Типы сущностей для истории
+ * Typeы сущностей для истории
  */
 export const ENTITY_TYPES = {
-  USER: 'user',
-  MOOD: 'mood',
-  TEST: 'test',
-  FILE: 'file',
-  BALANCE_WHEEL: 'balance_wheel',
-  SYSTEM: 'system'
+ USER: 'user',
+ MOOD: 'mood',
+ TEST: 'test',
+ FILE: 'file',
+ BALANCE_WHEEL: 'balance_wheel',
+ SYSTEM: 'system'
 }; 

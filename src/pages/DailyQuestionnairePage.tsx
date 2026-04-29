@@ -3,27 +3,27 @@ import PageIntro from "@/components/PageIntro";
 import { PRODUCT_NAME } from "@/lib/productCopy";
 
 const DailyQuestionnairePage = () => {
-  return (
-    <div className="container mx-auto space-y-6 p-6">
-      <PageIntro
-        eyebrow="Моё состояние"
-        title="Ежедневный опросник восстановления"
-        description="Это отдельная рабочая вкладка для ежедневного фона дня. Здесь вы быстро фиксируете сон и экранное время, чтобы CRM точнее считывала состояние и вовремя замечала изменения формы."
-        collapsible
-        bullets={[
-          "Заполняется отдельно от тестов",
-          "Нужен для ежедневного сигнала по восстановлению",
-          `После покупки ${PRODUCT_NAME} открывается полная история и расширенная аналитика`,
-        ]}
-      />
+ return (
+  <div className="container mx-auto space-y-6 p-6">
+   <PageIntro
+    eyebrow="My state"
+    title="Daily questionnaire восстановления"
+    description="This is a separate workspace for the daily background. Here you quickly record sleep and screen time so the CRM reads state more accurately and notices form changes in time."
+    collapsible
+    bullets={[
+     "Filled separately from tests",
+     "Needed for the daily recovery signal",
+     `After purchase ${PRODUCT_NAME} открывается полная история и расширенная аналитика`,
+    ]}
+   />
 
-      <DailyQuestionnairePanel
-        eyebrow="Ежедневный опросник"
-        title="Сон, экранное время и базовый фон дня"
-        description="Заполняйте опросник как отдельный ежедневный ритуал. Это самый быстрый способ обновить сигнал по восстановлению и держать форму под контролем."
-      />
-    </div>
-  );
+   <DailyQuestionnairePanel
+    eyebrow="Daily questionnaire"
+    title="Sleep, screen time, and daily baseline"
+    description="Fill in the questionnaire as a separate daily ritual. This is the fastest way to update the recovery signal and keep форму под контролем."
+   />
+  </div>
+ );
 };
 
 export default DailyQuestionnairePage;

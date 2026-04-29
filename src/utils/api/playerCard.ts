@@ -5,30 +5,30 @@ import { handleApiError } from '../apiUtils';
 const baseUrl = '';
 
 /**
- * Получение всех карточек игроков с пагинацией
+ * Получение всех карточек players с пагинацией
  * @param page - номер страницы
  * @param limit - количество элементов на странице
  * @returns Promise с результатом запроса
  */
 export const getAllPlayerCards = async (page: number = 1, limit: number = 50) => {
-  try {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      throw new Error('Authorization required');
-    }
-    
-    const response = await axios.get(`${baseUrl}/api/player-cards?page=${page}&limit=${limit}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    
-    return { success: true, data: response.data };
-  } catch (error) {
-    const errorMsg = handleApiError(error, 'Error при получении списка карточек игроков');
-    return { success: false, error: errorMsg };
+ try {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+   throw new Error('Authorization required');
   }
+  
+  const response = await axios.get(`${baseUrl}/api/player-cards?page=${page}&limit=${limit}`, {
+   headers: {
+    Authorization: `Bearer ${token}`
+   }
+  });
+  
+  return { success: true, data: response.data };
+ } catch (error) {
+  const errorMsg = handleApiError(error, 'Error while получении списка карточек players');
+  return { success: false, error: errorMsg };
+ }
 };
 
 /**
@@ -37,51 +37,51 @@ export const getAllPlayerCards = async (page: number = 1, limit: number = 50) =>
  * @returns Promise с результатом запроса
  */
 export const getPlayerCard = async (userId: string) => {
-  try {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      throw new Error('Authorization required');
-    }
-    
-    const response = await axios.get(`${baseUrl}/api/player-cards/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    
-    return { success: true, data: response.data };
-  } catch (error) {
-    const errorMsg = handleApiError(error, 'Error при получении карточки игрока');
-    return { success: false, error: errorMsg };
+ try {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+   throw new Error('Authorization required');
   }
+  
+  const response = await axios.get(`${baseUrl}/api/player-cards/${userId}`, {
+   headers: {
+    Authorization: `Bearer ${token}`
+   }
+  });
+  
+  return { success: true, data: response.data };
+ } catch (error) {
+  const errorMsg = handleApiError(error, 'Error while getting player card');
+  return { success: false, error: errorMsg };
+ }
 };
 
 /**
- * Создание карточки игрока
+ * Create player card
  * @param userId - ID игрока для которого создается карточка
  * @returns Promise с результатом запроса
  */
 export const createPlayerCard = async (userId: string) => {
-  try {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      throw new Error('Authorization required');
-    }
-    
-    const response = await axios.post(`${baseUrl}/api/player-cards`, { userId }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    
-    return { success: true, data: response.data };
-  } catch (error) {
-    const errorMsg = handleApiError(error, 'Error при создании карточки игрока');
-    return { success: false, error: errorMsg };
+ try {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+   throw new Error('Authorization required');
   }
+  
+  const response = await axios.post(`${baseUrl}/api/player-cards`, { userId }, {
+   headers: {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json'
+   }
+  });
+  
+  return { success: true, data: response.data };
+ } catch (error) {
+  const errorMsg = handleApiError(error, 'Error while creating player card');
+  return { success: false, error: errorMsg };
+ }
 };
 
 /**
@@ -91,36 +91,36 @@ export const createPlayerCard = async (userId: string) => {
  * @returns Promise с результатом запроса
  */
 export const updatePlayerContacts = async (
-  contacts: {
-    vk: string;
-    telegram: string;
-    faceit: string;
-    steam: string;
-    nickname: string;
-  },
-  userId: string
+ contacts: {
+  vk: string;
+  telegram: string;
+  faceit: string;
+  steam: string;
+  nickname: string;
+ },
+ userId: string
 ) => {
-  try {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      throw new Error('Authorization required');
-    }
-    
-    const response = await axios.put(`${baseUrl}/api/player-cards/${userId}/contacts`, {
-      contacts
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    
-    return { success: true, data: response.data };
-  } catch (error) {
-    const errorMsg = handleApiError(error, 'Error при обновлении контактов');
-    return { success: false, error: errorMsg };
+ try {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+   throw new Error('Authorization required');
   }
+  
+  const response = await axios.put(`${baseUrl}/api/player-cards/${userId}/contacts`, {
+   contacts
+  }, {
+   headers: {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json'
+   }
+  });
+  
+  return { success: true, data: response.data };
+ } catch (error) {
+  const errorMsg = handleApiError(error, 'Error while updating contacts');
+  return { success: false, error: errorMsg };
+ }
 };
 
 /**
@@ -130,126 +130,126 @@ export const updatePlayerContacts = async (
  * @returns Promise с результатом запроса
  */
 export const updateCommunicationLine = async (
-  communicationLine: string,
-  userId: string
+ communicationLine: string,
+ userId: string
 ) => {
-  try {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      throw new Error('Authorization required');
-    }
-    
-    const response = await axios.put(`${baseUrl}/api/player-cards/${userId}/communication-line`, {
-      communicationLine
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    
-    return { success: true, data: response.data };
-  } catch (error) {
-    const errorMsg = handleApiError(error, 'Error при обновлении коммуникативной линии');
-    return { success: false, error: errorMsg };
+ try {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+   throw new Error('Authorization required');
   }
+  
+  const response = await axios.put(`${baseUrl}/api/player-cards/${userId}/communication-line`, {
+   communicationLine
+  }, {
+   headers: {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json'
+   }
+  });
+  
+  return { success: true, data: response.data };
+ } catch (error) {
+  const errorMsg = handleApiError(error, 'Error while updating communication line');
+  return { success: false, error: errorMsg };
+ }
 };
 
 /**
- * Загрузка изображения Roadmap
- * @param file - Файл изображения
+ * Загрузка images Roadmap
+ * @param file - Файл images
  * @param userId - ID игрока
  * @returns Promise с результатом запроса
  */
 export const uploadRoadmap = async (file: File, userId: string) => {
-  try {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      throw new Error('Authorization required');
-    }
-    
-    const formData = new FormData();
-    formData.append("roadmap", file);
-    
-    const response = await axios.post(
-      `${baseUrl}/api/player-cards/${userId}/roadmap`,
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    
-    return { success: true, data: response.data };
-  } catch (error) {
-    const errorMsg = handleApiError(error, 'Error при загрузке Roadmap');
-    return { success: false, error: errorMsg };
+ try {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+   throw new Error('Authorization required');
   }
+  
+  const formData = new FormData();
+  formData.append("roadmap", file);
+  
+  const response = await axios.post(
+   `${baseUrl}/api/player-cards/${userId}/roadmap`,
+   formData,
+   {
+    headers: {
+     Authorization: `Bearer ${token}`,
+     "Content-Type": "multipart/form-data",
+    },
+   }
+  );
+  
+  return { success: true, data: response.data };
+ } catch (error) {
+  const errorMsg = handleApiError(error, 'Error while uploading roadmap');
+  return { success: false, error: errorMsg };
+ }
 };
 
 /**
- * Загрузка изображения Mindmap
- * @param file - Файл изображения
+ * Загрузка images Mindmap
+ * @param file - Файл images
  * @param userId - ID игрока
  * @returns Promise с результатом запроса
  */
 export const uploadMindmap = async (file: File, userId: string) => {
-  try {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      throw new Error('Authorization required');
-    }
-    
-    const formData = new FormData();
-    formData.append("mindmap", file);
-    
-    const response = await axios.post(
-      `${baseUrl}/api/player-cards/${userId}/mindmap`,
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    
-    return { success: true, data: response.data };
-  } catch (error) {
-    const errorMsg = handleApiError(error, 'Error при загрузке Mindmap');
-    return { success: false, error: errorMsg };
+ try {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+   throw new Error('Authorization required');
   }
+  
+  const formData = new FormData();
+  formData.append("mindmap", file);
+  
+  const response = await axios.post(
+   `${baseUrl}/api/player-cards/${userId}/mindmap`,
+   formData,
+   {
+    headers: {
+     Authorization: `Bearer ${token}`,
+     "Content-Type": "multipart/form-data",
+    },
+   }
+  );
+  
+  return { success: true, data: response.data };
+ } catch (error) {
+  const errorMsg = handleApiError(error, 'Error while uploading mind map');
+  return { success: false, error: errorMsg };
+ }
 }; 
 
 /**
- * Удаление карточки игрока
+ * Deleting player card
  * @param userId - ID игрока
  * @returns Promise с результатом запроса
  */
 export const deletePlayerCard = async (userId: string): Promise<{success: boolean, data?: any, error?: string}> => {
-  try {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      throw new Error('Authorization required');
-    }
-    
-    const response = await axios.delete(`${baseUrl}/api/player-cards/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    
-    return { success: true, data: response.data };
-  } catch (error) {
-    const errorMsg = handleApiError(error, 'Error при удалении карточки игрока');
-    return { success: false, error: errorMsg };
+ try {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+   throw new Error('Authorization required');
   }
+  
+  const response = await axios.delete(`${baseUrl}/api/player-cards/${userId}`, {
+   headers: {
+    Authorization: `Bearer ${token}`
+   }
+  });
+  
+  return { success: true, data: response.data };
+ } catch (error) {
+  const errorMsg = handleApiError(error, 'Error while deleting player card');
+  return { success: false, error: errorMsg };
+ }
 };
 
 /**
@@ -259,26 +259,26 @@ export const deletePlayerCard = async (userId: string): Promise<{success: boolea
  * @returns Promise с результатом запроса
  */
 export const attachPlayerToCard = async (cardId: string, newUserId: string) => {
-  try {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      throw new Error('Authorization required');
-    }
-    
-    const response = await axios.put(`${baseUrl}/api/player-cards/attach-player`, {
-      cardId,
-      newUserId
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    
-    return { success: true, data: response.data };
-  } catch (error) {
-    const errorMsg = handleApiError(error, 'Error при привязке игрока к карточке');
-    return { success: false, error: errorMsg };
+ try {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+   throw new Error('Authorization required');
   }
+  
+  const response = await axios.put(`${baseUrl}/api/player-cards/attach-player`, {
+   cardId,
+   newUserId
+  }, {
+   headers: {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json'
+   }
+  });
+  
+  return { success: true, data: response.data };
+ } catch (error) {
+  const errorMsg = handleApiError(error, 'Error while linking player to card');
+  return { success: false, error: errorMsg };
+ }
 };

@@ -1,10 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { 
-  createActivityRecord,
-  getUserActivityHistory,
-  getAllActivityHistory,
-  getActivityStats,
-  getMonthlyActivity
+ createActivityRecord,
+ getUserActivityHistory,
+ getAllActivityHistory,
+ getActivityStats,
+ getMonthlyActivity
 } from '../controllers/activityHistoryController';
 import { protect } from '../middleware/authMiddleware';
 import { AuthRequest } from '../types';

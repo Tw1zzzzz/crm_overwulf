@@ -21,7 +21,7 @@ export * from './calendar.types';
 export type Nullable<T> = T | null;
 export type Optional<T> = T | undefined;
 export type AsyncState<T> = {
-  data: T | null;
-  loading: boolean;
-  error: string | null;
+ data: T | null;
+ loading: boolean;
+ error: string | null;
 };

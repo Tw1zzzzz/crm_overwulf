@@ -1,14 +1,14 @@
 import express from 'express';
 import { protect, isStaff } from '../middleware/auth';
 import {
-  getScreenTime,
-  createOrUpdateScreenTime,
-  getScreenTimeStats
+ getScreenTime,
+ createOrUpdateScreenTime,
+ getScreenTimeStats
 } from '../controllers/screenTimeController';
 
 const router = express.Router();
 
-// Применяем middleware авторизации ко всем маршрутам
+// Применяем middleware авторofации ко всем маршрутам
 router.use(protect);
 
 /**
@@ -31,7 +31,7 @@ router.post('/', isStaff, createOrUpdateScreenTime);
 
 /**
  * @route GET /api/screen-time/stats
- * @desc Получить статистику экранного времени для всех игроков
+ * @desc Получить статистику экранного времени для всех players
  * @access Staff only
  * @query dateFrom - начальная дата (YYYY-MM-DD)
  * @query dateTo - конечная дата (YYYY-MM-DD)

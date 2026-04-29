@@ -1,255 +1,255 @@
 /**
- * Современный типизированный API клиент
+ * Современный типofированный API клиент
  */
 
 import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import { buildApiUrl } from '@/lib/runtimeConfig';
 
-// Типы для API ответов
+// Typeы для API ответов
 export interface ApiResponse<T = any> {
-  data: T;
-  message?: string;
-  timestamp?: string;
+ data: T;
+ message?: string;
+ timestamp?: string;
 }
 
 export interface ApiError {
-  message: string;
-  statusCode: number;
-  details?: any;
-  timestamp: string;
+ message: string;
+ statusCode: number;
+ details?: any;
+ timestamp: string;
 }
 
 // Перечисление HTTP методов
 export enum HttpMethod {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  PATCH = 'PATCH',
-  DELETE = 'DELETE'
+ GET = 'GET',
+ POST = 'POST',
+ PUT = 'PUT',
+ PATCH = 'PATCH',
+ DELETE = 'DELETE'
 }
 
 // Конфигурация API клиента
 export interface ApiClientConfig {
-  baseURL: string;
-  timeout?: number;
-  headers?: Record<string, string>;
-  withCredentials?: boolean;
-  onTokenExpired?: () => void;
+ baseURL: string;
+ timeout?: number;
+ headers?: Record<string, string>;
+ withCredentials?: boolean;
+ onTokenExpired?: () => void;
 }
 
 /**
  * Класс для работы с API
  */
 export class ApiClient {
-  private client: AxiosInstance;
-  private tokenKey = 'token';
-  private onTokenExpired?: () => void;
+ private client: AxiosInstance;
+ private tokenKey = 'token';
+ private onTokenExpired?: () => void;
 
-  constructor(config: ApiClientConfig) {
-    this.onTokenExpired = config.onTokenExpired;
+ constructor(config: ApiClientConfig) {
+  this.onTokenExpired = config.onTokenExpired;
+  
+  this.client = axios.create({
+   baseURL: config.baseURL,
+   timeout: config.timeout || 15000,
+   headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    ...config.headers
+   },
+   withCredentials: config.withCredentials || false
+  });
+
+  this.setupInterceptors();
+ }
+
+ /**
+  * Настройка перехватчиков запросов и ответов
+  */
+ private setupInterceptors(): void {
+  // Перехватчик запросов - добавляем токен авторofации
+  this.client.interceptors.request.use(
+   (config: InternalAxiosRequestConfig) => {
+    const token = this.getAuthToken();
+    if (token && config.headers) {
+     config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+   },
+   (error: AxiosError) => {
+    return Promise.reject(this.handleError(error));
+   }
+  );
+
+  // Перехватчик ответов - обработка ошибок
+  this.client.interceptors.response.use(
+   (response) => response,
+   (error: AxiosError) => {
+    const apiError = this.handleError(error);
     
-    this.client = axios.create({
-      baseURL: config.baseURL,
-      timeout: config.timeout || 15000,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        ...config.headers
-      },
-      withCredentials: config.withCredentials || false
-    });
-
-    this.setupInterceptors();
-  }
-
-  /**
-   * Настройка перехватчиков запросов и ответов
-   */
-  private setupInterceptors(): void {
-    // Перехватчик запросов - добавляем токен авторизации
-    this.client.interceptors.request.use(
-      (config: InternalAxiosRequestConfig) => {
-        const token = this.getAuthToken();
-        if (token && config.headers) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-      },
-      (error: AxiosError) => {
-        return Promise.reject(this.handleError(error));
-      }
-    );
-
-    // Перехватчик ответов - обработка ошибок
-    this.client.interceptors.response.use(
-      (response) => response,
-      (error: AxiosError) => {
-        const apiError = this.handleError(error);
-        
-        // Если токен истек, вызываем callback
-        if (apiError.statusCode === 401) {
-          this.removeAuthToken();
-          this.onTokenExpired?.();
-        }
-        
-        return Promise.reject(apiError);
-      }
-    );
-  }
-
-  /**
-   * Обработка ошибок в единообразный формат
-   */
-  private handleError(error: AxiosError<any>): ApiError {
-    const timestamp = new Date().toISOString();
+    // Если токен истек, вызываем callback
+    if (apiError.statusCode === 401) {
+     this.removeAuthToken();
+     this.onTokenExpired?.();
+    }
     
-    if (!error.response) {
-      // Network error или таймаут
-      return {
-        message: error.request ? 'Server is not responding' : 'Network error',
-        statusCode: 0,
-        timestamp,
-        details: error.message
-      };
-    }
+    return Promise.reject(apiError);
+   }
+  );
+ }
 
-    const { status, data } = error.response;
-    let message = data?.message || data?.error || 'Unknown error';
-
-    if (status === 503 && data?.code === 'DB_UNAVAILABLE') {
-      message = 'Server is not connected to MongoDB. Check MongoDB startup and MONGODB_URI.';
-    }
-
-    // Обработка типовых статус-кодов с русскими сообщениями
-    const statusMessages: Record<number, string> = {
-      400: 'Invalid data',
-      401: 'Authorization required',
-      403: 'Access denied',
-      404: 'Resource not found',
-      409: 'Data conflict',
-      422: 'Validation error',
-      429: 'Too many requests',
-      500: 'Internal server error',
-      502: 'Gateway error',
-      503: 'Service unavailable'
-    };
-
-    if (!data?.message && statusMessages[status]) {
-      message = statusMessages[status];
-    }
-
-    return {
-      message,
-      statusCode: status,
-      timestamp,
-      details: data
-    };
+ /**
+  * Обработка ошибок в единообразный формат
+  */
+ private handleError(error: AxiosError<any>): ApiError {
+  const timestamp = new Date().toISOString();
+  
+  if (!error.response) {
+   // Network error или таймаут
+   return {
+    message: error.request ? 'Server is not responding' : 'Network error',
+    statusCode: 0,
+    timestamp,
+    details: error.message
+   };
   }
 
-  /**
-   * Методы для работы с токеном
-   */
-  public setAuthToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
+  const { status, data } = error.response;
+  let message = data?.message || data?.error || 'Unknown error';
+
+  if (status === 503 && data?.code === 'DB_UNAVAILABLE') {
+   message = 'Server is not connected to MongoDB. Check MongoDB startup and MONGODB_URI.';
   }
 
-  public getAuthToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+  // Обработка типовых статус-кодов с русскими сообщениями
+  const statusMessages: Record<number, string> = {
+   400: 'Invalid data',
+   401: 'Authorization required',
+   403: 'Access denied',
+   404: 'Resource not found',
+   409: 'Data conflict',
+   422: 'Validation error',
+   429: 'Too many requests',
+   500: 'Internal server error',
+   502: 'Gateway error',
+   503: 'Service unavailable'
+  };
+
+  if (!data?.message && statusMessages[status]) {
+   message = statusMessages[status];
   }
 
-  public removeAuthToken(): void {
-    localStorage.removeItem(this.tokenKey);
+  return {
+   message,
+   statusCode: status,
+   timestamp,
+   details: data
+  };
+ }
+
+ /**
+  * Methodы для работы с токеном
+  */
+ public setAuthToken(token: string): void {
+  localStorage.setItem(this.tokenKey, token);
+ }
+
+ public getAuthToken(): string | null {
+  return localStorage.getItem(this.tokenKey);
+ }
+
+ public removeAuthToken(): void {
+  localStorage.removeItem(this.tokenKey);
+ }
+
+ /**
+  * Универсальный метод для выполнения запросов
+  */
+ private async request<T>(
+  method: HttpMethod,
+  url: string,
+  data?: any,
+  config?: AxiosRequestConfig
+ ): Promise<T> {
+  try {
+   const response = await this.client.request<ApiResponse<T>>({
+    method,
+    url,
+    data,
+    ...config
+   });
+   
+   return response.data.data || response.data as T;
+  } catch (error) {
+   throw error; // Error уже обработана в interceptor
+  }
+ }
+
+ /**
+  * HTTP методы
+  */
+ public get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+  return this.request<T>(HttpMethod.GET, url, undefined, config);
+ }
+
+ public post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  return this.request<T>(HttpMethod.POST, url, data, config);
+ }
+
+ public put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  return this.request<T>(HttpMethod.PUT, url, data, config);
+ }
+
+ public patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  return this.request<T>(HttpMethod.PATCH, url, data, config);
+ }
+
+ public delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+  return this.request<T>(HttpMethod.DELETE, url, undefined, config);
+ }
+
+ /**
+  * Loading файлов
+  */
+ public async uploadFile<T>(
+  url: string,
+  file: File,
+  fieldName = 'file',
+  additionalData?: Record<string, any>
+ ): Promise<T> {
+  const formData = new FormData();
+  formData.append(fieldName, file);
+  
+  if (additionalData) {
+   Object.entries(additionalData).forEach(([key, value]) => {
+    formData.append(key, value);
+   });
   }
 
-  /**
-   * Универсальный метод для выполнения запросов
-   */
-  private async request<T>(
-    method: HttpMethod,
-    url: string,
-    data?: any,
-    config?: AxiosRequestConfig
-  ): Promise<T> {
-    try {
-      const response = await this.client.request<ApiResponse<T>>({
-        method,
-        url,
-        data,
-        ...config
-      });
-      
-      return response.data.data || response.data as T;
-    } catch (error) {
-      throw error; // Error уже обработана в interceptor
-    }
-  }
+  return this.post<T>(url, formData, {
+   headers: {
+    'Content-Type': 'multipart/form-data'
+   }
+  });
+ }
 
-  /**
-   * HTTP методы
-   */
-  public get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.request<T>(HttpMethod.GET, url, undefined, config);
-  }
+ /**
+  * Скачивание файлов
+  */
+ public async downloadFile(url: string, filename?: string): Promise<void> {
+  const response = await this.client.get(url, {
+   responseType: 'blob'
+  });
 
-  public post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
-    return this.request<T>(HttpMethod.POST, url, data, config);
-  }
-
-  public put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
-    return this.request<T>(HttpMethod.PUT, url, data, config);
-  }
-
-  public patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
-    return this.request<T>(HttpMethod.PATCH, url, data, config);
-  }
-
-  public delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.request<T>(HttpMethod.DELETE, url, undefined, config);
-  }
-
-  /**
-   * Loading файлов
-   */
-  public async uploadFile<T>(
-    url: string,
-    file: File,
-    fieldName = 'file',
-    additionalData?: Record<string, any>
-  ): Promise<T> {
-    const formData = new FormData();
-    formData.append(fieldName, file);
-    
-    if (additionalData) {
-      Object.entries(additionalData).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-    }
-
-    return this.post<T>(url, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
-  }
-
-  /**
-   * Скачивание файлов
-   */
-  public async downloadFile(url: string, filename?: string): Promise<void> {
-    const response = await this.client.get(url, {
-      responseType: 'blob'
-    });
-
-    const blob = new Blob([response.data]);
-    const downloadUrl = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = filename || 'download';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(downloadUrl);
-  }
+  const blob = new Blob([response.data]);
+  const downloadUrl = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = downloadUrl;
+  link.download = filename || 'download';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(downloadUrl);
+ }
 }
 
 /**
@@ -258,10 +258,10 @@ export class ApiClient {
 const baseURL = buildApiUrl('/api');
 
 export const apiClient = new ApiClient({
-  baseURL,
-  timeout: 15000,
-  onTokenExpired: () => {
-    // Перенаправление на страницу входа при истечении токена
-    window.location.href = '/welcome';
-  }
+ baseURL,
+ timeout: 15000,
+ onTokenExpired: () => {
+  // Перенаправление на страницу входа при истечении токена
+  window.location.href = '/welcome';
+ }
 }); 

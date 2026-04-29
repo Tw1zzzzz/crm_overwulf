@@ -1,17 +1,17 @@
 import express from 'express';
 import { protect, isStaff, hasGameStatsSubscription } from '../middleware/auth';
 import {
-  getGameStats,
-  createGameStats,
-  updateGameStats,
-  deleteGameStats,
-  getGameStatsAnalytics,
-  getTopPlayersByGameStats
+ getGameStats,
+ createGameStats,
+ updateGameStats,
+ deleteGameStats,
+ getGameStatsAnalytics,
+ getTopPlayersByGameStats
 } from '../controllers/gameStatsController';
 
 const router = express.Router();
 
-// Применяем middleware авторизации ко всем маршрутам
+// Применяем middleware авторofации ко всем маршрутам
 router.use(protect);
 router.use(hasGameStatsSubscription);
 
@@ -52,7 +52,7 @@ router.get('/analytics', isStaff, getGameStatsAnalytics);
 
 /**
  * @route GET /api/game-stats/top-players
- * @desc Получить топ игроков по игровым показателям
+ * @desc Получить топ players по игровым показателям
  * @access Staff only
  */
 router.get('/top-players', isStaff, getTopPlayersByGameStats);

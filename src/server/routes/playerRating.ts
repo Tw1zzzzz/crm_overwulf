@@ -4,7 +4,7 @@ import { protect, isStaff } from '../middleware/authMiddleware';
 
 const router = express.Router();
 
-// Получение списка игроков с рейтингом (доступно всем)
+// Получение списка players с рейтингом (доступно всем)
 router.get('/top', getTopPlayers);
 
 // Обновление рейтинга игрока (только для персонала)

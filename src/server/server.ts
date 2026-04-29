@@ -46,111 +46,111 @@ import { resolve } from 'path';
 
 // Ищем .env файл в корне проекта
 const envPath = resolve(__dirname, '../../.env');
-console.log('[SERVER] Попытка загрузки .env из:', envPath);
+console.log('[SERVER] Попытка загрузки .env of:', envPath);
 
 const envResult = dotenv.config({ path: envPath });
 if (envResult.error) {
-  console.error('[SERVER] Ошибка загрузки .env файла:', envResult.error);
+ console.error('[SERVER] Ошибка загрузки .env файла:', envResult.error);
 } else {
-  console.log('[SERVER] .env файл загружен успешно');
-  console.log('[SERVER] STAFF_PRIVILEGE_KEY загружен:', !!process.env.STAFF_PRIVILEGE_KEY);
+ console.log('[SERVER] .env файл загружен успешно');
+ console.log('[SERVER] STAFF_PRIVILEGE_KEY загружен:', !!process.env.STAFF_PRIVILEGE_KEY);
 }
 
-// Инициализация приложения
+// Инициалofация приложения
 const app = express();
 mongoose.set('bufferTimeoutMS', 3000);
 
 const resolveAllowedOrigins = () => {
-  const configuredOrigins = process.env.CORS_ORIGIN
-    ?.split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean);
+ const configuredOrigins = process.env.CORS_ORIGIN
+  ?.split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
-  if (configuredOrigins?.length) {
-    return configuredOrigins;
-  }
+ if (configuredOrigins?.length) {
+  return configuredOrigins;
+ }
 
-  if (process.env.NODE_ENV === 'production') {
-    return ['http://5.129.198.32', 'https://5.129.198.32'];
-  }
+ if (process.env.NODE_ENV === 'production') {
+  return ['http://5.129.198.32', 'https://5.129.198.32'];
+ }
 
-  return [
-    'http://localhost:8080',
-    'http://127.0.0.1:8080',
-    'http://localhost:5173',
-    'http://127.0.0.1:5173'
-  ];
+ return [
+  'http://localhost:8080',
+  'http://127.0.0.1:8080',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173'
+ ];
 };
 
 const isOverwolfOrigin = (origin: string) => {
-  return (
-    origin === 'https://www.overwolf.com' ||
-    origin.startsWith('overwolf-extension://') ||
-    origin.startsWith('overwolf://')
-  );
+ return (
+  origin === 'https://www.overwolf.com' ||
+  origin.startsWith('overwolf-extension://') ||
+  origin.startsWith('overwolf://')
+ );
 };
 
 const resolveClientBuildPath = () => {
-  const candidates = [
-    path.resolve(__dirname, '..'),
-    path.resolve(__dirname, '../../dist'),
-    path.resolve(process.cwd(), 'dist'),
-    path.resolve(__dirname, '../../client/build')
-  ];
+ const candidates = [
+  path.resolve(__dirname, '..'),
+  path.resolve(__dirname, '../../dist'),
+  path.resolve(process.cwd(), 'dist'),
+  path.resolve(__dirname, '../../client/build')
+ ];
 
-  return candidates.find((candidate) => {
-    return fs.existsSync(path.join(candidate, 'index.html'));
-  });
+ return candidates.find((candidate) => {
+  return fs.existsSync(path.join(candidate, 'index.html'));
+ });
 };
 
 // Middleware
 const allowedOrigins = resolveAllowedOrigins();
 
 app.use(cors({
-  origin: (origin, callback) => {
-    if (process.env.NODE_ENV !== 'production') {
-      callback(null, true);
-      return;
-    }
+ origin: (origin, callback) => {
+  if (process.env.NODE_ENV !== 'production') {
+   callback(null, true);
+   return;
+  }
 
-    if (!origin || allowedOrigins.includes(origin) || isOverwolfOrigin(origin)) {
-      callback(null, true);
-      return;
-    }
+  if (!origin || allowedOrigins.includes(origin) || isOverwolfOrigin(origin)) {
+   callback(null, true);
+   return;
+  }
 
-    callback(null, false);
-  },
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  callback(null, false);
+ },
+ methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+ allowedHeaders: ['Content-Type', 'Authorization'],
+ credentials: true
 }));
 app.use(express.json());
 
 // Диагностический middleware для логирования запросов и ответов
 app.use((req, res, next) => {
-  const start = Date.now();
-  const requestId = Math.random().toString(36).substring(2, 10);
+ const start = Date.now();
+ const requestId = Math.random().toString(36).substring(2, 10);
+ 
+ console.log(`🔍 [${requestId}] ${req.method} ${req.url} - начало запроса`);
+ 
+ // Сохраняем оригинальный метод end
+ const originalEnd = res.end;
+ 
+ // Переопределяем метод end для логирования ответа
+ // @ts-ignore - Игнорируем предупреждения о неиспользуемых параметрах, они нужны для совместимости с типами
+ res.end = function(
+  _chunk?: any,
+  _encoding?: BufferEncoding | (() => void),
+  _callback?: (() => void)
+ ): any {
+  const duration = Date.now() - start;
+  console.log(`✅ [${requestId}] ${req.method} ${req.url} - статус ${res.statusCode} (${duration}ms)`);
   
-  console.log(`🔍 [${requestId}] ${req.method} ${req.url} - начало запроса`);
-  
-  // Сохраняем оригинальный метод end
-  const originalEnd = res.end;
-  
-  // Переопределяем метод end для логирования ответа
-  // @ts-ignore - Игнорируем предупреждения о неиспользуемых параметрах, они нужны для совместимости с типами
-  res.end = function(
-    _chunk?: any,
-    _encoding?: BufferEncoding | (() => void),
-    _callback?: (() => void)
-  ): any {
-    const duration = Date.now() - start;
-    console.log(`✅ [${requestId}] ${req.method} ${req.url} - статус ${res.statusCode} (${duration}ms)`);
-    
-    // Вызываем оригинальный метод end с оригинальными аргументами
-    return originalEnd.apply(this, arguments);
-  };
-  
-  next();
+  // Вызываем оригинальный метод end с оригинальными аргументами
+  return originalEnd.apply(this, arguments);
+ };
+ 
+ next();
 });
 
 app.use('/api/support', supportRoutes);
@@ -158,45 +158,45 @@ app.use('/api/desktop', desktopRuntimeRoutes);
 
 // Подключение к MongoDB (с dev-фоллбеком на in-memory)
 const connectMongo = async () => {
-  const envUri = process.env.MONGODB_URI;
-  const isDev = process.env.NODE_ENV !== 'production';
+ const envUri = process.env.MONGODB_URI;
+ const isDev = process.env.NODE_ENV !== 'production';
 
-  if (envUri) {
-    try {
-      await mongoose.connect(envUri, {
-        serverSelectionTimeoutMS: 2500,
-        family: 4
-      });
-      console.log('Connected to MongoDB');
-      return;
-    } catch (error) {
-      console.error('MongoDB connection error:', error);
-    }
+ if (envUri) {
+  try {
+   await mongoose.connect(envUri, {
+    serverSelectionTimeoutMS: 2500,
+    family: 4
+   });
+   console.log('Connected to MongoDB');
+   return;
+  } catch (error) {
+   console.error('MongoDB connection error:', error);
   }
+ }
 
-  if (!isDev) {
-    return;
-  }
+ if (!isDev) {
+  return;
+ }
 
-  const { MongoMemoryServer } = await import('mongodb-memory-server');
-  const memoryServer = await MongoMemoryServer.create();
-  const memoryUri = memoryServer.getUri();
-  await mongoose.connect(memoryUri);
-  console.log('Connected to in-memory MongoDB');
+ const { MongoMemoryServer } = await import('mongodb-memory-server');
+ const memoryServer = await MongoMemoryServer.create();
+ const memoryUri = memoryServer.getUri();
+ await mongoose.connect(memoryUri);
+ console.log('Connected to in-memory MongoDB');
 };
 
 connectMongo().catch((error) => {
-  console.error('MongoDB connection error:', error);
+ console.error('MongoDB connection error:', error);
 });
 
 app.use('/api', (_req, res, next) => {
-  const readyState = mongoose.connection.readyState;
-  if (readyState === 0 || readyState === 2 || readyState === 3) {
-    return res.status(503).json({
-      message: 'База данных инициализируется, повторите запрос через несколько секунд'
-    });
-  }
-  return next();
+ const readyState = mongoose.connection.readyState;
+ if (readyState === 0 || readyState === 2 || readyState === 3) {
+  return res.status(503).json({
+   message: 'База данных инициалofируется, повторите запрос через несколько секунд'
+  });
+ }
+ return next();
 });
 
 // API Маршруты
@@ -231,17 +231,17 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/overlay-notes', overlayNotesRoutes);
 app.use('/health', healthRoutes);
 
-// Специальный middleware для обработки статических изображений с заголовками против кэширования
+// Специальный middleware для обработки статических ofображений с заголовками против кэширования
 app.use('/uploads', (req, res, next) => {
-  // Устанавливаем заголовки для предотвращения кэширования
-  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
-  
-  // Логируем запросы к изображениям для отладки
-  console.log(`📷 Запрос изображения: ${req.url}`);
-  
-  next();
+ // Устанавливаем заголовки для предотвращения кэширования
+ res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+ res.setHeader('Pragma', 'no-cache');
+ res.setHeader('Expires', '0');
+ 
+ // Логируем запросы к ofображениям для отладки
+ console.log(`📷 Запрос ofображения: ${req.url}`);
+ 
+ next();
 }, express.static(path.join(__dirname, '../../uploads')));
 
 // Специальная раздача для файлов отчетов команды
@@ -249,32 +249,32 @@ app.use('/uploads/team-reports', express.static(UPLOAD_PATHS.REPORTS));
 
 // Обработка ошибки 404 для маршрутов API
 app.use('/api/*', (req, res) => {
-  console.log(`404 для API маршрута: ${req.originalUrl}`);
-  res.status(404).json({ 
-    status: 'error', 
-    message: 'API endpoint не найден', 
-    path: req.originalUrl 
-  });
+ console.log(`404 для API маршрута: ${req.originalUrl}`);
+ res.status(404).json({ 
+  status: 'error', 
+  message: 'API endpoint не найден', 
+  path: req.originalUrl 
+ });
 });
 
 // Маршрут для проверки здоровья сервера (базовая версия)
 app.get('/health-check', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+ res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Обслуживание статических файлов в production
 if (process.env.NODE_ENV === 'production') {
-  const clientBuildPath = resolveClientBuildPath();
+ const clientBuildPath = resolveClientBuildPath();
 
-  if (clientBuildPath) {
-    app.use(express.static(clientBuildPath));
+ if (clientBuildPath) {
+  app.use(express.static(clientBuildPath));
 
-    app.get('*', (_req, res) => {
-      res.sendFile(path.join(clientBuildPath, 'index.html'));
-    });
-  } else {
-    console.warn('[SERVER] Не найден frontend build для production-режима');
-  }
+  app.get('*', (_req, res) => {
+   res.sendFile(path.join(clientBuildPath, 'index.html'));
+  });
+ } else {
+  console.warn('[SERVER] Не найден frontend build для production-режима');
+ }
 }
 
 // Глобальный обработчик ошибок (последним)
