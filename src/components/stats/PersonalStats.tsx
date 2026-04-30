@@ -91,17 +91,17 @@ const PersonalStats = ({
  const hasAnyData = moodEntries.length > 0 || sleepEntries.length > 0 || testEntries.length > 0;
 
  return (
-  <div className="space-y-6">
+  <div className="space-y-4">
    {!hasAnyData ? (
-    <Card className="bg-[#1C1F3B] border-[#293056] shadow-none">
-     <CardHeader>
-      <CardTitle className="text-white">No data to display</CardTitle>
-      <CardDescription className="text-gray-400">Fill in mood and energy data and complete tests to see your statistics</CardDescription>
+    <Card className="min-h-[194px] bg-[#1C1F3B] border-[#293056] shadow-none">
+     <CardHeader className="p-4 pb-0">
+      <CardTitle className="text-xl text-white">No data to display</CardTitle>
+      <CardDescription className="text-[13px] text-gray-400">Fill in mood and energy data and complete tests to see your statistics</CardDescription>
      </CardHeader>
-     <CardContent>
-      <div className="p-6 text-center">
-       <p className="text-white mb-2">To show statistics you need:</p>
-       <ul className="text-left text-gray-300 list-disc pl-6 space-y-2">
+     <CardContent className="p-4 pt-6">
+      <div className="mx-auto max-w-[560px] text-center">
+       <p className="mb-2 text-[13px] font-medium text-white">To show statistics you need:</p>
+       <ul className="list-disc space-y-1.5 pl-6 text-left text-[13px] text-gray-300">
         <li>Fill in mood and energy data on the tab "Mood and Energy"</li>
         <li>Complete tests on the Tests tab</li>
         <li>Fill in the balance wheel on the tab "Balance wheel"</li>

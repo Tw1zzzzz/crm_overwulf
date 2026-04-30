@@ -22,23 +22,26 @@ type HotkeyEvent = {
   name?: string;
 };
 
-const isOverwolfRuntime = () => typeof window !== 'undefined' && Boolean(window.overwolf?.windows);
+const getOverwolfApi = () => (typeof window === 'undefined' ? undefined : (window as any).overwolf);
+
+const isOverwolfRuntime = () => Boolean(getOverwolfApi()?.windows);
 
 const getNotesWindow = () =>
   new Promise<NotesWindowInfo | null>((resolve) => {
-    window.overwolf?.windows?.obtainDeclaredWindow?.(NOTES_WINDOW_NAME, (result) => {
+    getOverwolfApi()?.windows?.obtainDeclaredWindow?.(NOTES_WINDOW_NAME, (result: OverwolfCallbackResult) => {
       resolve(result?.window || null);
     });
   });
 
 const getWindowState = (windowId: string) =>
   new Promise<string | null>((resolve) => {
-    if (!window.overwolf?.windows?.getWindowState) {
+    const overwolfApi = getOverwolfApi();
+    if (!overwolfApi?.windows?.getWindowState) {
       resolve(null);
       return;
     }
 
-    window.overwolf.windows.getWindowState(windowId, (result) => {
+    overwolfApi.windows.getWindowState(windowId, (result: OverwolfCallbackResult) => {
       resolve(result?.window_state || null);
     });
   });
@@ -46,13 +49,13 @@ const getWindowState = (windowId: string) =>
 export const showNotesOverlay = async () => {
   const notesWindow = await getNotesWindow();
   const windowId = notesWindow?.id || notesWindow?.name || NOTES_WINDOW_NAME;
-  window.overwolf?.windows?.restore?.(windowId);
+  getOverwolfApi()?.windows?.restore?.(windowId);
 };
 
 export const hideNotesOverlay = async () => {
   const notesWindow = await getNotesWindow();
   const windowId = notesWindow?.id || notesWindow?.name || NOTES_WINDOW_NAME;
-  window.overwolf?.windows?.hide?.(windowId);
+  getOverwolfApi()?.windows?.hide?.(windowId);
 };
 
 const toggleNotesOverlay = async () => {
@@ -61,11 +64,11 @@ const toggleNotesOverlay = async () => {
   const state = await getWindowState(windowId);
 
   if (state && state.toLowerCase() === 'normal') {
-    window.overwolf?.windows?.hide?.(windowId);
+    getOverwolfApi()?.windows?.hide?.(windowId);
     return;
   }
 
-  window.overwolf?.windows?.restore?.(windowId);
+  getOverwolfApi()?.windows?.restore?.(windowId);
 };
 
 export const requestNewOverlayNote = () => {
@@ -126,7 +129,7 @@ export const initializeOverwolfNotesRuntime = () => {
     return;
   }
 
-  window.overwolf?.settings?.hotkeys?.onPressed?.addListener?.(handleHotkey);
+  getOverwolfApi()?.settings?.hotkeys?.onPressed?.addListener?.(handleHotkey);
 };
 
 initializeOverwolfNotesRuntime();
