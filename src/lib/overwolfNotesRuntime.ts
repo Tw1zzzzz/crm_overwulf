@@ -90,6 +90,12 @@ export const dragCurrentOverwolfWindow = async () => {
   getOverwolfApi()?.windows?.dragMove?.(windowId);
 };
 
+export const resizeCurrentOverwolfWindow = async (edge = 'BottomRight') => {
+  const currentWindow = await getCurrentWindow();
+  const windowId = currentWindow?.id || currentWindow?.name || NOTES_WINDOW_NAME;
+  getOverwolfApi()?.windows?.dragResize?.(windowId, edge);
+};
+
 const toggleNotesOverlay = async () => {
   const notesWindow = await getNotesWindow();
   const windowId = notesWindow?.id || notesWindow?.name || NOTES_WINDOW_NAME;

@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Loader2, Lock, Move, Plus, Save, StickyNote, Trash2, Unlock, X } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
+import { Eye, EyeOff, Grip, Loader2, Lock, Move, Plus, Save, StickyNote, Trash2, Unlock, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
@@ -11,8 +11,13 @@ import {
   NOTES_ACTION_STORAGE_KEY,
   NOTES_CREATE_EVENT,
   NOTES_TOGGLE_EVENT,
+  resizeCurrentOverwolfWindow,
 } from '@/lib/overwolfNotesRuntime';
 import { useOverlayNotes } from '@/hooks/useOverlayNotes';
+
+type OverlayDisplayMode = 'edit' | 'text';
+
+const DISPLAY_MODE_STORAGE_KEY = 'crmatlant-notes-display-mode';
 
 const defaultNewNote = () => ({
   title: 'New note',
@@ -44,6 +49,10 @@ const NotesOverlay = () => {
   const consumedActionRef = useRef<string | null>(sessionStorage.getItem('crmatlant-notes-last-action'));
   const [isBrowserOverlayVisible, setIsBrowserOverlayVisible] = useState(true);
   const [isListOpen, setIsListOpen] = useState(false);
+  const [displayMode, setDisplayMode] = useState<OverlayDisplayMode>(() => {
+    const stored = localStorage.getItem(DISPLAY_MODE_STORAGE_KEY);
+    return stored === 'text' ? 'text' : 'edit';
+  });
 
   const handleClose = useCallback(() => {
     void hideNotesOverlay();
@@ -150,6 +159,18 @@ const NotesOverlay = () => {
     void dragCurrentOverwolfWindow();
   };
 
+  const setPersistedDisplayMode = (mode: OverlayDisplayMode) => {
+    setDisplayMode(mode);
+    localStorage.setItem(DISPLAY_MODE_STORAGE_KEY, mode);
+    setIsListOpen(false);
+  };
+
+  const handleResize = (event: React.PointerEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    void resizeCurrentOverwolfWindow('BottomRight');
+  };
+
   if (isLoading) {
     return (
       <main className="notes-overlay-root">
@@ -215,105 +236,152 @@ const NotesOverlay = () => {
 
       {selectedNote && (
         <section
-          className="notes-overlay-panel"
+          className={cn('notes-overlay-panel', displayMode === 'text' && 'notes-overlay-panel-text-only')}
           style={{
-            opacity: selectedNote.opacity,
+            '--notes-bg-alpha': selectedNote.opacity,
+            '--notes-surface-alpha': Math.max(selectedNote.opacity - 0.08, 0.08),
+          } as CSSProperties}
+          onDoubleClick={() => {
+            if (displayMode === 'text') {
+              setPersistedDisplayMode('edit');
+            }
           }}
         >
-          <div className="notes-overlay-panel-header" onPointerDown={handleWindowDrag}>
-            <div className="flex min-w-0 items-center gap-2">
-              <Move className="h-4 w-4 shrink-0 text-slate-400" />
-              <Input
-                value={selectedNote.title || ''}
-                placeholder="Name"
-                onPointerDown={(event) => event.stopPropagation()}
-                onChange={(event) => updateNote(selectedNote.id, { title: event.target.value })}
-                className="h-8 border-white/10 bg-white/5 text-sm text-white placeholder:text-slate-500"
+          {displayMode === 'text' ? (
+            <div className="notes-overlay-text-only-content" onPointerDown={handleWindowDrag}>
+              {selectedNote.content || 'Empty note'}
+            </div>
+          ) : (
+            <>
+              <div className="notes-overlay-panel-header" onPointerDown={handleWindowDrag}>
+                <div className="flex min-w-0 items-center gap-2">
+                  <Move className="h-4 w-4 shrink-0 text-slate-400" />
+                  <Input
+                    value={selectedNote.title || ''}
+                    placeholder="Name"
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onChange={(event) => updateNote(selectedNote.id, { title: event.target.value })}
+                    className="h-8 border-white/10 bg-white/5 text-sm text-white placeholder:text-slate-500"
+                  />
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    className="h-8 w-8 text-slate-200 hover:bg-white/10"
+                    title="Show notes list"
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onClick={() => setIsListOpen((current) => !current)}
+                  >
+                    <StickyNote className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    type="button"
+                    size="icon"
+                    className="h-8 w-8"
+                    title="Create note"
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onClick={handleCreateNote}
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    className="h-8 w-8 text-slate-200 hover:bg-white/10"
+                    title="Text only mode"
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onClick={() => setPersistedDisplayMode('text')}
+                  >
+                    <EyeOff className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    className="h-8 w-8 text-slate-200 hover:bg-white/10"
+                    title={selectedNote.pinned ? 'Unlink' : 'Pin'}
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onClick={() => updateNote(selectedNote.id, { pinned: !selectedNote.pinned }, { immediate: true })}
+                  >
+                    {selectedNote.pinned ? <Lock className="h-4 w-4" /> : <Unlock className="h-4 w-4" />}
+                  </Button>
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    className="h-8 w-8 text-red-100 hover:bg-red-500/20"
+                    title="Delete"
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onClick={() => void deleteNote(selectedNote.id)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    className="h-8 w-8 text-slate-200 hover:bg-white/10"
+                    title="Close overlay"
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onClick={handleClose}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+
+              <Textarea
+                value={selectedNote.content}
+                onChange={(event) => handleContentChange(event.target.value)}
+                placeholder="Game note..."
+                className="notes-overlay-textarea"
               />
-            </div>
 
-            <div className="flex items-center gap-1">
-              <Button
-                type="button"
-                size="icon"
-                variant="ghost"
-                className="h-8 w-8 text-slate-200 hover:bg-white/10"
-                title="Show notes list"
-                onPointerDown={(event) => event.stopPropagation()}
-                onClick={() => setIsListOpen((current) => !current)}
-              >
-                <StickyNote className="h-4 w-4" />
-              </Button>
-              <Button
-                type="button"
-                size="icon"
-                className="h-8 w-8"
-                title="Create note"
-                onPointerDown={(event) => event.stopPropagation()}
-                onClick={handleCreateNote}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-              <Button
-                type="button"
-                size="icon"
-                variant="ghost"
-                className="h-8 w-8 text-slate-200 hover:bg-white/10"
-                title={selectedNote.pinned ? 'Unlink' : 'Pin'}
-                onPointerDown={(event) => event.stopPropagation()}
-                onClick={() => updateNote(selectedNote.id, { pinned: !selectedNote.pinned }, { immediate: true })}
-              >
-                {selectedNote.pinned ? <Lock className="h-4 w-4" /> : <Unlock className="h-4 w-4" />}
-              </Button>
-              <Button
-                type="button"
-                size="icon"
-                variant="ghost"
-                className="h-8 w-8 text-red-100 hover:bg-red-500/20"
-                title="Delete"
-                onPointerDown={(event) => event.stopPropagation()}
-                onClick={() => void deleteNote(selectedNote.id)}
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-              <Button
-                type="button"
-                size="icon"
-                variant="ghost"
-                className="h-8 w-8 text-slate-200 hover:bg-white/10"
-                title="Close overlay"
-                onPointerDown={(event) => event.stopPropagation()}
-                onClick={handleClose}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+              <div className="notes-overlay-footer">
+                <div className="flex w-36 items-center gap-2">
+                  <span className="text-xs text-slate-400">Opacity</span>
+                  <Slider
+                    min={0}
+                    max={100}
+                    step={5}
+                    value={[Math.round(selectedNote.opacity * 100)]}
+                    onValueChange={([value]) => updateNote(selectedNote.id, { opacity: value / 100 })}
+                  />
+                </div>
 
-          <Textarea
-            value={selectedNote.content}
-            onChange={(event) => handleContentChange(event.target.value)}
-            placeholder="Game note..."
-            className="notes-overlay-textarea"
-          />
+                <div className="flex items-center gap-1 text-xs text-slate-400">
+                  {isSaving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
+                  {isSaving ? 'Saving' : 'Saved'}
+                </div>
+              </div>
+            </>
+          )}
 
-          <div className="notes-overlay-footer">
-            <div className="flex w-36 items-center gap-2">
-              <span className="text-xs text-slate-400">Opacity</span>
-              <Slider
-                min={25}
-                max={100}
-                step={5}
-                value={[Math.round(selectedNote.opacity * 100)]}
-                onValueChange={([value]) => updateNote(selectedNote.id, { opacity: value / 100 })}
-              />
-            </div>
+          {displayMode === 'text' && (
+            <button
+              type="button"
+              className="notes-overlay-text-mode-exit"
+              title="Back to edit mode"
+              onClick={() => setPersistedDisplayMode('edit')}
+            >
+              <Eye className="h-4 w-4" />
+            </button>
+          )}
 
-            <div className="flex items-center gap-1 text-xs text-slate-400">
-              {isSaving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
-              {isSaving ? 'Saving' : 'Saved'}
-            </div>
-          </div>
+          {displayMode === 'edit' && (
+            <button
+              type="button"
+              className="notes-overlay-resize-handle"
+              title="Resize"
+              onPointerDown={handleResize}
+            >
+              <Grip className="h-4 w-4" />
+            </button>
+          )}
         </section>
       )}
     </main>
