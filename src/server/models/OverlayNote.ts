@@ -46,13 +46,13 @@ const overlayNoteSchema = new mongoose.Schema<OverlayNoteDocument>(
   position: {
    x: {
     type: Number,
-    default: 224,
+    default: 0,
     min: 0,
     max: 10000,
    },
    y: {
     type: Number,
-    default: 12,
+    default: 0,
     min: 0,
     max: 10000,
    },
@@ -60,13 +60,13 @@ const overlayNoteSchema = new mongoose.Schema<OverlayNoteDocument>(
   size: {
    width: {
     type: Number,
-    default: 420,
+    default: 520,
     min: 260,
     max: 1400,
    },
    height: {
     type: Number,
-    default: 360,
+    default: 380,
     min: 220,
     max: 1200,
    },

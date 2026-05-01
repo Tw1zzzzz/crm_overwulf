@@ -46,6 +46,19 @@ const getNotesWindow = () =>
     });
   });
 
+const getCurrentWindow = () =>
+  new Promise<NotesWindowInfo | null>((resolve) => {
+    const overwolfApi = getOverwolfApi();
+    if (!overwolfApi?.windows?.getCurrentWindow) {
+      resolve(null);
+      return;
+    }
+
+    overwolfApi.windows.getCurrentWindow((result: OverwolfCallbackResult) => {
+      resolve(result?.window || null);
+    });
+  });
+
 const getWindowState = (windowId: string) =>
   new Promise<string | null>((resolve) => {
     const overwolfApi = getOverwolfApi();
@@ -69,6 +82,12 @@ export const hideNotesOverlay = async () => {
   const notesWindow = await getNotesWindow();
   const windowId = notesWindow?.id || notesWindow?.name || NOTES_WINDOW_NAME;
   getOverwolfApi()?.windows?.hide?.(windowId);
+};
+
+export const dragCurrentOverwolfWindow = async () => {
+  const currentWindow = await getCurrentWindow();
+  const windowId = currentWindow?.id || currentWindow?.name || NOTES_WINDOW_NAME;
+  getOverwolfApi()?.windows?.dragMove?.(windowId);
 };
 
 const toggleNotesOverlay = async () => {
