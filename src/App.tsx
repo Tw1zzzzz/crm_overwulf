@@ -1,5 +1,5 @@
 ﻿import { Toaster } from "@/components/ui/toaster";
-import "./lib/overwolfNotesRuntime";
+import { isNotesOverlayWindow } from "./lib/overwolfNotesRuntime";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { FullScreenLoader } from "@/components/ui/loading-spinner";
@@ -299,13 +299,13 @@ const AppRoutes = () => (
 );
 
 const AppContent = () => {
- if (typeof window !== "undefined" && window.name === "notes_overlay") {
-  return (
-   <RouteGuard>
-    <NotesOverlay />
-   </RouteGuard>
-  );
- }
+  if (isNotesOverlayWindow()) {
+    return (
+      <RouteGuard>
+        <NotesOverlay />
+      </RouteGuard>
+    );
+  }
 
  return <AppRoutes />;
 };
