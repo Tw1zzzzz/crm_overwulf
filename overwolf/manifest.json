@@ -85,7 +85,7 @@
         }
       },
       "notes_overlay": {
-        "file": "index.html?owWindow=notes_overlay",
+        "file": "notes-overlay.html",
         "desktop_only": false,
         "in_game_only": true,
         "transparent": true,

@@ -4,6 +4,8 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const distDir = path.join(root, 'dist-overwolf');
 const manifestPath = path.join(root, 'overwolf', 'manifest.json');
+const indexPath = path.join(distDir, 'index.html');
+const notesOverlayPath = path.join(distDir, 'notes-overlay.html');
 const desktopConfigPath = path.join(distDir, 'desktop-config.js');
 const apiBaseUrl = process.env.OVERWOLF_API_BASE_URL || 'http://localhost:5001';
 
@@ -11,6 +13,11 @@ if (!fs.existsSync(distDir)) {
   throw new Error(`Overwolf build directory not found: ${distDir}`);
 }
 
+if (!fs.existsSync(indexPath)) {
+  throw new Error(`Overwolf index file not found: ${indexPath}`);
+}
+
+fs.copyFileSync(indexPath, notesOverlayPath);
 fs.copyFileSync(manifestPath, path.join(distDir, 'manifest.json'));
 fs.writeFileSync(
   desktopConfigPath,

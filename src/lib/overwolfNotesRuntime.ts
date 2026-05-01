@@ -30,7 +30,11 @@ export const isNotesOverlayWindow = () => {
   }
 
   const params = new URLSearchParams(window.location.search);
-  return params.get('owWindow') === NOTES_WINDOW_NAME || window.name === NOTES_WINDOW_NAME;
+  return (
+    params.get('owWindow') === NOTES_WINDOW_NAME ||
+    window.name === NOTES_WINDOW_NAME ||
+    window.location.pathname.endsWith('/notes-overlay.html')
+  );
 };
 
 const isOverwolfRuntime = () => Boolean(getOverwolfApi()?.windows);
