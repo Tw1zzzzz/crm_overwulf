@@ -16,8 +16,10 @@ import {
 import { useOverlayNotes } from '@/hooks/useOverlayNotes';
 
 type OverlayDisplayMode = 'edit' | 'text';
+type ResizeEdge = 'Left' | 'Right' | 'Top' | 'Bottom' | 'TopLeft' | 'TopRight' | 'BottomLeft' | 'BottomRight';
 
 const DISPLAY_MODE_STORAGE_KEY = 'crmatlant-notes-display-mode';
+const RESIZE_EDGES: ResizeEdge[] = ['Left', 'Right', 'Top', 'Bottom', 'TopLeft', 'TopRight', 'BottomLeft', 'BottomRight'];
 
 const defaultNewNote = () => ({
   title: 'New note',
@@ -165,10 +167,10 @@ const NotesOverlay = () => {
     setIsListOpen(false);
   };
 
-  const handleResize = (event: React.PointerEvent<HTMLButtonElement>) => {
+  const handleResize = (edge: ResizeEdge) => (event: React.PointerEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    void resizeCurrentOverwolfWindow('BottomRight');
+    void resizeCurrentOverwolfWindow(edge);
   };
 
   if (isLoading) {
@@ -240,6 +242,8 @@ const NotesOverlay = () => {
           style={{
             '--notes-bg-alpha': selectedNote.opacity,
             '--notes-surface-alpha': Math.max(selectedNote.opacity - 0.08, 0.08),
+            '--notes-header-alpha': Math.min(selectedNote.opacity, 0.32),
+            '--notes-footer-alpha': Math.min(selectedNote.opacity, 0.28),
           } as CSSProperties}
           onDoubleClick={() => {
             if (displayMode === 'text') {
@@ -249,7 +253,7 @@ const NotesOverlay = () => {
         >
           {displayMode === 'text' ? (
             <div className="notes-overlay-text-only-content" onPointerDown={handleWindowDrag}>
-              {selectedNote.content || 'Empty note'}
+              {selectedNote.content}
             </div>
           ) : (
             <>
@@ -372,15 +376,21 @@ const NotesOverlay = () => {
             </button>
           )}
 
-          {displayMode === 'edit' && (
+          {RESIZE_EDGES.map((edge) => (
             <button
+              key={edge}
               type="button"
-              className="notes-overlay-resize-handle"
-              title="Resize"
-              onPointerDown={handleResize}
-            >
+              className={cn('notes-overlay-resize-zone', `notes-overlay-resize-${edge.toLowerCase()}`)}
+              title={`Resize ${edge}`}
+              aria-label={`Resize ${edge}`}
+              onPointerDown={handleResize(edge)}
+            />
+          ))}
+
+          {displayMode === 'edit' && (
+            <div className="notes-overlay-resize-cue" aria-hidden="true">
               <Grip className="h-4 w-4" />
-            </button>
+            </div>
           )}
         </section>
       )}
