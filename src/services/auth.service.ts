@@ -301,13 +301,31 @@ export class AuthService {
  }
 
  public async loginWithOverwolf(profile: OverwolfProfile): Promise<AuthResult> {
+  const url = buildApiUrl('/api/auth/overwolf');
+
   try {
-   const rawResponse = await fetch(buildApiUrl('/api/auth/overwolf'), {
+   console.info('[Auth] Overwolf sign-in request', {
+    url,
+    origin: window.location.origin,
+    protocol: window.location.protocol
+   });
+
+   const rawResponse = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(profile),
    });
 
-   const response = (await rawResponse.json()) as AuthResponse & { message?: string };
+   const responseText = await rawResponse.text();
+   const response = responseText
+    ? JSON.parse(responseText) as AuthResponse & { message?: string }
+    : {} as AuthResponse & { message?: string };
+
+   console.info('[Auth] Overwolf sign-in response', {
+    url,
+    status: rawResponse.status,
+    ok: rawResponse.ok,
+    hasToken: Boolean(response.token)
+   });
 
    if (!rawResponse.ok) {
     return {
@@ -333,10 +351,14 @@ export class AuthService {
     error: 'Invalid server response'
    };
   } catch (error) {
+   console.error('[Auth] Overwolf sign-in request failed', {
+    url,
+    error
+   });
    const apiError = error as ApiError;
    return {
     success: false,
-    error: apiError.message,
+    error: apiError.message || `Overwolf sign-in request failed: ${url}`,
     code: apiError.details?.code
    };
   }

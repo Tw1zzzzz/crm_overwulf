@@ -16,11 +16,11 @@ const normalizeApiBaseUrl = (value?: string) => {
 };
 
 export const getApiBaseUrl = () => {
-  const fromVite = normalizeApiBaseUrl(import.meta.env.VITE_API_URL);
-  if (fromVite) return fromVite;
-
   const fromRuntimeConfig = normalizeApiBaseUrl(window.CRMATLANT_DESKTOP_CONFIG?.apiBaseUrl);
   if (fromRuntimeConfig) return fromRuntimeConfig;
+
+  const fromVite = normalizeApiBaseUrl(import.meta.env.VITE_API_URL);
+  if (fromVite) return fromVite;
 
   const fromLocalStorage = normalizeApiBaseUrl(localStorage.getItem('crmApiBaseUrl') || undefined);
   if (fromLocalStorage) return fromLocalStorage;
