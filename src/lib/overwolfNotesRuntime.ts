@@ -33,7 +33,7 @@ export const isNotesOverlayWindow = () => {
   return (
     params.get('owWindow') === NOTES_WINDOW_NAME ||
     window.name === NOTES_WINDOW_NAME ||
-    window.location.pathname.endsWith('/notes-overlay.html')
+    window.location.pathname.endsWith('/notes_overlay.html')
   );
 };
 
@@ -42,19 +42,6 @@ const isOverwolfRuntime = () => Boolean(getOverwolfApi()?.windows);
 const getNotesWindow = () =>
   new Promise<NotesWindowInfo | null>((resolve) => {
     getOverwolfApi()?.windows?.obtainDeclaredWindow?.(NOTES_WINDOW_NAME, (result: OverwolfCallbackResult) => {
-      resolve(result?.window || null);
-    });
-  });
-
-const getCurrentWindow = () =>
-  new Promise<NotesWindowInfo | null>((resolve) => {
-    const overwolfApi = getOverwolfApi();
-    if (!overwolfApi?.windows?.getCurrentWindow) {
-      resolve(null);
-      return;
-    }
-
-    overwolfApi.windows.getCurrentWindow((result: OverwolfCallbackResult) => {
       resolve(result?.window || null);
     });
   });
@@ -82,18 +69,6 @@ export const hideNotesOverlay = async () => {
   const notesWindow = await getNotesWindow();
   const windowId = notesWindow?.id || notesWindow?.name || NOTES_WINDOW_NAME;
   getOverwolfApi()?.windows?.hide?.(windowId);
-};
-
-export const dragCurrentOverwolfWindow = async () => {
-  const currentWindow = await getCurrentWindow();
-  const windowId = currentWindow?.id || currentWindow?.name || NOTES_WINDOW_NAME;
-  getOverwolfApi()?.windows?.dragMove?.(windowId);
-};
-
-export const resizeCurrentOverwolfWindow = async (edge = 'BottomRight') => {
-  const currentWindow = await getCurrentWindow();
-  const windowId = currentWindow?.id || currentWindow?.name || NOTES_WINDOW_NAME;
-  getOverwolfApi()?.windows?.dragResize?.(windowId, edge);
 };
 
 const toggleNotesOverlay = async () => {

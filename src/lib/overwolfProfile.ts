@@ -38,7 +38,12 @@ declare global {
     overwolf?: {
       profile?: {
         getCurrentUser?: (callback: (result: OverwolfProfileResponse) => void) => void;
+        refreshUserProfile?: (callback: (result: OverwolfProfileResponse) => void) => void;
         openLoginDialog?: (callback?: (result: OverwolfProfileResponse) => void) => void;
+        onLoginStateChanged?: {
+          addListener?: (listener: (event: OverwolfProfileResponse) => void) => void;
+          removeListener?: (listener: (event: OverwolfProfileResponse) => void) => void;
+        };
       };
       windows?: {
         obtainDeclaredWindow?: (
@@ -74,13 +79,51 @@ const readCurrentUser = () =>
   });
 
 const openLoginDialog = () =>
-  new Promise<void>((resolve) => {
+  new Promise<OverwolfProfileResponse | null>((resolve) => {
     if (typeof window.overwolf?.profile?.openLoginDialog !== 'function') {
-      resolve();
+      resolve(null);
       return;
     }
 
-    window.overwolf.profile.openLoginDialog(() => resolve());
+    let resolved = false;
+    let timeoutId: number | undefined;
+    const cleanup = () => {
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+      }
+      window.overwolf?.profile?.onLoginStateChanged?.removeListener?.(handleLoginStateChanged);
+    };
+    const finish = (result: OverwolfProfileResponse | null) => {
+      if (resolved) {
+        return;
+      }
+      resolved = true;
+      cleanup();
+      resolve(result);
+    };
+    const handleLoginStateChanged = (result: OverwolfProfileResponse) => {
+      if (result?.username) {
+        finish(result);
+      }
+    };
+
+    window.overwolf.profile.onLoginStateChanged?.addListener?.(handleLoginStateChanged);
+    timeoutId = window.setTimeout(() => finish(null), 15000);
+    window.overwolf.profile.openLoginDialog((result) => {
+      if (result?.username) {
+        finish(result);
+      }
+    });
+  });
+
+const refreshCurrentUser = () =>
+  new Promise<OverwolfProfileResponse>((resolve) => {
+    if (typeof window.overwolf?.profile?.refreshUserProfile !== 'function') {
+      readCurrentUser().then(resolve);
+      return;
+    }
+
+    window.overwolf.profile.refreshUserProfile((result) => resolve(result || {}));
   });
 
 const normalizeProfile = (result: OverwolfProfileResponse): OverwolfProfile | null => {
@@ -118,6 +161,10 @@ export const resolveOverwolfProfile = async (): Promise<OverwolfProfile | null> 
     return currentUser;
   }
 
-  await openLoginDialog();
-  return normalizeProfile(await readCurrentUser());
+  const loginResult = normalizeProfile(await openLoginDialog());
+  if (loginResult) {
+    return loginResult;
+  }
+
+  return normalizeProfile(await refreshCurrentUser());
 };

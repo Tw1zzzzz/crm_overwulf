@@ -8,10 +8,10 @@
     "minimum-overwolf-version": "0.296.0.0",
     "description": "Desktop Overwolf client for pre-match, session and post-match player analytics.",
     "dock_button_title": "CRM Atlant",
-    "icon": "favicon.ico",
-    "icon_gray": "favicon.ico",
-    "launcher_icon": "favicon.ico",
-    "window_icon": "favicon.ico"
+    "icon": "overwolf-icon.png",
+    "icon_gray": "overwolf-icon-gray.png",
+    "launcher_icon": "overwolf-launcher.ico",
+    "window_icon": "overwolf-window-icon.png"
   },
   "permissions": [
     "GameInfo",
@@ -85,7 +85,7 @@
         }
       },
       "notes_overlay": {
-        "file": "notes-overlay.html",
+        "file": "notes_overlay.html",
         "desktop_only": false,
         "in_game_only": true,
         "transparent": true,
@@ -98,8 +98,8 @@
         "topmost": true,
         "keep_window_location": true,
         "size": {
-          "width": 520,
-          "height": 380
+          "width": 680,
+          "height": 420
         },
         "min_size": {
           "width": 420,

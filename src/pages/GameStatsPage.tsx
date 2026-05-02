@@ -708,7 +708,7 @@ const GameStatsPage: React.FC = () => {
      >
       <LayoutGrid className="mt-0.5 h-4 w-4 shrink-0" style={{ color: '#7EF3D1' }} />
       <span>
-       Refresh the table above first, then enter player data below for one practice session or match. The top table works as a dashboard for already loaded metrics.
+       Сначала обновите таблицу выше, затем вводите данные игрока ниже за одну тренировку или матч. Верхняя таблица работает как дашборд уже загруженных метрик.
       </span>
      </div>
 

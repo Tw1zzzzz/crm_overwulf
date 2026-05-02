@@ -27,6 +27,7 @@ interface AuthContextType {
  loading: boolean;
  error: string | null;
  login: (credentials: LoginDto) => Promise<AuthResult>;
+ loginWithOverwolf: () => Promise<AuthResult>;
  register: (userData: CreateUserDto) => Promise<AuthResult>;
  requestPasswordReset: (email: string) => Promise<{ success: boolean; error?: string }>;
  resetPassword: (token: string, password: string) => Promise<{ success: boolean; error?: string }>;
@@ -50,6 +51,7 @@ const defaultContextValue: AuthContextType = {
  loading: true,
  error: null,
  login: async () => ({ success: false, error: 'Context not initialized' }),
+ loginWithOverwolf: async () => ({ success: false, error: 'Context not initialized' }),
  register: async () => ({ success: false, error: 'Context not initialized' }),
  requestPasswordReset: async () => ({ success: false, error: 'Context not initialized' }),
  resetPassword: async () => ({ success: false, error: 'Context not initialized' }),
@@ -120,6 +122,51 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loading: false,
     error: error instanceof Error ? error.message : 'Initialization error'
    });
+  }
+ }, [navigate]);
+
+ const loginWithOverwolf = useCallback(async (): Promise<AuthResult> => {
+  if (!isOverwolfProfileAvailable()) {
+   const errorMessage = 'Overwolf profile API is not available. Open the app through Overwolf Dev Mode.';
+   toast.error(errorMessage);
+   return { success: false, error: errorMessage };
+  }
+
+  setAuthState(prev => ({ ...prev, loading: true, error: null }));
+
+  try {
+   const overwolfProfile = await resolveOverwolfProfile();
+   if (!overwolfProfile) {
+    const errorMessage = 'Sign in to your Overwolf account, then try again.';
+    setAuthState(prev => ({ ...prev, loading: false, error: errorMessage }));
+    toast.error(errorMessage);
+    return { success: false, error: errorMessage };
+   }
+
+   const result = await authService.loginWithOverwolf(overwolfProfile);
+
+   if (result.success && result.user) {
+    sessionStorage.removeItem(BASELINE_REGISTER_MODAL_FLAG);
+    sessionStorage.removeItem(POST_REGISTER_WELCOME_FLAG);
+    setAuthState({
+     data: result.user,
+     loading: false,
+     error: null
+    });
+    toast.success(`Welcome, ${result.user.name}!`);
+    navigate(ROUTES.DASHBOARD);
+    return result;
+   }
+
+   const errorMessage = result.error || 'Overwolf sign-in failed';
+   setAuthState(prev => ({ ...prev, loading: false, error: errorMessage }));
+   toast.error(errorMessage);
+   return { ...result, success: false, error: errorMessage };
+  } catch (error) {
+   const errorMessage = error instanceof Error ? error.message : 'Overwolf sign-in failed';
+   setAuthState(prev => ({ ...prev, loading: false, error: errorMessage }));
+   toast.error(errorMessage);
+   return { success: false, error: errorMessage };
   }
  }, [navigate]);
 
@@ -557,6 +604,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   loading: authState.loading,
   error: authState.error,
   login,
+  loginWithOverwolf,
   register,
   requestPasswordReset,
   resetPassword,
@@ -570,7 +618,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   deleteAccount,
   updateAvatar,
   refreshUser
- }), [authState, login, register, requestPasswordReset, resetPassword, resendVerificationEmail, verifyEmail, changePassword, createPlayerProfile, linkTeamProfile, switchProfile, logout, deleteAccount, updateAvatar, refreshUser]);
+ }), [authState, login, loginWithOverwolf, register, requestPasswordReset, resetPassword, resendVerificationEmail, verifyEmail, changePassword, createPlayerProfile, linkTeamProfile, switchProfile, logout, deleteAccount, updateAvatar, refreshUser]);
 
  return (
   <AuthContext.Provider value={contextValue}>

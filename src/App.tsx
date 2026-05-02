@@ -299,13 +299,13 @@ const AppRoutes = () => (
 );
 
 const AppContent = () => {
-  if (isNotesOverlayWindow()) {
-    return (
-      <RouteGuard>
-        <NotesOverlay />
-      </RouteGuard>
-    );
-  }
+ if (isNotesOverlayWindow()) {
+  return (
+   <RouteGuard>
+    <NotesOverlay />
+   </RouteGuard>
+  );
+ }
 
  return <AppRoutes />;
 };

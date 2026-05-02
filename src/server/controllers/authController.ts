@@ -643,10 +643,11 @@ export const registerUser = async (req: any, res: any) => {
 
 export const loginWithOverwolf = async (req: any, res: any) => {
  try {
-  const username = normalizeText(req.body?.username);
-  const userId = normalizeText(req.body?.userId);
-  const displayName = normalizeText(req.body?.displayName || req.body?.nickname || username);
-  const avatar = normalizeText(req.body?.avatar);
+  const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
+  const username = normalizeText(body?.username);
+  const userId = normalizeText(body?.userId);
+  const displayName = normalizeText(body?.displayName || body?.nickname || username);
+  const avatar = normalizeText(body?.avatar);
 
   if (!username) {
    return res.status(400).json({
@@ -1277,7 +1278,7 @@ export const linkTeamProfile = async (req: any, res: any) => {
 
   if (activeProfile.role === 'player' && resolvedTeamAccess.invitedRole !== 'player') {
    return res.status(403).json({
-    message: 'Игрок может привязаться к команде только по player codeу'
+    message: 'Игрок может привязаться к команде только по player-коду'
    });
   }
 

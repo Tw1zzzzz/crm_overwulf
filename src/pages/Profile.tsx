@@ -462,7 +462,7 @@ const Profile: React.FC = () => {
   (profile) => profile.role === user.role && profile.playerType === "team" && Boolean(profile.teamId)
  );
  const teamLinkTargetLabel = user.role === "staff" ? "staff code" : "player code";
- const teamLinkTitle = user.role === "staff" ? "Staff / Team link" : "Player / Team linking";
+ const teamLinkTitle = user.role === "staff" ? "Привязка Staff / Team" : "Привязка Игрок / Team";
  const teamLinkDescription =
   user.playerType === "team" && teamName
    ? `Now активный team profile привязан к команде «${teamName}». You can relink it here with a new ${teamLinkTargetLabel}.`
@@ -1058,7 +1058,7 @@ const Profile: React.FC = () => {
      >
       <DialogContent>
        <DialogHeader>
-        <DialogTitle>Confirm Team profile relinking</DialogTitle>
+        <DialogTitle>Подтвердите перепривязку Team-профиля</DialogTitle>
         <DialogDescription>
          {pendingTeamRelink
           ? `The profile is currently linked to team «${pendingTeamRelink.currentTeam.name || "Untitled"}». After confirmation, it will be relinked to «${pendingTeamRelink.nextTeam.name}».`

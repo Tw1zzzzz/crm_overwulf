@@ -84,6 +84,7 @@ const resolveAllowedOrigins = () => {
 
 const isOverwolfOrigin = (origin: string) => {
  return (
+  origin === 'null' ||
   origin === 'https://www.overwolf.com' ||
   origin.startsWith('overwolf-extension://') ||
   origin.startsWith('overwolf://')
@@ -122,9 +123,11 @@ app.use(cors({
  },
  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
  allowedHeaders: ['Content-Type', 'Authorization'],
- credentials: true
+ credentials: true,
+ optionsSuccessStatus: 200
 }));
 app.use(express.json());
+app.use(express.text({ type: 'text/plain' }));
 
 // Диагностический middleware для логирования запросов и ответов
 app.use((req, res, next) => {

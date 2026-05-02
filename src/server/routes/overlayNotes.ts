@@ -30,8 +30,8 @@ type OverlayNoteRecord = {
  updatedAt: Date | string;
 };
 
-const DEFAULT_POSITION = { x: 0, y: 0 };
-const DEFAULT_SIZE = { width: 520, height: 380 };
+const DEFAULT_POSITION = { x: 224, y: 12 };
+const DEFAULT_SIZE = { width: 420, height: 360 };
 const DEFAULT_OPACITY = 0.88;
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);

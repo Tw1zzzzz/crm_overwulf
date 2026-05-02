@@ -122,7 +122,7 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
           <Button
             type="button"
             size="icon"
-            aria-label="Contact support"
+            aria-label="Связаться с поддержкой"
             className="fixed bottom-6 right-6 z-40 h-14 w-14 rounded-full text-white shadow-[0_16px_40px_rgba(30,127,247,0.38)] transition hover:scale-[1.03]"
             style={{ backgroundColor: "#1e7ff7" }}
           >
@@ -135,7 +135,7 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
           >
             <Wrench className="h-4 w-4 text-sky-300" />
             <span>
-              Need help? <span className="text-sky-300 underline underline-offset-4">Contact support</span>
+              Нужна помощь? <span className="text-sky-300 underline underline-offset-4">Связаться с техподдержкой</span>
             </span>
           </button>
         )}
@@ -143,7 +143,7 @@ const SupportRequestDialog: React.FC<SupportRequestDialogProps> = ({ variant = "
 
       <DialogContent className="border-white/10 bg-slate-950 text-white sm:max-w-xl">
         <DialogHeader className="space-y-3">
-          <DialogTitle className="text-xl text-white">Contact support</DialogTitle>
+          <DialogTitle className="text-xl text-white">Связаться с техподдержкой</DialogTitle>
           <DialogDescription className="text-slate-300">
             Describe the issue and we will send a reply to the email you provide.
           </DialogDescription>

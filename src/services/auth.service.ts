@@ -3,6 +3,7 @@
  */
 
 import { apiClient, ApiError } from '@/utils/api/api-client';
+import { buildApiUrl } from '@/lib/runtimeConfig';
 import { 
  AccountProfile,
  User, 
@@ -301,7 +302,20 @@ export class AuthService {
 
  public async loginWithOverwolf(profile: OverwolfProfile): Promise<AuthResult> {
   try {
-   const response = await apiClient.post<AuthResponse>('/auth/overwolf', profile);
+   const rawResponse = await fetch(buildApiUrl('/api/auth/overwolf'), {
+    method: 'POST',
+    body: JSON.stringify(profile),
+   });
+
+   const response = (await rawResponse.json()) as AuthResponse & { message?: string };
+
+   if (!rawResponse.ok) {
+    return {
+     success: false,
+     error: response.message || 'Overwolf sign-in failed',
+    };
+   }
+
    const normalizedUser = this.normalizeUser(response.user);
 
    if (response.token && normalizedUser) {

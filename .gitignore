@@ -12,6 +12,7 @@ node_modules
 dist
 **/dist
 dist-overwolf
+overwolf/release
 .env
 .env.*
 !deploy/.env.production.example

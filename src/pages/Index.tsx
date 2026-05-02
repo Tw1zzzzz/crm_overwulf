@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import ROUTES from "@/lib/routes";
 import SupportRequestDialog from "@/components/SupportRequestDialog";
+import { isOverwolfProfileAvailable } from "@/lib/overwolfProfile";
 import atlantTechnologyLogo from "@/assets/atlant-technology-logo.jpg";
 import atlantTechnologyMark from "@/assets/atlant-technology-mark.png";
 import {
@@ -51,13 +52,14 @@ const leftColumnFontFamily = "system-ui, -apple-system, BlinkMacSystemFont, 'Seg
 
 const Index: React.FC = () => {
   const navigate = useNavigate();
-  const { login, register, requestPasswordReset, resendVerificationEmail, user } = useAuth();
+  const { login, loginWithOverwolf, register, requestPasswordReset, resendVerificationEmail, user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [authTab, setAuthTab] = useState<"login" | "register">("login");
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
   const [pendingVerificationEmail, setPendingVerificationEmail] = useState("");
   const [registerMode, setRegisterMode] = useState<RegisterMode>("solo");
+  const [overwolfLoginAvailable] = useState(() => isOverwolfProfileAvailable());
   const [loginForm, setLoginForm] = useState<LoginFormState>({
     email: "",
     password: "",
@@ -105,6 +107,15 @@ const Index: React.FC = () => {
       if (result.code === "EMAIL_NOT_VERIFIED") {
         setPendingVerificationEmail(email.trim());
       }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOverwolfLogin = async (): Promise<void> => {
+    try {
+      setLoading(true);
+      await loginWithOverwolf();
     } finally {
       setLoading(false);
     }
@@ -358,6 +369,21 @@ const Index: React.FC = () => {
                       </CardHeader>
                       <form onSubmit={handleLogin}>
                         <CardContent className="space-y-4">
+                          {overwolfLoginAvailable && (
+                            <div className="rounded-2xl border border-sky-400/20 bg-sky-400/10 p-3">
+                              <Button
+                                type="button"
+                                className="h-11 w-full bg-white text-slate-950 hover:bg-sky-50"
+                                disabled={loading}
+                                onClick={handleOverwolfLogin}
+                              >
+                                {loading ? "Checking Overwolf..." : "Continue with Overwolf"}
+                              </Button>
+                              <p className="mt-2 text-xs leading-5 text-sky-100/80">
+                                Uses the Overwolf account currently signed in to this client.
+                              </p>
+                            </div>
+                          )}
                           <div className="space-y-2">
                             <Label htmlFor="login-email" className="text-slate-200">Email</Label>
                             <Input
